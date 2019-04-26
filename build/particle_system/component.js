@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Component = /** @class */ (function () {
-    function Component() {
+var PSComponent = /** @class */ (function () {
+    function PSComponent() {
     }
-    return Component;
+    return PSComponent;
 }());
-exports.Component = Component;
+exports.PSComponent = PSComponent;
 //# sourceMappingURL=component.js.map
