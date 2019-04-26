@@ -1,4 +1,4 @@
-import { SpaceTypeTypeInfo } from "./space_type";
+import { SpaceTypeTypeInfo } from "../common/space_type";
 
 export class Emitter<spaceType extends keyof SpaceTypeTypeInfo> {
 
