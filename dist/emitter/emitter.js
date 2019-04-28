@@ -1,8 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Emitter = /** @class */ (function () {
-    function Emitter() {
+var Emitter2D = /** @class */ (function () {
+    function Emitter2D() {
+        this.particles = [];
     }
-    return Emitter;
+    return Emitter2D;
 }());
-exports.Emitter = Emitter;
+exports.Emitter2D = Emitter2D;
+var Emitter3D = /** @class */ (function () {
+    function Emitter3D() {
+        this.particles = [];
+    }
+    return Emitter3D;
+}());
+exports.Emitter3D = Emitter3D;

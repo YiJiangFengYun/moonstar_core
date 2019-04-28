@@ -1,13 +1,17 @@
-export interface Vector2D {
+export interface Vector {
+    x?: number;
+    y?: number;
+    z?: number;
+    w?: number;
+}
+
+export interface Vector2 {
     x: number;
     y: number;
 }
 
-export interface Vector3D {
+export interface Vector3 {
     x: number;
     y: number;
     z: number;
 }
-
-export type Vector = Vector2D | Vector3D;
-export type VectorTypes = [Vector2D, Vector3D];

@@ -1,9 +1,20 @@
-import { SpaceTypeTypeInfo } from "../common/space_type";
-import { VectorTypes } from "../common/vector";
+import { Vector2, Vector3, Vector } from "../common/vector";
 
-export class Particle<spaceType extends keyof SpaceTypeTypeInfo> {
-    public pos:VectorTypes[SpaceTypeTypeInfo[spaceType]];
-    public constructor() {
+export interface Particle {
+    pos: Vector;
+}
 
+export class Particle2D implements Particle {
+    public pos: Vector2;
+    public constructor(x: number, y: number) {
+        this.pos = { x: x, y: y };
+    }
+}
+
+export class Particle3D implements Particle {
+    public pos: Vector3;
+
+    public constructor(x: number, y: number, z: number) {
+        this.pos =  { x: x, y: y, z: z };
     }
 }

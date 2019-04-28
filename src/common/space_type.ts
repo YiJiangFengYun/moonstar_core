@@ -1,10 +1,12 @@
 
-export enum SpaceType {
+export enum SpaceID {
+    UNDEFINED,
     SPACE_2D,
     SPACE_3D,
 }
 
-export interface SpaceTypeTypeInfo {
-    space2D: 0;
-    space3D: 1;
+export enum SpaceName {
+    UNDEFINED,
+    SPACE_2D = "space_2d",
+    SPACE_3D = "space_3d",
 }

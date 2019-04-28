@@ -1,12 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ParticleSystem = /** @class */ (function () {
-    function ParticleSystem() {
+var space_type_1 = require("../common/space_type");
+var ParticleSystem2D = /** @class */ (function () {
+    function ParticleSystem2D() {
+        this.space = space_type_1.SpaceID.SPACE_2D;
         this.components = [];
         this.emitters = [];
-        this.particles = [];
     }
-    return ParticleSystem;
+    return ParticleSystem2D;
 }());
-exports.ParticleSystem = ParticleSystem;
+exports.ParticleSystem2D = ParticleSystem2D;
+var ParticleSystem3D = /** @class */ (function () {
+    function ParticleSystem3D() {
+        this.space = space_type_1.SpaceID.SPACE_3D;
+        this.components = [];
+        this.emitters = [];
+    }
+    return ParticleSystem3D;
+}());
+exports.ParticleSystem3D = ParticleSystem3D;
 //# sourceMappingURL=particle_system.js.map

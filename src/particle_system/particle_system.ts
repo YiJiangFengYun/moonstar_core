@@ -1,14 +1,23 @@
-import { SpaceTypeTypeInfo } from "../common/space_type";
-import { Emitter } from "../emitter/emitter";
-import { Particle } from "../particle/particle";
+import { SpaceID } from "../common/space_type";
 import { PSComponent } from "./component";
+import { Emitter2D, Emitter3D } from "../emitter/emitter";
 
-export class ParticleSystem<spaceType extends keyof SpaceTypeTypeInfo> {
+export interface ParticleSystem {
 
-    public components: PSComponent<spaceType>[] = [];
-    public emitters: Emitter<spaceType>[] = [];
-    public particles: Particle<spaceType>[] = [];
+}
+
+export class ParticleSystem2D implements ParticleSystem {
+    public space: SpaceID = SpaceID.SPACE_2D;
+    public components: PSComponent[] = [];
+    public emitters: Emitter2D[] = [];
 
     public constructor() {
     }
+}
+
+
+export class ParticleSystem3D implements ParticleSystem {
+    public space: SpaceID = SpaceID.SPACE_3D;
+    public components: PSComponent[] = [];
+    public emitters: Emitter3D[] = [];
 }
