@@ -1,3 +1,6 @@
+import { Particle } from "./particle";
 export declare class PComponent {
-    constructor();
+    owner: Particle;
+    constructor(owner: Particle);
+    update(dt: number): void;
 }

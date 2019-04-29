@@ -4,6 +4,7 @@ var DEFAULT_MAX_PARTICLE_COUNT = 100;
 var Emitter2D = /** @class */ (function () {
     function Emitter2D(material, maxParticleCount) {
         this.particles = [];
+        this.components = [];
         this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
         this.material = material;
         this._maxParticleCount = maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
@@ -28,6 +29,7 @@ exports.Emitter2D = Emitter2D;
 var Emitter3D = /** @class */ (function () {
     function Emitter3D(material, maxParticleCount) {
         this.particles = [];
+        this.components = [];
         this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
         this.material = material;
         this._maxParticleCount = maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;

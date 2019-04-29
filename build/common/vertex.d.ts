@@ -15,3 +15,5 @@ export declare type VertexFormat = {
     count: number;
     normalized: boolean;
 }[];
+export declare const ATTR_FORMAT_SIZES: number[];
+export declare const INDEX_SIZE = 4;

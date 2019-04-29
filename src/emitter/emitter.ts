@@ -1,17 +1,23 @@
 import { Particle2D, Particle3D } from "../particle/particle";
 import { Material } from "../material/material";
+import { EComponent, ERenderComponent } from "./component";
+import { DrawData } from "../render/draw_data";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
 
 export interface Emitter {
     material: Material;
     maxParticleCount: number;
+    components: EComponent[];
+    renderComponent: ERenderComponent;
     update(dt: number): void;
 }
 
 export class Emitter2D implements Emitter {
     public material: Material;
     public particles: Particle2D[] = [];
+    public components: EComponent[] = [];
+    public renderComponent: ERenderComponent; 
 
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
     public constructor(material?: Material, maxParticleCount?: number) {
@@ -35,8 +41,11 @@ export class Emitter2D implements Emitter {
 }
 
 export class Emitter3D implements Emitter {
+    public drawData: DrawData;
     public material: Material;
     public particles: Particle3D[] = [];
+    public components: EComponent[] = [];
+    public renderComponent: ERenderComponent;
 
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
     public constructor(material?: Material, maxParticleCount?: number) {

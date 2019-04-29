@@ -18,3 +18,12 @@ export type VertexFormat = {
     normalized: boolean,
 }[];
 
+export const ATTR_FORMAT_SIZES = [
+    0,
+    4,
+    4,
+    1,
+];
+
+export const INDEX_SIZE = 4;
+

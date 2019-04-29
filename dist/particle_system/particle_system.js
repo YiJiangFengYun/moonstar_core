@@ -13,9 +13,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var log = require("loglevel");
 var space_type_1 = require("../common/space_type");
 var draw_data_1 = require("../render/draw_data");
-var player_1 = require("../player/player");
+var player_1 = require("../common/player");
 var ParticleSystem2D = /** @class */ (function (_super) {
     __extends(ParticleSystem2D, _super);
     function ParticleSystem2D() {
@@ -26,6 +27,16 @@ var ParticleSystem2D = /** @class */ (function (_super) {
         _this.emitters = [];
         return _this;
     }
+    ParticleSystem2D.prototype.update = function (dt) {
+    };
+    ParticleSystem2D.prototype.render = function () {
+        if (this.renderComponent) {
+            this.renderComponent.render();
+        }
+        else {
+            log.warn("The particle system don't own a render component.");
+        }
+    };
     return ParticleSystem2D;
 }(player_1.Player));
 exports.ParticleSystem2D = ParticleSystem2D;
@@ -39,6 +50,16 @@ var ParticleSystem3D = /** @class */ (function (_super) {
         _this.emitters = [];
         return _this;
     }
+    ParticleSystem3D.prototype.update = function (dt) {
+    };
+    ParticleSystem3D.prototype.render = function () {
+        if (this.renderComponent) {
+            this.renderComponent.render();
+        }
+        else {
+            log.warn("The particle system don't own a render component.");
+        }
+    };
     return ParticleSystem3D;
 }(player_1.Player));
 exports.ParticleSystem3D = ParticleSystem3D;

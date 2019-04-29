@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Particle2D = /** @class */ (function () {
     function Particle2D(x, y) {
+        this.components = [];
         this.pos = { x: x, y: y };
     }
     return Particle2D;
@@ -9,6 +10,7 @@ var Particle2D = /** @class */ (function () {
 exports.Particle2D = Particle2D;
 var Particle3D = /** @class */ (function () {
     function Particle3D(x, y, z) {
+        this.components = [];
         this.pos = { x: x, y: y, z: z };
     }
     return Particle3D;

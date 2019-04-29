@@ -39,7 +39,25 @@ var DrawData = /** @class */ (function () {
     function DrawData(space) {
         this.space = space;
         this.vertexFormat = exports.SPACE_VERTEX_FORMATS[space];
+        this.cmdList = [];
+        var vtxBufferSize = 0;
+        var vertexFormat = this.vertexFormat;
+        var attrFormatSizes = vertex_1.ATTR_FORMAT_SIZES;
+        vertexFormat.forEach(function (item) {
+            vtxBufferSize += attrFormatSizes[item.format] * item.count;
+        });
+        this.vtxSize = vtxBufferSize;
+        this.idxSize = vertex_1.INDEX_SIZE;
     }
+    DrawData.prototype.init = function (totalVtxCount, totalIdxCount) {
+        this.totalVtxCount = totalVtxCount;
+        this.totalIdxCount = totalIdxCount;
+        var vtxSize = this.vtxSize;
+        var idxSize = this.idxSize;
+        this.vtxBuffer = new ArrayBuffer(vtxSize * totalVtxCount);
+        this.idxBuffer = new ArrayBuffer(idxSize * totalIdxCount);
+        this.cmdListCount = 0;
+    };
     return DrawData;
 }());
 exports.DrawData = DrawData;

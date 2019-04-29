@@ -11,10 +11,14 @@ export interface DrawCmd {
 export declare class DrawData {
     space: SpaceID;
     vertexFormat: VertexFormat;
+    vtxSize: number;
+    idxSize: number;
     totalVtxCount: number;
     totalIdxCount: number;
     vtxBuffer: ArrayBuffer;
     idxBuffer: ArrayBuffer;
     cmdList: DrawCmd[];
+    cmdListCount: number;
     constructor(space: SpaceID);
+    init(totalVtxCount: number, totalIdxCount: number): void;
 }
