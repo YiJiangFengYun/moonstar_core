@@ -1,7 +1,8 @@
 import { Vector2, Vector3, Vector } from "../common/vector";
 
 export interface Particle {
-    pos: Vector;
+    pos?: Vector;
+    size?: number;
 }
 
 export interface Particle2D {

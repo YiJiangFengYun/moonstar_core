@@ -1,3 +1,5 @@
+import * as eventEmitter from "eventemitter3";
+
 export interface Player {
     elapsedTime: number;
     isPlay: boolean;
@@ -6,11 +8,12 @@ export interface Player {
     stop(): void;
 }
 
-export class Player {
+export class Player extends eventEmitter.EventEmitter {
     public elapsedTime: number = 0;
     public isPlay: boolean = false;
 
     public constructor() {
+        super();
     }
 
     public play(): void {

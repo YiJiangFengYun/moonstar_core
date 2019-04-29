@@ -1,4 +1,5 @@
 import { VertexFormat } from "../common/vertex";
+import { EventEmitter } from "../common/event_emitter";
 import { Material } from "../material/material";
 import { Particle } from "../particle/particle";
 import { Vector } from "../common/vector";
@@ -8,7 +9,7 @@ export interface IModule {
     update(dt: number): void;
 }
 
-export interface IEmitter {
+export interface IEmitter extends EventEmitter {
     material: Material;
     particles: Particle[];
     particleCount: number;

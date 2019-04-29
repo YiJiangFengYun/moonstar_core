@@ -1,6 +1,8 @@
 import { Module, IEmitter } from "./module";
 import { Particle } from "../particle/particle";
 
+export const EVENT_CREATE_PARTICLE = "create_particle";
+
 export class ModSpawn extends Module {
     public interval: number; //Unit(ms), from (1 / rate) * 1000;
     private _remainTime: number = 0;
@@ -31,6 +33,7 @@ export class ModSpawn extends Module {
         if (emitter.particleCount < emitter.maxParticleCount) {
             emitter.particles[emitter.particleCount++] = particle;
         }
+        emitter.emit(EVENT_CREATE_PARTICLE, particle);
         return particle;
     }
 }
