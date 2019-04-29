@@ -1,27 +1,27 @@
-import { Particle2D, Particle3D } from "../particle/particle";
 import { Material } from "../material/material";
-import { EComponent, ERenderComponent } from "./component";
-import { DrawData } from "../render/draw_data";
+import { Module, ModRender, IEmitter } from "../module/module";
+import { Player } from "../common/player";
+import { Particle } from "../particle/particle";
+import { Vector } from "../common/vector";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
 
-export interface Emitter {
-    material: Material;
-    maxParticleCount: number;
-    components: EComponent[];
-    renderComponent: ERenderComponent;
-    update(dt: number): void;
-}
-
-export class Emitter2D implements Emitter {
+export class Emitter extends Player implements IEmitter {
     public material: Material;
-    public particles: Particle2D[] = [];
-    public components: EComponent[] = [];
-    public renderComponent: ERenderComponent; 
+    public particles: Particle[] = [];
+    public particleCount: number = 0;
+    public modules: Module[] = [];
+    public renderModule: ModRender;
+    public delay: number = 0;
+    public duration: number = 0;
+    public origin: Vector = {};
+    public rotation: Vector = {};
+    public useLocalSpace: boolean;
 
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
-    public constructor(material?: Material, maxParticleCount?: number) {
-        this.material = material;
+    public constructor(maxParticleCount?: number, material?: Material) {
+        super();
+        this.material = material || new Material();
         this._maxParticleCount = maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
     }
 
@@ -36,34 +36,11 @@ export class Emitter2D implements Emitter {
     }
 
     public update(dt: number) {
-
-    }
-}
-
-export class Emitter3D implements Emitter {
-    public drawData: DrawData;
-    public material: Material;
-    public particles: Particle3D[] = [];
-    public components: EComponent[] = [];
-    public renderComponent: ERenderComponent;
-
-    private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
-    public constructor(material?: Material, maxParticleCount?: number) {
-        this.material = material;
-        this._maxParticleCount = maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
-    }
-
-    public get maxParticleCount() {
-        return this._maxParticleCount;
-    }
-
-    public set maxParticleCount(value: number) {
-        value = value || DEFAULT_MAX_PARTICLE_COUNT;
-        this.particles.length = value;
-        this._maxParticleCount = value;
-    }
-
-    public update(dt: number) {
-        
+        super.update(dt);
+        if (this.isPlay) {
+            this.modules.forEach(module => {
+                module.update(dt);
+            });
+        }
     }
 }

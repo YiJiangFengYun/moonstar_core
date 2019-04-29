@@ -1,18 +1,11 @@
-import { Emitter } from "./emitter";
+import { ModRender, Module, IEmitter } from "./module";
 import { VertexFormat } from "../common/vertex";
 
-export class EComponent {
-    public owner: Emitter;
-    public constructor(owner: Emitter) {
-        this.owner = owner;
+export class ModSprite extends Module implements ModRender {
+
+    public constructor(owner: IEmitter) {
+        super(owner);
     }
-
-    public update(dt: number):void {
-
-    }
-}
-
-export class ERenderComponent extends EComponent {
 
     public getTotalVtxCount(): number {
         return 0;
