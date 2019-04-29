@@ -8,11 +8,12 @@ export interface ParticleWithVelocity extends Particle {
 }
 
 export class ModInitialVelocity extends Module {
-
+    public static NAME = "initial_velocity";
     public velocity: Vector;
 
     public constructor(owner: IEmitter) {
         super(owner);
+        this.name = ModInitialVelocity.NAME;
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 

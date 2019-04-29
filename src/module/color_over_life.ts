@@ -8,10 +8,12 @@ export interface ParticleSpecial extends Particle {
 }
 
 export class ModColorOverLife extends Module {
+    public static NAME = "color_over_life";
     public beginColor: number;
     public endColor: number;
     public constructor(owner: IEmitter) {
         super(owner);
+        this.name = ModColorOverLife.NAME;
     }
 
     public init() {

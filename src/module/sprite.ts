@@ -2,9 +2,11 @@ import { ModRender, Module, IEmitter } from "./module";
 import { VertexFormat } from "../common/vertex";
 
 export class ModSprite extends Module implements ModRender {
+    public static NAME = "sprite";
 
     public constructor(owner: IEmitter) {
         super(owner);
+        this.name = ModSprite.NAME;
     }
 
     public getTotalVtxCount(): number {

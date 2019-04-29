@@ -22,9 +22,13 @@ export interface IEmitter extends EventEmitter {
     useLocalSpace: boolean;
 }
 
-export class Module implements IModule {
-    public owner: IEmitter;
+export type ModuleType = {
+    NAME: string;
+}
 
+export class Module implements IModule {
+    public name: string;
+    public owner: IEmitter;
     public constructor(owner: IEmitter) {
         this.owner = owner;
     }

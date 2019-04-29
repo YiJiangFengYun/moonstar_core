@@ -9,11 +9,12 @@ export interface ParticleWithLifeTime extends Particle {
 }
 
 export class ModLifeTime extends Module {
-
+    public static NAME = "life_time";
     public life: number; //Unit(ms)
 
     public constructor(owner: IEmitter) {
         super(owner);
+        this.name = ModLifeTime.NAME;
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 
