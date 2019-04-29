@@ -6,5 +6,6 @@ export * from "./material/material";
 export * from "./render/draw_data";
 export * from "./particle/particle";
 export * from "./module/module";
+export * from "./module/modules";
 export * from "./emitter/emitter";
 export * from "./particle_system/particle_system";
