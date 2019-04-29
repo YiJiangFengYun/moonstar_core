@@ -1,8 +1,10 @@
 import * as log from "loglevel";
 import { IEmitter, Module } from "./module";
 import { Particle } from "../particle/particle";
+import { EVENT_CREATE_PARTICLE } from "./spawn";
 
-export interface ParticleWithLife extends Particle {
+export interface ParticleWithLifeTime extends Particle {
+    time?: number;
     life?: number;
 }
 
@@ -12,6 +14,7 @@ export class ModLifeTime extends Module {
 
     public constructor(owner: IEmitter) {
         super(owner);
+        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 
     public init() {
@@ -21,11 +24,10 @@ export class ModLifeTime extends Module {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
-        let life = this.life;
         for (let i = 0; i < particleCount; ++i) {
-            let particle: ParticleWithLife = particles[i];
-            particle.life = (particle.life || 0) + dt;
-            if (particle.life >= life) {
+            let particle: ParticleWithLifeTime = particles[i];
+            particle.time = (particle.time || 0) + dt;
+            if (particle.time >= particle.life) {
                 owner.particleCount = particleCount = this._deleteParticle(
                     particle, 
                     particles,
@@ -46,5 +48,9 @@ export class ModLifeTime extends Module {
             log.error("Can't find the particle from the particles for delete the particle.");
         }
         return particleCount;
+    }
+
+    private _onCreateParticle(particle: ParticleWithLifeTime) {
+        particle.life = this.life;
     }
 }
