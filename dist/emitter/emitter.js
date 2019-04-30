@@ -1,0 +1,57 @@
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var material_1 = require("../material/material");
+var player_1 = require("../common/player");
+var DEFAULT_MAX_PARTICLE_COUNT = 100;
+var Emitter = /** @class */ (function (_super) {
+    __extends(Emitter, _super);
+    function Emitter(maxParticleCount, material) {
+        var _this = _super.call(this) || this;
+        _this.particles = [];
+        _this.particleCount = 0;
+        _this.modules = [];
+        _this.delay = 0;
+        _this.duration = 0;
+        _this.origin = {};
+        _this.rotation = {};
+        _this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
+        _this.material = material || new material_1.Material();
+        _this._maxParticleCount = maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        return _this;
+    }
+    Object.defineProperty(Emitter.prototype, "maxParticleCount", {
+        get: function () {
+            return this._maxParticleCount;
+        },
+        set: function (value) {
+            value = value || DEFAULT_MAX_PARTICLE_COUNT;
+            this.particles.length = value;
+            this._maxParticleCount = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Emitter.prototype.update = function (dt) {
+        _super.prototype.update.call(this, dt);
+        if (this.isPlay) {
+            this.modules.forEach(function (module) {
+                module.update(dt);
+            });
+        }
+    };
+    return Emitter;
+}(player_1.Player));
+exports.Emitter = Emitter;
