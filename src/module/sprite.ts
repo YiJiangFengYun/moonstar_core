@@ -1,5 +1,6 @@
 import { ModRender, Module, IEmitter } from "./module";
 import { VertexFormat, AttrName } from "../common/vertex";
+import { WHITE } from "../common/color";
 
 export class ModSprite extends Module implements ModRender {
     public static NAME = "sprite";
@@ -94,16 +95,11 @@ export class ModSprite extends Module implements ModRender {
                                 vtxByteOffset,
                                 byteSize,
                             );
-                            let color: {
-                                colorR?: number;
-                                colorG?: number;
-                                colorB?: number;
-                                colorA?: number;
-                            } = particle as any;
-                            unit8Array[0] = (color.colorR || 1) * 255;
-                            unit8Array[0] = (color.colorG || 1) * 255;
-                            unit8Array[0] = (color.colorB || 1) * 255;
-                            unit8Array[0] = (color.colorA || 1) * 255;
+                            let color = particle.color || WHITE;
+                            unit8Array[0] = color.r * 255;
+                            unit8Array[0] = color.g * 255;
+                            unit8Array[0] = color.b * 255;
+                            unit8Array[0] = color.a * 255;
                             break;
                         }
                     }

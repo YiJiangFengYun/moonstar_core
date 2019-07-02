@@ -1,25 +1,16 @@
 import { Module, IEmitter } from "./module";
 import { Particle } from "../particle/particle";
+import { Color, WHITE } from "../common/color";
 
 export interface ParticleSpecial extends Particle {
     time?: number;
     life?: number;
-    colorR?: number;
-    colorG?: number;
-    colorB?: number;
-    colorA?: number;
 }
 
 export class ModColorOverLife extends Module {
     public static NAME = "color_over_life";
-    public beginColorR: number;
-    public beginColorG: number;
-    public beginColorB: number;
-    public beginColorA: number;
-    public endColorR: number;
-    public endColorG: number;
-    public endColorB: number;
-    public endColorA: number;
+    public beginColor: Color;
+    public endColor: Color;
     public constructor(owner: IEmitter) {
         super(owner);
         this.name = ModColorOverLife.NAME;
@@ -33,20 +24,24 @@ export class ModColorOverLife extends Module {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
-        let beginColorR = this.beginColorR || 0;
-        let beginColorG = this.beginColorG || 0;
-        let beginColorB = this.beginColorB || 0;
-        let beginColorA = this.beginColorA || 0;
-        let endColorR = this.endColorR || 0;
-        let endColorG = this.endColorG || 0;
-        let endColorB = this.endColorB || 0;
-        let endColorA = this.endColorA || 0;
+        let beginColor = this.beginColor || WHITE;
+        let endColor = this.endColor || WHITE;
+        let beginColorR = beginColor.r;
+        let beginColorG = beginColor.g;
+        let beginColorB = beginColor.b;
+        let beginColorA = beginColor.a;
+        let endColorR = endColor.r;
+        let endColorG = endColor.g;
+        let endColorB = endColor.b;
+        let endColorA = endColor.a;
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleSpecial = particles[i];
-            particle.colorR = beginColorR + (endColorR - beginColorR) * (particle.time / particle.life);
-            particle.colorG = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
-            particle.colorB = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);
-            particle.colorA = beginColorA + (endColorA - beginColorA) * (particle.time / particle.life);
+            let color = particle.color;
+            if (! color) particle.color = color = {...WHITE};
+            color.r = beginColorR + (endColorR - beginColorR) * (particle.time / particle.life);
+            color.g = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
+            color.b = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);
+            color.a = beginColorA + (endColorA - beginColorA) * (particle.time / particle.life);
         }
     }
 }
