@@ -23,10 +23,8 @@ var Emitter = /** @class */ (function (_super) {
         _this.particles = [];
         _this.particleCount = 0;
         _this.modules = [];
-        _this.delay = 0;
-        _this.duration = 0;
-        _this.origin = {};
-        _this.rotation = {};
+        _this.origin = { x: 0, y: 0 };
+        _this.rotation = { x: 0, y: 0 };
         _this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
         _this.material = material || new material_1.Material();
         _this._maxParticleCount = maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
@@ -47,8 +45,8 @@ var Emitter = /** @class */ (function (_super) {
     Emitter.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);
         if (this.isPlay) {
-            this.modules.forEach(function (module) {
-                module.update(dt);
+            this.modules.forEach(function (mod) {
+                mod.update(dt);
             });
         }
     };

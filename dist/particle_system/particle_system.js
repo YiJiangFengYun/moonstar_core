@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
-var space_type_1 = require("../common/space_type");
 var draw_data_1 = require("../render/draw_data");
 var player_1 = require("../common/player");
 function render(emitters, drawData) {
@@ -40,9 +39,17 @@ function render(emitters, drawData) {
     for (var i = 0; i < emitterCount; ++i) {
         var eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
-            eRenderCpt.fillVtxBuffer(drawData.vtxBuffer, vtxBufferOffset, drawData.vertexFormat, drawData.vtxSize);
+            eRenderCpt.fillBuffers({
+                vtxBuffer: drawData.vtxBuffer,
+                vtxBufferByteOffset: vtxBufferOffset,
+                vtxFormat: drawData.vertexFormat,
+                vtxSize: drawData.vtxSize,
+                idxBuffer: drawData.idxBuffer,
+                idxBufferByteOffset: idxBufferOffset,
+                idxValueOffset: idxOffset,
+                idxSize: drawData.idxSize,
+            });
             vtxBufferOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
-            eRenderCpt.fillIdxBuffer(drawData.idxBuffer, idxBufferOffset, idxOffset, drawData.idxSize);
             idxBufferOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
             idxOffset += eRenderCpt.getTotalVtxCount();
         }
@@ -52,8 +59,7 @@ var ParticleSystem = /** @class */ (function (_super) {
     __extends(ParticleSystem, _super);
     function ParticleSystem() {
         var _this = _super.call(this) || this;
-        _this.space = space_type_1.SpaceID.SPACE_2D;
-        _this.drawData = new draw_data_1.DrawData(_this.space);
+        _this.drawData = new draw_data_1.DrawData();
         _this.emitters = [];
         return _this;
     }

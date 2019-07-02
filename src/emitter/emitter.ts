@@ -12,8 +12,8 @@ export class Emitter extends Player implements IEmitter {
     public particleCount: number = 0;
     public modules: Module[] = [];
     public renderModule: ModRender;
-    public origin: Vector = {};
-    public rotation: Vector = {};
+    public origin: Vector = { x: 0, y: 0 };
+    public rotation: Vector = { x: 0, y: 0 };
     public useLocalSpace: boolean;
 
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;

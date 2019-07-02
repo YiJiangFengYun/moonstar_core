@@ -1,5 +1,4 @@
 import { AttrName, AttrFormat, VertexFormat, ATTR_FORMAT_SIZES, INDEX_SIZE } from "../common/vertex";
-import { SpaceID } from "../common/space_type";
 import { Material } from "../material/material";
 
 export const SPACE_VERTEX_FORMATS: {[spaceID: string]: VertexFormat} = {
@@ -43,7 +42,6 @@ export interface DrawCmd {
 }
 
 export class DrawData {
-    public space: SpaceID;
     public vertexFormat: VertexFormat;
     public vtxSize: number;
     public idxSize: number;
@@ -54,9 +52,8 @@ export class DrawData {
     public idxBuffer: ArrayBuffer;
     public cmdList: DrawCmd[];
     public cmdListCount: number;
-    public constructor(space: SpaceID) {
-        this.space = space;
-        this.vertexFormat = SPACE_VERTEX_FORMATS[space];
+    public constructor() {
+        this.vertexFormat = SPACE_VERTEX_FORMATS[0];
         this.cmdList = [];
 
         let vtxBufferSize = 0;

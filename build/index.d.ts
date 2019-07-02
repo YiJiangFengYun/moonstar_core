@@ -1,4 +1,3 @@
-export * from "./common/space_type";
 export * from "./common/vector";
 export * from "./common/vertex";
 export * from "./common/player";

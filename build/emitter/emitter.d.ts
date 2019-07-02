@@ -9,8 +9,6 @@ export declare class Emitter extends Player implements IEmitter {
     particleCount: number;
     modules: Module[];
     renderModule: ModRender;
-    delay: number;
-    duration: number;
     origin: Vector;
     rotation: Vector;
     useLocalSpace: boolean;

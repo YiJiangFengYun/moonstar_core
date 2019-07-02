@@ -35,7 +35,7 @@ export class ModSprite extends Module implements ModRender {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
-        let origin = owner.origin;
+        // let origin = owner.origin;
         let useLocal = owner.useLocalSpace;
 
         let vtxBuffer = data.vtxBuffer;
@@ -71,10 +71,6 @@ export class ModSprite extends Module implements ModRender {
                             }
                             floatArray[0] = pos.x;
                             floatArray[1] = pos.y;
-                            if (attrFormat.count > 2) {
-                                //3D
-                                floatArray[2] = pos.z;
-                            } 
                             break;
                         }
                         case AttrName.UV0: {

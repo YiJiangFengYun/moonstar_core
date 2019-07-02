@@ -36,9 +36,8 @@ exports.SPACE_VERTEX_FORMATS = {
         }]
 };
 var DrawData = /** @class */ (function () {
-    function DrawData(space) {
-        this.space = space;
-        this.vertexFormat = exports.SPACE_VERTEX_FORMATS[space];
+    function DrawData() {
+        this.vertexFormat = exports.SPACE_VERTEX_FORMATS[0];
         this.cmdList = [];
         var vtxBufferSize = 0;
         var vertexFormat = this.vertexFormat;

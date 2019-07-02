@@ -19,6 +19,7 @@ var BlendOp;
     BlendOp[BlendOp["ADD"] = 0] = "ADD";
 })(BlendOp = exports.BlendOp || (exports.BlendOp = {}));
 ;
+//class Material with members: color, texture path, and blend.
 var Material = /** @class */ (function () {
     function Material() {
         this.srcColorBlendFactor = BlendFactor.SRC_ALPHA;

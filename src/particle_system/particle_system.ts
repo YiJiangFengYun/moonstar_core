@@ -1,11 +1,9 @@
 import * as log from "loglevel";
-import { SpaceID } from "../common/space_type";
 import { DrawData } from "../render/draw_data";
 import { Player } from "../common/player";
 import { Emitter } from "../emitter/emitter";
 
 export interface ParticleSystem {
-    space: SpaceID;
     drawData: DrawData;
     emitters: Emitter[];
 
@@ -54,8 +52,7 @@ function render(emitters: Emitter[], drawData: DrawData) {
 }
 
 export class ParticleSystem extends Player implements ParticleSystem {
-    public space: SpaceID = SpaceID.SPACE_2D;
-    public drawData: DrawData = new DrawData(this.space);
+    public drawData: DrawData = new DrawData();
     public emitters: Emitter[] = [];
     
     public constructor() {

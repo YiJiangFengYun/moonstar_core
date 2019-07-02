@@ -13,8 +13,6 @@ export interface IEmitter extends EventEmitter {
     particleCount: number;
     modules: IModule[];
     maxParticleCount: number;
-    delay: number;
-    duration: number;
     origin: Vector;
     rotation: Vector;
     useLocalSpace: boolean;
@@ -32,6 +30,14 @@ export declare class Module implements IModule {
 export interface ModRender {
     getTotalVtxCount(): number;
     getTotalIdxCount(): number;
-    fillVtxBuffer(buffer: ArrayBuffer, offset: number, vtxFormat: VertexFormat, vtxSize: number): void;
-    fillIdxBuffer(buffer: ArrayBuffer, offset: number, idxOffset: number, idxSize: number): void;
+    fillBuffers(data: {
+        vtxBuffer: ArrayBuffer;
+        vtxBufferByteOffset: number;
+        vtxFormat: VertexFormat;
+        vtxSize: number;
+        idxBuffer: ArrayBuffer;
+        idxBufferByteOffset: number;
+        idxValueOffset: number;
+        idxSize: number;
+    }): void;
 }
