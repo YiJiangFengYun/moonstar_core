@@ -35,19 +35,18 @@ function render(emitters: Emitter[], drawData: DrawData) {
     for (let i = 0; i < emitterCount; ++i) {
         let eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
-            eRenderCpt.fillVtxBuffer(
-                drawData.vtxBuffer, 
-                vtxBufferOffset, 
-                drawData.vertexFormat,
-                drawData.vtxSize,
-            );
+            eRenderCpt.fillBuffers({
+                vtxBuffer: drawData.vtxBuffer,
+                vtxBufferByteOffset: vtxBufferOffset,
+                vtxFormat: drawData.vertexFormat,
+                vtxSize: drawData.vtxSize,
+                idxBuffer: drawData.idxBuffer,
+                idxBufferByteOffset: idxBufferOffset,
+                idxValueOffset: idxOffset,
+                idxSize: drawData.idxSize,
+            });
+           
             vtxBufferOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
-            eRenderCpt.fillIdxBuffer(
-                drawData.idxBuffer,
-                idxBufferOffset,
-                idxOffset,
-                drawData.idxSize,
-            );
             idxBufferOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
             idxOffset += eRenderCpt.getTotalVtxCount();
         }
