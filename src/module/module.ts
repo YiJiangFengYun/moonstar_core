@@ -15,8 +15,6 @@ export interface IEmitter extends EventEmitter {
     particleCount: number;
     modules: IModule[];
     maxParticleCount: number;
-    delay: number;
-    duration: number;
     origin: Vector;
     rotation: Vector;
     useLocalSpace: boolean;
