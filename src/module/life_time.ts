@@ -25,7 +25,7 @@ export class ModLifeTime extends Module {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
-        for (let i = 0; i < particleCount; ++i) {
+        for (let i = particleCount - 1; i >= 0; --i) {
             let particle: ParticleWithLifeTime = particles[i];
             particle.time = (particle.time || 0) + dt;
             if (particle.time >= particle.life) {
@@ -34,7 +34,6 @@ export class ModLifeTime extends Module {
                     particles,
                     particleCount,
                 );
-                --i;
             }
         }
 
