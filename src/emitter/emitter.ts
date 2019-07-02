@@ -38,8 +38,8 @@ export class Emitter extends Player implements IEmitter {
     public update(dt: number) {
         super.update(dt);
         if (this.isPlay) {
-            this.modules.forEach(module => {
-                module.update(dt);
+            this.modules.forEach(mod => {
+                mod.update(dt);
             });
         }
     }
