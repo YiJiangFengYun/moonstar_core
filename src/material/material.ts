@@ -17,6 +17,7 @@ export enum BlendOp
     ADD,
 };
 
+//class Material with members: color, texture path, and blend.
 export class Material {
     public color: number;
     public texturePath: string;
