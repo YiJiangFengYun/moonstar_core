@@ -24,8 +24,8 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var common = require("../common");
 var module_1 = require("./module");
-var color_1 = require("../common/color");
 var ModColorOverLife = /** @class */ (function (_super) {
     __extends(ModColorOverLife, _super);
     function ModColorOverLife(owner) {
@@ -39,8 +39,8 @@ var ModColorOverLife = /** @class */ (function (_super) {
         var owner = this.owner;
         var particles = owner.particles;
         var particleCount = owner.particleCount;
-        var beginColor = this.beginColor || color_1.WHITE;
-        var endColor = this.endColor || color_1.WHITE;
+        var beginColor = this.beginColor || common.WHITE;
+        var endColor = this.endColor || common.WHITE;
         var beginColorR = beginColor.r;
         var beginColorG = beginColor.g;
         var beginColorB = beginColor.b;
@@ -50,14 +50,14 @@ var ModColorOverLife = /** @class */ (function (_super) {
         var endColorB = endColor.b;
         var endColorA = endColor.a;
         for (var i = 0; i < particleCount; ++i) {
-            var particle = particles[i];
-            var color = particle.color;
+            var particle_1 = particles[i];
+            var color = particle_1.color;
             if (!color)
-                particle.color = color = __assign({}, color_1.WHITE);
-            color.r = beginColorR + (endColorR - beginColorR) * (particle.time / particle.life);
-            color.g = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
-            color.b = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);
-            color.a = beginColorA + (endColorA - beginColorA) * (particle.time / particle.life);
+                particle_1.color = color = __assign({}, common.WHITE);
+            color.r = beginColorR + (endColorR - beginColorR) * (particle_1.time / particle_1.life);
+            color.g = beginColorG + (endColorG - beginColorG) * (particle_1.time / particle_1.life);
+            color.b = beginColorB + (endColorB - beginColorB) * (particle_1.time / particle_1.life);
+            color.a = beginColorA + (endColorA - beginColorA) * (particle_1.time / particle_1.life);
         }
     };
     ModColorOverLife.NAME = "color_over_life";

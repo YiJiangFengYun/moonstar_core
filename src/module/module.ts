@@ -1,22 +1,21 @@
-import { EventEmitter } from "../common/event_emitter";
-import { Material } from "../material/material";
-import { Particle } from "../particle/particle";
-import { Vector } from "../common/vector";
-import { DrawData } from "../render/draw_data";
+import * as common from "../common";
+import * as material from "../material";
+import * as particle from "../particle";
+import * as render from "../render";
 
 export interface IModule {
     init(): void;
     update(dt: number): void;
 }
 
-export interface IEmitter extends EventEmitter {
-    material: Material;
-    particles: Particle[];
+export interface IEmitter extends common.EventEmitter {
+    material: material.Material;
+    particles: particle.Particle[];
     particleCount: number;
     modules: IModule[];
     maxParticleCount: number;
-    origin: Vector;
-    rotation: Vector;
+    origin: common.Vector;
+    rotation: common.Vector;
     useLocalSpace: boolean;
 }
 
@@ -48,7 +47,7 @@ export interface ModRender {
 
     getTotalIdxCount(): number;
 
-    fillBuffers(drawData: DrawData, offsets: {
+    fillBuffers(drawData: render.DrawData, offsets: {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;
         lastVertexCount: number; //used as idxValueOffset

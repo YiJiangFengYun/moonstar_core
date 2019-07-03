@@ -14,9 +14,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
-var draw_data_1 = require("../render/draw_data");
-var player_1 = require("../common/player");
-function render(emitters, drawData) {
+var common = require("../common");
+var render = require("../render");
+function doRender(emitters, drawData) {
     var emitterCount = emitters.length;
     var totalVtxCount = 0;
     var totalIdxCount = 0;
@@ -33,25 +33,20 @@ function render(emitters, drawData) {
     }
     //Reset draw data.
     drawData.init(totalVtxCount, totalIdxCount);
-    var vtxBufferOffset = 0;
-    var idxBufferOffset = 0;
-    var idxOffset = 0;
+    var vtxBufferByteOffset = 0;
+    var idxBufferByteOffset = 0;
+    var lastVertexCount = 0;
     for (var i = 0; i < emitterCount; ++i) {
         var eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
-            eRenderCpt.fillBuffers({
-                vtxBuffer: drawData.vtxBuffer,
-                vtxBufferByteOffset: vtxBufferOffset,
-                vtxFormat: drawData.vertexFormat,
-                vtxSize: drawData.vtxSize,
-                idxBuffer: drawData.idxBuffer,
-                idxBufferByteOffset: idxBufferOffset,
-                idxValueOffset: idxOffset,
-                idxSize: drawData.idxSize,
+            eRenderCpt.fillBuffers(drawData, {
+                vtxBufferByteOffset: vtxBufferByteOffset,
+                idxBufferByteOffset: idxBufferByteOffset,
+                lastVertexCount: lastVertexCount,
             });
-            vtxBufferOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
-            idxBufferOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
-            idxOffset += eRenderCpt.getTotalVtxCount();
+            vtxBufferByteOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
+            idxBufferByteOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
+            lastVertexCount += eRenderCpt.getTotalVtxCount();
         }
     }
 }
@@ -59,7 +54,7 @@ var ParticleSystem = /** @class */ (function (_super) {
     __extends(ParticleSystem, _super);
     function ParticleSystem() {
         var _this = _super.call(this) || this;
-        _this.drawData = new draw_data_1.DrawData();
+        _this.drawData = new render.DrawData();
         _this.emitters = [];
         return _this;
     }
@@ -67,8 +62,8 @@ var ParticleSystem = /** @class */ (function (_super) {
         _super.prototype.update.call(this, dt);
     };
     ParticleSystem.prototype.render = function () {
-        render(this.emitters, this.drawData);
+        doRender(this.emitters, this.drawData);
     };
     return ParticleSystem;
-}(player_1.Player));
+}(common.Player));
 exports.ParticleSystem = ParticleSystem;

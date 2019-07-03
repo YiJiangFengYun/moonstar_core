@@ -19,7 +19,7 @@ var ModInitialSize = /** @class */ (function (_super) {
     __extends(ModInitialSize, _super);
     function ModInitialSize(owner) {
         var _this = _super.call(this, owner) || this;
-        _this.size = 0;
+        _this.size = {};
         _this.name = ModInitialSize.NAME;
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;

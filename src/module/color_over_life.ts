@@ -1,16 +1,16 @@
+import * as common from "../common";
+import * as particle from "../particle";
 import { Module, IEmitter } from "./module";
-import { Particle } from "../particle/particle";
-import { Color, WHITE } from "../common/color";
 
-export interface ParticleSpecial extends Particle {
+export interface ParticleSpecial extends particle.Particle {
     time?: number;
     life?: number;
 }
 
 export class ModColorOverLife extends Module {
     public static NAME = "color_over_life";
-    public beginColor: Color;
-    public endColor: Color;
+    public beginColor: common.Color;
+    public endColor: common.Color;
     public constructor(owner: IEmitter) {
         super(owner);
         this.name = ModColorOverLife.NAME;
@@ -24,8 +24,8 @@ export class ModColorOverLife extends Module {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
-        let beginColor = this.beginColor || WHITE;
-        let endColor = this.endColor || WHITE;
+        let beginColor = this.beginColor || common.WHITE;
+        let endColor = this.endColor || common.WHITE;
         let beginColorR = beginColor.r;
         let beginColorG = beginColor.g;
         let beginColorB = beginColor.b;
@@ -37,7 +37,7 @@ export class ModColorOverLife extends Module {
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleSpecial = particles[i];
             let color = particle.color;
-            if (! color) particle.color = color = {...WHITE};
+            if (! color) particle.color = color = {...common.WHITE};
             color.r = beginColorR + (endColorR - beginColorR) * (particle.time / particle.life);
             color.g = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
             color.b = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);

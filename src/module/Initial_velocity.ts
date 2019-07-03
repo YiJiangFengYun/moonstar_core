@@ -1,15 +1,15 @@
+import * as common from "../common";
+import * as particle from "../particle";
 import { Module, IEmitter } from "./module";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
-import { Particle } from "../particle/particle";
-import { Vector, copyVector, cloneVector } from "../common/vector";
 
-export interface ParticleWithVelocity extends Particle {
-    velocity?: Vector;
+export interface ParticleWithVelocity extends particle.Particle {
+    velocity?: common.Vector;
 }
 
 export class ModInitialVelocity extends Module {
     public static NAME = "initial_velocity";
-    public velocity: Vector;
+    public velocity: common.Vector;
 
     public constructor(owner: IEmitter) {
         super(owner);
@@ -22,9 +22,9 @@ export class ModInitialVelocity extends Module {
 
     private _onCreateParticle(particle: ParticleWithVelocity) {
         if (particle.velocity) {
-            copyVector(this.velocity, particle.velocity);
+            common.copyVector(this.velocity, particle.velocity);
         } else {
-            particle.velocity = cloneVector(this.velocity);
+            particle.velocity = common.cloneVector(this.velocity);
         }
          
     }

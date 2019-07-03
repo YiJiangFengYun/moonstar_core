@@ -13,9 +13,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var common = require("../common");
 var module_1 = require("./module");
-var vertex_1 = require("../common/vertex");
-var color_1 = require("../common/color");
 var ModSprite = /** @class */ (function (_super) {
     __extends(ModSprite, _super);
     function ModSprite(owner) {
@@ -33,73 +32,79 @@ var ModSprite = /** @class */ (function (_super) {
         var particleCount = owner.particleCount;
         return particleCount * 6;
     };
-    ModSprite.prototype.fillBuffers = function (data) {
+    ModSprite.prototype.fillBuffers = function (drawData, offsets) {
         var owner = this.owner;
         var particles = owner.particles;
         var particleCount = owner.particleCount;
+        // todo 
         // let origin = owner.origin;
-        var useLocal = owner.useLocalSpace;
-        var vtxBuffer = data.vtxBuffer;
-        var vtxFormat = data.vtxFormat;
-        var vtxBufferByteOffset = data.idxBufferByteOffset;
-        var vtxSize = data.vtxSize;
-        var idxBuffer = data.idxBuffer;
-        var idxBufferByteOffset = data.idxBufferByteOffset;
-        var idxValueOffset = data.idxValueOffset;
-        var idxSize = data.idxSize;
+        // let useLocal = owner.useLocalSpace; 
+        var vtxBufferByteOffset = offsets.idxBufferByteOffset;
+        var idxBufferByteOffset = offsets.idxBufferByteOffset;
+        var idxValueOffset = offsets.lastVertexCount;
         //Traverse all particles.
         for (var particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             var particle = particles[particleIndex];
-            //Vertex
-            var vtxByteOffset = vtxBufferByteOffset;
-            for (var i = 0; i < 4; ++i) {
-                var attrCount = vtxFormat.length;
-                for (var j = 0; j < attrCount; ++j) {
-                    var attrFormat = vtxFormat[j];
-                    var byteSize = 0;
-                    switch (attrFormat.name) {
-                        case vertex_1.AttrName.POSITION: {
-                            byteSize = 4 * attrFormat.count;
-                            var floatArray = new Float32Array(vtxBuffer, vtxByteOffset, byteSize);
-                            var pos = particle.pos;
-                            if (useLocal) {
-                                //todo
-                            }
-                            floatArray[0] = pos.x;
-                            floatArray[1] = pos.y;
-                            break;
-                        }
-                        case vertex_1.AttrName.UV0: {
-                            byteSize = 8; //4 * 2
-                            var floatArray = new Float32Array(vtxBuffer, vtxByteOffset, byteSize);
-                            floatArray[0] = i % 2; //0, 1, 0, 1
-                            floatArray[1] = Math.floor(i / 2); //0, 0, 1, 1
-                            break;
-                        }
-                        case vertex_1.AttrName.COLOR: {
-                            byteSize = 4; //1 * 4
-                            var unit8Array = new Uint8Array(vtxBuffer, vtxByteOffset, byteSize);
-                            var color = particle.color || color_1.WHITE;
-                            unit8Array[0] = color.r * 255;
-                            unit8Array[0] = color.g * 255;
-                            unit8Array[0] = color.b * 255;
-                            unit8Array[0] = color.a * 255;
-                            break;
-                        }
-                    }
-                    vtxByteOffset += byteSize;
-                }
-            }
-            vtxBufferByteOffset += vtxSize * 4;
-            //Index idxSize === 4byte
-            var unit32Array = new Uint32Array(idxBuffer, idxBufferByteOffset);
-            unit32Array[0] = idxValueOffset + 0;
-            unit32Array[0] = idxValueOffset + 1;
-            unit32Array[0] = idxValueOffset + 2;
-            unit32Array[0] = idxValueOffset + 1;
-            unit32Array[0] = idxValueOffset + 3;
-            unit32Array[0] = idxValueOffset + 2;
-            idxBufferByteOffset += idxSize * 6;
+            var size = particle.size;
+            var color = particle.color || common.WHITE;
+            var angle = particle.angle || 0;
+            var cos = angle ? Math.cos(angle) : 1;
+            var sin = angle ? Math.sin(angle) : 0;
+            var halfW = size ? size.x / 2 : 0;
+            var halfH = size ? size.y / 2 : 0;
+            var halfWNegative = -halfW;
+            var halfHNegative = -halfH;
+            //Vertex 0 left top
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfWNegative - sin * halfH,
+                posY: sin * halfWNegative + sin * halfH,
+                uv0X: 0,
+                uv0Y: 0,
+                colorR: color.r,
+                colorG: color.g,
+                colorB: color.b,
+                colorA: color.a,
+            }, vtxBufferByteOffset);
+            //Vertex 1 right top
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfW - sin * halfH,
+                posY: sin * halfW + sin * halfH,
+                uv0X: 1,
+                uv0Y: 0,
+                colorR: color.r,
+                colorG: color.g,
+                colorB: color.b,
+                colorA: color.a,
+            }, vtxBufferByteOffset);
+            //Vertex 2 left bottom
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfWNegative - sin * halfHNegative,
+                posY: sin * halfWNegative + sin * halfHNegative,
+                uv0X: 0,
+                uv0Y: 1,
+                colorR: color.r,
+                colorG: color.g,
+                colorB: color.b,
+                colorA: color.a,
+            }, vtxBufferByteOffset);
+            //Vertex 3 right bottom
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfW - sin * halfHNegative,
+                posY: sin * halfW + sin * halfHNegative,
+                uv0X: 1,
+                uv0Y: 1,
+                colorR: color.r,
+                colorG: color.g,
+                colorB: color.b,
+                colorA: color.a,
+            }, vtxBufferByteOffset);
+            //Index
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 0, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 1, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 1, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 3, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
         }
     };
     ModSprite.NAME = "sprite";

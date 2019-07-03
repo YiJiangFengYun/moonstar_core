@@ -3,17 +3,18 @@ export declare enum AttrName {
     UV0 = "uv0",
     COLOR = "color"
 }
-export declare enum AttrFormat {
+export declare enum ValueFormat {
     UNDEFINED = 0,
     FLOAT32 = 1,
     UINT32 = 2,
     UINT8 = 3
 }
-export declare type VertexFormat = {
+export interface AttrInfo {
     name: AttrName;
-    format: AttrFormat;
+    format: ValueFormat;
     count: number;
     normalized: boolean;
-}[];
-export declare const ATTR_FORMAT_SIZES: number[];
-export declare const INDEX_SIZE = 4;
+}
+export declare type VertexInfo = AttrInfo[];
+export declare const valueFormatSizes: number[];
+export declare const indexSize = 4;

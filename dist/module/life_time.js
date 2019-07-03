@@ -31,10 +31,10 @@ var ModLifeTime = /** @class */ (function (_super) {
         var particles = owner.particles;
         var particleCount = owner.particleCount;
         for (var i = particleCount - 1; i >= 0; --i) {
-            var particle = particles[i];
-            particle.time = (particle.time || 0) + dt;
-            if (particle.time >= particle.life) {
-                owner.particleCount = particleCount = this._deleteParticle(particle, particles, particleCount);
+            var particle_1 = particles[i];
+            particle_1.time = (particle_1.time || 0) + dt;
+            if (particle_1.time >= particle_1.life) {
+                owner.particleCount = particleCount = this._deleteParticle(particle_1, particles, particleCount);
             }
         }
     };

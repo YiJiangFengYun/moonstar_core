@@ -1,6 +1,6 @@
+import * as particle from "../particle";
 import { IEmitter, Module } from "./module";
-import { Particle } from "../particle/particle";
-export interface ParticleWithLifeTime extends Particle {
+export interface ParticleWithLifeTime extends particle.Particle {
     time?: number;
     life?: number;
 }

@@ -1,9 +1,9 @@
+import * as particle from "../particle";
 import * as log from "loglevel";
 import { IEmitter, Module } from "./module";
-import { Particle } from "../particle/particle";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
 
-export interface ParticleWithLifeTime extends Particle {
+export interface ParticleWithLifeTime extends particle.Particle {
     time?: number;
     life?: number;
 }
@@ -39,7 +39,7 @@ export class ModLifeTime extends Module {
 
     }
 
-    private _deleteParticle(particle: Particle, particles: Particle[], particleCount: number) {
+    private _deleteParticle(particle: particle.Particle, particles: particle.Particle[], particleCount: number) {
         let index = particles.indexOf(particle);
         if (index >= 0) {
             let endParticle = particles[--particleCount];

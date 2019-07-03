@@ -6,18 +6,18 @@ var AttrName;
     AttrName["UV0"] = "uv0";
     AttrName["COLOR"] = "color";
 })(AttrName = exports.AttrName || (exports.AttrName = {}));
-var AttrFormat;
-(function (AttrFormat) {
-    AttrFormat[AttrFormat["UNDEFINED"] = 0] = "UNDEFINED";
-    AttrFormat[AttrFormat["FLOAT32"] = 1] = "FLOAT32";
-    AttrFormat[AttrFormat["UINT32"] = 2] = "UINT32";
-    AttrFormat[AttrFormat["UINT8"] = 3] = "UINT8";
-})(AttrFormat = exports.AttrFormat || (exports.AttrFormat = {}));
-exports.ATTR_FORMAT_SIZES = [
+var ValueFormat;
+(function (ValueFormat) {
+    ValueFormat[ValueFormat["UNDEFINED"] = 0] = "UNDEFINED";
+    ValueFormat[ValueFormat["FLOAT32"] = 1] = "FLOAT32";
+    ValueFormat[ValueFormat["UINT32"] = 2] = "UINT32";
+    ValueFormat[ValueFormat["UINT8"] = 3] = "UINT8";
+})(ValueFormat = exports.ValueFormat || (exports.ValueFormat = {}));
+exports.valueFormatSizes = [
     0,
     4,
     4,
     1,
 ];
-exports.INDEX_SIZE = 4;
+exports.indexSize = 4;
 //# sourceMappingURL=vertex.js.map

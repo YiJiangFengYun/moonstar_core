@@ -1,11 +1,11 @@
+import * as common from "../common";
+import * as particle from "../particle";
 import { Module, IEmitter } from "./module";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
-import { Particle } from "../particle/particle";
-import { Vector } from "../common/vector";
 
 export class ModInitialSize extends Module {
     public static NAME = "initial_size";
-    public size: Vector = {};
+    public size: common.Vector = {};
 
     public constructor(owner: IEmitter) {
         super(owner);
@@ -16,7 +16,7 @@ export class ModInitialSize extends Module {
     public init() {
     }
 
-    private _onCreateParticle(particle: Particle) {
+    private _onCreateParticle(particle: particle.Particle) {
         particle.size = this.size;
     }
 }

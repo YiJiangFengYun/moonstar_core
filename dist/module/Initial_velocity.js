@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var common = require("../common");
 var module_1 = require("./module");
 var spawn_1 = require("./spawn");
-var vector_1 = require("../common/vector");
 var ModInitialVelocity = /** @class */ (function (_super) {
     __extends(ModInitialVelocity, _super);
     function ModInitialVelocity(owner) {
@@ -28,10 +28,10 @@ var ModInitialVelocity = /** @class */ (function (_super) {
     };
     ModInitialVelocity.prototype._onCreateParticle = function (particle) {
         if (particle.velocity) {
-            vector_1.copyVector(this.velocity, particle.velocity);
+            common.copyVector(this.velocity, particle.velocity);
         }
         else {
-            particle.velocity = vector_1.cloneVector(this.velocity);
+            particle.velocity = common.cloneVector(this.velocity);
         }
     };
     ModInitialVelocity.NAME = "initial_velocity";

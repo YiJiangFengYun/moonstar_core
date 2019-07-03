@@ -1,6 +1,6 @@
+import * as common from "../common";
+import * as render from "../render";
 import { ModRender, Module, IEmitter } from "./module";
-import { WHITE } from "../common/color";
-import { DrawData } from "../render/draw_data";
 
 export class ModSprite extends Module implements ModRender {
     public static NAME = "sprite";
@@ -22,7 +22,7 @@ export class ModSprite extends Module implements ModRender {
         return particleCount * 6;
     }
 
-    public fillBuffers(drawData: DrawData, offsets: {
+    public fillBuffers(drawData: render.DrawData, offsets: {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;
         lastVertexCount: number; //used as idxValueOffset
@@ -30,8 +30,9 @@ export class ModSprite extends Module implements ModRender {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
+        // todo 
         // let origin = owner.origin;
-        let useLocal = owner.useLocalSpace; // todo 
+        // let useLocal = owner.useLocalSpace; 
 
         let vtxBufferByteOffset = offsets.idxBufferByteOffset;
 
@@ -42,7 +43,7 @@ export class ModSprite extends Module implements ModRender {
         for (let particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             let particle = particles[particleIndex];
             let size = particle.size;
-            let color = particle.color || WHITE;
+            let color = particle.color || common.WHITE;
             let angle = particle.angle || 0;
             let cos = angle ? Math.cos(angle) : 1;
             let sin = angle ? Math.sin(angle) : 0;

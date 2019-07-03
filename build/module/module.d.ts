@@ -1,20 +1,19 @@
-import { VertexFormat } from "../common/vertex";
-import { EventEmitter } from "../common/event_emitter";
-import { Material } from "../material/material";
-import { Particle } from "../particle/particle";
-import { Vector } from "../common/vector";
+import * as common from "../common";
+import * as material from "../material";
+import * as particle from "../particle";
+import * as render from "../render";
 export interface IModule {
     init(): void;
     update(dt: number): void;
 }
-export interface IEmitter extends EventEmitter {
-    material: Material;
-    particles: Particle[];
+export interface IEmitter extends common.EventEmitter {
+    material: material.Material;
+    particles: particle.Particle[];
     particleCount: number;
     modules: IModule[];
     maxParticleCount: number;
-    origin: Vector;
-    rotation: Vector;
+    origin: common.Vector;
+    rotation: common.Vector;
     useLocalSpace: boolean;
 }
 export declare type ModuleType = {
@@ -30,14 +29,9 @@ export declare class Module implements IModule {
 export interface ModRender {
     getTotalVtxCount(): number;
     getTotalIdxCount(): number;
-    fillBuffers(data: {
-        vtxBuffer: ArrayBuffer;
+    fillBuffers(drawData: render.DrawData, offsets: {
         vtxBufferByteOffset: number;
-        vtxFormat: VertexFormat;
-        vtxSize: number;
-        idxBuffer: ArrayBuffer;
         idxBufferByteOffset: number;
-        idxValueOffset: number;
-        idxSize: number;
+        lastVertexCount: number;
     }): void;
 }

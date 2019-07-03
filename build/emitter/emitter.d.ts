@@ -1,19 +1,18 @@
-import { Material } from "../material/material";
-import { Module, ModRender, IEmitter } from "../module/module";
-import { Player } from "../common/player";
-import { Particle } from "../particle/particle";
-import { Vector } from "../common/vector";
-export declare class Emitter extends Player implements IEmitter {
-    material: Material;
-    particles: Particle[];
+import * as common from "../common";
+import * as material from "../material";
+import * as module from "../module";
+import * as particle from "../particle";
+export declare class Emitter extends common.Player implements module.IEmitter {
+    material: material.Material;
+    particles: particle.Particle[];
     particleCount: number;
-    modules: Module[];
-    renderModule: ModRender;
-    origin: Vector;
-    rotation: Vector;
+    modules: module.Module[];
+    renderModule: module.ModRender;
+    origin: common.Vector;
+    rotation: common.Vector;
     useLocalSpace: boolean;
     private _maxParticleCount;
-    constructor(maxParticleCount?: number, material?: Material);
+    constructor(maxParticleCount?: number, mtr?: material.Material);
     maxParticleCount: number;
     update(dt: number): void;
 }

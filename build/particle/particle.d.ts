@@ -1,7 +1,19 @@
-import { Vector } from "../common/vector";
-import { Color } from "../common/color";
+import * as common from "../common";
 export interface Particle {
-    pos?: Vector;
-    color?: Color;
-    size?: number;
+    /**
+     * The position of the Particle
+     */
+    pos?: common.Vector;
+    /**
+     * The color of the Particle
+     */
+    color?: common.Color;
+    /**
+     * The size of the Particle.
+     */
+    size?: common.Vector;
+    /**
+     * The angle of the particle.
+     */
+    angle?: number;
 }

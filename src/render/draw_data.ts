@@ -1,21 +1,21 @@
-import { AttrName, ValueFormat, VertexInfo, valueFormatSizes, indexSize } from "../common/vertex";
-import { Material } from "../material/material";
-export const vertexInfo: VertexInfo = [
+import * as common from "../common";
+import * as material from "../material";
+export const vertexInfo: common.VertexInfo = [
     {
-        name: AttrName.POSITION, 
-        format: ValueFormat.FLOAT32,
+        name: common.AttrName.POSITION, 
+        format: common.ValueFormat.FLOAT32,
         count: 2,
         normalized: false,
     },
     {
-        name: AttrName.UV0,
-        format: ValueFormat.FLOAT32,
+        name: common.AttrName.UV0,
+        format: common.ValueFormat.FLOAT32,
         count: 2,
         normalized: false,
     },
     {
-        name: AttrName.COLOR,
-        format: ValueFormat.UINT8,
+        name: common.AttrName.COLOR,
+        format: common.ValueFormat.UINT8,
         count: 4,
         normalized: true,
     }
@@ -61,11 +61,11 @@ export function fillVertex(data: FillVertexInfo, bufferView: DataView, byteOffse
 
 export interface DrawCmd {
     elementCount: number;
-    material: Material;
+    material: material.Material;
 }
 
 export class DrawData {
-    public vertexInfo: VertexInfo;
+    public vertexInfo: common.VertexInfo;
     public vtxSize: number;
     public idxSize: number;
     public totalVtxCount: number;
@@ -83,12 +83,12 @@ export class DrawData {
 
         let vtxSize = 0;
         let vInfo = this.vertexInfo;
-        let vFSizes = valueFormatSizes;
+        let vFSizes = common.valueFormatSizes;
         vInfo.forEach((value) => {
             vtxSize += vFSizes[value.format] * value.count;
         });
         this.vtxSize = vtxSize;
-        this.idxSize = indexSize;
+        this.idxSize = common.indexSize;
     }
 
     /**

@@ -1,17 +1,17 @@
 import * as log from "loglevel";
-import { DrawData } from "../render/draw_data";
-import { Player } from "../common/player";
-import { Emitter } from "../emitter/emitter";
+import * as common from "../common";
+import * as emitter from "../emitter";
+import * as render from "../render";
 
 export interface ParticleSystem {
-    drawData: DrawData;
-    emitters: Emitter[];
+    drawData: render.DrawData;
+    emitters: emitter.Emitter[];
 
     update(dt: number):void;
     render(): void;
 }
 
-function render(emitters: Emitter[], drawData: DrawData) {
+function doRender(emitters: emitter.Emitter[], drawData: render.DrawData) {
     let emitterCount = emitters.length;
     let totalVtxCount = 0;
     let totalIdxCount = 0;
@@ -46,9 +46,9 @@ function render(emitters: Emitter[], drawData: DrawData) {
     }
 }
 
-export class ParticleSystem extends Player implements ParticleSystem {
-    public drawData: DrawData = new DrawData();
-    public emitters: Emitter[] = [];
+export class ParticleSystem extends common.Player implements ParticleSystem {
+    public drawData: render.DrawData = new render.DrawData();
+    public emitters: emitter.Emitter[] = [];
     
     public constructor() {
         super();
@@ -59,7 +59,7 @@ export class ParticleSystem extends Player implements ParticleSystem {
     }
 
     public render(): void {
-        render(this.emitters, this.drawData);
+        doRender(this.emitters, this.drawData);
     }
 
     // public _createEmitter() {

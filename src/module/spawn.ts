@@ -1,5 +1,5 @@
+import * as particle from "../particle";
 import { Module, IEmitter } from "./module";
-import { Particle } from "../particle/particle";
 
 export const EVENT_CREATE_PARTICLE = "create_particle";
 
@@ -29,8 +29,8 @@ export class ModSpawn extends Module {
         }
     }
 
-    private _createParticle(): Particle {
-        let particle: Particle = {};
+    private _createParticle(): particle.Particle {
+        let particle: particle.Particle = {};
         let emitter = this.owner;
         if (emitter.particleCount < emitter.maxParticleCount) {
             emitter.particles[emitter.particleCount++] = particle;
