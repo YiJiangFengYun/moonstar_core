@@ -7,7 +7,6 @@ export interface IModule {
     update(dt: number): void;
 }
 export interface IEmitter extends common.EventEmitter {
-    material: material.Material;
     particles: particle.Particle[];
     particleCount: number;
     modules: IModule[];
@@ -27,6 +26,7 @@ export declare class Module implements IModule {
     update(dt: number): void;
 }
 export interface ModRender {
+    material: material.Material;
     getTotalVtxCount(): number;
     getTotalIdxCount(): number;
     fillBuffers(drawData: render.DrawData, offsets: {

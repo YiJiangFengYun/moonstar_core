@@ -9,7 +9,6 @@ export interface IModule {
 }
 
 export interface IEmitter extends common.EventEmitter {
-    material: material.Material;
     particles: particle.Particle[];
     particleCount: number;
     modules: IModule[];
@@ -42,6 +41,7 @@ export class Module implements IModule {
 }
 
 export interface ModRender {
+    material: material.Material;
 
     getTotalVtxCount(): number;
 

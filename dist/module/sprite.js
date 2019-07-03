@@ -109,7 +109,7 @@ var ModSprite = /** @class */ (function (_super) {
         drawData.fillDrawCmd({
             indexOffset: offsets.lastIndexCount,
             indexCount: particleCount * 6,
-            material: this.owner.material,
+            material: this.material,
         });
     };
     ModSprite.NAME = "sprite";

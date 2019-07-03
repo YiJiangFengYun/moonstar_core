@@ -1,9 +1,7 @@
 import * as common from "../common";
-import * as material from "../material";
 import * as module from "../module";
 import * as particle from "../particle";
 export declare class Emitter extends common.Player implements module.IEmitter {
-    material: material.Material;
     particles: particle.Particle[];
     particleCount: number;
     modules: module.Module[];
@@ -12,7 +10,7 @@ export declare class Emitter extends common.Player implements module.IEmitter {
     rotation: common.Vector;
     useLocalSpace: boolean;
     private _maxParticleCount;
-    constructor(maxParticleCount?: number, mtr?: material.Material);
+    constructor(maxParticleCount?: number);
     maxParticleCount: number;
     update(dt: number): void;
 }

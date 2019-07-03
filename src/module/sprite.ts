@@ -1,9 +1,12 @@
 import * as common from "../common";
+import * as material from "../material";
 import * as render from "../render";
 import { ModRender, Module, IEmitter } from "./module";
 
 export class ModSprite extends Module implements ModRender {
     public static NAME = "sprite";
+
+    public material: material.Material;
 
     public constructor(owner: IEmitter) {
         super(owner);
@@ -109,7 +112,7 @@ export class ModSprite extends Module implements ModRender {
         drawData.fillDrawCmd({
             indexOffset: offsets.lastIndexCount,
             indexCount: particleCount * 6,
-            material: this.owner.material,
+            material: this.material,
         });
         
     }
