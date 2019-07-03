@@ -60,7 +60,8 @@ export function fillVertex(data: FillVertexInfo, bufferView: DataView, byteOffse
 }
 
 export interface DrawCmd {
-    elementCount: number;
+    indexOffset: number;
+    indexCount: number;
     material: material.Material;
 }
 
@@ -76,7 +77,7 @@ export class DrawData {
     public idxBuffer: ArrayBuffer;
     public idxBufferView: DataView;
     public cmdList: DrawCmd[];
-    public cmdListCount: number;
+    public cmdCount: number;
     public constructor() {
         this.vertexInfo = vertexInfo;
         this.cmdList = [];
@@ -105,7 +106,7 @@ export class DrawData {
         this.vtxBufferView = new DataView(this.vtxBuffer);
         this.idxBuffer = new ArrayBuffer(idxSize * totalIdxCount);
         this.idxBufferView = new DataView(this.idxBuffer);
-        this.cmdListCount = 0;
+        this.cmdCount = 0;
     }
 
     /**
@@ -125,6 +126,16 @@ export class DrawData {
     public fillIndex(index: number, byteOffset: number) {
         this.idxBufferView.setUint32(byteOffset, index);
         return byteOffset + 4;
+    }
+
+    public fillDrawCmd(drawCmd: DrawCmd) {
+        let cmdList = this.cmdList;
+        let cmdCount = this.cmdCount;
+        if (cmdCount >= cmdList.length) {
+            cmdList.length = 2 * cmdCount;
+        }
+        cmdList[cmdCount] = drawCmd;
+        ++this.cmdCount;
     }
 }
 

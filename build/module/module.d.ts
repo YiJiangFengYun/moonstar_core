@@ -33,5 +33,6 @@ export interface ModRender {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;
         lastVertexCount: number;
+        lastIndexCount: number;
     }): void;
 }

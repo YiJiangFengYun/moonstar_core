@@ -71,7 +71,7 @@ var DrawData = /** @class */ (function () {
         this.vtxBufferView = new DataView(this.vtxBuffer);
         this.idxBuffer = new ArrayBuffer(idxSize * totalIdxCount);
         this.idxBufferView = new DataView(this.idxBuffer);
-        this.cmdListCount = 0;
+        this.cmdCount = 0;
     };
     /**
      * Fill a vertex data to vertex buffer.
@@ -89,6 +89,15 @@ var DrawData = /** @class */ (function () {
     DrawData.prototype.fillIndex = function (index, byteOffset) {
         this.idxBufferView.setUint32(byteOffset, index);
         return byteOffset + 4;
+    };
+    DrawData.prototype.fillDrawCmd = function (drawCmd) {
+        var cmdList = this.cmdList;
+        var cmdCount = this.cmdCount;
+        if (cmdCount >= cmdList.length) {
+            cmdList.length = 2 * cmdCount;
+        }
+        cmdList[cmdCount] = drawCmd;
+        ++this.cmdCount;
     };
     return DrawData;
 }());

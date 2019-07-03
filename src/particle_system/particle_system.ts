@@ -30,6 +30,7 @@ function doRender(emitters: emitter.Emitter[], drawData: render.DrawData) {
     let vtxBufferByteOffset: number = 0;
     let idxBufferByteOffset: number = 0;
     let lastVertexCount: number = 0;
+    let lastIndexCount: number = 0;
     for (let i = 0; i < emitterCount; ++i) {
         let eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
@@ -37,11 +38,15 @@ function doRender(emitters: emitter.Emitter[], drawData: render.DrawData) {
                 vtxBufferByteOffset: vtxBufferByteOffset,
                 idxBufferByteOffset: idxBufferByteOffset,
                 lastVertexCount: lastVertexCount,
+                lastIndexCount: lastIndexCount,
             });
-           
-            vtxBufferByteOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
-            idxBufferByteOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
-            lastVertexCount += eRenderCpt.getTotalVtxCount();
+             
+            let vtxCount = eRenderCpt.getTotalVtxCount();
+            let idxCount = eRenderCpt.getTotalIdxCount();
+            lastVertexCount += vtxCount;
+            lastIndexCount += idxCount;
+            vtxBufferByteOffset += drawData.vtxSize * vtxCount;
+            idxBufferByteOffset += drawData.idxSize * idxCount;
         }
     }
 }

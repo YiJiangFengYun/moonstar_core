@@ -51,5 +51,6 @@ export interface ModRender {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;
         lastVertexCount: number; //used as idxValueOffset
+        lastIndexCount: number; // used as index offset of cmd.
     }): void;
 }

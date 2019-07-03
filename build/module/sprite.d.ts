@@ -9,5 +9,6 @@ export declare class ModSprite extends Module implements ModRender {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;
         lastVertexCount: number;
+        lastIndexCount: number;
     }): void;
 }

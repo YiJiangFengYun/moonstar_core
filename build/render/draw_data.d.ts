@@ -13,7 +13,8 @@ export interface FillVertexInfo {
 }
 export declare function fillVertex(data: FillVertexInfo, bufferView: DataView, byteOffset: number): number;
 export interface DrawCmd {
-    elementCount: number;
+    indexOffset: number;
+    indexCount: number;
     material: material.Material;
 }
 export declare class DrawData {
@@ -27,7 +28,7 @@ export declare class DrawData {
     idxBuffer: ArrayBuffer;
     idxBufferView: DataView;
     cmdList: DrawCmd[];
-    cmdListCount: number;
+    cmdCount: number;
     constructor();
     /**
      * Initialize its state and allocate the capacity of its buffers.
@@ -47,4 +48,5 @@ export declare class DrawData {
      * @param byteOffset
      */
     fillIndex(index: number, byteOffset: number): number;
+    fillDrawCmd(drawCmd: DrawCmd): void;
 }

@@ -26,6 +26,7 @@ export class ModSprite extends Module implements ModRender {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;
         lastVertexCount: number; //used as idxValueOffset
+        lastIndexCount: number; // used as index offset of cmd.
     }): void {
         let owner = this.owner;
         let particles = owner.particles;
@@ -104,6 +105,12 @@ export class ModSprite extends Module implements ModRender {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 3, idxBufferByteOffset);
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
         }
+
+        drawData.fillDrawCmd({
+            indexOffset: offsets.lastIndexCount,
+            indexCount: particleCount * 6,
+            material: this.owner.material,
+        });
         
     }
 }

@@ -36,6 +36,7 @@ function doRender(emitters, drawData) {
     var vtxBufferByteOffset = 0;
     var idxBufferByteOffset = 0;
     var lastVertexCount = 0;
+    var lastIndexCount = 0;
     for (var i = 0; i < emitterCount; ++i) {
         var eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
@@ -43,10 +44,14 @@ function doRender(emitters, drawData) {
                 vtxBufferByteOffset: vtxBufferByteOffset,
                 idxBufferByteOffset: idxBufferByteOffset,
                 lastVertexCount: lastVertexCount,
+                lastIndexCount: lastIndexCount,
             });
-            vtxBufferByteOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
-            idxBufferByteOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
-            lastVertexCount += eRenderCpt.getTotalVtxCount();
+            var vtxCount = eRenderCpt.getTotalVtxCount();
+            var idxCount = eRenderCpt.getTotalIdxCount();
+            lastVertexCount += vtxCount;
+            lastIndexCount += idxCount;
+            vtxBufferByteOffset += drawData.vtxSize * vtxCount;
+            idxBufferByteOffset += drawData.idxSize * idxCount;
         }
     }
 }

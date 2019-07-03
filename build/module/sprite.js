@@ -106,6 +106,11 @@ var ModSprite = /** @class */ (function (_super) {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 3, idxBufferByteOffset);
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
         }
+        drawData.fillDrawCmd({
+            indexOffset: offsets.lastIndexCount,
+            indexCount: particleCount * 6,
+            material: this.owner.material,
+        });
     };
     ModSprite.NAME = "sprite";
     return ModSprite;
