@@ -1,10 +1,11 @@
 import { Module, IEmitter } from "./module";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
 import { Particle } from "../particle/particle";
+import { Vector } from "../common/vector";
 
 export class ModInitialSize extends Module {
     public static NAME = "initial_size";
-    public size: number = 0;
+    public size: Vector = {};
 
     public constructor(owner: IEmitter) {
         super(owner);

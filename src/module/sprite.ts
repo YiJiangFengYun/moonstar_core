@@ -1,6 +1,6 @@
 import { ModRender, Module, IEmitter } from "./module";
-import { VertexFormat, AttrName } from "../common/vertex";
 import { WHITE } from "../common/color";
+import { DrawData } from "../render/draw_data";
 
 export class ModSprite extends Module implements ModRender {
     public static NAME = "sprite";
@@ -22,96 +22,86 @@ export class ModSprite extends Module implements ModRender {
         return particleCount * 6;
     }
 
-    public fillBuffers(data: {
-        vtxBuffer: ArrayBuffer;
+    public fillBuffers(drawData: DrawData, offsets: {
         vtxBufferByteOffset: number;
-        vtxFormat: VertexFormat;
-        vtxSize: number;
-        idxBuffer: ArrayBuffer;
         idxBufferByteOffset: number;
-        idxValueOffset: number;
-        idxSize: number;
+        lastVertexCount: number; //used as idxValueOffset
     }): void {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
         // let origin = owner.origin;
-        let useLocal = owner.useLocalSpace;
+        let useLocal = owner.useLocalSpace; // todo 
 
-        let vtxBuffer = data.vtxBuffer;
-        let vtxFormat = data.vtxFormat;
-        let vtxBufferByteOffset = data.idxBufferByteOffset;
-        let vtxSize = data.vtxSize;
+        let vtxBufferByteOffset = offsets.idxBufferByteOffset;
 
-        let idxBuffer = data.idxBuffer;
-        let idxBufferByteOffset = data.idxBufferByteOffset;
-        let idxValueOffset = data.idxValueOffset;
-        let idxSize = data.idxSize;
+        let idxBufferByteOffset = offsets.idxBufferByteOffset;
+        let idxValueOffset = offsets.lastVertexCount;
+
         //Traverse all particles.
         for (let particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             let particle = particles[particleIndex];
-            //Vertex
-            let vtxByteOffset = vtxBufferByteOffset;
-            for (let i = 0; i < 4; ++i) {
-                let attrCount = vtxFormat.length;
-                for (let j = 0; j < attrCount; ++j) {
-                    let attrFormat = vtxFormat[j];
-                    let byteSize: number = 0;
-                    switch (attrFormat.name) {
-                        case AttrName.POSITION: {
-                            byteSize = 4 * attrFormat.count;
-                            let floatArray = new Float32Array(
-                                vtxBuffer, 
-                                vtxByteOffset, 
-                                byteSize,
-                            );
-                            let pos = particle.pos;
-                            if (useLocal) {
-                                //todo
-                            }
-                            floatArray[0] = pos.x;
-                            floatArray[1] = pos.y;
-                            break;
-                        }
-                        case AttrName.UV0: {
-                            byteSize = 8; //4 * 2
-                            let floatArray = new Float32Array(
-                                vtxBuffer,
-                                vtxByteOffset,
-                                byteSize,
-                            );
-                            floatArray[0] = i % 2; //0, 1, 0, 1
-                            floatArray[1] = Math.floor(i / 2); //0, 0, 1, 1
-                            break;
-                        }
-                        case AttrName.COLOR: {
-                            byteSize = 4; //1 * 4
-                            let unit8Array = new Uint8Array(
-                                vtxBuffer,
-                                vtxByteOffset,
-                                byteSize,
-                            );
-                            let color = particle.color || WHITE;
-                            unit8Array[0] = color.r * 255;
-                            unit8Array[0] = color.g * 255;
-                            unit8Array[0] = color.b * 255;
-                            unit8Array[0] = color.a * 255;
-                            break;
-                        }
-                    }
-                    vtxByteOffset += byteSize;
-                }
-            }
-            vtxBufferByteOffset += vtxSize * 4;
-            //Index idxSize === 4byte
-            let unit32Array = new Uint32Array(idxBuffer, idxBufferByteOffset);
-            unit32Array[0] = idxValueOffset + 0;
-            unit32Array[0] = idxValueOffset + 1;
-            unit32Array[0] = idxValueOffset + 2;
-            unit32Array[0] = idxValueOffset + 1;
-            unit32Array[0] = idxValueOffset + 3;
-            unit32Array[0] = idxValueOffset + 2;
-            idxBufferByteOffset += idxSize * 6;
+            let size = particle.size;
+            let color = particle.color || WHITE;
+            let angle = particle.angle || 0;
+            let cos = angle ? Math.cos(angle) : 1;
+            let sin = angle ? Math.sin(angle) : 0;
+            let halfW = size ? size.x / 2 : 0;
+            let halfH = size ? size.y / 2 : 0;
+            let halfWNegative = - halfW;
+            let halfHNegative = - halfH;
+            //Vertex 0 left top
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfWNegative - sin * halfH,
+                posY: sin * halfWNegative + sin * halfH,
+                uv0X: 0,
+                uv0Y: 0,
+                colorR: color.r, 
+                colorG: color.g, 
+                colorB: color.b, 
+                colorA: color.a, 
+            }, vtxBufferByteOffset);
+            //Vertex 1 right top
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfW - sin * halfH,
+                posY: sin * halfW + sin * halfH,
+                uv0X: 1,
+                uv0Y: 0,
+                colorR: color.r, 
+                colorG: color.g, 
+                colorB: color.b, 
+                colorA: color.a, 
+            }, vtxBufferByteOffset);
+            //Vertex 2 left bottom
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfWNegative - sin * halfHNegative,
+                posY: sin * halfWNegative + sin * halfHNegative,
+                uv0X: 0,
+                uv0Y: 1,
+                colorR: color.r, 
+                colorG: color.g, 
+                colorB: color.b, 
+                colorA: color.a,
+            }, vtxBufferByteOffset);
+            //Vertex 3 right bottom
+            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                posX: cos * halfW - sin * halfHNegative,
+                posY: sin * halfW + sin * halfHNegative,
+                uv0X: 1,
+                uv0Y: 1,
+                colorR: color.r, 
+                colorG: color.g, 
+                colorB: color.b, 
+                colorA: color.a,
+            }, vtxBufferByteOffset);
+
+            //Index
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 0, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 1, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 1, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 3, idxBufferByteOffset);
+            idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
         }
         
     }

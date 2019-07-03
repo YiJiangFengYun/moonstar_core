@@ -4,26 +4,28 @@ export enum AttrName {
     COLOR = "color",
 }
 
-export enum AttrFormat {
+export enum ValueFormat {
     UNDEFINED,
     FLOAT32,
     UINT32,
     UINT8,
 }
 
-export type VertexFormat = {
+export interface AttrInfo {
     name: AttrName,
-    format: AttrFormat,
+    format: ValueFormat,
     count: number,
     normalized: boolean,
-}[];
+}
 
-export const ATTR_FORMAT_SIZES = [
+export type VertexInfo = AttrInfo[];
+
+export const valueFormatSizes = [
     0,
     4,
     4,
     1,
 ];
 
-export const INDEX_SIZE = 4;
+export const indexSize = 4;
 

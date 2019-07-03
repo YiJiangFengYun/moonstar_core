@@ -27,26 +27,21 @@ function render(emitters: Emitter[], drawData: DrawData) {
     }
     //Reset draw data.
     drawData.init(totalVtxCount, totalIdxCount);
-    let vtxBufferOffset: number = 0;
-    let idxBufferOffset: number = 0;
-    let idxOffset: number = 0;
+    let vtxBufferByteOffset: number = 0;
+    let idxBufferByteOffset: number = 0;
+    let lastVertexCount: number = 0;
     for (let i = 0; i < emitterCount; ++i) {
         let eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
-            eRenderCpt.fillBuffers({
-                vtxBuffer: drawData.vtxBuffer,
-                vtxBufferByteOffset: vtxBufferOffset,
-                vtxFormat: drawData.vertexFormat,
-                vtxSize: drawData.vtxSize,
-                idxBuffer: drawData.idxBuffer,
-                idxBufferByteOffset: idxBufferOffset,
-                idxValueOffset: idxOffset,
-                idxSize: drawData.idxSize,
+            eRenderCpt.fillBuffers(drawData, {
+                vtxBufferByteOffset: vtxBufferByteOffset,
+                idxBufferByteOffset: idxBufferByteOffset,
+                lastVertexCount: lastVertexCount,
             });
            
-            vtxBufferOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
-            idxBufferOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
-            idxOffset += eRenderCpt.getTotalVtxCount();
+            vtxBufferByteOffset += drawData.vtxSize * eRenderCpt.getTotalVtxCount();
+            idxBufferByteOffset += drawData.idxSize * eRenderCpt.getTotalIdxCount();
+            lastVertexCount += eRenderCpt.getTotalVtxCount();
         }
     }
 }

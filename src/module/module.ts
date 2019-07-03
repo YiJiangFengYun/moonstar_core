@@ -1,8 +1,8 @@
-import { VertexFormat } from "../common/vertex";
 import { EventEmitter } from "../common/event_emitter";
 import { Material } from "../material/material";
 import { Particle } from "../particle/particle";
 import { Vector } from "../common/vector";
+import { DrawData } from "../render/draw_data";
 
 export interface IModule {
     init(): void;
@@ -48,14 +48,9 @@ export interface ModRender {
 
     getTotalIdxCount(): number;
 
-    fillBuffers(data: {
-        vtxBuffer: ArrayBuffer;
+    fillBuffers(drawData: DrawData, offsets: {
         vtxBufferByteOffset: number;
-        vtxFormat: VertexFormat;
-        vtxSize: number;
-        idxBuffer: ArrayBuffer;
         idxBufferByteOffset: number;
-        idxValueOffset: number;
-        idxSize: number;
+        lastVertexCount: number; //used as idxValueOffset
     }): void;
 }
