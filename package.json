@@ -6,7 +6,8 @@
   "scripts": {
     "build_development": "tsc --build tsconfig.json",
     "build_production": "tsc --build tsconfig.dist.json",
-    "build": "npm run build_development & npm run build_production",
+    "build_renderer": "tsc --build tsconfig.renderer.json",
+    "build": "npm run build_development & npm run build_production & npm run build_renderer",
     "test": "node test"
   },
   "repository": {
