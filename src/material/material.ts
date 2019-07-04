@@ -1,3 +1,5 @@
+import * as common from "../common";
+
 export enum BlendFactor
 {
     ZERO,
@@ -25,7 +27,7 @@ export enum MaterialType {
 //class Material with members: color, texture path, and blend.
 export class Material {
     public type: MaterialType | number;
-    public color: number;
+    public color: common.Color = { ...common.WHITE };
     public texturePath: string;
     public srcColorBlendFactor = BlendFactor.SRC_ALPHA;
     public dstColorBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
