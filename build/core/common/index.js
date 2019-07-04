@@ -7,4 +7,5 @@ __export(require("./color"));
 __export(require("./player"));
 __export(require("./vector"));
 __export(require("./vertex"));
+__export(require("./id"));
 //# sourceMappingURL=index.js.map

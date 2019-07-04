@@ -16,7 +16,9 @@ export declare class Emitter extends common.Player implements module.IEmitter {
     rotation: common.Vector;
     useLocalSpace: boolean;
     private _maxParticleCount;
+    private _id;
     constructor();
+    readonly id: number;
     init(info: EmitterInfo): void;
     maxParticleCount: number;
     update(dt: number): void;

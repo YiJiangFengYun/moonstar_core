@@ -44,7 +44,15 @@ var Material = /** @class */ (function () {
         this.dstBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
         this.blendOp = BlendOp.ADD;
         this.type = type;
+        this._id = common.gainID();
     }
+    Object.defineProperty(Material.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Material.prototype.init = function (info) {
         this.color.r = info.r || 1;
         this.color.g = info.g || 1;

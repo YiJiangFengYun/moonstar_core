@@ -59,13 +59,19 @@ export interface ParticleSystemInfo {
     }[]
 }
 
-export class ParticleSystem extends common.Player implements ParticleSystem {
+export class ParticleSystem extends common.Player {
     public drawData: render.DrawData = new render.DrawData();
     public emitters: emitter.Emitter[] = [];
     public emitterCount: number = 0;
-    
+
+    private _id: number;
     public constructor() {
         super();
+        this._id = common.gainID();
+    }
+
+    public get id() {
+        return this._id;
     }
 
     public init(info: ParticleSystemInfo) {

@@ -21,7 +21,9 @@ export declare type ModuleType = {
 export declare class Module implements IModule {
     name: string;
     owner: IEmitter;
+    private _id;
     constructor(owner: IEmitter);
+    readonly id: number;
     init(info: any): void;
     update(dt: number): void;
 }

@@ -72,8 +72,16 @@ var ParticleSystem = /** @class */ (function (_super) {
         _this.drawData = new render.DrawData();
         _this.emitters = [];
         _this.emitterCount = 0;
+        _this._id = common.gainID();
         return _this;
     }
+    Object.defineProperty(ParticleSystem.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ParticleSystem.prototype.init = function (info) {
         var newCount = info.emitters ? info.emitters.length : 0;
         this.emitterCount = newCount;

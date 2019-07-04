@@ -33,8 +33,14 @@ export class Material {
     public dstBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
     public blendOp = BlendOp.ADD;
 
+    private _id: number;
     public constructor(type?: MaterialType | number) {
         this.type = type;
+        this._id = common.gainID();
+    }
+
+    public get id() {
+        return this._id;
     }
 
     public init(info: any) {

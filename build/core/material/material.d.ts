@@ -25,6 +25,8 @@ export declare class Material {
     srcBlendFactor: BlendFactor;
     dstBlendFactor: BlendFactor;
     blendOp: BlendOp;
+    private _id;
     constructor(type?: MaterialType | number);
+    readonly id: number;
     init(info: any): void;
 }

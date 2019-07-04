@@ -27,8 +27,16 @@ var Emitter = /** @class */ (function (_super) {
         _this.origin = { x: 0, y: 0 };
         _this.rotation = { x: 0, y: 0 };
         _this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
+        _this._id = common.gainID();
         return _this;
     }
+    Object.defineProperty(Emitter.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Emitter.prototype.init = function (info) {
         this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
         var modules = this.modules;

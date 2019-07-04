@@ -25,8 +25,15 @@ export type ModuleType = {
 export class Module implements IModule {
     public name: string;
     public owner: IEmitter;
+
+    private _id: number;
     public constructor(owner: IEmitter) {
         this.owner = owner;
+        this._id = common.gainID();
+    }
+
+    public get id() {
+        return this._id;
     }
 
     public init(info: any): void {
