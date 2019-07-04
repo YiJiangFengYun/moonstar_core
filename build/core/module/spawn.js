@@ -41,10 +41,12 @@ var ModSpawn = /** @class */ (function (_super) {
         }
     };
     ModSpawn.prototype._createParticle = function () {
-        var particle = {};
+        var particle;
         var emitter = this.owner;
         if (emitter.particleCount < emitter.maxParticleCount) {
-            emitter.particles[emitter.particleCount++] = particle;
+            particle = emitter.particles[emitter.particleCount++];
+            if (!particle)
+                emitter.particles[emitter.particleCount++] = particle = {};
         }
         emitter.emit(exports.EVENT_CREATE_PARTICLE, particle);
         return particle;

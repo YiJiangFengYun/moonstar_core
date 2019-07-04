@@ -32,10 +32,11 @@ export class ModSpawn extends Module {
     }
 
     private _createParticle(): particle.Particle {
-        let particle: particle.Particle = {};
+        let particle: particle.Particle;
         let emitter = this.owner;
         if (emitter.particleCount < emitter.maxParticleCount) {
-            emitter.particles[emitter.particleCount++] = particle;
+            particle = emitter.particles[emitter.particleCount++];
+            if (! particle) emitter.particles[emitter.particleCount++] = particle = {};
         }
         emitter.emit(EVENT_CREATE_PARTICLE, particle);
         return particle;
