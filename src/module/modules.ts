@@ -1,8 +1,8 @@
 import { Module } from "./module";
 import { ModSprite } from "./sprite";
 import { ModSpawn } from "./spawn";
-import { ModInitialSize } from "./initial_size";
-import { ModInitialVelocity } from "./Initial_velocity";
+import { ModSizeConstant } from "./size_constant";
+import { ModVelocityConstant } from "./velocity_constant";
 import { ModLifeTime } from "./life_time";
 import { ModColorOverLife } from "./color_over_life";
 
@@ -14,9 +14,9 @@ mapModules[ModSprite.NAME] = ModSprite;
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
 
-// Initialize modules.
-mapModules[ModInitialSize.NAME] = ModInitialSize;
-mapModules[ModInitialVelocity.NAME] = ModInitialVelocity;
+// Constant modules.
+mapModules[ModSizeConstant.NAME] = ModSizeConstant;
+mapModules[ModVelocityConstant.NAME] = ModVelocityConstant;
 
 // Life time modules
 mapModules[ModLifeTime.NAME] = ModLifeTime;
@@ -28,17 +28,17 @@ export const moduleGroup = {
     sprite: [
         { module: ModSprite, required: true, default: true },
         { module: ModSpawn, required: true, default: true },
-        { module: ModInitialSize, required: false, default: true },
+        { module: ModSizeConstant, required: false, default: true },
         { module: ModLifeTime, required: false, default: true },
-        { module: ModInitialVelocity, required: false, default: true },
+        { module: ModVelocityConstant, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },
     ],
     trail: [
         // { module: ModTrail, required: true, default: true },
         { module: ModSpawn, required: true, default: true },
-        { module: ModInitialSize, required: false, default: true },
+        { module: ModSizeConstant, required: false, default: true },
         { module: ModLifeTime, required: false, default: true },
-        { module: ModInitialVelocity, required: false, default: true },
+        { module: ModVelocityConstant, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },
     ]
 }

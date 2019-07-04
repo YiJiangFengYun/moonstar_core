@@ -3,13 +3,13 @@ import * as particle from "../particle";
 import { Module, IEmitter } from "./module";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
 
-export class ModInitialSize extends Module {
+export class ModSizeConstant extends Module {
     public static NAME = "initial_size";
     public size: common.Vector = {};
 
     public constructor(owner: IEmitter) {
         super(owner);
-        this.name = ModInitialSize.NAME;
+        this.name = ModSizeConstant.NAME;
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 
