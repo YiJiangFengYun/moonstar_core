@@ -11,6 +11,7 @@ export class ModSprite extends Module implements ModRender {
     public constructor(owner: IEmitter) {
         super(owner);
         this.name = ModSprite.NAME;
+        this.material = new material.Material(material.MaterialType.SPRITE);
     }
 
     public getTotalVtxCount(): number {

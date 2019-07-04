@@ -19,15 +19,21 @@ var BlendOp;
     BlendOp[BlendOp["ADD"] = 0] = "ADD";
 })(BlendOp = exports.BlendOp || (exports.BlendOp = {}));
 ;
+var MaterialType;
+(function (MaterialType) {
+    MaterialType[MaterialType["UNDEFINED"] = 0] = "UNDEFINED";
+    MaterialType[MaterialType["SPRITE"] = 1] = "SPRITE";
+})(MaterialType = exports.MaterialType || (exports.MaterialType = {}));
 //class Material with members: color, texture path, and blend.
 var Material = /** @class */ (function () {
-    function Material() {
+    function Material(type) {
         this.srcColorBlendFactor = BlendFactor.SRC_ALPHA;
         this.dstColorBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
         this.colorBlendOp = BlendOp.ADD;
         this.srcAlphaBlendFactor = BlendFactor.SRC_ALPHA;
         this.dstAlphaBlendFactor = BlendFactor.DST_ALPHA;
         this.alphaBlendOp = BlendOp.ADD;
+        this.type = type;
     }
     return Material;
 }());

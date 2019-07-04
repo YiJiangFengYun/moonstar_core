@@ -14,12 +14,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
+var material = require("../material");
 var module_1 = require("./module");
 var ModSprite = /** @class */ (function (_super) {
     __extends(ModSprite, _super);
     function ModSprite(owner) {
         var _this = _super.call(this, owner) || this;
         _this.name = ModSprite.NAME;
+        _this.material = new material.Material(material.MaterialType.SPRITE);
         return _this;
     }
     ModSprite.prototype.getTotalVtxCount = function () {

@@ -13,7 +13,12 @@ export declare enum BlendFactor {
 export declare enum BlendOp {
     ADD = 0
 }
+export declare enum MaterialType {
+    UNDEFINED = 0,
+    SPRITE = 1
+}
 export declare class Material {
+    type: MaterialType | number;
     color: number;
     texturePath: string;
     srcColorBlendFactor: BlendFactor;
@@ -22,4 +27,5 @@ export declare class Material {
     srcAlphaBlendFactor: BlendFactor;
     dstAlphaBlendFactor: BlendFactor;
     alphaBlendOp: BlendOp;
+    constructor(type?: MaterialType | number);
 }
