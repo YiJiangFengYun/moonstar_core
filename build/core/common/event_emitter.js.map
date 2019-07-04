@@ -1,1 +1,1 @@
-{"version":3,"file":"event_emitter.js","sourceRoot":"","sources":["../../../src/common/event_emitter.ts"],"names":[],"mappings":";AAAA;;;GAGG"}
+{"version":3,"file":"event_emitter.js","sourceRoot":"","sources":["../../../core/common/event_emitter.ts"],"names":[],"mappings":";AAAA;;;GAGG"}
