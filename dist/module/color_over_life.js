@@ -26,6 +26,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
 var module_1 = require("./module");
+var spawn_1 = require("./spawn");
 var ModColorOverLife = /** @class */ (function (_super) {
     __extends(ModColorOverLife, _super);
     function ModColorOverLife(owner) {
@@ -33,6 +34,7 @@ var ModColorOverLife = /** @class */ (function (_super) {
         _this.name = ModColorOverLife.NAME;
         _this.beginColor = { r: 0, g: 0, b: 0, a: 0 };
         _this.endColor = { r: 0, g: 0, b: 0, a: 0 };
+        owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModColorOverLife.prototype.init = function (info) {
@@ -71,6 +73,14 @@ var ModColorOverLife = /** @class */ (function (_super) {
             color.g = beginColorG + (endColorG - beginColorG) * (particle_1.time / particle_1.life);
             color.b = beginColorB + (endColorB - beginColorB) * (particle_1.time / particle_1.life);
             color.a = beginColorA + (endColorA - beginColorA) * (particle_1.time / particle_1.life);
+        }
+    };
+    ModColorOverLife.prototype._onCreateParticle = function (particle) {
+        if (particle.color) {
+            common.copyColor(this.beginColor, particle.color);
+        }
+        else {
+            particle.color = __assign({}, this.beginColor);
         }
     };
     ModColorOverLife.NAME = "color_over_life";

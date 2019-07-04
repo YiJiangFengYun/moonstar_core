@@ -25,3 +25,10 @@ export const ZERO: Color = {
     b: 0,
     a: 0,
 };
+
+export function copyColor(src: Color, tgt: Color) {
+    tgt.r = src.r;
+    tgt.g = src.g;
+    tgt.b = src.b;
+    tgt.a = src.a;
+}

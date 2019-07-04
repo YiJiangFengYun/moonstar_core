@@ -12,7 +12,19 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var common = require("../common");
 var module_1 = require("./module");
 var spawn_1 = require("./spawn");
 var ModSizeConstant = /** @class */ (function (_super) {
@@ -31,7 +43,12 @@ var ModSizeConstant = /** @class */ (function (_super) {
         size.y = info.height || 0;
     };
     ModSizeConstant.prototype._onCreateParticle = function (particle) {
-        particle.size = this.size;
+        if (particle.size) {
+            common.copyVector(this.size, particle.size);
+        }
+        else {
+            particle.size = __assign({}, this.size);
+        }
     };
     ModSizeConstant.NAME = "initial_size";
     return ModSizeConstant;

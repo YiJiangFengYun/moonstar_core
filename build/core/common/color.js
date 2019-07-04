@@ -18,4 +18,11 @@ exports.ZERO = {
     b: 0,
     a: 0,
 };
+function copyColor(src, tgt) {
+    tgt.r = src.r;
+    tgt.g = src.g;
+    tgt.b = src.b;
+    tgt.a = src.a;
+}
+exports.copyColor = copyColor;
 //# sourceMappingURL=color.js.map

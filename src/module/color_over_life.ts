@@ -1,6 +1,8 @@
 import * as common from "../common";
 import * as particle from "../particle";
 import { Module, IEmitter } from "./module";
+import { EVENT_CREATE_PARTICLE } from "./spawn";
+import { Particle } from "../particle";
 
 export interface ParticleSpecial extends particle.Particle {
     time?: number;
@@ -16,6 +18,7 @@ export class ModColorOverLife extends Module {
         this.name = ModColorOverLife.NAME;
         this.beginColor = { r: 0, g: 0, b: 0, a: 0 };
         this.endColor = { r: 0, g: 0, b: 0, a: 0 };
+        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -54,6 +57,14 @@ export class ModColorOverLife extends Module {
             color.g = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
             color.b = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);
             color.a = beginColorA + (endColorA - beginColorA) * (particle.time / particle.life);
+        }
+    }
+
+    private _onCreateParticle(particle: Particle) {
+        if (particle.color) {
+            common.copyColor(this.beginColor, particle.color);
+        } else {
+            particle.color = { ...this.beginColor };
         }
     }
 }

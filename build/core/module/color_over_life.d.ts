@@ -12,4 +12,5 @@ export declare class ModColorOverLife extends Module {
     constructor(owner: IEmitter);
     init(info: any): void;
     update(): void;
+    private _onCreateParticle;
 }

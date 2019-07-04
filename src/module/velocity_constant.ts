@@ -28,7 +28,7 @@ export class ModVelocityConstant extends Module {
         if (particle.velocity) {
             common.copyVector(this.velocity, particle.velocity);
         } else {
-            particle.velocity = common.cloneVector(this.velocity);
+            particle.velocity = { ...this.velocity };
         }
          
     }

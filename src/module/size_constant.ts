@@ -21,6 +21,10 @@ export class ModSizeConstant extends Module {
     }
 
     private _onCreateParticle(particle: particle.Particle) {
-        particle.size = this.size;
+        if (particle.size) {
+            common.copyVector(this.size, particle.size);
+        } else {
+            particle.size = { ...this.size };
+        }
     }
 }

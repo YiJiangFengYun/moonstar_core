@@ -7,3 +7,4 @@ export interface Color {
 export declare const WHITE: Color;
 export declare const BLACK: Color;
 export declare const ZERO: Color;
+export declare function copyColor(src: Color, tgt: Color): void;
