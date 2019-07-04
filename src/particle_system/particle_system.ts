@@ -4,14 +4,6 @@ import * as emitter from "../emitter";
 import * as render from "../render";
 import { Emitter } from "../emitter";
 
-export interface ParticleSystem {
-    drawData: render.DrawData;
-    emitters: emitter.Emitter[];
-
-    update(dt: number):void;
-    render(): void;
-}
-
 function doRender(emitters: emitter.Emitter[], emitterCount: number, drawData: render.DrawData) {
     emitterCount = emitterCount || 0;
     let totalVtxCount = 0;
