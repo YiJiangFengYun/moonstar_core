@@ -5,6 +5,7 @@ export declare class ModSprite extends Module implements ModRender {
     static NAME: string;
     material: material.Material;
     constructor(owner: IEmitter);
+    init(info: any): void;
     getTotalVtxCount(): number;
     getTotalIdxCount(): number;
     fillBuffers(drawData: render.DrawData, offsets: {

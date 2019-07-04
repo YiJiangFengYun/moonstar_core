@@ -8,7 +8,7 @@ export declare class ModLifeTime extends Module {
     static NAME: string;
     life: number;
     constructor(owner: IEmitter);
-    init(): void;
+    init(info: any): void;
     update(dt: number): void;
     private _deleteParticle;
     private _onCreateParticle;

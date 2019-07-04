@@ -16,8 +16,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
 var common = require("../common");
 var render = require("../render");
-function doRender(emitters, drawData) {
-    var emitterCount = emitters.length;
+var emitter_1 = require("../emitter");
+function doRender(emitters, emitterCount, drawData) {
+    emitterCount = emitterCount || 0;
     var totalVtxCount = 0;
     var totalIdxCount = 0;
     //Get totalVtxCount and totalIdxCount.
@@ -61,13 +62,27 @@ var ParticleSystem = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.drawData = new render.DrawData();
         _this.emitters = [];
+        _this.emitterCount = 0;
         return _this;
     }
+    ParticleSystem.prototype.init = function (info) {
+        var newCount = info.emitters ? info.emitters.length : 0;
+        this.emitterCount = newCount;
+        var emitters = this.emitters;
+        if (emitters.length < newCount) {
+            emitters.length = newCount;
+        }
+        for (var i = 0; i < newCount; ++i) {
+            if (!emitters[i])
+                emitters[i] = new emitter_1.Emitter();
+            emitters[i].init(info.emitters[i]);
+        }
+    };
     ParticleSystem.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);
     };
     ParticleSystem.prototype.render = function () {
-        doRender(this.emitters, this.drawData);
+        doRender(this.emitters, this.emitterCount, this.drawData);
     };
     return ParticleSystem;
 }(common.Player));

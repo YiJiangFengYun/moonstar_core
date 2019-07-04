@@ -1,3 +1,4 @@
+import * as common from "../common";
 export declare enum BlendFactor {
     ZERO = 0,
     ONE = 1,
@@ -19,13 +20,11 @@ export declare enum MaterialType {
 }
 export declare class Material {
     type: MaterialType | number;
-    color: number;
+    color: common.Color;
     texturePath: string;
-    srcColorBlendFactor: BlendFactor;
-    dstColorBlendFactor: BlendFactor;
-    colorBlendOp: BlendOp;
-    srcAlphaBlendFactor: BlendFactor;
-    dstAlphaBlendFactor: BlendFactor;
-    alphaBlendOp: BlendOp;
+    srcBlendFactor: BlendFactor;
+    dstBlendFactor: BlendFactor;
+    blendOp: BlendOp;
     constructor(type?: MaterialType | number);
+    init(info: any): void;
 }

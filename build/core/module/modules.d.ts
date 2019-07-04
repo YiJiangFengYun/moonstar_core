@@ -1,10 +1,14 @@
+import { Module } from "./module";
 import { ModSprite } from "./sprite";
 import { ModSpawn } from "./spawn";
 import { ModInitialSize } from "./initial_size";
 import { ModInitialVelocity } from "./Initial_velocity";
 import { ModLifeTime } from "./life_time";
 import { ModColorOverLife } from "./color_over_life";
-export declare var moduleGroup: {
+export declare const mapModules: {
+    [name: string]: typeof Module;
+};
+export declare const moduleGroup: {
     sprite: ({
         module: typeof ModSprite;
         required: boolean;
@@ -52,3 +56,4 @@ export declare var moduleGroup: {
         default: boolean;
     })[];
 };
+export declare const renderModules: typeof Module[];

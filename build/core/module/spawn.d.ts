@@ -5,7 +5,7 @@ export declare class ModSpawn extends Module {
     interval: number;
     private _remainTime;
     constructor(owner: IEmitter);
-    init(): void;
+    init(info: any): void;
     update(dt: number): void;
     private _createParticle;
 }

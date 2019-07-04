@@ -20,11 +20,16 @@ var ModInitialVelocity = /** @class */ (function (_super) {
     __extends(ModInitialVelocity, _super);
     function ModInitialVelocity(owner) {
         var _this = _super.call(this, owner) || this;
+        _this.velocity = {};
         _this.name = ModInitialVelocity.NAME;
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
-    ModInitialVelocity.prototype.init = function () {
+    ModInitialVelocity.prototype.init = function (info) {
+        _super.prototype.init.call(this, info);
+        var vel = this.velocity;
+        vel.x = info.x;
+        vel.y = info.y;
     };
     ModInitialVelocity.prototype._onCreateParticle = function (particle) {
         if (particle.velocity) {

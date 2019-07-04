@@ -23,8 +23,10 @@ var ModSpawn = /** @class */ (function (_super) {
         _this.name = ModSpawn.NAME;
         return _this;
     }
-    ModSpawn.prototype.init = function () {
+    ModSpawn.prototype.init = function (info) {
+        _super.prototype.init.call(this, info);
         this._remainTime = 0;
+        this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
     };
     ModSpawn.prototype.update = function (dt) {
         if (this.interval) {

@@ -4,6 +4,6 @@ export declare class ModInitialSize extends Module {
     static NAME: string;
     size: common.Vector;
     constructor(owner: IEmitter);
-    init(): void;
+    init(info: any): void;
     private _onCreateParticle;
 }

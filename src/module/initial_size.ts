@@ -13,7 +13,11 @@ export class ModInitialSize extends Module {
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 
-    public init() {
+    public init(info: any) {
+        super.init(info);
+        let size = this.size;
+        size.x = info.width || 0;
+        size.y = info.height || 0;
     }
 
     private _onCreateParticle(particle: particle.Particle) {

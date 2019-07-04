@@ -12,8 +12,10 @@ export class ModSpawn extends Module {
         this.name = ModSpawn.NAME;
     }
 
-    public init() {
+    public init(info: any) {
+        super.init(info);
         this._remainTime = 0;
+        this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
     }
 
     public update(dt: number) {

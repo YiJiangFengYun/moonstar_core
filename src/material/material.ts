@@ -36,4 +36,14 @@ export class Material {
     public constructor(type?: MaterialType | number) {
         this.type = type;
     }
+
+    public init(info: any) {
+        this.color.r = info.r || 1;
+        this.color.g = info.g || 1;
+        this.color.b = info.b || 1;
+        this.texturePath = info.texturePath;
+        this.srcBlendFactor = info.srcBlendFactor || BlendFactor.SRC_ALPHA;
+        this.dstBlendFactor = info.dstBlendFactor || BlendFactor.ONE_MINUS_SRC_ALPHA;
+        this.blendOp = info.blendOp || BlendOp.ADD;
+    }
 }

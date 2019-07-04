@@ -14,10 +14,22 @@ export class ModColorOverLife extends Module {
     public constructor(owner: IEmitter) {
         super(owner);
         this.name = ModColorOverLife.NAME;
+        this.beginColor = { r: 0, g: 0, b: 0, a: 0 };
+        this.endColor = { r: 0, g: 0, b: 0, a: 0 };
     }
 
-    public init() {
-
+    public init(info: any) {
+        super.init(info);
+        let beginColor = this.beginColor;
+        let endColor = this.endColor;
+        beginColor.r = info.beginColorR;
+        beginColor.g = info.beginColorG;
+        beginColor.b = info.beginColorB;
+        beginColor.a = info.beginColorA;
+        endColor.r = info.endColorR;
+        endColor.g = info.endColorG;
+        endColor.b = info.endColorB;
+        endColor.a = info.endColorA;
     }
 
     public update() {

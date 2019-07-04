@@ -3,7 +3,7 @@ import * as material from "../material";
 import * as particle from "../particle";
 import * as render from "../render";
 export interface IModule {
-    init(): void;
+    init(info: any): void;
     update(dt: number): void;
 }
 export interface IEmitter extends common.EventEmitter {
@@ -22,7 +22,7 @@ export declare class Module implements IModule {
     name: string;
     owner: IEmitter;
     constructor(owner: IEmitter);
-    init(): void;
+    init(info: any): void;
     update(dt: number): void;
 }
 export interface ModRender {

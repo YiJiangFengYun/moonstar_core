@@ -18,7 +18,9 @@ export class ModLifeTime extends Module {
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 
-    public init() {
+    public init(info: any) {
+        super.init(info);
+        this.life = info.life;
     }
 
     public update(dt: number) {

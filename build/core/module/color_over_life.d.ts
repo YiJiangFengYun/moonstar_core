@@ -10,6 +10,6 @@ export declare class ModColorOverLife extends Module {
     beginColor: common.Color;
     endColor: common.Color;
     constructor(owner: IEmitter);
-    init(): void;
+    init(info: any): void;
     update(): void;
 }

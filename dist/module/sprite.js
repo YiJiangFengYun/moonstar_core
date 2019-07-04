@@ -24,6 +24,10 @@ var ModSprite = /** @class */ (function (_super) {
         _this.material = new material.Material(material.MaterialType.SPRITE);
         return _this;
     }
+    ModSprite.prototype.init = function (info) {
+        _super.prototype.init.call(this, info);
+        this.material.init(info);
+    };
     ModSprite.prototype.getTotalVtxCount = function () {
         var owner = this.owner;
         var particleCount = owner.particleCount;

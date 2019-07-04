@@ -4,7 +4,7 @@ import * as particle from "../particle";
 import * as render from "../render";
 
 export interface IModule {
-    init(): void;
+    init(info: any): void;
     update(dt: number): void;
 }
 
@@ -29,7 +29,7 @@ export class Module implements IModule {
         this.owner = owner;
     }
 
-    public init(): void {
+    public init(info: any): void {
 
     }
 

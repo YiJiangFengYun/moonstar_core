@@ -24,7 +24,9 @@ var ModLifeTime = /** @class */ (function (_super) {
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
-    ModLifeTime.prototype.init = function () {
+    ModLifeTime.prototype.init = function (info) {
+        _super.prototype.init.call(this, info);
+        this.life = info.life;
     };
     ModLifeTime.prototype.update = function (dt) {
         var owner = this.owner;

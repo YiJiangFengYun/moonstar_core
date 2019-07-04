@@ -31,9 +31,22 @@ var ModColorOverLife = /** @class */ (function (_super) {
     function ModColorOverLife(owner) {
         var _this = _super.call(this, owner) || this;
         _this.name = ModColorOverLife.NAME;
+        _this.beginColor = { r: 0, g: 0, b: 0, a: 0 };
+        _this.endColor = { r: 0, g: 0, b: 0, a: 0 };
         return _this;
     }
-    ModColorOverLife.prototype.init = function () {
+    ModColorOverLife.prototype.init = function (info) {
+        _super.prototype.init.call(this, info);
+        var beginColor = this.beginColor;
+        var endColor = this.endColor;
+        beginColor.r = info.beginColorR;
+        beginColor.g = info.beginColorG;
+        beginColor.b = info.beginColorB;
+        beginColor.a = info.beginColorA;
+        endColor.r = info.endColorR;
+        endColor.g = info.endColorG;
+        endColor.b = info.endColorB;
+        endColor.a = info.endColorA;
     };
     ModColorOverLife.prototype.update = function () {
         var owner = this.owner;

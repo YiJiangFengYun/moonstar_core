@@ -14,6 +14,11 @@ export class ModSprite extends Module implements ModRender {
         this.material = new material.Material(material.MaterialType.SPRITE);
     }
 
+    public init(info: any) {
+        super.init(info);
+        this.material.init(info);
+    }
+
     public getTotalVtxCount(): number {
         let owner = this.owner;
         let particleCount = owner.particleCount;

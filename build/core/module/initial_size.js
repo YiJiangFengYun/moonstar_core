@@ -24,7 +24,11 @@ var ModInitialSize = /** @class */ (function (_super) {
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
-    ModInitialSize.prototype.init = function () {
+    ModInitialSize.prototype.init = function (info) {
+        _super.prototype.init.call(this, info);
+        var size = this.size;
+        size.x = info.width || 0;
+        size.y = info.height || 0;
     };
     ModInitialSize.prototype._onCreateParticle = function (particle) {
         particle.size = this.size;

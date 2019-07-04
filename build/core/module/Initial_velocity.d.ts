@@ -8,6 +8,6 @@ export declare class ModInitialVelocity extends Module {
     static NAME: string;
     velocity: common.Vector;
     constructor(owner: IEmitter);
-    init(): void;
+    init(info: any): void;
     private _onCreateParticle;
 }

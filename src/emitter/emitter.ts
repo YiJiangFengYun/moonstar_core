@@ -1,8 +1,16 @@
+import * as log from "loglevel";
 import * as common from "../common";
 import * as module from "../module";
 import * as particle from "../particle";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
+
+export interface EmitterInfo {
+    maxParticleCount?: number;
+    modules?: ( {
+        name: string;
+    } | any)[];
+}
 
 export class Emitter extends common.Player implements module.IEmitter {
     public particles: particle.Particle[] = [];
@@ -14,9 +22,28 @@ export class Emitter extends common.Player implements module.IEmitter {
     public useLocalSpace: boolean;
 
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
-    public constructor(maxParticleCount?: number) {
+    public constructor() {
         super();
-        this._maxParticleCount = maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+    }
+
+    public init(info: EmitterInfo) {
+        this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        let modules = this.modules;
+        let newModCount = info.modules ? info.modules.length : 0;
+        modules.length = newModCount;
+        for (let i = 0; i < newModCount; ++i) {
+            let moduleClass = module.mapModules[info.modules[i].name];
+            if (! moduleClass) throw new Error(`The module ${info.modules[i].name} is invalid.`);
+            modules[i] = new moduleClass(this);
+            modules[i].init(info.modules[i]);
+            if (module.renderModules.indexOf(moduleClass) > 0) {
+                if (this.renderModule) {
+                    log.warn(`There multiple render modules applied to the emitter.`);
+                }
+                this.renderModule = modules[i] as any as module.ModRender;
+            }
+        }
+        this.stop();
     }
 
     public get maxParticleCount() {
@@ -36,5 +63,10 @@ export class Emitter extends common.Player implements module.IEmitter {
                 mod.update(dt);
             });
         }
+    }
+
+    public stop() {
+        super.stop();
+        this.particleCount = 0;
     }
 }

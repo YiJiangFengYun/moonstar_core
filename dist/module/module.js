@@ -4,7 +4,7 @@ var Module = /** @class */ (function () {
     function Module(owner) {
         this.owner = owner;
     }
-    Module.prototype.init = function () {
+    Module.prototype.init = function (info) {
     };
     Module.prototype.update = function (dt) {
     };

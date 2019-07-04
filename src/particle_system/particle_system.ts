@@ -2,6 +2,7 @@ import * as log from "loglevel";
 import * as common from "../common";
 import * as emitter from "../emitter";
 import * as render from "../render";
+import { Emitter } from "../emitter";
 
 export interface ParticleSystem {
     drawData: render.DrawData;
@@ -11,8 +12,8 @@ export interface ParticleSystem {
     render(): void;
 }
 
-function doRender(emitters: emitter.Emitter[], drawData: render.DrawData) {
-    let emitterCount = emitters.length;
+function doRender(emitters: emitter.Emitter[], emitterCount: number, drawData: render.DrawData) {
+    emitterCount = emitterCount || 0;
     let totalVtxCount = 0;
     let totalIdxCount = 0;
     //Get totalVtxCount and totalIdxCount.
@@ -51,12 +52,32 @@ function doRender(emitters: emitter.Emitter[], drawData: render.DrawData) {
     }
 }
 
+export interface ParticleSystemInfo {
+    emitters: {
+        maxParticleCount?: number;
+    }[]
+}
+
 export class ParticleSystem extends common.Player implements ParticleSystem {
     public drawData: render.DrawData = new render.DrawData();
     public emitters: emitter.Emitter[] = [];
+    public emitterCount: number = 0;
     
     public constructor() {
         super();
+    }
+
+    public init(info: ParticleSystemInfo) {
+        let newCount = info.emitters ? info.emitters.length : 0;
+        this.emitterCount = newCount;
+        let emitters = this.emitters;
+        if (emitters.length < newCount) {
+            emitters.length = newCount;
+        }
+        for (let i = 0; i < newCount; ++i) {
+            if (! emitters[i]) emitters[i] = new Emitter();
+            emitters[i].init(info.emitters[i]);
+        }
     }
 
     public update(dt: number):void {
@@ -64,7 +85,7 @@ export class ParticleSystem extends common.Player implements ParticleSystem {
     }
 
     public render(): void {
-        doRender(this.emitters, this.drawData);
+        doRender(this.emitters, this.emitterCount, this.drawData);
     }
 
     // public _createEmitter() {
