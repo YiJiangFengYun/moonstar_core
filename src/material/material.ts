@@ -29,12 +29,9 @@ export class Material {
     public type: MaterialType | number;
     public color: common.Color = { ...common.WHITE };
     public texturePath: string;
-    public srcColorBlendFactor = BlendFactor.SRC_ALPHA;
-    public dstColorBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
-    public colorBlendOp = BlendOp.ADD;
-    public srcAlphaBlendFactor = BlendFactor.SRC_ALPHA;
-    public dstAlphaBlendFactor = BlendFactor.DST_ALPHA;
-    public alphaBlendOp = BlendOp.ADD;
+    public srcBlendFactor = BlendFactor.SRC_ALPHA;
+    public dstBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
+    public blendOp = BlendOp.ADD;
 
     public constructor(type?: MaterialType | number) {
         this.type = type;
