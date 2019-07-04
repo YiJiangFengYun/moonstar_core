@@ -38,6 +38,12 @@ var ModSprite = /** @class */ (function (_super) {
         var particleCount = owner.particleCount;
         return particleCount * 6;
     };
+    ModSprite.prototype.getMaxVtxCount = function () {
+        return this.owner.maxParticleCount * 4;
+    };
+    ModSprite.prototype.getMaxIdxCount = function () {
+        return this.owner.maxParticleCount * 6;
+    };
     ModSprite.prototype.fillBuffers = function (drawData, offsets) {
         var owner = this.owner;
         var particles = owner.particles;

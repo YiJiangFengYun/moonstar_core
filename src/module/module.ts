@@ -47,6 +47,10 @@ export interface ModRender {
 
     getTotalIdxCount(): number;
 
+    getMaxVtxCount(): number;
+
+    getMaxIdxCount(): number;
+
     fillBuffers(drawData: render.DrawData, offsets: {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;

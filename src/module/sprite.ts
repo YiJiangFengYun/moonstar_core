@@ -31,6 +31,14 @@ export class ModSprite extends Module implements ModRender {
         return particleCount * 6;
     }
 
+    public getMaxVtxCount(): number {
+        return this.owner.maxParticleCount * 4;
+    }
+
+    public getMaxIdxCount(): number {
+        return this.owner.maxParticleCount * 6;
+    }
+
     public fillBuffers(drawData: render.DrawData, offsets: {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;

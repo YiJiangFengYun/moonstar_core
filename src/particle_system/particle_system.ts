@@ -16,18 +16,27 @@ function doRender(emitters: emitter.Emitter[], emitterCount: number, drawData: r
     emitterCount = emitterCount || 0;
     let totalVtxCount = 0;
     let totalIdxCount = 0;
+    let maxVtxCount = 0;
+    let maxIdxCount = 0;
     //Get totalVtxCount and totalIdxCount.
     for (let i = 0; i < emitterCount; ++i) {
         let eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
             totalVtxCount += eRenderCpt.getTotalVtxCount();
             totalIdxCount += eRenderCpt.getTotalIdxCount();
+            maxVtxCount += eRenderCpt.getMaxVtxCount();
+            maxIdxCount += eRenderCpt.getMaxIdxCount();
         } else {
             log.warn("The emitter don't own a render component.");
         }
     }
     //Reset draw data.
-    drawData.init(totalVtxCount, totalIdxCount);
+    drawData.init({
+        totalVtxCount: totalVtxCount,
+        totalIdxCount: totalIdxCount,
+        maxVtxCount: maxVtxCount,
+        maxIdxCount: maxIdxCount,
+    });
     let vtxBufferByteOffset: number = 0;
     let idxBufferByteOffset: number = 0;
     let lastVertexCount: number = 0;

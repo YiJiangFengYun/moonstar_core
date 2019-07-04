@@ -35,7 +35,12 @@ export declare class DrawData {
      * @param totalVtxCount
      * @param totalIdxCount
      */
-    init(totalVtxCount: number, totalIdxCount: number): void;
+    init(info: {
+        totalVtxCount: number;
+        totalIdxCount: number;
+        maxVtxCount: number;
+        maxIdxCount: number;
+    }): void;
     /**
      * Fill a vertex data to vertex buffer.
      * @param data

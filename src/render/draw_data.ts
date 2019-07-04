@@ -97,15 +97,26 @@ export class DrawData {
      * @param totalVtxCount 
      * @param totalIdxCount 
      */
-    public init(totalVtxCount: number, totalIdxCount: number) {
-        this.totalVtxCount = totalVtxCount;
-        this.totalIdxCount = totalIdxCount;
+    public init(info: {
+        totalVtxCount: number;
+        totalIdxCount: number;
+        maxVtxCount: number;
+        maxIdxCount: number;
+    }) {
+        this.totalVtxCount = info.totalVtxCount;
+        this.totalIdxCount = info.totalIdxCount;
         let vtxSize = this.vtxSize;
         let idxSize = this.idxSize;
-        this.vtxBuffer = new ArrayBuffer(vtxSize * totalVtxCount);
-        this.vtxBufferView = new DataView(this.vtxBuffer);
-        this.idxBuffer = new ArrayBuffer(idxSize * totalIdxCount);
-        this.idxBufferView = new DataView(this.idxBuffer);
+        let bufferSize = vtxSize * info.maxVtxCount;
+        if (! this.vtxBuffer || this.vtxBuffer.byteLength < bufferSize) {
+            this.vtxBuffer = new ArrayBuffer(bufferSize);
+            this.vtxBufferView = new DataView(this.vtxBuffer);
+        }
+        bufferSize = idxSize * info.maxIdxCount;
+        if (! this.idxBuffer || this.idxBuffer.byteLength < bufferSize) {
+            this.idxBuffer = new ArrayBuffer(bufferSize);
+            this.idxBufferView = new DataView(this.idxBuffer);
+        }
         this.cmdCount = 0;
     }
 

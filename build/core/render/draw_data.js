@@ -62,15 +62,21 @@ var DrawData = /** @class */ (function () {
      * @param totalVtxCount
      * @param totalIdxCount
      */
-    DrawData.prototype.init = function (totalVtxCount, totalIdxCount) {
-        this.totalVtxCount = totalVtxCount;
-        this.totalIdxCount = totalIdxCount;
+    DrawData.prototype.init = function (info) {
+        this.totalVtxCount = info.totalVtxCount;
+        this.totalIdxCount = info.totalIdxCount;
         var vtxSize = this.vtxSize;
         var idxSize = this.idxSize;
-        this.vtxBuffer = new ArrayBuffer(vtxSize * totalVtxCount);
-        this.vtxBufferView = new DataView(this.vtxBuffer);
-        this.idxBuffer = new ArrayBuffer(idxSize * totalIdxCount);
-        this.idxBufferView = new DataView(this.idxBuffer);
+        var bufferSize = vtxSize * info.maxVtxCount;
+        if (!this.vtxBuffer || this.vtxBuffer.byteLength < bufferSize) {
+            this.vtxBuffer = new ArrayBuffer(bufferSize);
+            this.vtxBufferView = new DataView(this.vtxBuffer);
+        }
+        bufferSize = idxSize * info.maxIdxCount;
+        if (!this.idxBuffer || this.idxBuffer.byteLength < bufferSize) {
+            this.idxBuffer = new ArrayBuffer(bufferSize);
+            this.idxBufferView = new DataView(this.idxBuffer);
+        }
         this.cmdCount = 0;
     };
     /**

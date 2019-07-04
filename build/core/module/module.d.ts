@@ -29,6 +29,8 @@ export interface ModRender {
     material: material.Material;
     getTotalVtxCount(): number;
     getTotalIdxCount(): number;
+    getMaxVtxCount(): number;
+    getMaxIdxCount(): number;
     fillBuffers(drawData: render.DrawData, offsets: {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;

@@ -21,19 +21,28 @@ function doRender(emitters, emitterCount, drawData) {
     emitterCount = emitterCount || 0;
     var totalVtxCount = 0;
     var totalIdxCount = 0;
+    var maxVtxCount = 0;
+    var maxIdxCount = 0;
     //Get totalVtxCount and totalIdxCount.
     for (var i = 0; i < emitterCount; ++i) {
         var eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
             totalVtxCount += eRenderCpt.getTotalVtxCount();
             totalIdxCount += eRenderCpt.getTotalIdxCount();
+            maxVtxCount += eRenderCpt.getMaxVtxCount();
+            maxIdxCount += eRenderCpt.getMaxIdxCount();
         }
         else {
             log.warn("The emitter don't own a render component.");
         }
     }
     //Reset draw data.
-    drawData.init(totalVtxCount, totalIdxCount);
+    drawData.init({
+        totalVtxCount: totalVtxCount,
+        totalIdxCount: totalIdxCount,
+        maxVtxCount: maxVtxCount,
+        maxIdxCount: maxIdxCount,
+    });
     var vtxBufferByteOffset = 0;
     var idxBufferByteOffset = 0;
     var lastVertexCount = 0;
