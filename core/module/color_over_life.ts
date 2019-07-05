@@ -16,8 +16,8 @@ export class ModColorOverLife extends Module {
     public constructor(owner: IEmitter) {
         super(owner);
         this.name = ModColorOverLife.NAME;
-        this.beginColor = { r: 0, g: 0, b: 0, a: 0 };
-        this.endColor = { r: 0, g: 0, b: 0, a: 0 };
+        this.beginColor = common.Color.create();
+        this.endColor = common.Color.create();
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
     }
 
@@ -25,14 +25,14 @@ export class ModColorOverLife extends Module {
         super.init(info);
         let beginColor = this.beginColor;
         let endColor = this.endColor;
-        beginColor.r = info.beginColorR;
-        beginColor.g = info.beginColorG;
-        beginColor.b = info.beginColorB;
-        beginColor.a = info.beginColorA;
-        endColor.r = info.endColorR;
-        endColor.g = info.endColorG;
-        endColor.b = info.endColorB;
-        endColor.a = info.endColorA;
+        beginColor[0] = info.beginColorR || 0;
+        beginColor[1] = info.beginColorG || 0;
+        beginColor[2] = info.beginColorB || 0;
+        beginColor[3] = info.beginColorA || 0;
+        endColor[0] = info.endColorR || 0;
+        endColor[1] = info.endColorG || 0;
+        endColor[2] = info.endColorB || 0;
+        endColor[3] = info.endColorA || 0;
     }
 
     public update() {
@@ -41,30 +41,30 @@ export class ModColorOverLife extends Module {
         let particleCount = owner.particleCount;
         let beginColor = this.beginColor || common.WHITE;
         let endColor = this.endColor || common.WHITE;
-        let beginColorR = beginColor.r;
-        let beginColorG = beginColor.g;
-        let beginColorB = beginColor.b;
-        let beginColorA = beginColor.a;
-        let endColorR = endColor.r;
-        let endColorG = endColor.g;
-        let endColorB = endColor.b;
-        let endColorA = endColor.a;
+        let beginColorR = beginColor[0];
+        let beginColorG = beginColor[1];
+        let beginColorB = beginColor[2];
+        let beginColorA = beginColor[3];
+        let endColorR = endColor[0];
+        let endColorG = endColor[1];
+        let endColorB = endColor[2];
+        let endColorA = endColor[3];
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleSpecial = particles[i];
             let color = particle.color;
-            if (! color) particle.color = color = {...common.WHITE};
-            color.r = beginColorR + (endColorR - beginColorR) * (particle.time / particle.life);
-            color.g = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
-            color.b = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);
-            color.a = beginColorA + (endColorA - beginColorA) * (particle.time / particle.life);
+            if (! color) particle.color = color = common.Color.create();
+            color[0] = beginColorR + (endColorR - beginColorR) * (particle.time / particle.life);
+            color[1] = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
+            color[2] = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);
+            color[3] = beginColorA + (endColorA - beginColorA) * (particle.time / particle.life);
         }
     }
 
     private _onCreateParticle(particle: Particle) {
         if (particle.color) {
-            common.copyColor(this.beginColor, particle.color);
+            common.Color.copy(particle.color, this.beginColor);
         } else {
-            particle.color = { ...this.beginColor };
+            particle.color = common.Color.clone(this.beginColor);
         }
     }
 }

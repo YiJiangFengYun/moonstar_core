@@ -21,26 +21,21 @@ exports.vertexInfo = [
         normalized: true,
     }
 ];
-function fillVertex(data, bufferView, byteOffset) {
+function fillVertex(data, buffer, byteOffset) {
     // Position
-    bufferView.setFloat32(byteOffset, data.posX);
-    byteOffset += 4;
-    bufferView.setFloat32(byteOffset, data.posY);
-    byteOffset += 4;
+    var float32Array = new Float32Array(buffer, byteOffset);
+    float32Array.set(data.pos);
+    byteOffset += data.pos.byteLength;
     // UV0
-    bufferView.setFloat32(byteOffset, data.uv0X);
-    byteOffset += 4;
-    bufferView.setFloat32(byteOffset, data.uv0Y);
-    byteOffset += 4;
+    float32Array.set(data.uv, data.pos.byteLength);
+    byteOffset += data.uv.byteLength;
     // Color
-    bufferView.setUint8(byteOffset, (data.colorR || 0) * 255);
-    byteOffset += 1;
-    bufferView.setUint8(byteOffset, (data.colorG || 0) * 255);
-    byteOffset += 1;
-    bufferView.setUint8(byteOffset, (data.colorB || 0) * 255);
-    byteOffset += 1;
-    bufferView.setUint8(byteOffset, (data.colorA || 0) * 255);
-    byteOffset += 1;
+    var uint8Array = new Uint8Array(buffer, byteOffset);
+    uint8Array[0] = data.color[0] * 255;
+    uint8Array[1] = data.color[1] * 255;
+    uint8Array[2] = data.color[2] * 255;
+    uint8Array[3] = data.color[3] * 255;
+    byteOffset += 4;
     return byteOffset;
 }
 exports.fillVertex = fillVertex;
@@ -70,12 +65,11 @@ var DrawData = /** @class */ (function () {
         var bufferSize = vtxSize * info.maxVtxCount;
         if (!this.vtxBuffer || this.vtxBuffer.byteLength < bufferSize) {
             this.vtxBuffer = new ArrayBuffer(bufferSize);
-            this.vtxBufferView = new DataView(this.vtxBuffer);
         }
         bufferSize = idxSize * info.maxIdxCount;
         if (!this.idxBuffer || this.idxBuffer.byteLength < bufferSize) {
             this.idxBuffer = new ArrayBuffer(bufferSize);
-            this.idxBufferView = new DataView(this.idxBuffer);
+            this.idxBufferView = new Uint32Array(this.idxBuffer);
         }
         this.cmdCount = 0;
     };
@@ -85,7 +79,7 @@ var DrawData = /** @class */ (function () {
      * @param byteOffset
      */
     DrawData.prototype.fillVertex = function (data, byteOffset) {
-        return fillVertex(data, this.vtxBufferView, byteOffset);
+        return fillVertex(data, this.vtxBuffer, byteOffset);
     };
     /**
      * Fill a index value to index buffer.
@@ -93,7 +87,7 @@ var DrawData = /** @class */ (function () {
      * @param byteOffset
      */
     DrawData.prototype.fillIndex = function (index, byteOffset) {
-        this.idxBufferView.setUint32(byteOffset, index);
+        this.idxBufferView[byteOffset / 4] = index;
         return byteOffset + 4;
     };
     DrawData.prototype.fillDrawCmd = function (drawCmd) {

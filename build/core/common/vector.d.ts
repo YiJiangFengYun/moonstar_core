@@ -1,6 +1,3 @@
-export interface Vector {
-    x?: number;
-    y?: number;
-}
-export declare function copyVector(src: Vector, target: Vector): void;
-export declare function cloneVector(src: Vector): Vector;
+import * as glMatrix from "gl-matrix";
+export declare type Vector = glMatrix.vec2;
+export declare const Vector: typeof glMatrix.vec2;

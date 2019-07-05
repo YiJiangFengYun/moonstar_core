@@ -12,17 +12,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
 var module_1 = require("./module");
@@ -31,7 +20,7 @@ var ModVelocityConstant = /** @class */ (function (_super) {
     __extends(ModVelocityConstant, _super);
     function ModVelocityConstant(owner) {
         var _this = _super.call(this, owner) || this;
-        _this.velocity = {};
+        _this.velocity = common.Vector.create();
         _this.name = ModVelocityConstant.NAME;
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
@@ -39,15 +28,15 @@ var ModVelocityConstant = /** @class */ (function (_super) {
     ModVelocityConstant.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
         var vel = this.velocity;
-        vel.x = info.x;
-        vel.y = info.y;
+        vel[0] = info.x;
+        vel[1] = info.y;
     };
     ModVelocityConstant.prototype._onCreateParticle = function (particle) {
         if (particle.velocity) {
-            common.copyVector(this.velocity, particle.velocity);
+            common.Vector.copy(particle.velocity, this.velocity);
         }
         else {
-            particle.velocity = __assign({}, this.velocity);
+            particle.velocity = common.Vector.clone(this.velocity);
         }
     };
     ModVelocityConstant.NAME = "initial_velocity";

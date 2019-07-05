@@ -1,5 +1,6 @@
 import * as common from "../common";
 import * as material from "../material";
+import { Vector, Color } from "../common";
 export const vertexInfo: common.VertexInfo = [
     {
         name: common.AttrName.POSITION, 
@@ -22,39 +23,28 @@ export const vertexInfo: common.VertexInfo = [
 ];
 
 export interface FillVertexInfo {
-    posX: number;
-    posY: number;
-    uv0X: number;
-    uv0Y: number;
-    colorR: number;
-    colorG: number;
-    colorB: number;
-    colorA: number;
+    pos: Vector;
+    uv: Vector;
+    color: Color;
 }
 
-export function fillVertex(data: FillVertexInfo, bufferView: DataView, byteOffset: number) {
+export function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset: number) {
 
     // Position
-    bufferView.setFloat32(byteOffset, data.posX);
-    byteOffset += 4;
-    bufferView.setFloat32(byteOffset, data.posY);
-    byteOffset += 4;
-
+    let float32Array = new Float32Array(buffer, byteOffset);
+    float32Array.set(data.pos);
+    byteOffset += data.pos.byteLength;
     // UV0
-    bufferView.setFloat32(byteOffset, data.uv0X);
-    byteOffset += 4;
-    bufferView.setFloat32(byteOffset, data.uv0Y);
-    byteOffset += 4;
+    float32Array.set(data.uv, data.pos.byteLength);
+    byteOffset += data.uv.byteLength;
 
     // Color
-    bufferView.setUint8(byteOffset, (data.colorR || 0) * 255);
-    byteOffset += 1;
-    bufferView.setUint8(byteOffset, (data.colorG || 0) * 255);
-    byteOffset += 1;
-    bufferView.setUint8(byteOffset, (data.colorB || 0) * 255);
-    byteOffset += 1;
-    bufferView.setUint8(byteOffset, (data.colorA || 0) * 255);
-    byteOffset += 1;
+    let uint8Array = new Uint8Array(buffer, byteOffset);
+    uint8Array[0] = data.color[0] * 255;
+    uint8Array[1] = data.color[1] * 255;
+    uint8Array[2] = data.color[2] * 255;
+    uint8Array[3] = data.color[3] * 255;
+    byteOffset += 4;
 
     return byteOffset;
 }
@@ -63,6 +53,7 @@ export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
     material: material.Material;
+    // emitterMatrix: 
 }
 
 export class DrawData {
@@ -73,9 +64,8 @@ export class DrawData {
     public totalIdxCount: number;
     //Now particle use one vertex buffer, one index buffer and one cmd list.
     public vtxBuffer: ArrayBuffer;
-    public vtxBufferView: DataView;
     public idxBuffer: ArrayBuffer;
-    public idxBufferView: DataView;
+    public idxBufferView: Uint32Array;
     public cmdList: DrawCmd[];
     public cmdCount: number;
     public constructor() {
@@ -110,12 +100,11 @@ export class DrawData {
         let bufferSize = vtxSize * info.maxVtxCount;
         if (! this.vtxBuffer || this.vtxBuffer.byteLength < bufferSize) {
             this.vtxBuffer = new ArrayBuffer(bufferSize);
-            this.vtxBufferView = new DataView(this.vtxBuffer);
         }
         bufferSize = idxSize * info.maxIdxCount;
         if (! this.idxBuffer || this.idxBuffer.byteLength < bufferSize) {
             this.idxBuffer = new ArrayBuffer(bufferSize);
-            this.idxBufferView = new DataView(this.idxBuffer);
+            this.idxBufferView = new Uint32Array(this.idxBuffer);
         }
         this.cmdCount = 0;
     }
@@ -126,7 +115,7 @@ export class DrawData {
      * @param byteOffset 
      */
     public fillVertex(data: FillVertexInfo, byteOffset: number) {
-        return fillVertex(data, this.vtxBufferView, byteOffset);
+        return fillVertex(data, this.vtxBuffer, byteOffset);
     }
 
     /**
@@ -135,7 +124,7 @@ export class DrawData {
      * @param byteOffset 
      */
     public fillIndex(index: number, byteOffset: number) {
-        this.idxBufferView.setUint32(byteOffset, index);
+        this.idxBufferView[byteOffset / 4] = index;
         return byteOffset + 4;
     }
 

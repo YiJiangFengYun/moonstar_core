@@ -54,61 +54,60 @@ var ModSprite = /** @class */ (function (_super) {
         var vtxBufferByteOffset = offsets.idxBufferByteOffset;
         var idxBufferByteOffset = offsets.idxBufferByteOffset;
         var idxValueOffset = offsets.lastVertexCount;
+        var posHelper = common.Vector.create();
+        var uvHelper = common.Vector.create();
         //Traverse all particles.
         for (var particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             var particle = particles[particleIndex];
+            var pos = particle.pos;
             var size = particle.size;
             var color = particle.color || common.WHITE;
             var angle = particle.angle || 0;
             var cos = angle ? Math.cos(angle) : 1;
             var sin = angle ? Math.sin(angle) : 0;
-            var halfW = size ? size.x / 2 : 0;
-            var halfH = size ? size.y / 2 : 0;
+            var halfW = size ? size[0] / 2 : 0;
+            var halfH = size ? size[1] / 2 : 0;
             var halfWNegative = -halfW;
             var halfHNegative = -halfH;
             //Vertex 0 left top
+            posHelper[0] = pos[0] + cos * halfWNegative - sin * halfH;
+            posHelper[1] = pos[1] + sin * halfWNegative + sin * halfH;
+            uvHelper[0] = 0;
+            uvHelper[1] = 0;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfWNegative - sin * halfH,
-                posY: sin * halfWNegative + sin * halfH,
-                uv0X: 0,
-                uv0Y: 0,
-                colorR: color.r,
-                colorG: color.g,
-                colorB: color.b,
-                colorA: color.a,
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
             //Vertex 1 right top
+            posHelper[0] = pos[0] + cos * halfW - sin * halfH;
+            posHelper[1] = pos[1] + sin * halfW + sin * halfH;
+            uvHelper[0] = 1;
+            uvHelper[1] = 0;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfW - sin * halfH,
-                posY: sin * halfW + sin * halfH,
-                uv0X: 1,
-                uv0Y: 0,
-                colorR: color.r,
-                colorG: color.g,
-                colorB: color.b,
-                colorA: color.a,
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
             //Vertex 2 left bottom
+            posHelper[0] = pos[0] + cos * halfWNegative - sin * halfHNegative;
+            posHelper[1] = pos[1] + sin * halfWNegative + sin * halfHNegative;
+            uvHelper[0] = 0;
+            uvHelper[1] = 1;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfWNegative - sin * halfHNegative,
-                posY: sin * halfWNegative + sin * halfHNegative,
-                uv0X: 0,
-                uv0Y: 1,
-                colorR: color.r,
-                colorG: color.g,
-                colorB: color.b,
-                colorA: color.a,
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
             //Vertex 3 right bottom
+            posHelper[0] = pos[0] + cos * halfW - sin * halfHNegative;
+            posHelper[1] = pos[1] + sin * halfW + sin * halfHNegative;
+            uvHelper[0] = 1;
+            uvHelper[1] = 1;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfW - sin * halfHNegative,
-                posY: sin * halfW + sin * halfHNegative,
-                uv0X: 1,
-                uv0Y: 1,
-                colorR: color.r,
-                colorG: color.g,
-                colorB: color.b,
-                colorA: color.a,
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
             //Index
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 0, idxBufferByteOffset);

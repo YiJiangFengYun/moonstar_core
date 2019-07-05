@@ -57,6 +57,9 @@ export class ModSprite extends Module implements ModRender {
         let idxBufferByteOffset = offsets.idxBufferByteOffset;
         let idxValueOffset = offsets.lastVertexCount;
 
+        let posHelper: common.Vector = common.Vector.create();
+        let uvHelper: common.Vector = common.Vector.create();
+
         //Traverse all particles.
         for (let particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             let particle = particles[particleIndex];
@@ -66,53 +69,49 @@ export class ModSprite extends Module implements ModRender {
             let angle = particle.angle || 0;
             let cos = angle ? Math.cos(angle) : 1;
             let sin = angle ? Math.sin(angle) : 0;
-            let halfW = size ? size.x / 2 : 0;
-            let halfH = size ? size.y / 2 : 0;
+            let halfW = size ? size[0] / 2 : 0;
+            let halfH = size ? size[1] / 2 : 0;
             let halfWNegative = - halfW;
             let halfHNegative = - halfH;
             //Vertex 0 left top
+            posHelper[0] = pos[0] + cos * halfWNegative - sin * halfH;
+            posHelper[1] = pos[1] + sin * halfWNegative + sin * halfH;
+            uvHelper[0] = 0;
+            uvHelper[1] = 0;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: pos.x + cos * halfWNegative - sin * halfH,
-                posY: pos.y + sin * halfWNegative + sin * halfH,
-                uv0X: 0,
-                uv0Y: 0,
-                colorR: color.r, 
-                colorG: color.g, 
-                colorB: color.b, 
-                colorA: color.a, 
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
             //Vertex 1 right top
+            posHelper[0] = pos[0] + cos * halfW - sin * halfH;
+            posHelper[1] = pos[1] + sin * halfW + sin * halfH;
+            uvHelper[0] = 1;
+            uvHelper[1] = 0;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: pos.x + cos * halfW - sin * halfH,
-                posY: pos.y + sin * halfW + sin * halfH,
-                uv0X: 1,
-                uv0Y: 0,
-                colorR: color.r, 
-                colorG: color.g, 
-                colorB: color.b, 
-                colorA: color.a, 
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
             //Vertex 2 left bottom
+            posHelper[0] = pos[0] + cos * halfWNegative - sin * halfHNegative;
+            posHelper[1] = pos[1] + sin * halfWNegative + sin * halfHNegative;
+            uvHelper[0] = 0;
+            uvHelper[1] = 1;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: pos.x + cos * halfWNegative - sin * halfHNegative,
-                posY: pos.y + sin * halfWNegative + sin * halfHNegative,
-                uv0X: 0,
-                uv0Y: 1,
-                colorR: color.r, 
-                colorG: color.g, 
-                colorB: color.b, 
-                colorA: color.a,
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
             //Vertex 3 right bottom
+            posHelper[0] = pos[0] + cos * halfW - sin * halfHNegative;
+            posHelper[1] = pos[1] + sin * halfW + sin * halfHNegative;
+            uvHelper[0] = 1;
+            uvHelper[1] = 1;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: pos.x + cos * halfW - sin * halfHNegative,
-                posY: pos.y + sin * halfW + sin * halfHNegative,
-                uv0X: 1,
-                uv0Y: 1,
-                colorR: color.r, 
-                colorG: color.g, 
-                colorB: color.b, 
-                colorA: color.a,
+                pos: posHelper,
+                uv: uvHelper,
+                color: color,
             }, vtxBufferByteOffset);
 
             //Index

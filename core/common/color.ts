@@ -1,34 +1,10 @@
-export interface Color {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
-}
+import * as glMatrix from "gl-matrix";
 
-export const WHITE: Color = {
-    r: 1,
-    g: 1,
-    b: 1,
-    a: 1,
-};
+export type Color = glMatrix.vec4;
+export const Color = glMatrix.vec4;
 
-export const BLACK: Color = {
-    r: 0,
-    g: 0,
-    b: 0,
-    a: 1,
-};
+export const WHITE: Color = glMatrix.vec4.fromValues(1, 1, 1, 1);
 
-export const ZERO: Color = {
-    r: 0,
-    g: 0,
-    b: 0,
-    a: 0,
-};
+export const BLACK: Color = glMatrix.vec4.fromValues(0, 0, 0, 1);
 
-export function copyColor(src: Color, tgt: Color) {
-    tgt.r = src.r;
-    tgt.g = src.g;
-    tgt.b = src.b;
-    tgt.a = src.a;
-}
+export const ZERO: Color = glMatrix.vec4.fromValues(0, 0, 0, 0);

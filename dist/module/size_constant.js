@@ -12,17 +12,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
 var module_1 = require("./module");
@@ -31,7 +20,7 @@ var ModSizeConstant = /** @class */ (function (_super) {
     __extends(ModSizeConstant, _super);
     function ModSizeConstant(owner) {
         var _this = _super.call(this, owner) || this;
-        _this.size = {};
+        _this.size = common.Vector.create();
         _this.name = ModSizeConstant.NAME;
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
@@ -39,15 +28,15 @@ var ModSizeConstant = /** @class */ (function (_super) {
     ModSizeConstant.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
         var size = this.size;
-        size.x = info.width || 0;
-        size.y = info.height || 0;
+        size[0] = info.width || 0;
+        size[1] = info.height || 0;
     };
     ModSizeConstant.prototype._onCreateParticle = function (particle) {
         if (particle.size) {
-            common.copyVector(this.size, particle.size);
+            common.Vector.copy(particle.size, this.size);
         }
         else {
-            particle.size = __assign({}, this.size);
+            particle.size = common.Vector.clone(this.size);
         }
     };
     ModSizeConstant.NAME = "initial_size";

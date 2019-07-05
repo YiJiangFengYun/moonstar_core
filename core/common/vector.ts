@@ -1,15 +1,4 @@
-export interface Vector {
-    x?: number;
-    y?: number;
-}
+import * as glMatrix from "gl-matrix";
 
-export function copyVector(src: Vector, target: Vector) {
-    target.x = src.x;
-    target.y = src.y;
-}
-
-export function cloneVector(src: Vector) {
-    let newVector: Vector = {} as any;
-    copyVector(src, newVector);
-    return newVector;
-}
+export type Vector = glMatrix.vec2;
+export const Vector = glMatrix.vec2;

@@ -5,7 +5,7 @@ import { EVENT_CREATE_PARTICLE } from "./spawn";
 
 export class ModSizeConstant extends Module {
     public static NAME = "initial_size";
-    public size: common.Vector = {};
+    public size: common.Vector = common.Vector.create();
 
     public constructor(owner: IEmitter) {
         super(owner);
@@ -16,15 +16,15 @@ export class ModSizeConstant extends Module {
     public init(info: any) {
         super.init(info);
         let size = this.size;
-        size.x = info.width || 0;
-        size.y = info.height || 0;
+        size[0] = info.width || 0;
+        size[1] = info.height || 0;
     }
 
     private _onCreateParticle(particle: particle.Particle) {
         if (particle.size) {
-            common.copyVector(this.size, particle.size);
+            common.Vector.copy(particle.size, this.size);
         } else {
-            particle.size = { ...this.size };
+            particle.size = common.Vector.clone(this.size);
         }
     }
 }

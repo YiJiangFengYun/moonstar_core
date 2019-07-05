@@ -27,7 +27,7 @@ export enum MaterialType {
 //class Material with members: color, texture path, and blend.
 export class Material {
     public type: MaterialType | number;
-    public color: common.Color = { ...common.WHITE };
+    public color: common.Color = common.Color.create();
     public texturePath: string;
     public srcBlendFactor = BlendFactor.SRC_ALPHA;
     public dstBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
@@ -37,6 +37,7 @@ export class Material {
     public constructor(type?: MaterialType | number) {
         this.type = type;
         this._id = common.gainID();
+        this.color.set(common.WHITE);
     }
 
     public get id() {
@@ -44,9 +45,10 @@ export class Material {
     }
 
     public init(info: any) {
-        this.color.r = info.r || 1;
-        this.color.g = info.g || 1;
-        this.color.b = info.b || 1;
+        this.color[0] = info.r || 1;
+        this.color[1] = info.g || 1;
+        this.color[2] = info.b || 1;
+        this.color[3] = info.a || 1;
         this.texturePath = info.texturePath;
         this.srcBlendFactor = info.srcBlendFactor || BlendFactor.SRC_ALPHA;
         this.dstBlendFactor = info.dstBlendFactor || BlendFactor.ONE_MINUS_SRC_ALPHA;

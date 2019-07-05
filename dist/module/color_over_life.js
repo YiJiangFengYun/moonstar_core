@@ -12,17 +12,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
 var module_1 = require("./module");
@@ -32,8 +21,8 @@ var ModColorOverLife = /** @class */ (function (_super) {
     function ModColorOverLife(owner) {
         var _this = _super.call(this, owner) || this;
         _this.name = ModColorOverLife.NAME;
-        _this.beginColor = { r: 0, g: 0, b: 0, a: 0 };
-        _this.endColor = { r: 0, g: 0, b: 0, a: 0 };
+        _this.beginColor = common.Color.create();
+        _this.endColor = common.Color.create();
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
@@ -41,14 +30,14 @@ var ModColorOverLife = /** @class */ (function (_super) {
         _super.prototype.init.call(this, info);
         var beginColor = this.beginColor;
         var endColor = this.endColor;
-        beginColor.r = info.beginColorR;
-        beginColor.g = info.beginColorG;
-        beginColor.b = info.beginColorB;
-        beginColor.a = info.beginColorA;
-        endColor.r = info.endColorR;
-        endColor.g = info.endColorG;
-        endColor.b = info.endColorB;
-        endColor.a = info.endColorA;
+        beginColor[0] = info.beginColorR || 0;
+        beginColor[1] = info.beginColorG || 0;
+        beginColor[2] = info.beginColorB || 0;
+        beginColor[3] = info.beginColorA || 0;
+        endColor[0] = info.endColorR || 0;
+        endColor[1] = info.endColorG || 0;
+        endColor[2] = info.endColorB || 0;
+        endColor[3] = info.endColorA || 0;
     };
     ModColorOverLife.prototype.update = function () {
         var owner = this.owner;
@@ -56,31 +45,31 @@ var ModColorOverLife = /** @class */ (function (_super) {
         var particleCount = owner.particleCount;
         var beginColor = this.beginColor || common.WHITE;
         var endColor = this.endColor || common.WHITE;
-        var beginColorR = beginColor.r;
-        var beginColorG = beginColor.g;
-        var beginColorB = beginColor.b;
-        var beginColorA = beginColor.a;
-        var endColorR = endColor.r;
-        var endColorG = endColor.g;
-        var endColorB = endColor.b;
-        var endColorA = endColor.a;
+        var beginColorR = beginColor[0];
+        var beginColorG = beginColor[1];
+        var beginColorB = beginColor[2];
+        var beginColorA = beginColor[3];
+        var endColorR = endColor[0];
+        var endColorG = endColor[1];
+        var endColorB = endColor[2];
+        var endColorA = endColor[3];
         for (var i = 0; i < particleCount; ++i) {
             var particle_1 = particles[i];
             var color = particle_1.color;
             if (!color)
-                particle_1.color = color = __assign({}, common.WHITE);
-            color.r = beginColorR + (endColorR - beginColorR) * (particle_1.time / particle_1.life);
-            color.g = beginColorG + (endColorG - beginColorG) * (particle_1.time / particle_1.life);
-            color.b = beginColorB + (endColorB - beginColorB) * (particle_1.time / particle_1.life);
-            color.a = beginColorA + (endColorA - beginColorA) * (particle_1.time / particle_1.life);
+                particle_1.color = color = common.Color.create();
+            color[0] = beginColorR + (endColorR - beginColorR) * (particle_1.time / particle_1.life);
+            color[1] = beginColorG + (endColorG - beginColorG) * (particle_1.time / particle_1.life);
+            color[2] = beginColorB + (endColorB - beginColorB) * (particle_1.time / particle_1.life);
+            color[3] = beginColorA + (endColorA - beginColorA) * (particle_1.time / particle_1.life);
         }
     };
     ModColorOverLife.prototype._onCreateParticle = function (particle) {
         if (particle.color) {
-            common.copyColor(this.beginColor, particle.color);
+            common.Color.copy(particle.color, this.beginColor);
         }
         else {
-            particle.color = __assign({}, this.beginColor);
+            particle.color = common.Color.clone(this.beginColor);
         }
     };
     ModColorOverLife.NAME = "color_over_life";

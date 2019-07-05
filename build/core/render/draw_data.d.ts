@@ -1,17 +1,13 @@
 import * as common from "../common";
 import * as material from "../material";
+import { Vector, Color } from "../common";
 export declare const vertexInfo: common.VertexInfo;
 export interface FillVertexInfo {
-    posX: number;
-    posY: number;
-    uv0X: number;
-    uv0Y: number;
-    colorR: number;
-    colorG: number;
-    colorB: number;
-    colorA: number;
+    pos: Vector;
+    uv: Vector;
+    color: Color;
 }
-export declare function fillVertex(data: FillVertexInfo, bufferView: DataView, byteOffset: number): number;
+export declare function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset: number): number;
 export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
@@ -24,9 +20,8 @@ export declare class DrawData {
     totalVtxCount: number;
     totalIdxCount: number;
     vtxBuffer: ArrayBuffer;
-    vtxBufferView: DataView;
     idxBuffer: ArrayBuffer;
-    idxBufferView: DataView;
+    idxBufferView: Uint32Array;
     cmdList: DrawCmd[];
     cmdCount: number;
     constructor();
