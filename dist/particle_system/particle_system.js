@@ -21,27 +21,21 @@ function doRender(emitters, emitterCount, drawData) {
     emitterCount = emitterCount || 0;
     var totalVtxCount = 0;
     var totalIdxCount = 0;
-    var maxVtxCount = 0;
-    var maxIdxCount = 0;
     //Get totalVtxCount and totalIdxCount.
     for (var i = 0; i < emitterCount; ++i) {
         var eRenderCpt = emitters[i].renderModule;
         if (eRenderCpt) {
             totalVtxCount += eRenderCpt.getTotalVtxCount();
             totalIdxCount += eRenderCpt.getTotalIdxCount();
-            maxVtxCount += eRenderCpt.getMaxVtxCount();
-            maxIdxCount += eRenderCpt.getMaxIdxCount();
         }
         else {
             log.warn("The emitter don't own a render component.");
         }
     }
-    //Reset draw data.
-    drawData.init({
+    //Update data.
+    drawData.updateData({
         totalVtxCount: totalVtxCount,
         totalIdxCount: totalIdxCount,
-        maxVtxCount: maxVtxCount,
-        maxIdxCount: maxIdxCount,
     });
     var vtxBufferByteOffset = 0;
     var idxBufferByteOffset = 0;
@@ -65,6 +59,10 @@ function doRender(emitters, emitterCount, drawData) {
         }
     }
 }
+/**
+ * Note: All emitters should be created when the ParticleSystem init.
+ * If a emitter play latter, you should stop the emitter, and then play it.
+ */
 var ParticleSystem = /** @class */ (function (_super) {
     __extends(ParticleSystem, _super);
     function ParticleSystem() {
@@ -94,6 +92,23 @@ var ParticleSystem = /** @class */ (function (_super) {
                 emitters[i] = new emitter_1.Emitter();
             emitters[i].init(info.emitters[i]);
         }
+        var maxVtxCount = 0;
+        var maxIdxCount = 0;
+        //Get totalVtxCount and totalIdxCount.
+        for (var i = 0; i < newCount; ++i) {
+            var eRenderCpt = emitters[i].renderModule;
+            if (eRenderCpt) {
+                maxVtxCount += eRenderCpt.getMaxVtxCount();
+                maxIdxCount += eRenderCpt.getMaxIdxCount();
+            }
+            else {
+                log.warn("The emitter don't own a render component.");
+            }
+        }
+        this.drawData.init({
+            maxVtxCount: maxVtxCount,
+            maxIdxCount: maxIdxCount,
+        });
     };
     ParticleSystem.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);

@@ -72,13 +72,11 @@ var DrawData = /** @class */ (function () {
         this.idxSize = common.indexSize;
     }
     /**
-     * Initialize its state and allocate the capacity of its buffers.
+     * Initialize and allocate the capacity of its buffers.
      * @param totalVtxCount
      * @param totalIdxCount
      */
     DrawData.prototype.init = function (info) {
-        this.totalVtxCount = info.totalVtxCount;
-        this.totalIdxCount = info.totalIdxCount;
         var vtxSize = this.vtxSize;
         var idxSize = this.idxSize;
         var bufferSize = vtxSize * info.maxVtxCount;
@@ -91,6 +89,10 @@ var DrawData = /** @class */ (function () {
             this.idxBufferView = new Uint32Array(this.idxBuffer);
         }
         this.cmdCount = 0;
+    };
+    DrawData.prototype.updateData = function (info) {
+        this.totalVtxCount = info.totalVtxCount;
+        this.totalIdxCount = info.totalIdxCount;
     };
     /**
      * Fill a vertex data to vertex buffer.

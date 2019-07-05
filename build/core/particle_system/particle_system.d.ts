@@ -6,6 +6,10 @@ export interface ParticleSystemInfo {
         maxParticleCount?: number;
     }[];
 }
+/**
+ * Note: All emitters should be created when the ParticleSystem init.
+ * If a emitter play latter, you should stop the emitter, and then play it.
+ */
 export declare class ParticleSystem extends common.Player {
     drawData: render.DrawData;
     emitters: emitter.Emitter[];

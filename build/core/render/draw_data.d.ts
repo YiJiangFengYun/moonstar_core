@@ -31,15 +31,17 @@ export declare class DrawData {
     cmdCount: number;
     constructor();
     /**
-     * Initialize its state and allocate the capacity of its buffers.
+     * Initialize and allocate the capacity of its buffers.
      * @param totalVtxCount
      * @param totalIdxCount
      */
     init(info: {
-        totalVtxCount: number;
-        totalIdxCount: number;
         maxVtxCount: number;
         maxIdxCount: number;
+    }): void;
+    updateData(info: {
+        totalVtxCount: number;
+        totalIdxCount: number;
     }): void;
     /**
      * Fill a vertex data to vertex buffer.

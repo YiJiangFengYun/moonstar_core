@@ -103,18 +103,14 @@ export class DrawData {
     }
 
     /**
-     * Initialize its state and allocate the capacity of its buffers.
+     * Initialize and allocate the capacity of its buffers.
      * @param totalVtxCount 
      * @param totalIdxCount 
      */
     public init(info: {
-        totalVtxCount: number;
-        totalIdxCount: number;
         maxVtxCount: number;
         maxIdxCount: number;
     }) {
-        this.totalVtxCount = info.totalVtxCount;
-        this.totalIdxCount = info.totalIdxCount;
         let vtxSize = this.vtxSize;
         let idxSize = this.idxSize;
         let bufferSize = vtxSize * info.maxVtxCount;
@@ -127,6 +123,14 @@ export class DrawData {
             this.idxBufferView = new Uint32Array(this.idxBuffer);
         }
         this.cmdCount = 0;
+    }
+
+    public updateData(info: {
+        totalVtxCount: number;
+        totalIdxCount: number;
+    }) {
+        this.totalVtxCount = info.totalVtxCount;
+        this.totalIdxCount = info.totalIdxCount;
     }
 
     /**
