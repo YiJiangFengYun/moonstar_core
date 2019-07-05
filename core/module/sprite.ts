@@ -60,6 +60,7 @@ export class ModSprite extends Module implements ModRender {
         //Traverse all particles.
         for (let particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             let particle = particles[particleIndex];
+            let pos = particle.pos;
             let size = particle.size;
             let color = particle.color || common.WHITE;
             let angle = particle.angle || 0;
@@ -71,8 +72,8 @@ export class ModSprite extends Module implements ModRender {
             let halfHNegative = - halfH;
             //Vertex 0 left top
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfWNegative - sin * halfH,
-                posY: sin * halfWNegative + sin * halfH,
+                posX: pos.x + cos * halfWNegative - sin * halfH,
+                posY: pos.y + sin * halfWNegative + sin * halfH,
                 uv0X: 0,
                 uv0Y: 0,
                 colorR: color.r, 
@@ -82,8 +83,8 @@ export class ModSprite extends Module implements ModRender {
             }, vtxBufferByteOffset);
             //Vertex 1 right top
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfW - sin * halfH,
-                posY: sin * halfW + sin * halfH,
+                posX: pos.x + cos * halfW - sin * halfH,
+                posY: pos.y + sin * halfW + sin * halfH,
                 uv0X: 1,
                 uv0Y: 0,
                 colorR: color.r, 
@@ -93,8 +94,8 @@ export class ModSprite extends Module implements ModRender {
             }, vtxBufferByteOffset);
             //Vertex 2 left bottom
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfWNegative - sin * halfHNegative,
-                posY: sin * halfWNegative + sin * halfHNegative,
+                posX: pos.x + cos * halfWNegative - sin * halfHNegative,
+                posY: pos.y + sin * halfWNegative + sin * halfHNegative,
                 uv0X: 0,
                 uv0Y: 1,
                 colorR: color.r, 
@@ -104,8 +105,8 @@ export class ModSprite extends Module implements ModRender {
             }, vtxBufferByteOffset);
             //Vertex 3 right bottom
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                posX: cos * halfW - sin * halfHNegative,
-                posY: sin * halfW + sin * halfHNegative,
+                posX: pos.x + cos * halfW - sin * halfHNegative,
+                posY: pos.y + sin * halfW + sin * halfHNegative,
                 uv0X: 1,
                 uv0Y: 1,
                 colorR: color.r, 
