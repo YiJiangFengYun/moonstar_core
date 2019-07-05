@@ -12,7 +12,10 @@ export interface IEmitter extends common.EventEmitter {
     modules: IModule[];
     maxParticleCount: number;
     origin: common.Vector;
-    rotation: common.Vector;
+    /**
+     * Angle (Radian)
+     */
+    rotation: number;
     useLocalSpace: boolean;
 }
 export declare type ModuleType = {

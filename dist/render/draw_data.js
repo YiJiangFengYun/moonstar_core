@@ -39,6 +39,25 @@ function fillVertex(data, buffer, byteOffset) {
     return byteOffset;
 }
 exports.fillVertex = fillVertex;
+exports.DrawCmd = {
+    create: function () {
+        return {
+            indexOffset: 0,
+            indexCount: 0,
+            material: null,
+            emitterMatrix: common.Matrix.create(),
+        };
+    },
+    copy: function (out, cmd) {
+        if (!out)
+            out = exports.DrawCmd.create();
+        out.indexOffset = cmd.indexOffset;
+        out.indexCount = cmd.indexCount;
+        out.material = cmd.material;
+        common.Matrix.copy(out.emitterMatrix, cmd.emitterMatrix);
+        return out;
+    }
+};
 var DrawData = /** @class */ (function () {
     function DrawData() {
         this.vertexInfo = exports.vertexInfo;
@@ -93,10 +112,10 @@ var DrawData = /** @class */ (function () {
     DrawData.prototype.fillDrawCmd = function (drawCmd) {
         var cmdList = this.cmdList;
         var cmdCount = this.cmdCount;
-        if (cmdCount >= cmdList.length) {
-            cmdList.length = 2 * cmdCount;
-        }
-        cmdList[cmdCount] = drawCmd;
+        var cmd = cmdList[cmdCount];
+        if (!cmd)
+            cmd = exports.DrawCmd.create();
+        exports.DrawCmd.copy(cmd, drawCmd);
         ++this.cmdCount;
     };
     return DrawData;

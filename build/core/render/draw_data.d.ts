@@ -12,7 +12,12 @@ export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
     material: material.Material;
+    emitterMatrix: common.Matrix;
 }
+export declare const DrawCmd: {
+    create: () => DrawCmd;
+    copy: (out: DrawCmd, cmd: DrawCmd) => DrawCmd;
+};
 export declare class DrawData {
     vertexInfo: common.VertexInfo;
     vtxSize: number;

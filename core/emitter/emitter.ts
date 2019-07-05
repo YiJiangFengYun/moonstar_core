@@ -18,7 +18,7 @@ export class Emitter extends common.Player implements module.IEmitter {
     public modules: module.Module[] = [];
     public renderModule: module.ModRender;
     public origin: common.Vector = common.Vector.create();
-    public rotation: common.Vector = common.Vector.create();
+    public rotation: number = 0;
     public useLocalSpace: boolean;
 
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;

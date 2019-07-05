@@ -15,6 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
 var material = require("../material");
+var render = require("../render");
 var module_1 = require("./module");
 var ModSprite = /** @class */ (function (_super) {
     __extends(ModSprite, _super);
@@ -56,6 +57,7 @@ var ModSprite = /** @class */ (function (_super) {
         var idxValueOffset = offsets.lastVertexCount;
         var posHelper = common.Vector.create();
         var uvHelper = common.Vector.create();
+        var cmdHelper = render.DrawCmd.create();
         //Traverse all particles.
         for (var particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             var particle = particles[particleIndex];
@@ -117,11 +119,16 @@ var ModSprite = /** @class */ (function (_super) {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 3, idxBufferByteOffset);
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
         }
-        drawData.fillDrawCmd({
-            indexOffset: offsets.lastIndexCount,
-            indexCount: particleCount * 6,
-            material: this.material,
-        });
+        cmdHelper.indexOffset = offsets.lastIndexCount;
+        cmdHelper.indexCount = particleCount * 6;
+        cmdHelper.material = this.material;
+        // common.Matrix.identity(cmdHelper.emitterMatrix);
+        // common.Matrix.rotate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.rotation);
+        // common.Matrix.translate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.origin);
+        common.Matrix.fromRotation(cmdHelper.emitterMatrix, owner.rotation);
+        common.Matrix.translate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.origin);
+        cmdHelper.emitterMatrix;
+        drawData.fillDrawCmd(cmdHelper);
     };
     ModSprite.NAME = "sprite";
     return ModSprite;

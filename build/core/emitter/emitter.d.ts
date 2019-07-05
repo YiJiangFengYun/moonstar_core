@@ -13,7 +13,7 @@ export declare class Emitter extends common.Player implements module.IEmitter {
     modules: module.Module[];
     renderModule: module.ModRender;
     origin: common.Vector;
-    rotation: common.Vector;
+    rotation: number;
     useLocalSpace: boolean;
     private _maxParticleCount;
     private _id;

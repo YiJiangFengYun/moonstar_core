@@ -59,6 +59,7 @@ export class ModSprite extends Module implements ModRender {
 
         let posHelper: common.Vector = common.Vector.create();
         let uvHelper: common.Vector = common.Vector.create();
+        let cmdHelper: render.DrawCmd = render.DrawCmd.create();
 
         //Traverse all particles.
         for (let particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
@@ -123,11 +124,18 @@ export class ModSprite extends Module implements ModRender {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
         }
 
-        drawData.fillDrawCmd({
-            indexOffset: offsets.lastIndexCount,
-            indexCount: particleCount * 6,
-            material: this.material,
-        });
+        cmdHelper.indexOffset = offsets.lastIndexCount;
+        cmdHelper.indexCount = particleCount * 6;
+        cmdHelper.material = this.material;
+
+        // common.Matrix.identity(cmdHelper.emitterMatrix);
+        // common.Matrix.rotate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.rotation);
+        // common.Matrix.translate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.origin);
+        common.Matrix.fromRotation(cmdHelper.emitterMatrix, owner.rotation);
+        common.Matrix.translate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.origin);
+
+        cmdHelper.emitterMatrix
+        drawData.fillDrawCmd(cmdHelper);
         
     }
 }

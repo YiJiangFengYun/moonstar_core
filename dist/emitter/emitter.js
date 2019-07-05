@@ -25,7 +25,7 @@ var Emitter = /** @class */ (function (_super) {
         _this.particleCount = 0;
         _this.modules = [];
         _this.origin = common.Vector.create();
-        _this.rotation = common.Vector.create();
+        _this.rotation = 0;
         _this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
         _this._id = common.gainID();
         return _this;

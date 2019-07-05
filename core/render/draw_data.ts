@@ -53,7 +53,27 @@ export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
     material: material.Material;
-    // emitterMatrix: 
+    emitterMatrix: common.Matrix;
+}
+
+export const DrawCmd = {
+    create: function(): DrawCmd {
+        return {
+            indexOffset: 0,
+            indexCount: 0,
+            material: null,
+            emitterMatrix: common.Matrix.create(),
+        };
+    },
+
+    copy: function(out: DrawCmd, cmd: DrawCmd) {
+        if (! out) out = DrawCmd.create();
+        out.indexOffset = cmd.indexOffset;
+        out.indexCount = cmd.indexCount;
+        out.material = cmd.material;
+        common.Matrix.copy(out.emitterMatrix, cmd.emitterMatrix);
+        return out;
+    }
 }
 
 export class DrawData {
@@ -131,10 +151,9 @@ export class DrawData {
     public fillDrawCmd(drawCmd: DrawCmd) {
         let cmdList = this.cmdList;
         let cmdCount = this.cmdCount;
-        if (cmdCount >= cmdList.length) {
-            cmdList.length = 2 * cmdCount;
-        }
-        cmdList[cmdCount] = drawCmd;
+        let cmd = cmdList[cmdCount];
+        if (! cmd) cmd = DrawCmd.create();
+        DrawCmd.copy(cmd, drawCmd);
         ++this.cmdCount;
     }
 }
