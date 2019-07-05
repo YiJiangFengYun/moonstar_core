@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "lib": ["es2018"],
-        "outDir": "./build/renderer/",
+        "outDir": "./build/",
         "sourceMap": true,
         "declaration": true,
         "declarationMap": false,
