@@ -2,6 +2,7 @@ import * as core from "../core";
 /**
  * A particle system class is for a draw data state of a particle system of the core.
  */
-export declare class ParticleSystem {
-    psCore: core.ParticleSystem;
-}
+
+ export class ParticleSystem {
+     public psCore: core.ParticleSystem;
+ }
