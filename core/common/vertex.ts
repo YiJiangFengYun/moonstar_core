@@ -27,5 +27,5 @@ export const valueFormatSizes = [
     1,
 ];
 
-export const indexSize = 4;
+export const indexSize = 2;
 

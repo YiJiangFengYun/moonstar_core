@@ -91,7 +91,7 @@ export class DrawData {
     //Now particle use one vertex buffer, one index buffer and one cmd list.
     public vtxBuffer: ArrayBuffer;
     public idxBuffer: ArrayBuffer;
-    public idxBufferView: Uint32Array;
+    public idxBufferView: Uint16Array;
     public cmdList: DrawCmd[];
     public cmdCount: number;
     public constructor() {
@@ -126,7 +126,7 @@ export class DrawData {
         bufferSize = idxSize * info.maxIdxCount;
         if (! this.idxBuffer || this.idxBuffer.byteLength < bufferSize) {
             this.idxBuffer = new ArrayBuffer(bufferSize);
-            this.idxBufferView = new Uint32Array(this.idxBuffer);
+            this.idxBufferView = new Uint16Array(this.idxBuffer);
         }
         this.cmdCount = 0;
     }
@@ -154,8 +154,8 @@ export class DrawData {
      * @param byteOffset 
      */
     public fillIndex(index: number, byteOffset: number) {
-        this.idxBufferView[byteOffset / 4] = index;
-        return byteOffset + 4;
+        this.idxBufferView[byteOffset / common.indexSize] = index;
+        return byteOffset + common.indexSize;
     }
 
     public fillDrawCmd(drawCmd: DrawCmd) {
