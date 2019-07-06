@@ -53,7 +53,9 @@ export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
     material: material.Material;
-    emitterMatrix: common.Matrix;
+    translationEmitter: common.Vector;
+    rotationEmitter: number;
+    scaleEmitter: common.Vector;
 }
 
 export const DrawCmd = {
@@ -62,7 +64,9 @@ export const DrawCmd = {
             indexOffset: 0,
             indexCount: 0,
             material: null,
-            emitterMatrix: common.Matrix.create(),
+            translationEmitter: common.Vector.create(),
+            rotationEmitter: 0,
+            scaleEmitter: common.Vector.fromValues(1, 1),
         };
     },
 
@@ -71,7 +75,9 @@ export const DrawCmd = {
         out.indexOffset = cmd.indexOffset;
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;
-        common.Matrix.copy(out.emitterMatrix, cmd.emitterMatrix);
+        common.Vector.copy(out.translationEmitter, cmd.translationEmitter);
+        out.rotationEmitter = cmd.rotationEmitter;
+        common.Vector.copy(out.scaleEmitter, cmd.scaleEmitter);
         return out;
     }
 }
