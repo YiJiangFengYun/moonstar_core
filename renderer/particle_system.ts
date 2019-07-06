@@ -1,24 +1,24 @@
+import * as log from "loglevel";
 import * as core from "../core";
+import * as glMatrix from "gl-matrix";
 import { context } from "./context";
 import { Material } from "./material";
+import { RenderData } from "./render_data";
+import { ParticleSystemData } from "./particle_system_data";
 /**
  * A particle system class is for a draw data state of a particle system of the core.
  */
 
 export class ParticleSystem implements core.IPlayer {
-    public psCore: core.ParticleSystem = new core.ParticleSystem();
-    public vertexBuffer: WebGLBuffer;
-    public indexBuffer: WebGLBuffer;
+    public data: ParticleSystemData = new ParticleSystemData();
     public mapMaterials: {[id: number]: Material} = {};
     public constructor() {
     }
 
     public init(info: core.ParticleSystemInfo) {
-        let psCore = this.psCore;
-        //Initialize the core particle system.
-        psCore.init(info);
-
+        this.data.init(info);
         //Initialize the map of the all materials.
+        let psCore = this.data.psCore;
         let emitters = psCore.emitters;
         let emitterCount = psCore.emitterCount;
         let mapMaterials = this.mapMaterials;
@@ -26,70 +26,64 @@ export class ParticleSystem implements core.IPlayer {
             let material = new Material();
             let renderModule = emitters[i].renderModule;
             let matCore = renderModule.material
-            material.init(matCore);
+            material.init(matCore, this.data);
             mapMaterials[matCore.id] = material;
         }
-
-        //Initialize the buffers from the draw data of the particle system.
-        this._initBuffers();
     }
 
     public update(dt: number) {
-        this.psCore.update(dt);
+        let psCore = this.data.psCore;
+        psCore.update(dt);
     }
 
     public render() {
-        this.psCore.render();
+        let psCore = this.data.psCore;
+        psCore.render();
         this._draw();
     }
 
     public play(): void {
-        return this.psCore.play();
+        return this.data.psCore.play();
     }
 
     public pause(): void {
-        return this.psCore.pause();
+        return this.data.psCore.pause();
     }
 
     public stop(): void {
-        return this.psCore.stop();
+        return this.data.psCore.stop();
     }
 
     public get elapsedTime() {
-        return this.psCore.elapsedTime;
+        return this.data.psCore.elapsedTime;
     }
 
     public get isPlay() {
-        return this.psCore.isPlay;
+        return this.data.psCore.isPlay;
+    }
+
+    public _setRenderData(renderData: RenderData) {
+        this.data.renderData = renderData;
     }
 
     private _draw() {
-
+        let renderData = this.data.renderData;
+        if (! renderData) {
+            log.error(`The render data of the particle system is invalid.`);
+            return;
+        }
+        let data = this.data;
+        let psCore = data.psCore;
+        let drawData = psCore.drawData;
+        let cmdList = drawData.cmdList;
+        let cmdCount = drawData.cmdCount;
+        let mapMaterials = this.mapMaterials;
+        for (let i = 0; i < cmdCount; ++i) {
+            let cmd = cmdList[i];
+            let material = mapMaterials[cmd.material.type];
+            material.render(cmd.emitterMatrix, cmd.indexOffset, cmd.indexCount);
+        }
     }
 
-    //
-    // initBuffers
-    //
-    private _initBuffers() {
-        let gl = context.gl;
-        let drawData = this.psCore.drawData;
-
-        //Vertex buffer.
-        const vertexBuffer = gl.createBuffer();
-        this.vertexBuffer = vertexBuffer;
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-
-
-        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.STATIC_DRAW);
-
-        //Index buffer
-        const indexBuffer = gl.createBuffer();
-        this.indexBuffer = indexBuffer;
-
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.STATIC_DRAW);
-
-    }
+    
 }
