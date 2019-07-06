@@ -104,6 +104,10 @@ export class ParticleSystem extends common.Player {
         });
     }
 
+    /**
+     * 
+     * @param dt Passed time (s)
+     */
     public update(dt: number):void {
         super.update(dt);
     }

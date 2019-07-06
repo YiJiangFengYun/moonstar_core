@@ -1,3 +1,7 @@
+export function init() {
+    return Promise.resolve();
+}
+
 export * from "./common";
 export * from "./material";
 export * from "./render";
