@@ -1,4 +1,5 @@
 import * as core from "../core";
+import * as glMatrix from "gl-matrix";
 import { context } from "./context";
 import { ParticleSystemData } from "./particle_system_data";
 
@@ -27,10 +28,12 @@ shaderLibs[core.MaterialType.SPRITE] = {
     varying lowp vec2 vUV;
     varying lowp vec4 vColor;
 
+    uniform vec4 uColor;
+
     uniform sampler2D uSampler;
 
     void main() {
-        gl_FragColor = vColor * texture2D(uSampler, vUV);
+        gl_FragColor = uColor * vColor * texture2D(uSampler, vUV);
     }
     `,
 }
@@ -57,8 +60,10 @@ export class Material {
         uProjectionMatrix?: WebGLUniformLocation;
         uModelViewMatrix?: WebGLUniformLocation;
         uEmitterModelMatrix?: WebGLUniformLocation;
+        uColor?: WebGLUniformLocation;
     } = {};
 
+    private _emitterModelMatrixHelper: glMatrix.mat4 = glMatrix.mat4.create();
     public constructor() {
 
     }
@@ -77,17 +82,22 @@ export class Material {
                 locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
                 locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
                 locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
+                locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
                 break;
-        
+
             default:
                 break;
         }
     }
 
-    public render(emitterMatrix: core.Matrix, indexOffset: number, indexCount: number) {
+    public render(cmd: core.DrawCmd) {
         let gl = context.gl;
         let psData = this.particleSystemData;
         let modelViewMatrix = psData.modelViewMatrix;
+        let emitterModelMatrix = this._emitterModelMatrixHelper;
+        glMatrix.mat4.fromScaling(emitterModelMatrix, [cmd.scaleEmitter[0], cmd.scaleEmitter[1], 1]);
+        glMatrix.mat4.rotateZ(emitterModelMatrix, emitterModelMatrix, cmd.rotationEmitter);
+        glMatrix.mat4.translate(emitterModelMatrix, emitterModelMatrix, [cmd.translationEmitter[0], cmd.translationEmitter[1], 0]);
         let locations = this.locations;
         let materialCore = this.matCore;
         let drawData = psData.psCore.drawData;
@@ -130,17 +140,42 @@ export class Material {
                     offset
                 );
                 gl.enableVertexAttribArray(locations.aVertexColor);
+
+                //Use program
+                gl.useProgram(this.shaderProgram);
+
+                // Set the shader uniforms
+                gl.uniformMatrix4fv(
+                    locations.uProjectionMatrix,
+                    false,
+                    psData.renderData.projectionMatrix4x4
+                );
+                gl.uniformMatrix4fv(
+                    locations.uModelViewMatrix,
+                    false,
+                    modelViewMatrix
+                );
+                gl.uniformMatrix4fv(
+                    locations.uEmitterModelMatrix,
+                    false,
+                    emitterModelMatrix
+                );
+                gl.uniform4fv(
+                    locations.uColor,
+                    materialCore.color
+                );
                 break;
             }
             default: {
 
             }
         }
-        
+
+        gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
     }
 
     private _initShaderProgram(src: {
-        vert: string; frag: string 
+        vert: string; frag: string
     }) {
         let gl = context.gl;
         const vertexShader = this._loadShader(gl.VERTEX_SHADER, src.vert);

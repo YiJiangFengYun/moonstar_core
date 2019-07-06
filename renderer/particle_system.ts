@@ -81,7 +81,7 @@ export class ParticleSystem implements core.IPlayer {
         for (let i = 0; i < cmdCount; ++i) {
             let cmd = cmdList[i];
             let material = mapMaterials[cmd.material.type];
-            material.render(cmd.emitterMatrix, cmd.indexOffset, cmd.indexCount);
+            material.render(cmd);
         }
     }
 
