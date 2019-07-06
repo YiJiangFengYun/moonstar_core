@@ -1,6 +1,6 @@
 import * as eventEmitter from "eventemitter3";
 
-export interface Player {
+export interface IPlayer {
     elapsedTime: number;
     isPlay: boolean;
     play(): void;
@@ -8,7 +8,7 @@ export interface Player {
     stop(): void;
 }
 
-export class Player extends eventEmitter.EventEmitter {
+export class Player extends eventEmitter.EventEmitter implements IPlayer {
     public elapsedTime: number = 0;
     public isPlay: boolean = false;
 
