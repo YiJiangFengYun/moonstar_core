@@ -1,8 +1,8 @@
 import { context } from "./context";
 
-export function init() {
+export function init(canvas: HTMLCanvasElement) {
     return Promise.resolve()
     .then(() => {
-        return context.init();
+        return context.init(canvas);
     });
 }
