@@ -8,7 +8,7 @@ export interface RendererInfo {
     width: number;
     height: number;
     depth?: number;
-    clearColor: { r: number; g: number; b: number; a: number; }
+    clearColor?: { r: number; g: number; b: number; a: number; }
 }
 
 export class Renderer {

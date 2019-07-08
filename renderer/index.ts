@@ -13,3 +13,6 @@ export function init(info: RendererInfo) {
         return r;
     });
 }
+
+export { ParticleSystem } from "./particle_system";
+export { Renderer } from "./renderer";
