@@ -6,6 +6,8 @@ export declare const shaderLibs: {
     frag: string;
 }[];
 export declare function getGLTypeFromValueFormat(valueFormat: core.ValueFormat, gl: WebGLRenderingContext): number;
+export declare function getGLBlendEquation(blendOp: core.BlendOp, gl: WebGLRenderingContext): number;
+export declare function getGLBlendFactor(factor: core.BlendFactor, gl: WebGLRenderingContext): number;
 export declare class Material {
     matCore: core.Material;
     shaderProgram: WebGLProgram;

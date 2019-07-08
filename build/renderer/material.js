@@ -33,6 +33,22 @@ function getGLTypeFromValueFormat(valueFormat, gl) {
     return map[valueFormat];
 }
 exports.getGLTypeFromValueFormat = getGLTypeFromValueFormat;
+function getGLBlendEquation(blendOp, gl) {
+    switch (blendOp) {
+        case core.BlendOp.ADD: {
+            return gl.FUNC_ADD;
+        }
+        default: {
+            return gl.FUNC_ADD;
+        }
+    }
+}
+exports.getGLBlendEquation = getGLBlendEquation;
+function getGLBlendFactor(factor, gl) {
+    var name = core.BlendFactor[factor];
+    return gl[name];
+}
+exports.getGLBlendFactor = getGLBlendFactor;
 var Material = /** @class */ (function () {
     function Material() {
     }
@@ -151,6 +167,8 @@ var SpriteMaterial = /** @class */ (function (_super) {
         gl.bindTexture(gl.TEXTURE_2D, this.texture.glTexture);
         // Tell the shader we bound the texture to texture unit 0
         gl.uniform1i(locations.uSampler, 0);
+        gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
+        gl.blendFunc(getGLBlendFactor(materialCore.srcBlendFactor, gl), getGLBlendFactor(materialCore.dstBlendFactor, gl));
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
     };
     return SpriteMaterial;

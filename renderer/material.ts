@@ -49,6 +49,22 @@ export function getGLTypeFromValueFormat(valueFormat: core.ValueFormat, gl: WebG
     return map[valueFormat];
 }
 
+export function getGLBlendEquation(blendOp: core.BlendOp, gl: WebGLRenderingContext) {
+    switch (blendOp) {
+        case core.BlendOp.ADD: {
+            return gl.FUNC_ADD;
+        }
+        default: {
+            return gl.FUNC_ADD;
+        }
+    }
+}
+
+export function getGLBlendFactor(factor: core.BlendFactor, gl: WebGLRenderingContext): number {
+    let name = core.BlendFactor[factor];
+    return (gl as any)[name];
+}
+
 export class Material {
     public matCore: core.Material;
     public shaderProgram: WebGLProgram;
@@ -237,6 +253,12 @@ export class SpriteMaterial extends Material {
 
         // Tell the shader we bound the texture to texture unit 0
         gl.uniform1i(locations.uSampler, 0);
+
+        gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
+        gl.blendFunc(
+            getGLBlendFactor(materialCore.srcBlendFactor, gl),
+            getGLBlendFactor(materialCore.dstBlendFactor, gl),
+        );
 
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
     }
