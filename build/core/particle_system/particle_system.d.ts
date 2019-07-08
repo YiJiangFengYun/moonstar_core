@@ -4,8 +4,10 @@ import * as render from "../render";
 export declare type ParticleSystemInfo = {
     emitters: {
         maxParticleCount?: number;
+        root?: boolean;
+        modules: any[];
     }[];
-} | any;
+};
 /**
  * Note: All emitters should be created when the ParticleSystem init.
  * If a emitter play latter, you should stop the emitter, and then play it.

@@ -76,7 +76,7 @@ export class ModSprite extends Module implements ModRender {
             let halfHNegative = - halfH;
             //Vertex 0 left top
             posHelper[0] = pos[0] + cos * halfWNegative - sin * halfH;
-            posHelper[1] = pos[1] + sin * halfWNegative + sin * halfH;
+            posHelper[1] = pos[1] + sin * halfWNegative + cos * halfH;
             uvHelper[0] = 0;
             uvHelper[1] = 0;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
@@ -86,7 +86,7 @@ export class ModSprite extends Module implements ModRender {
             }, vtxBufferByteOffset);
             //Vertex 1 right top
             posHelper[0] = pos[0] + cos * halfW - sin * halfH;
-            posHelper[1] = pos[1] + sin * halfW + sin * halfH;
+            posHelper[1] = pos[1] + sin * halfW + cos * halfH;
             uvHelper[0] = 1;
             uvHelper[1] = 0;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
@@ -96,7 +96,7 @@ export class ModSprite extends Module implements ModRender {
             }, vtxBufferByteOffset);
             //Vertex 2 left bottom
             posHelper[0] = pos[0] + cos * halfWNegative - sin * halfHNegative;
-            posHelper[1] = pos[1] + sin * halfWNegative + sin * halfHNegative;
+            posHelper[1] = pos[1] + sin * halfWNegative + cos * halfHNegative;
             uvHelper[0] = 0;
             uvHelper[1] = 1;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
@@ -106,7 +106,7 @@ export class ModSprite extends Module implements ModRender {
             }, vtxBufferByteOffset);
             //Vertex 3 right bottom
             posHelper[0] = pos[0] + cos * halfW - sin * halfHNegative;
-            posHelper[1] = pos[1] + sin * halfW + sin * halfHNegative;
+            posHelper[1] = pos[1] + sin * halfW + cos * halfHNegative;
             uvHelper[0] = 1;
             uvHelper[1] = 1;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({

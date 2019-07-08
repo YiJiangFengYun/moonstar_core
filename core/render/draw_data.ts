@@ -139,6 +139,10 @@ export class DrawData {
         this.totalIdxCount = info.totalIdxCount;
     }
 
+    public clearCmds() {
+        this.cmdCount = 0;
+    }
+
     /**
      * Fill a vertex data to vertex buffer.
      * @param data 

@@ -1,4 +1,5 @@
 import * as particle from "../particle";
+import * as common from "../common";
 import { Module, IEmitter } from "./module";
 
 export const EVENT_CREATE_PARTICLE = "create_particle";
@@ -35,8 +36,11 @@ export class ModSpawn extends Module {
         let particle: particle.Particle;
         let emitter = this.owner;
         if (emitter.particleCount < emitter.maxParticleCount) {
-            particle = emitter.particles[emitter.particleCount++];
-            if (! particle) emitter.particles[emitter.particleCount++] = particle = {};
+            particle = emitter.particles[emitter.particleCount];
+            if (! particle) emitter.particles[emitter.particleCount] = 
+                particle = { pos: common.Vector.create()};
+            ++emitter.particleCount;
+            common.Vector.set(particle.pos, 0, 0);
         }
         emitter.emit(EVENT_CREATE_PARTICLE, particle);
         return particle;

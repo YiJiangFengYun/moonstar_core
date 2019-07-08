@@ -54,5 +54,6 @@ export class ModLifeTime extends Module {
 
     private _onCreateParticle(particle: ParticleWithLifeTime) {
         particle.life = this.life;
+        particle.time = 0;
     }
 }

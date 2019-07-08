@@ -17,48 +17,6 @@ var log = require("loglevel");
 var common = require("../common");
 var render = require("../render");
 var emitter_1 = require("../emitter");
-function doRender(emitters, emitterCount, drawData) {
-    emitterCount = emitterCount || 0;
-    var totalVtxCount = 0;
-    var totalIdxCount = 0;
-    //Get totalVtxCount and totalIdxCount.
-    for (var i = 0; i < emitterCount; ++i) {
-        var eRenderCpt = emitters[i].renderModule;
-        if (eRenderCpt) {
-            totalVtxCount += eRenderCpt.getTotalVtxCount();
-            totalIdxCount += eRenderCpt.getTotalIdxCount();
-        }
-        else {
-            log.warn("The emitter don't own a render component.");
-        }
-    }
-    //Update data.
-    drawData.updateData({
-        totalVtxCount: totalVtxCount,
-        totalIdxCount: totalIdxCount,
-    });
-    var vtxBufferByteOffset = 0;
-    var idxBufferByteOffset = 0;
-    var lastVertexCount = 0;
-    var lastIndexCount = 0;
-    for (var i = 0; i < emitterCount; ++i) {
-        var eRenderCpt = emitters[i].renderModule;
-        if (eRenderCpt) {
-            eRenderCpt.fillBuffers(drawData, {
-                vtxBufferByteOffset: vtxBufferByteOffset,
-                idxBufferByteOffset: idxBufferByteOffset,
-                lastVertexCount: lastVertexCount,
-                lastIndexCount: lastIndexCount,
-            });
-            var vtxCount = eRenderCpt.getTotalVtxCount();
-            var idxCount = eRenderCpt.getTotalIdxCount();
-            lastVertexCount += vtxCount;
-            lastIndexCount += idxCount;
-            vtxBufferByteOffset += drawData.vtxSize * vtxCount;
-            idxBufferByteOffset += drawData.idxSize * idxCount;
-        }
-    }
-}
 /**
  * Note: All emitters should be created when the ParticleSystem init.
  * If a emitter play latter, you should stop the emitter, and then play it.
@@ -91,6 +49,8 @@ var ParticleSystem = /** @class */ (function (_super) {
             if (!emitters[i])
                 emitters[i] = new emitter_1.Emitter();
             emitters[i].init(info.emitters[i]);
+            if (info.emitters[i].root)
+                emitters[i].play();
         }
         var maxVtxCount = 0;
         var maxIdxCount = 0;
@@ -116,9 +76,59 @@ var ParticleSystem = /** @class */ (function (_super) {
      */
     ParticleSystem.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);
+        if (this.isPlay) {
+            var emitterCount = this.emitterCount;
+            var emitters = this.emitters;
+            for (var i = 0; i < emitterCount; ++i) {
+                emitters[i].update(dt);
+            }
+        }
     };
     ParticleSystem.prototype.render = function () {
-        doRender(this.emitters, this.emitterCount, this.drawData);
+        var emitterCount = this.emitterCount;
+        var emitters = this.emitters;
+        var drawData = this.drawData;
+        emitterCount = emitterCount || 0;
+        var totalVtxCount = 0;
+        var totalIdxCount = 0;
+        //Get totalVtxCount and totalIdxCount.
+        for (var i = 0; i < emitterCount; ++i) {
+            var eRenderCpt = emitters[i].renderModule;
+            if (eRenderCpt) {
+                totalVtxCount += eRenderCpt.getTotalVtxCount();
+                totalIdxCount += eRenderCpt.getTotalIdxCount();
+            }
+            else {
+                log.warn("The emitter don't own a render component.");
+            }
+        }
+        //Update data.
+        drawData.updateData({
+            totalVtxCount: totalVtxCount,
+            totalIdxCount: totalIdxCount,
+        });
+        drawData.clearCmds();
+        var vtxBufferByteOffset = 0;
+        var idxBufferByteOffset = 0;
+        var lastVertexCount = 0;
+        var lastIndexCount = 0;
+        for (var i = 0; i < emitterCount; ++i) {
+            var eRenderCpt = emitters[i].renderModule;
+            if (eRenderCpt) {
+                eRenderCpt.fillBuffers(drawData, {
+                    vtxBufferByteOffset: vtxBufferByteOffset,
+                    idxBufferByteOffset: idxBufferByteOffset,
+                    lastVertexCount: lastVertexCount,
+                    lastIndexCount: lastIndexCount,
+                });
+                var vtxCount = eRenderCpt.getTotalVtxCount();
+                var idxCount = eRenderCpt.getTotalIdxCount();
+                lastVertexCount += vtxCount;
+                lastIndexCount += idxCount;
+                vtxBufferByteOffset += drawData.vtxSize * vtxCount;
+                idxBufferByteOffset += drawData.idxSize * idxCount;
+            }
+        }
     };
     return ParticleSystem;
 }(common.Player));

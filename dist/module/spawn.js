@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var common = require("../common");
 var module_1 = require("./module");
 exports.EVENT_CREATE_PARTICLE = "create_particle";
 var ModSpawn = /** @class */ (function (_super) {
@@ -44,9 +45,12 @@ var ModSpawn = /** @class */ (function (_super) {
         var particle;
         var emitter = this.owner;
         if (emitter.particleCount < emitter.maxParticleCount) {
-            particle = emitter.particles[emitter.particleCount++];
+            particle = emitter.particles[emitter.particleCount];
             if (!particle)
-                emitter.particles[emitter.particleCount++] = particle = {};
+                emitter.particles[emitter.particleCount] =
+                    particle = { pos: common.Vector.create() };
+            ++emitter.particleCount;
+            common.Vector.set(particle.pos, 0, 0);
         }
         emitter.emit(exports.EVENT_CREATE_PARTICLE, particle);
         return particle;

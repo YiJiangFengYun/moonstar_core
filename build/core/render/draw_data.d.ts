@@ -45,6 +45,7 @@ export declare class DrawData {
         totalVtxCount: number;
         totalIdxCount: number;
     }): void;
+    clearCmds(): void;
     /**
      * Fill a vertex data to vertex buffer.
      * @param data

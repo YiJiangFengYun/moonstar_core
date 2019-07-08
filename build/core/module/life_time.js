@@ -53,6 +53,7 @@ var ModLifeTime = /** @class */ (function (_super) {
     };
     ModLifeTime.prototype._onCreateParticle = function (particle) {
         particle.life = this.life;
+        particle.time = 0;
     };
     ModLifeTime.NAME = "life_time";
     return ModLifeTime;

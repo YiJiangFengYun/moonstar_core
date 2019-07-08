@@ -98,6 +98,9 @@ var DrawData = /** @class */ (function () {
         this.totalVtxCount = info.totalVtxCount;
         this.totalIdxCount = info.totalIdxCount;
     };
+    DrawData.prototype.clearCmds = function () {
+        this.cmdCount = 0;
+    };
     /**
      * Fill a vertex data to vertex buffer.
      * @param data
