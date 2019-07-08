@@ -16,7 +16,9 @@ var Renderer = /** @class */ (function () {
         glMatrix.mat3.fromScaling(projectionMatrix, [1 / info.width || 1, 1 / info.height || 1]);
         glMatrix.mat4.fromScaling(projectionMatrix4x4, [1 / (info.width || 1), 1 / (info.height || 1), 1 / (info.depth || 1)]);
         var infoClearColor = info.clearColor;
-        glMatrix.vec4.copy(rD.clearColor, [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a]);
+        if (info.clearColor) {
+            glMatrix.vec4.copy(rD.clearColor, [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a]);
+        }
     };
     Renderer.prototype.addParticleSystem = function (ps) {
         var index = this.particleSystems.indexOf(ps);

@@ -32,10 +32,12 @@ export class Renderer {
             [1 / (info.width || 1), 1 / (info.height || 1), 1 / (info.depth || 1)],
         );
         let infoClearColor = info.clearColor;
-        glMatrix.vec4.copy(
-            rD.clearColor,
-            [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a],
-        );
+        if (info.clearColor) {
+            glMatrix.vec4.copy(
+                rD.clearColor,
+                [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a],
+            );
+        }
     }
 
     public addParticleSystem(ps: ParticleSystem) {

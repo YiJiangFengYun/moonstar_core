@@ -31,7 +31,7 @@ shaderLibs[core.MaterialType.SPRITE] = {
     varying lowp vec2 vUV;
     varying lowp vec4 vColor;
 
-    uniform vec4 uColor;
+    uniform lowp vec4 uColor;
 
     uniform sampler2D uSampler;
 
