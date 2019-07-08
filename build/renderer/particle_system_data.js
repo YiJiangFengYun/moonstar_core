@@ -15,6 +15,9 @@ var ParticleSystemData = /** @class */ (function () {
         //Initialize the buffers from the draw data of the particle system.
         this._initBuffers();
     };
+    ParticleSystemData.prototype.refreshBuffers = function () {
+        this._refreshBuffers();
+    };
     //
     // initBuffers
     //
@@ -25,12 +28,24 @@ var ParticleSystemData = /** @class */ (function () {
         var vertexBuffer = gl.createBuffer();
         this.vertexBuffer = vertexBuffer;
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
         //Index buffer
         var indexBuffer = gl.createBuffer();
         this.indexBuffer = indexBuffer;
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.STATIC_DRAW);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
+    };
+    ParticleSystemData.prototype._refreshBuffers = function () {
+        var gl = context_1.context.gl;
+        var drawData = this.psCore.drawData;
+        //Vertex buffer.
+        var vertexBuffer = this.vertexBuffer;
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
+        //Index buffer
+        var indexBuffer = this.indexBuffer;
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
     };
     return ParticleSystemData;
 }());

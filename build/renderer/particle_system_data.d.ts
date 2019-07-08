@@ -6,5 +6,7 @@ export declare class ParticleSystemData {
     indexBuffer: WebGLBuffer;
     modelViewMatrix: glMatrix.mat4;
     init(info: core.ParticleSystemInfo): void;
+    refreshBuffers(): void;
     private _initBuffers;
+    private _refreshBuffers;
 }

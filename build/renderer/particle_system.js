@@ -33,6 +33,7 @@ var ParticleSystem = /** @class */ (function () {
     ParticleSystem.prototype.render = function () {
         var psCore = this.data.psCore;
         psCore.render();
+        this.data.refreshBuffers();
         this._draw();
     };
     ParticleSystem.prototype.play = function () {

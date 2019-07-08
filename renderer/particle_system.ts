@@ -36,6 +36,7 @@ export class ParticleSystem implements core.IPlayer {
     public render() {
         let psCore = this.data.psCore;
         psCore.render();
+        this.data.refreshBuffers();
         this._draw();
     }
 

@@ -16,6 +16,10 @@ export class ParticleSystemData {
         this._initBuffers();
     }
 
+    public refreshBuffers() {
+        this._refreshBuffers();
+    }
+
     //
     // initBuffers
     //
@@ -30,7 +34,7 @@ export class ParticleSystemData {
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 
 
-        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
 
         //Index buffer
         const indexBuffer = gl.createBuffer();
@@ -38,7 +42,27 @@ export class ParticleSystemData {
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.STATIC_DRAW);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
 
+    }
+
+    private _refreshBuffers() {
+        let gl = context.gl;
+        let drawData = this.psCore.drawData;
+
+        //Vertex buffer.
+        let vertexBuffer = this.vertexBuffer;
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+
+
+        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
+
+        //Index buffer
+        let indexBuffer = this.indexBuffer;
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
     }
 }
