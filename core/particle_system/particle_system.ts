@@ -47,11 +47,11 @@ function doRender(emitters: emitter.Emitter[], emitterCount: number, drawData: r
     }
 }
 
-export interface ParticleSystemInfo {
+export type ParticleSystemInfo = {
     emitters: {
         maxParticleCount?: number;
     }[]
-}
+} | any;
 
 /**
  * Note: All emitters should be created when the ParticleSystem init.

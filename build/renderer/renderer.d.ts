@@ -4,7 +4,7 @@ export interface RendererInfo {
     width: number;
     height: number;
     depth?: number;
-    clearColor: {
+    clearColor?: {
         r: number;
         g: number;
         b: number;

@@ -51,7 +51,7 @@ var ModSpawn = /** @class */ (function (_super) {
         emitter.emit(exports.EVENT_CREATE_PARTICLE, particle);
         return particle;
     };
-    ModSpawn.NAME = "Spawn";
+    ModSpawn.NAME = "spawn";
     return ModSpawn;
 }(module_1.Module));
 exports.ModSpawn = ModSpawn;

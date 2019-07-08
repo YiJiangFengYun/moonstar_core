@@ -39,7 +39,7 @@ var ModSizeConstant = /** @class */ (function (_super) {
             particle.size = common.Vector.clone(this.size);
         }
     };
-    ModSizeConstant.NAME = "initial_size";
+    ModSizeConstant.NAME = "size_constant";
     return ModSizeConstant;
 }(module_1.Module));
 exports.ModSizeConstant = ModSizeConstant;

@@ -14,4 +14,8 @@ function init(info) {
     });
 }
 exports.init = init;
+var particle_system_1 = require("./particle_system");
+exports.ParticleSystem = particle_system_1.ParticleSystem;
+var renderer_2 = require("./renderer");
+exports.Renderer = renderer_2.Renderer;
 //# sourceMappingURL=index.js.map

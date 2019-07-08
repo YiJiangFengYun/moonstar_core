@@ -39,7 +39,7 @@ var ModVelocityConstant = /** @class */ (function (_super) {
             particle.velocity = common.Vector.clone(this.velocity);
         }
     };
-    ModVelocityConstant.NAME = "initial_velocity";
+    ModVelocityConstant.NAME = "velocity_constant";
     return ModVelocityConstant;
 }(module_1.Module));
 exports.ModVelocityConstant = ModVelocityConstant;

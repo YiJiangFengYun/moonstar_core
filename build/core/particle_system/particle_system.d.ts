@@ -1,11 +1,11 @@
 import * as common from "../common";
 import * as emitter from "../emitter";
 import * as render from "../render";
-export interface ParticleSystemInfo {
+export declare type ParticleSystemInfo = {
     emitters: {
         maxParticleCount?: number;
     }[];
-}
+} | any;
 /**
  * Note: All emitters should be created when the ParticleSystem init.
  * If a emitter play latter, you should stop the emitter, and then play it.
