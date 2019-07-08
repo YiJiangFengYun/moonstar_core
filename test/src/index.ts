@@ -16,12 +16,12 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "spawn",
-                rate: 100,
+                rate: 1,
             },
             {
                 name: "size_constant",
-                width: 10,
-                height: 10,
+                width: 40,
+                height: 40,
             },
             {
                 name: "velocity_constant",

@@ -43,7 +43,9 @@ var ModLifeTime = /** @class */ (function (_super) {
     ModLifeTime.prototype._deleteParticle = function (particle, particles, particleCount) {
         var index = particles.indexOf(particle);
         if (index >= 0) {
-            var endParticle = particles[--particleCount];
+            var end = --particleCount;
+            var endParticle = particles[end];
+            particles[end] = particles[index];
             particles[index] = endParticle;
         }
         else {

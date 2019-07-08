@@ -46,7 +46,7 @@ export function getGLTypeFromValueFormat(valueFormat: core.ValueFormat, gl: WebG
     map[core.ValueFormat.UNDEFINED] = 0;
     map[core.ValueFormat.FLOAT32] = gl.FLOAT;
     map[core.ValueFormat.UINT32] = gl.UNSIGNED_INT;
-    map[core.ValueFormat.UINT8] = gl.BYTE;
+    map[core.ValueFormat.UINT8] = gl.UNSIGNED_BYTE;
     return map[valueFormat];
 }
 
@@ -259,6 +259,7 @@ export class SpriteMaterial extends Material {
         // Tell the shader we bound the texture to texture unit 0
         gl.uniform1i(locations.uSampler, 0);
 
+        gl.enable(gl.BLEND);
         gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
         gl.blendFunc(
             getGLBlendFactor(materialCore.srcBlendFactor, gl),

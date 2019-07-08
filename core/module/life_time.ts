@@ -44,8 +44,11 @@ export class ModLifeTime extends Module {
     private _deleteParticle(particle: particle.Particle, particles: particle.Particle[], particleCount: number) {
         let index = particles.indexOf(particle);
         if (index >= 0) {
-            let endParticle = particles[--particleCount];
+            let end = --particleCount;
+            let endParticle = particles[end];
+            particles[end] = particles[index];
             particles[index] = endParticle;
+            
         } else {
             log.error("Can't find the particle from the particles for delete the particle.");
         }

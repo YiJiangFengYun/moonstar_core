@@ -51,7 +51,7 @@ export class Material {
         this.color[3] = info.a || 1;
         this.texturePath = info.texturePath;
         this.srcBlendFactor = info.srcBlendFactor || BlendFactor.SRC_ALPHA;
-        this.dstBlendFactor = info.dstBlendFactor || BlendFactor.ONE_MINUS_SRC_ALPHA;
+        this.dstBlendFactor = info.dstBlendFactor || BlendFactor.ONE;
         this.blendOp = info.blendOp || BlendOp.ADD;
     }
 }

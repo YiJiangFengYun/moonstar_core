@@ -37,8 +37,10 @@ var Texture = /** @class */ (function () {
             image_1.onload = function () {
                 gl_1.bindTexture(gl_1.TEXTURE_2D, texture_1);
                 gl_1.texImage2D(gl_1.TEXTURE_2D, level_1, internalFormat_1, srcFormat_1, srcType_1, image_1);
-                // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-                // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+                gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_WRAP_S, gl_1.CLAMP_TO_EDGE);
+                gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_WRAP_T, gl_1.CLAMP_TO_EDGE);
+                gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_MAG_FILTER, gl_1.LINEAR);
+                gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_MIN_FILTER, gl_1.LINEAR);
                 // Other texture parameters use they default values.
             };
             image_1.src = url;

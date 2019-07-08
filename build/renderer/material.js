@@ -30,7 +30,7 @@ function getGLTypeFromValueFormat(valueFormat, gl) {
     map[core.ValueFormat.UNDEFINED] = 0;
     map[core.ValueFormat.FLOAT32] = gl.FLOAT;
     map[core.ValueFormat.UINT32] = gl.UNSIGNED_INT;
-    map[core.ValueFormat.UINT8] = gl.BYTE;
+    map[core.ValueFormat.UINT8] = gl.UNSIGNED_BYTE;
     return map[valueFormat];
 }
 exports.getGLTypeFromValueFormat = getGLTypeFromValueFormat;
@@ -171,6 +171,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
         gl.bindTexture(gl.TEXTURE_2D, this.texture.glTexture);
         // Tell the shader we bound the texture to texture unit 0
         gl.uniform1i(locations.uSampler, 0);
+        gl.enable(gl.BLEND);
         gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
         gl.blendFunc(getGLBlendFactor(materialCore.srcBlendFactor, gl), getGLBlendFactor(materialCore.dstBlendFactor, gl));
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
