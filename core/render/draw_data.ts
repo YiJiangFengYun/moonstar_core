@@ -162,7 +162,7 @@ export class DrawData {
         let cmdList = this.cmdList;
         let cmdCount = this.cmdCount;
         let cmd = cmdList[cmdCount];
-        if (! cmd) cmd = DrawCmd.create();
+        if (! cmd) cmdList[cmdCount] = cmd = DrawCmd.create();
         DrawCmd.copy(cmd, drawCmd);
         ++this.cmdCount;
     }

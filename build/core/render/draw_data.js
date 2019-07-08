@@ -120,7 +120,7 @@ var DrawData = /** @class */ (function () {
         var cmdCount = this.cmdCount;
         var cmd = cmdList[cmdCount];
         if (!cmd)
-            cmd = exports.DrawCmd.create();
+            cmdList[cmdCount] = cmd = exports.DrawCmd.create();
         exports.DrawCmd.copy(cmd, drawCmd);
         ++this.cmdCount;
     };

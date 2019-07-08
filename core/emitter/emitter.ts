@@ -43,7 +43,7 @@ export class Emitter extends common.Player implements module.IEmitter {
             if (! moduleClass) throw new Error(`The module ${info.modules[i].name} is invalid.`);
             modules[i] = new moduleClass(this);
             modules[i].init(info.modules[i]);
-            if (module.renderModules.indexOf(moduleClass) > 0) {
+            if (module.renderModules.indexOf(moduleClass) >= 0) {
                 if (this.renderModule) {
                     log.warn(`There multiple render modules applied to the emitter.`);
                 }
