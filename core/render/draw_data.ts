@@ -35,7 +35,7 @@ export function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset
     float32Array.set(data.pos);
     byteOffset += data.pos.byteLength;
     // UV0
-    float32Array.set(data.uv, data.pos.byteLength);
+    float32Array.set(data.uv, data.pos.length);
     byteOffset += data.uv.byteLength;
 
     // Color

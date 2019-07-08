@@ -9,5 +9,6 @@ export declare class ModVelocityConstant extends Module {
     velocity: common.Vector;
     constructor(owner: IEmitter);
     init(info: any): void;
+    update(dt: number): void;
     private _onCreateParticle;
 }

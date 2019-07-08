@@ -122,6 +122,8 @@ export class ModSprite extends Module implements ModRender {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 1, idxBufferByteOffset);
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 3, idxBufferByteOffset);
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
+
+            idxValueOffset += 4;
         }
 
         cmdHelper.indexOffset = offsets.lastIndexCount;

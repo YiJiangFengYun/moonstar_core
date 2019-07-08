@@ -27,7 +27,7 @@ function fillVertex(data, buffer, byteOffset) {
     float32Array.set(data.pos);
     byteOffset += data.pos.byteLength;
     // UV0
-    float32Array.set(data.uv, data.pos.byteLength);
+    float32Array.set(data.uv, data.pos.length);
     byteOffset += data.uv.byteLength;
     // Color
     var uint8Array = new Uint8Array(buffer, byteOffset);

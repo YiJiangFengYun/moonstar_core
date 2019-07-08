@@ -31,6 +31,19 @@ var ModVelocityConstant = /** @class */ (function (_super) {
         vel[0] = info.x;
         vel[1] = info.y;
     };
+    ModVelocityConstant.prototype.update = function (dt) {
+        _super.prototype.update.call(this, dt);
+        var owner = this.owner;
+        var particles = owner.particles;
+        var particleCount = owner.particleCount;
+        for (var i = 0; i < particleCount; ++i) {
+            var particle_1 = particles[i];
+            var vel = particle_1.velocity;
+            var pos = particle_1.pos;
+            pos[0] = pos[0] + vel[0] * dt;
+            pos[1] = pos[1] + vel[1] * dt;
+        }
+    };
     ModVelocityConstant.prototype._onCreateParticle = function (particle) {
         if (particle.velocity) {
             common.Vector.copy(particle.velocity, this.velocity);

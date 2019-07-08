@@ -223,6 +223,9 @@ export class SpriteMaterial extends Material {
         );
         gl.enableVertexAttribArray(locations.aVertexColor);
 
+        // Tell WebGL which indices to use to index the vertices
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, psData.indexBuffer);
+
         //Use program
         gl.useProgram(this.shaderProgram);
 

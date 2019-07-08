@@ -23,7 +23,7 @@ var ParticleSystem = /** @class */ (function () {
             var renderModule = emitters[i].renderModule;
             var matCore = renderModule.material;
             var material = material_1.createMaterial(matCore, this.data);
-            mapMaterials[matCore.id] = material;
+            mapMaterials[matCore.type] = material;
         }
     };
     ParticleSystem.prototype.update = function (dt) {

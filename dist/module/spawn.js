@@ -51,9 +51,8 @@ var ModSpawn = /** @class */ (function (_super) {
                     particle = { pos: common.Vector.create() };
             ++emitter.particleCount;
             common.Vector.set(particle.pos, 0, 0);
+            emitter.emit(exports.EVENT_CREATE_PARTICLE, particle);
         }
-        emitter.emit(exports.EVENT_CREATE_PARTICLE, particle);
-        return particle;
     };
     ModSpawn.NAME = "spawn";
     return ModSpawn;

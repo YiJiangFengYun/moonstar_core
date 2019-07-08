@@ -156,6 +156,8 @@ var SpriteMaterial = /** @class */ (function (_super) {
         // Color
         gl.vertexAttribPointer(locations.aVertexColor, vertexInfo[2].count, getGLTypeFromValueFormat(vertexInfo[2].format, gl), true, drawData.vtxSize, offset);
         gl.enableVertexAttribArray(locations.aVertexColor);
+        // Tell WebGL which indices to use to index the vertices
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, psData.indexBuffer);
         //Use program
         gl.useProgram(this.shaderProgram);
         // Set the shader uniforms

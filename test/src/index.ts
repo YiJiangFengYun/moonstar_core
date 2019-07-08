@@ -4,10 +4,11 @@ import * as core from "../../core";
 const psInfo: core.ParticleSystemInfo = {
     emitters: [{
         maxParticleCount: 1000,
+        root: true,
         modules: [
             {
                 name: "life_time",
-                life: 2,
+                life: 5,
             },
             {
                 name: "sprite",
@@ -19,8 +20,8 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "size_constant",
-                width: 20,
-                height: 20,
+                width: 10,
+                height: 10,
             },
             {
                 name: "velocity_constant",
@@ -54,6 +55,12 @@ class App {
                 canvas: canvas,
                 width: canvas.width,
                 height: canvas.height,
+                clearColor: {
+                    r: 0,
+                    g: 0,
+                    b: 0,
+                    a: 1,
+                }
             });
         })
         .then((renderer) => {
