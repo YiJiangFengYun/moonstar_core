@@ -18,6 +18,10 @@ export declare class ParticleSystem extends common.Player {
     constructor();
     readonly id: number;
     init(info: ParticleSystemInfo): void;
+    /**
+     *
+     * @param dt Passed time (s)
+     */
     update(dt: number): void;
     render(): void;
 }

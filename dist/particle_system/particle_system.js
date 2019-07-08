@@ -110,6 +110,10 @@ var ParticleSystem = /** @class */ (function (_super) {
             maxIdxCount: maxIdxCount,
         });
     };
+    /**
+     *
+     * @param dt Passed time (s)
+     */
     ParticleSystem.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);
     };

@@ -19,4 +19,4 @@ exports.valueFormatSizes = [
     4,
     1,
 ];
-exports.indexSize = 4;
+exports.indexSize = 2;

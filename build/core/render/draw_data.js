@@ -45,7 +45,9 @@ exports.DrawCmd = {
             indexOffset: 0,
             indexCount: 0,
             material: null,
-            emitterMatrix: common.Matrix.create(),
+            translationEmitter: common.Vector.create(),
+            rotationEmitter: 0,
+            scaleEmitter: common.Vector.fromValues(1, 1),
         };
     },
     copy: function (out, cmd) {
@@ -54,7 +56,9 @@ exports.DrawCmd = {
         out.indexOffset = cmd.indexOffset;
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;
-        common.Matrix.copy(out.emitterMatrix, cmd.emitterMatrix);
+        common.Vector.copy(out.translationEmitter, cmd.translationEmitter);
+        out.rotationEmitter = cmd.rotationEmitter;
+        common.Vector.copy(out.scaleEmitter, cmd.scaleEmitter);
         return out;
     }
 };
@@ -86,7 +90,7 @@ var DrawData = /** @class */ (function () {
         bufferSize = idxSize * info.maxIdxCount;
         if (!this.idxBuffer || this.idxBuffer.byteLength < bufferSize) {
             this.idxBuffer = new ArrayBuffer(bufferSize);
-            this.idxBufferView = new Uint32Array(this.idxBuffer);
+            this.idxBufferView = new Uint16Array(this.idxBuffer);
         }
         this.cmdCount = 0;
     };
@@ -108,8 +112,8 @@ var DrawData = /** @class */ (function () {
      * @param byteOffset
      */
     DrawData.prototype.fillIndex = function (index, byteOffset) {
-        this.idxBufferView[byteOffset / 4] = index;
-        return byteOffset + 4;
+        this.idxBufferView[byteOffset / common.indexSize] = index;
+        return byteOffset + common.indexSize;
     };
     DrawData.prototype.fillDrawCmd = function (drawCmd) {
         var cmdList = this.cmdList;

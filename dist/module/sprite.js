@@ -122,12 +122,8 @@ var ModSprite = /** @class */ (function (_super) {
         cmdHelper.indexOffset = offsets.lastIndexCount;
         cmdHelper.indexCount = particleCount * 6;
         cmdHelper.material = this.material;
-        // common.Matrix.identity(cmdHelper.emitterMatrix);
-        // common.Matrix.rotate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.rotation);
-        // common.Matrix.translate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.origin);
-        common.Matrix.fromRotation(cmdHelper.emitterMatrix, owner.rotation);
-        common.Matrix.translate(cmdHelper.emitterMatrix, cmdHelper.emitterMatrix, owner.origin);
-        cmdHelper.emitterMatrix;
+        common.Vector.copy(cmdHelper.translationEmitter, owner.origin);
+        cmdHelper.rotationEmitter = owner.rotation;
         drawData.fillDrawCmd(cmdHelper);
     };
     ModSprite.NAME = "sprite";

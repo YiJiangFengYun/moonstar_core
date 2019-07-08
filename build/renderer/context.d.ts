@@ -1,4 +1,4 @@
 export declare const context: {
     gl: WebGLRenderingContext;
-    init(): Promise<void>;
+    init(canvas: HTMLCanvasElement): Promise<void>;
 };

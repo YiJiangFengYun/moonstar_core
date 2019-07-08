@@ -17,4 +17,4 @@ export interface AttrInfo {
 }
 export declare type VertexInfo = AttrInfo[];
 export declare const valueFormatSizes: number[];
-export declare const indexSize = 4;
+export declare const indexSize = 2;

@@ -12,7 +12,9 @@ export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
     material: material.Material;
-    emitterMatrix: common.Matrix;
+    translationEmitter: common.Vector;
+    rotationEmitter: number;
+    scaleEmitter: common.Vector;
 }
 export declare const DrawCmd: {
     create: () => DrawCmd;
@@ -26,7 +28,7 @@ export declare class DrawData {
     totalIdxCount: number;
     vtxBuffer: ArrayBuffer;
     idxBuffer: ArrayBuffer;
-    idxBufferView: Uint32Array;
+    idxBufferView: Uint16Array;
     cmdList: DrawCmd[];
     cmdCount: number;
     constructor();
