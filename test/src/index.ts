@@ -61,35 +61,39 @@ class App {
     private _init() {
         let context = this;
         return Promise.resolve()
-        .then(() => {
-            let canvas = document.getElementById("glCanvas") as HTMLCanvasElement;
-            return renderMod.init({
-                canvas: canvas,
-                width: canvas.width,
-                height: canvas.height,
-                clearColor: {
-                    r: 0,
-                    g: 0,
-                    b: 0,
-                    a: 1,
-                }
+            .then(() => {
+                let canvas = document.getElementById("glCanvas") as HTMLCanvasElement;
+                var width = canvas.scrollWidth;
+                var height = canvas.scrollHeight;
+                canvas.width = width;
+                canvas.height = height;
+                return renderMod.init({
+                    canvas: canvas,
+                    width: width,
+                    height: height,
+                    clearColor: {
+                        r: 0,
+                        g: 0,
+                        b: 0,
+                        a: 1,
+                    }
+                });
+            })
+            .then((renderer) => {
+                context._renderer = renderer;
+            })
+            .then(() => {
+                this._particleSystem = new renderMod.ParticleSystem();
+                this._particleSystem.init(psInfo);
+                context._renderer.addParticleSystem(this._particleSystem);
+            })
+            .then(() => {
+                context._intervalI = window.setInterval(this._update.bind(this), 20);
+                context._lastTime = new Date().getTime();
+            })
+            .then(() => {
+                context._particleSystem.play();
             });
-        })
-        .then((renderer) => {
-            context._renderer = renderer;
-        })
-        .then(() => {
-            this._particleSystem = new renderMod.ParticleSystem();
-            this._particleSystem.init(psInfo);
-            context._renderer.addParticleSystem(this._particleSystem);
-        })
-        .then(() => {
-            context._intervalI = window.setInterval(this._update.bind(this), 20);
-            context._lastTime = new Date().getTime();
-        })
-        .then(() => {
-            context._particleSystem.play();
-        });
     }
 
     private _update() {
