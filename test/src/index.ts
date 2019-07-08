@@ -20,13 +20,25 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "size_constant",
-                width: 40,
-                height: 40,
+                width: 32,
+                height: 32,
             },
             {
                 name: "velocity_constant",
                 x: 10,
                 y: 10,
+            },
+            {
+                name: "color_over_life",
+                beginColorR: 1,
+                beginColorG: 1,
+                beginColorB: 1,
+                beginColorA: 1,
+                endColorR: 1,
+                endColorG: 1,
+                endColorB: 1,
+                endColorA: 0,
+
             }
         ]
     }],
