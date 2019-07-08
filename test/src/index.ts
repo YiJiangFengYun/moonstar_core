@@ -1,3 +1,4 @@
+import * as stats from "stats.js";
 import * as renderMod from "../../renderer";
 import * as core from "../../core";
 
@@ -49,6 +50,7 @@ class App {
     private _lastTime: number;
     private _renderer: renderMod.Renderer;
     private _particleSystem: renderMod.ParticleSystem;
+    private _stats: stats;
     public constructor() {
         this._init()
     }
@@ -93,10 +95,17 @@ class App {
             })
             .then(() => {
                 context._particleSystem.play();
-            });
+            })
+            .then(() => {
+                var st =  new stats();
+                st.showPanel(1);
+                document.body.appendChild(st.dom);
+                context._stats = st;
+            })
     }
 
     private _update() {
+        this._stats.begin();
         let now = new Date().getTime();
         let dt = now - this._lastTime;
         this._lastTime = now;
@@ -108,6 +117,7 @@ class App {
         this._renderer.render();
 
         this._postRender();
+        this._stats.end();
     }
 
     private _preRender() {
