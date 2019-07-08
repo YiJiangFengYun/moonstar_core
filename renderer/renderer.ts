@@ -62,7 +62,7 @@ export class Renderer {
         }
     }
 
-    public update(dt) {
+    public update(dt: number) {
         this.particleSystems.forEach(ps => {
             ps.update(dt);
         });

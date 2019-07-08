@@ -1,8 +1,6 @@
 import * as log from "loglevel";
 import * as core from "../core";
-import * as glMatrix from "gl-matrix";
-import { context } from "./context";
-import { Material } from "./material";
+import { Material, createMaterial } from "./material";
 import { RenderData } from "./render_data";
 import { ParticleSystemData } from "./particle_system_data";
 /**
@@ -23,10 +21,9 @@ export class ParticleSystem implements core.IPlayer {
         let emitterCount = psCore.emitterCount;
         let mapMaterials = this.mapMaterials;
         for (let i = 0; i < emitterCount; ++i) {
-            let material = new Material();
             let renderModule = emitters[i].renderModule;
-            let matCore = renderModule.material
-            material.init(matCore, this.data);
+            let matCore = renderModule.material;
+            let material = createMaterial(matCore, this.data);
             mapMaterials[matCore.id] = material;
         }
     }
@@ -81,7 +78,7 @@ export class ParticleSystem implements core.IPlayer {
         for (let i = 0; i < cmdCount; ++i) {
             let cmd = cmdList[i];
             let material = mapMaterials[cmd.material.type];
-            material.render(cmd);
+            if (material) material.render(cmd);
         }
     }
 

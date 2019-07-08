@@ -1,5 +1,4 @@
 import * as glMatrix from "gl-matrix";
-import * as log from "loglevel";
 import * as core from "../core";
 import { RenderData } from "./render_data";
 import { context } from "./context";
