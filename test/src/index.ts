@@ -16,7 +16,7 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "spawn",
-                rate: 1,
+                rate: 50,
             },
             {
                 name: "size_constant",
@@ -25,8 +25,8 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "velocity_constant",
-                x: 10,
-                y: 10,
+                x: 100,
+                y: 100,
             },
             {
                 name: "color_over_life",
