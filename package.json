@@ -7,8 +7,8 @@
     "build_development": "tsc --build tsconfig.json",
     "build_production": "tsc --build tsconfig.dist.json",
     "build_renderer": "tsc --build tsconfig.renderer.json",
-    "build": "npm run build_development & npm run build_production & npm run build_renderer",
     "build_test": "webpack --config webpack.config.test.js",
+    "build": "npm run build_development & npm run build_production & npm run build_renderer & npm run build_test",
     "test": "node test"
   },
   "repository": {
