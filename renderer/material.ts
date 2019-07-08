@@ -4,6 +4,7 @@ import * as log from "loglevel";
 import { context } from "./context";
 import { ParticleSystemData } from "./particle_system_data";
 import { Texture } from "./texture";
+import { renderData } from "./render_data";
 
 export const shaderLibs: { vert: string; frag: string }[] = [];
 
@@ -173,6 +174,7 @@ export class SpriteMaterial extends Material {
     public render(cmd: core.DrawCmd) {
         super.render(cmd);
         let gl = context.gl;
+        let rData = renderData;
         let psData = this.particleSystemData;
         let modelViewMatrix = psData.modelViewMatrix;
         let emitterModelMatrix = this._emitterModelMatrixHelper;
@@ -228,7 +230,7 @@ export class SpriteMaterial extends Material {
         gl.uniformMatrix4fv(
             locations.uProjectionMatrix,
             false,
-            psData.renderData.projectionMatrix4x4
+            rData.projectionMatrix4x4
         );
         gl.uniformMatrix4fv(
             locations.uModelViewMatrix,

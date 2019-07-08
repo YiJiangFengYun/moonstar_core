@@ -18,6 +18,7 @@ var glMatrix = require("gl-matrix");
 var log = require("loglevel");
 var context_1 = require("./context");
 var texture_1 = require("./texture");
+var render_data_1 = require("./render_data");
 exports.shaderLibs = [];
 exports.shaderLibs[core.MaterialType.UNDEFINED] = null;
 exports.shaderLibs[core.MaterialType.SPRITE] = {
@@ -129,6 +130,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
     SpriteMaterial.prototype.render = function (cmd) {
         _super.prototype.render.call(this, cmd);
         var gl = context_1.context.gl;
+        var rData = render_data_1.renderData;
         var psData = this.particleSystemData;
         var modelViewMatrix = psData.modelViewMatrix;
         var emitterModelMatrix = this._emitterModelMatrixHelper;
@@ -157,7 +159,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
         //Use program
         gl.useProgram(this.shaderProgram);
         // Set the shader uniforms
-        gl.uniformMatrix4fv(locations.uProjectionMatrix, false, psData.renderData.projectionMatrix4x4);
+        gl.uniformMatrix4fv(locations.uProjectionMatrix, false, rData.projectionMatrix4x4);
         gl.uniformMatrix4fv(locations.uModelViewMatrix, false, modelViewMatrix);
         gl.uniformMatrix4fv(locations.uEmitterModelMatrix, false, emitterModelMatrix);
         gl.uniform4fv(locations.uColor, materialCore.color);

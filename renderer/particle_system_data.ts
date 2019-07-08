@@ -1,6 +1,5 @@
 import * as glMatrix from "gl-matrix";
 import * as core from "../core";
-import { RenderData } from "./render_data";
 import { context } from "./context";
 
 export class ParticleSystemData {
@@ -8,7 +7,6 @@ export class ParticleSystemData {
     public vertexBuffer: WebGLBuffer;
     public indexBuffer: WebGLBuffer;
     public modelViewMatrix: glMatrix.mat4 = glMatrix.mat4.create();
-    public renderData: RenderData;
 
     public init(info: core.ParticleSystemInfo) {
         let psCore = this.psCore;

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
 var material_1 = require("./material");
+var render_data_1 = require("./render_data");
 var particle_system_data_1 = require("./particle_system_data");
 /**
  * A particle system class is for a draw data state of a particle system of the core.
@@ -57,12 +58,9 @@ var ParticleSystem = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ParticleSystem.prototype._setRenderData = function (renderData) {
-        this.data.renderData = renderData;
-    };
     ParticleSystem.prototype._draw = function () {
-        var renderData = this.data.renderData;
-        if (!renderData) {
+        var rData = render_data_1.renderData;
+        if (!rData) {
             log.error("The render data of the particle system is invalid.");
             return;
         }

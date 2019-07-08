@@ -1,7 +1,7 @@
 import * as log from "loglevel";
 import * as core from "../core";
 import { Material, createMaterial } from "./material";
-import { RenderData } from "./render_data";
+import { renderData } from "./render_data";
 import { ParticleSystemData } from "./particle_system_data";
 /**
  * A particle system class is for a draw data state of a particle system of the core.
@@ -59,13 +59,9 @@ export class ParticleSystem implements core.IPlayer {
         return this.data.psCore.isPlay;
     }
 
-    public _setRenderData(renderData: RenderData) {
-        this.data.renderData = renderData;
-    }
-
     private _draw() {
-        let renderData = this.data.renderData;
-        if (! renderData) {
+        let rData = renderData;
+        if (! rData) {
             log.error(`The render data of the particle system is invalid.`);
             return;
         }

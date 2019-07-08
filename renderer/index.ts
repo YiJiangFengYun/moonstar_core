@@ -1,17 +1,15 @@
 import * as core from "../core";
-import { context } from "./context";
+import { renderer, RendererInfo } from "./renderer";
 
-export function init(canvas: HTMLCanvasElement) {
+let r = renderer;
+
+export function init(info: RendererInfo) {
     return Promise.resolve()
     .then(() => {
         return core.init();
     })
     .then(() => {
-        return context.init(canvas);
+        r.init(info);
+        return r;
     });
 }
-
-export * from "./context";
-export * from "./material";
-export * from "./particle_system";
-export * from "./renderer";

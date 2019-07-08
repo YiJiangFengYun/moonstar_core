@@ -1,35 +1,27 @@
-import * as core from "../core";
 import * as glMatrix from "gl-matrix";
 import { ParticleSystem } from "./particle_system";
 import { context } from "./context";
-import { RenderData } from "./render_data";
+import { renderData } from "./render_data";
 
 export interface RendererInfo {
+    canvas: HTMLCanvasElement;
     width: number;
     height: number;
+    depth?: number;
+    clearColor: { r: number; g: number; b: number; a: number; }
 }
 
 export class Renderer {
-    public renderData: RenderData;
     public particleSystems: ParticleSystem[] = [];
 
     public constructor() {
-        this.renderData = {
-            projectionMatrix: core.Matrix.create(),
-            projectionMatrix4x4: glMatrix.mat4.create(),
-            clearColor: core.Color.create(),
-        };
     }
 
-    public init(info: {
-        width: number;
-        height: number;
-        depth?: number;
-        clearColor: { r: number; g: number; b: number; a: number; }
-    }) {
-        let renderData = this.renderData;
-        let projectionMatrix = renderData.projectionMatrix;
-        let projectionMatrix4x4 = renderData.projectionMatrix4x4;
+    public init(info: RendererInfo) {
+        context.init(info.canvas);
+        let rD = renderData;
+        let projectionMatrix = rD.projectionMatrix;
+        let projectionMatrix4x4 = rD.projectionMatrix4x4;
         glMatrix.mat4.identity(projectionMatrix4x4);
         glMatrix.mat3.fromScaling(
             projectionMatrix,
@@ -41,7 +33,7 @@ export class Renderer {
         );
         let infoClearColor = info.clearColor;
         glMatrix.vec4.copy(
-            renderData.clearColor,
+            rD.clearColor,
             [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a],
         );
     }
@@ -49,7 +41,6 @@ export class Renderer {
     public addParticleSystem(ps: ParticleSystem) {
         let index = this.particleSystems.indexOf(ps);
         if (index < 0) {
-            ps._setRenderData(this.renderData);
             this.particleSystems.push(ps);
         }
     }
@@ -57,7 +48,6 @@ export class Renderer {
     public removeParticleSystem(ps: ParticleSystem) {
         let index = this.particleSystems.indexOf(ps);
         if (index >= 0) {
-            ps._setRenderData(null);
             this.particleSystems.splice(index, 1);
         }
     }
@@ -70,8 +60,8 @@ export class Renderer {
 
     public render() {
         let gl = context.gl;
-        let renderData = this.renderData;
-        let clearColor = renderData.clearColor;
+        let rData = renderData;
+        let clearColor = rData.clearColor;
         gl.clearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);  // Clear to black, fully opaque
         gl.clearDepth(1.0);                 // Clear everything
         // gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -82,7 +72,7 @@ export class Renderer {
         this.particleSystems.forEach(ps => {
             ps.render();
         });
-
-
     }
 }
+
+export const renderer = new Renderer();

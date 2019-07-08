@@ -1,5 +1,2 @@
-export declare function init(canvas: HTMLCanvasElement): Promise<void>;
-export * from "./context";
-export * from "./material";
-export * from "./particle_system";
-export * from "./renderer";
+import { RendererInfo } from "./renderer";
+export declare function init(info: RendererInfo): Promise<import("./renderer").Renderer>;

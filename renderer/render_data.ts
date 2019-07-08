@@ -6,3 +6,9 @@ export interface RenderData {
     projectionMatrix4x4: glMatrix.mat4;
     clearColor: core.Color;
 }
+
+export const renderData = {
+    projectionMatrix: core.Matrix.create(),
+    projectionMatrix4x4: glMatrix.mat4.create(),
+    clearColor: core.Color.create(),
+};

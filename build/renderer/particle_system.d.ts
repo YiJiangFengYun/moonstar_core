@@ -1,6 +1,5 @@
 import * as core from "../core";
 import { Material } from "./material";
-import { RenderData } from "./render_data";
 import { ParticleSystemData } from "./particle_system_data";
 /**
  * A particle system class is for a draw data state of a particle system of the core.
@@ -19,6 +18,5 @@ export declare class ParticleSystem implements core.IPlayer {
     stop(): void;
     readonly elapsedTime: number;
     readonly isPlay: boolean;
-    _setRenderData(renderData: RenderData): void;
     private _draw;
 }
