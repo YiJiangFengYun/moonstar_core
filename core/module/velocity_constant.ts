@@ -8,7 +8,7 @@ export interface ParticleWithVelocity extends particle.Particle {
 }
 
 export class ModVelocityConstant extends Module {
-    public static NAME = "initial_velocity";
+    public static NAME = "velocity_constant";
     public velocity: common.Vector = common.Vector.create();
 
     public constructor(owner: IEmitter) {

@@ -4,7 +4,7 @@ import { Module, IEmitter } from "./module";
 export const EVENT_CREATE_PARTICLE = "create_particle";
 
 export class ModSpawn extends Module {
-    public static NAME = "Spawn";
+    public static NAME = "spawn";
     public interval: number; //Unit(ms), from (1 / rate) * 1000;
     private _remainTime: number = 0;
     public constructor(owner: IEmitter) {

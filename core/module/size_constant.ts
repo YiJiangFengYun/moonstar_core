@@ -4,7 +4,7 @@ import { Module, IEmitter } from "./module";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
 
 export class ModSizeConstant extends Module {
-    public static NAME = "initial_size";
+    public static NAME = "size_constant";
     public size: common.Vector = common.Vector.create();
 
     public constructor(owner: IEmitter) {
