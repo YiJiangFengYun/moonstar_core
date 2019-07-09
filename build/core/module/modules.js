@@ -8,6 +8,7 @@ var life_time_1 = require("./life_time");
 var color_over_life_1 = require("./color_over_life");
 var location_initial_circle_1 = require("./location_initial_circle");
 var orientation_initial_radiation_1 = require("./orientation_initial_radiation");
+var subuv_spritesheet_simple_1 = require("./subuv_spritesheet_simple");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
@@ -23,6 +24,8 @@ exports.mapModules[velocity_constant_1.ModVelocityConstant.NAME] = velocity_cons
 exports.mapModules[life_time_1.ModLifeTime.NAME] = life_time_1.ModLifeTime;
 // Over Life modules
 exports.mapModules[color_over_life_1.ModColorOverLife.NAME] = color_over_life_1.ModColorOverLife;
+//Sub UV modules
+exports.mapModules[subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple.NAME] = subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple;
 exports.moduleGroup = {
     sprite: [
         { module: sprite_1.ModSprite, required: true, default: true },

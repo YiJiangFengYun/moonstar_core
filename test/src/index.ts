@@ -9,11 +9,12 @@ const psInfo: core.ParticleSystemInfo = {
         modules: [
             {
                 name: "life_time",
-                life: 5,
+                life: 10,
             },
             {
                 name: "sprite",
-                texturePath: "./res/star.png",
+                texturePath: "./res/spritesheet.png",
+                useSubUV: true,
             },
             {
                 name: "spawn",
@@ -22,8 +23,8 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "size_initial",
-                width: 32,
-                height: 32,
+                width: 240,
+                height: 160,
             },
             {
                 name: "location_initial_circle",
@@ -48,7 +49,11 @@ const psInfo: core.ParticleSystemInfo = {
                 endColorG: 1,
                 endColorB: 1,
                 endColorA: 0,
-
+            },
+            {
+                name: "subuv_spritesheet_simple",
+                uvSize: [0.333, 0.5],
+                frameRate: 3,
             }
         ]
     }],

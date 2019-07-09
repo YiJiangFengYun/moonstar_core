@@ -27,4 +27,9 @@ export interface Particle {
      * (Radian)
      */
     orientation?: number;
+    /**
+     * The sub uv of the texture of the Particle for animated sprite sheets to be displayed on a particle.
+     * First two value is left-top of the texture and last two is right-bottom of the texture.
+     */
+    subUV?: common.Vector4;
 }

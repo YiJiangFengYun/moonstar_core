@@ -21,6 +21,9 @@ var ModSprite = /** @class */ (function (_super) {
     __extends(ModSprite, _super);
     function ModSprite(owner) {
         var _this = _super.call(this, owner) || this;
+        _this._posHelper = common.Vector.create();
+        _this._uvHelper = common.Vector.create();
+        _this._cmdHelper = render.DrawCmd.create();
         _this.name = ModSprite.NAME;
         _this.material = new material.Material(material.MaterialType.SPRITE);
         return _this;
@@ -28,6 +31,7 @@ var ModSprite = /** @class */ (function (_super) {
     ModSprite.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
         this.material.init(info);
+        this.useSubUV = info.useSubUV || false;
     };
     ModSprite.prototype.getTotalVtxCount = function () {
         var owner = this.owner;
@@ -49,15 +53,16 @@ var ModSprite = /** @class */ (function (_super) {
         var owner = this.owner;
         var particles = owner.particles;
         var particleCount = owner.particleCount;
+        var useSubUV = this.useSubUV;
         // todo 
         // let origin = owner.origin;
         // let useLocal = owner.useLocalSpace; 
         var vtxBufferByteOffset = offsets.idxBufferByteOffset;
         var idxBufferByteOffset = offsets.idxBufferByteOffset;
         var idxValueOffset = offsets.lastVertexCount;
-        var posHelper = common.Vector.create();
-        var uvHelper = common.Vector.create();
-        var cmdHelper = render.DrawCmd.create();
+        var posHelper = this._posHelper;
+        var uvHelper = this._uvHelper;
+        var cmdHelper = this._cmdHelper;
         //Traverse all particles.
         for (var particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             var particle = particles[particleIndex];
@@ -73,11 +78,21 @@ var ModSprite = /** @class */ (function (_super) {
             var halfH = size[1] * scale[1] / 2;
             var halfWNegative = -halfW;
             var halfHNegative = -halfH;
+            var subUV = void 0;
+            if (this.useSubUV) {
+                subUV = particle.subUV || common.VECTOR4_ZERO_ONE;
+            }
             //Vertex 0 left top
             posHelper[0] = pos[0] + cos * halfWNegative - sin * halfH;
             posHelper[1] = pos[1] + sin * halfWNegative + cos * halfH;
-            uvHelper[0] = 0;
-            uvHelper[1] = 0;
+            if (useSubUV) {
+                uvHelper[0] = subUV[0];
+                uvHelper[1] = subUV[1];
+            }
+            else {
+                uvHelper[0] = 0;
+                uvHelper[1] = 0;
+            }
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                 pos: posHelper,
                 uv: uvHelper,
@@ -86,8 +101,14 @@ var ModSprite = /** @class */ (function (_super) {
             //Vertex 1 right top
             posHelper[0] = pos[0] + cos * halfW - sin * halfH;
             posHelper[1] = pos[1] + sin * halfW + cos * halfH;
-            uvHelper[0] = 1;
-            uvHelper[1] = 0;
+            if (useSubUV) {
+                uvHelper[0] = subUV[2];
+                uvHelper[1] = subUV[1];
+            }
+            else {
+                uvHelper[0] = 1;
+                uvHelper[1] = 0;
+            }
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                 pos: posHelper,
                 uv: uvHelper,
@@ -96,8 +117,14 @@ var ModSprite = /** @class */ (function (_super) {
             //Vertex 2 left bottom
             posHelper[0] = pos[0] + cos * halfWNegative - sin * halfHNegative;
             posHelper[1] = pos[1] + sin * halfWNegative + cos * halfHNegative;
-            uvHelper[0] = 0;
-            uvHelper[1] = 1;
+            if (subUV) {
+                uvHelper[0] = subUV[0];
+                uvHelper[1] = subUV[3];
+            }
+            else {
+                uvHelper[0] = 0;
+                uvHelper[1] = 1;
+            }
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                 pos: posHelper,
                 uv: uvHelper,
@@ -106,8 +133,14 @@ var ModSprite = /** @class */ (function (_super) {
             //Vertex 3 right bottom
             posHelper[0] = pos[0] + cos * halfW - sin * halfHNegative;
             posHelper[1] = pos[1] + sin * halfW + cos * halfHNegative;
-            uvHelper[0] = 1;
-            uvHelper[1] = 1;
+            if (subUV) {
+                uvHelper[0] = subUV[2];
+                uvHelper[1] = subUV[3];
+            }
+            else {
+                uvHelper[0] = 1;
+                uvHelper[1] = 1;
+            }
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                 pos: posHelper,
                 uv: uvHelper,
