@@ -72,7 +72,6 @@ export class ModSubUVSpriteSheetSimple extends Module {
                 particle.currFrame = frame
                 particle.currTimes = playTimes;
                 this._updateParticleSubUV(particle);
-                console.log(`Frame ${frame}`);
             }
             
 

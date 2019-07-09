@@ -62,7 +62,6 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
                 particle_1.currFrame = frame;
                 particle_1.currTimes = playTimes;
                 this._updateParticleSubUV(particle_1);
-                console.log("Frame " + frame);
             }
         }
     };
