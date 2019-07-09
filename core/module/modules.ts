@@ -1,7 +1,7 @@
 import { Module } from "./module";
 import { ModSprite } from "./sprite";
 import { ModSpawn } from "./spawn";
-import { ModSizeConstant } from "./size_constant";
+import { ModSizeInitial } from "./size_initial";
 import { ModVelocityConstant } from "./velocity_constant";
 import { ModLifeTime } from "./life_time";
 import { ModColorOverLife } from "./color_over_life";
@@ -15,7 +15,7 @@ mapModules[ModSprite.NAME] = ModSprite;
 mapModules[ModSpawn.NAME] = ModSpawn;
 
 // Constant modules.
-mapModules[ModSizeConstant.NAME] = ModSizeConstant;
+mapModules[ModSizeInitial.NAME] = ModSizeInitial;
 mapModules[ModVelocityConstant.NAME] = ModVelocityConstant;
 
 // Life time modules
@@ -28,7 +28,7 @@ export const moduleGroup = {
     sprite: [
         { module: ModSprite, required: true, default: true },
         { module: ModSpawn, required: true, default: true },
-        { module: ModSizeConstant, required: false, default: true },
+        { module: ModSizeInitial, required: false, default: true },
         { module: ModLifeTime, required: false, default: true },
         { module: ModVelocityConstant, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },
@@ -36,7 +36,7 @@ export const moduleGroup = {
     trail: [
         // { module: ModTrail, required: true, default: true },
         { module: ModSpawn, required: true, default: true },
-        { module: ModSizeConstant, required: false, default: true },
+        { module: ModSizeInitial, required: false, default: true },
         { module: ModLifeTime, required: false, default: true },
         { module: ModVelocityConstant, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },

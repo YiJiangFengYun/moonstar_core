@@ -1,7 +1,7 @@
 import { Module } from "./module";
 import { ModSprite } from "./sprite";
 import { ModSpawn } from "./spawn";
-import { ModSizeConstant } from "./size_constant";
+import { ModSizeInitial } from "./size_initial";
 import { ModVelocityConstant } from "./velocity_constant";
 import { ModLifeTime } from "./life_time";
 import { ModColorOverLife } from "./color_over_life";
@@ -18,7 +18,7 @@ export declare const moduleGroup: {
         required: boolean;
         default: boolean;
     } | {
-        module: typeof ModSizeConstant;
+        module: typeof ModSizeInitial;
         required: boolean;
         default: boolean;
     } | {
@@ -39,7 +39,7 @@ export declare const moduleGroup: {
         required: boolean;
         default: boolean;
     } | {
-        module: typeof ModSizeConstant;
+        module: typeof ModSizeInitial;
         required: boolean;
         default: boolean;
     } | {

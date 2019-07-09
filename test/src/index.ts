@@ -21,7 +21,7 @@ const psInfo: core.ParticleSystemInfo = {
                 duration: 3
             },
             {
-                name: "size_constant",
+                name: "size_initial",
                 width: 32,
                 height: 32,
             },
