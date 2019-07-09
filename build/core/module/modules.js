@@ -7,6 +7,7 @@ var velocity_constant_1 = require("./velocity_constant");
 var life_time_1 = require("./life_time");
 var color_over_life_1 = require("./color_over_life");
 var location_initial_circle_1 = require("./location_initial_circle");
+var orientation_initial_radiation_1 = require("./orientation_initial_radiation");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
@@ -15,6 +16,7 @@ exports.mapModules[spawn_1.ModSpawn.NAME] = spawn_1.ModSpawn;
 // Initial modules.
 exports.mapModules[size_initial_1.ModSizeInitial.NAME] = size_initial_1.ModSizeInitial;
 exports.mapModules[location_initial_circle_1.ModLocationInitialCircle.NAME] = location_initial_circle_1.ModLocationInitialCircle;
+exports.mapModules[orientation_initial_radiation_1.ModOrientationInitialRadiation.NAME] = orientation_initial_radiation_1.ModOrientationInitialRadiation;
 // Constant modules.
 exports.mapModules[velocity_constant_1.ModVelocityConstant.NAME] = velocity_constant_1.ModVelocityConstant;
 // Life time modules

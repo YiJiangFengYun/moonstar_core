@@ -4,7 +4,7 @@ import * as core from "../../core";
 
 const psInfo: core.ParticleSystemInfo = {
     emitters: [{
-        maxParticleCount: 1000,
+        maxParticleCount: 10000,
         root: true,
         modules: [
             {
@@ -17,7 +17,7 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "spawn",
-                rate: 50,
+                rate: 100,
                 duration: 3
             },
             {
@@ -27,12 +27,16 @@ const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "location_initial_circle",
-                radius: 100,
+                radius: 1,
+            },
+            {
+                name: "orientation_initial_radiation",
+                effectRotation: true,
             },
             {
                 name: "velocity_constant",
                 x: 100,
-                y: 100,
+                y: 0,
             },
             {
                 name: "color_over_life",

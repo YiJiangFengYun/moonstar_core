@@ -1,19 +1,18 @@
 import * as common from "../common";
 export interface Particle {
     /**
-     * The position of the Particle
+     * The position of the Particle relative to its emitter space.
      */
     pos?: common.Vector;
     /**
-     * The scale of the Particle
+     * The scale of the Particle used by Sprite and so on.
      */
     scale?: common.Vector;
     /**
-     * The orientation of the Particle.
-     * It is specify the orientation of the x-axis of the Particle relative to its emitter space.
+     * The rotation of the particle used by Sprite and so on.
      * (Radian)
      */
-    orientation?: number;
+    rotation?: number;
     /**
      * The color of the Particle used by Sprite and so on.
      */
@@ -23,8 +22,9 @@ export interface Particle {
      */
     size?: common.Vector;
     /**
-     * The rotation of the particle used by Sprite and so on.
+     * The orientation of the Particle.
+     * It is specify the orientation of the x-axis of the Particle relative to its emitter space.
      * (Radian)
      */
-    rotation?: number;
+    orientation?: number;
 }

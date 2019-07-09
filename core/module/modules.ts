@@ -6,6 +6,7 @@ import { ModVelocityConstant } from "./velocity_constant";
 import { ModLifeTime } from "./life_time";
 import { ModColorOverLife } from "./color_over_life";
 import { ModLocationInitialCircle } from "./location_initial_circle";
+import { ModOrientationInitialRadiation } from "./orientation_initial_radiation";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -18,6 +19,7 @@ mapModules[ModSpawn.NAME] = ModSpawn;
 // Initial modules.
 mapModules[ModSizeInitial.NAME] = ModSizeInitial;
 mapModules[ModLocationInitialCircle.NAME] = ModLocationInitialCircle;
+mapModules[ModOrientationInitialRadiation.NAME] = ModOrientationInitialRadiation;
 
 // Constant modules.
 mapModules[ModVelocityConstant.NAME] = ModVelocityConstant;

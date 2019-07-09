@@ -11,6 +11,7 @@ export class ModVelocityConstant extends Module {
     public static NAME = "velocity_constant";
     public velocity: common.Vector = common.Vector.create();
 
+    private _vecHelper: common.Vector = common.Vector.create();
     public constructor(owner: IEmitter) {
         super(owner);
         this.name = ModVelocityConstant.NAME;
@@ -32,9 +33,12 @@ export class ModVelocityConstant extends Module {
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleWithVelocity = particles[i];
             let vel = particle.velocity;
+            let orientation = particle.orientation || 0;
+            let vecHelper = this._vecHelper;
+            common.Vector.rotate(vecHelper, vel, common.VECTOR_ZERO, orientation);
             let pos = particle.pos;
-            pos[0] = pos[0] + vel[0] * dt;
-            pos[1] = pos[1] + vel[1] * dt;
+            pos[0] = pos[0] + vecHelper[0] * dt;
+            pos[1] = pos[1] + vecHelper[1] * dt;
         }
     }
 
@@ -44,6 +48,5 @@ export class ModVelocityConstant extends Module {
         } else {
             particle.velocity = common.Vector.clone(this.velocity);
         }
-         
     }
 }

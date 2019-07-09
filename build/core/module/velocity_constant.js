@@ -21,6 +21,7 @@ var ModVelocityConstant = /** @class */ (function (_super) {
     function ModVelocityConstant(owner) {
         var _this = _super.call(this, owner) || this;
         _this.velocity = common.Vector.create();
+        _this._vecHelper = common.Vector.create();
         _this.name = ModVelocityConstant.NAME;
         owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
         return _this;
@@ -39,9 +40,12 @@ var ModVelocityConstant = /** @class */ (function (_super) {
         for (var i = 0; i < particleCount; ++i) {
             var particle_1 = particles[i];
             var vel = particle_1.velocity;
+            var orientation_1 = particle_1.orientation || 0;
+            var vecHelper = this._vecHelper;
+            common.Vector.rotate(vecHelper, vel, common.VECTOR_ZERO, orientation_1);
             var pos = particle_1.pos;
-            pos[0] = pos[0] + vel[0] * dt;
-            pos[1] = pos[1] + vel[1] * dt;
+            pos[0] = pos[0] + vecHelper[0] * dt;
+            pos[1] = pos[1] + vecHelper[1] * dt;
         }
     };
     ModVelocityConstant.prototype._onCreateParticle = function (particle) {
