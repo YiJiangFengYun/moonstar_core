@@ -18,6 +18,7 @@ const psInfo: core.ParticleSystemInfo = {
             {
                 name: "spawn",
                 rate: 50,
+                duration: 3
             },
             {
                 name: "size_constant",

@@ -7,6 +7,8 @@ export const EVENT_CREATE_PARTICLE = "create_particle";
 export class ModSpawn extends Module {
     public static NAME = "spawn";
     public interval: number; //Unit(ms), from (1 / rate) * 1000;
+    public duration: number;
+    public lifeTime: number;
     private _remainTime: number = 0;
     public constructor(owner: IEmitter) {
         super(owner);
@@ -17,10 +19,14 @@ export class ModSpawn extends Module {
         super.init(info);
         this._remainTime = 0;
         this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
+        this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
+        this.lifeTime = 0;
     }
 
     public update(dt: number) {
-        if (this.interval) {
+        dt = Math.min(dt, this.duration - this.lifeTime);
+        if (this.interval && dt > 0) {
+            this.lifeTime += dt;
             let interval = this.interval;
             dt = this._remainTime + dt;
             let pCount = Math.floor(dt / interval);
