@@ -1,6 +1,6 @@
 import * as core from "../../core";
 
-export const name = "sample_test";
+export const name = "sample_radiational_stars";
 
 export const psInfo: core.ParticleSystemInfo = {
     emitters: [{
@@ -13,8 +13,7 @@ export const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "sprite",
-                texturePath: "./res/spritesheet.png",
-                useSubUV: true,
+                texturePath: "./res/star.png",
             },
             {
                 name: "spawn",
@@ -23,8 +22,8 @@ export const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "size_initial",
-                width: 240,
-                height: 160,
+                width: 32,
+                height: 32,
             },
             {
                 name: "location_initial_circle",
@@ -49,11 +48,6 @@ export const psInfo: core.ParticleSystemInfo = {
                 endColorG: 1,
                 endColorB: 1,
                 endColorA: 0,
-            },
-            {
-                name: "subuv_spritesheet_simple",
-                uvSize: [0.333, 0.5],
-                frameRate: 3,
             }
         ]
     }],
