@@ -26,6 +26,10 @@ const psInfo: core.ParticleSystemInfo = {
                 height: 32,
             },
             {
+                name: "location_initial_circle",
+                radius: 100,
+            },
+            {
                 name: "velocity_constant",
                 x: 100,
                 y: 100,
