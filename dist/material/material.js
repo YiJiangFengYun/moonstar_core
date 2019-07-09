@@ -34,7 +34,7 @@ var Material = /** @class */ (function () {
         this.blendOp = BlendOp.ADD;
         this.type = type;
         this._id = common.gainID();
-        this.color.set(common.WHITE);
+        this.color.set(common.COLOR_WHITE);
     }
     Object.defineProperty(Material.prototype, "id", {
         get: function () {

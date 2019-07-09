@@ -61,14 +61,17 @@ var ModSprite = /** @class */ (function (_super) {
         //Traverse all particles.
         for (var particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             var particle = particles[particleIndex];
-            var pos = particle.pos;
-            var size = particle.size;
-            var color = particle.color || common.WHITE;
-            var angle = particle.angle || 0;
-            var cos = angle ? Math.cos(angle) : 1;
-            var sin = angle ? Math.sin(angle) : 0;
-            var halfW = size ? size[0] / 2 : 0;
-            var halfH = size ? size[1] / 2 : 0;
+            var pos = particle.pos || common.COLOR_ZERO;
+            var scale = particle.scale || common.VECTOR_ONE;
+            var orientation_1 = particle.orientation || 0;
+            var size = particle.size || common.COLOR_ZERO;
+            var color = particle.color || common.COLOR_WHITE;
+            var rotation = particle.rotation || 0;
+            var angle = orientation_1 + rotation;
+            var cos = Math.cos(angle);
+            var sin = Math.sin(angle);
+            var halfW = size[0] * scale[0] / 2;
+            var halfH = size[1] * scale[1] / 2;
             var halfWNegative = -halfW;
             var halfHNegative = -halfH;
             //Vertex 0 left top
