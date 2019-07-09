@@ -15,7 +15,7 @@ export interface IEmitter extends common.EventEmitter {
     maxParticleCount: number;
     origin: common.Vector;
     /**
-     * Angle (Radian)
+     * rotation (Radian)
      */
     rotation: number;
     useLocalSpace: boolean;

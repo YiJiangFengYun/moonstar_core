@@ -64,14 +64,17 @@ export class ModSprite extends Module implements ModRender {
         //Traverse all particles.
         for (let particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             let particle = particles[particleIndex];
-            let pos = particle.pos;
-            let size = particle.size;
+            let pos = particle.pos || common.ZERO;
+            let scale = particle.scale || common.ONE;
+            let orientation = particle.orientation || 0;
+            let size = particle.size || common.ZERO;
             let color = particle.color || common.WHITE;
-            let angle = particle.angle || 0;
-            let cos = angle ? Math.cos(angle) : 1;
-            let sin = angle ? Math.sin(angle) : 0;
-            let halfW = size ? size[0] / 2 : 0;
-            let halfH = size ? size[1] / 2 : 0;
+            let rotation = particle.rotation || 0;
+            let angle = orientation + rotation;
+            let cos = Math.cos(angle);
+            let sin = Math.sin(angle);
+            let halfW = size[0] * scale[0] / 2;
+            let halfH = size[1] * scale[1] / 2;
             let halfWNegative = - halfW;
             let halfHNegative = - halfH;
             //Vertex 0 left top
