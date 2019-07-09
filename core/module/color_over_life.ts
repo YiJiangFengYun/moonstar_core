@@ -39,8 +39,8 @@ export class ModColorOverLife extends Module {
         let owner = this.owner;
         let particles = owner.particles;
         let particleCount = owner.particleCount;
-        let beginColor = this.beginColor || common.WHITE;
-        let endColor = this.endColor || common.WHITE;
+        let beginColor = this.beginColor || common.COLOR_WHITE;
+        let endColor = this.endColor || common.COLOR_WHITE;
         let beginColorR = beginColor[0];
         let beginColorG = beginColor[1];
         let beginColorB = beginColor[2];

@@ -37,7 +37,7 @@ export class Material {
     public constructor(type?: MaterialType | number) {
         this.type = type;
         this._id = common.gainID();
-        this.color.set(common.WHITE);
+        this.color.set(common.COLOR_WHITE);
     }
 
     public get id() {

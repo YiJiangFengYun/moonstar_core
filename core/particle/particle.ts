@@ -16,7 +16,7 @@ export interface Particle {
      * It is specify the orientation of the x-axis of the Particle relative to its emitter space.
      * (Radian)
      */
-    orientation: number;
+    orientation?: number;
     
     /**
      * The color of the Particle used by Sprite and so on.
