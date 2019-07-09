@@ -35,8 +35,8 @@ var ModSpawn = /** @class */ (function (_super) {
         if (this.interval && dt > 0) {
             var interval = this.interval;
             dt = this._remainTime + dt;
-            var pCount = Math.floor(dt / interval);
-            this._remainTime = dt % interval;
+            var pCount = Math.ceil(dt / interval);
+            this._remainTime = dt % interval - interval;
             while (pCount > 0) {
                 this._createParticle();
                 --pCount;
