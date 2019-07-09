@@ -1,6 +1,6 @@
 import * as core from "../../core";
 
-export const name = "sample_radiational_stars";
+export const name = "sample_radiant_stars";
 
 export const psInfo: core.ParticleSystemInfo = {
     emitters: [{

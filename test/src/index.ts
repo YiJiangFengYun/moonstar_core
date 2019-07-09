@@ -2,10 +2,10 @@ import * as stats from "stats.js";
 import * as renderMod from "../../renderer";
 import * as core from "../../core";
 import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
-import * as sampleTest from "./sample_radiational_stars";
+import * as sampleRadiantStars from "./sample_radiant_stars";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
-    { name: sampleTest.name, info: sampleTest.psInfo },
+    { name: sampleRadiantStars.name, info: sampleRadiantStars.psInfo },
     { name: sampleSpriteSheetSimple.name, info: sampleSpriteSheetSimple.psInfo },
 ];
 
