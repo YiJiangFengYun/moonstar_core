@@ -4,7 +4,6 @@ export declare class ModSpawn extends Module {
     static NAME: string;
     interval: number;
     duration: number;
-    lifeTime: number;
     private _remainTime;
     constructor(owner: IEmitter);
     init(info: any): void;

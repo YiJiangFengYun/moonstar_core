@@ -29,12 +29,10 @@ var ModSpawn = /** @class */ (function (_super) {
         this._remainTime = 0;
         this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
-        this.lifeTime = 0;
     };
     ModSpawn.prototype.update = function (dt) {
-        dt = Math.min(dt, this.duration - this.lifeTime);
+        dt = Math.min(dt, this.duration - this.owner.time);
         if (this.interval && dt > 0) {
-            this.lifeTime += dt;
             var interval = this.interval;
             dt = this._remainTime + dt;
             var pCount = Math.floor(dt / interval);

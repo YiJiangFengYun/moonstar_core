@@ -19,6 +19,7 @@ export interface IEmitter extends common.EventEmitter {
      */
     rotation: number;
     useLocalSpace: boolean;
+    time: number;
 }
 
 export type ModuleType = {

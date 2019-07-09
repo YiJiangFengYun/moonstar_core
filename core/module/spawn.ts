@@ -8,7 +8,6 @@ export class ModSpawn extends Module {
     public static NAME = "spawn";
     public interval: number; //Unit(ms), from (1 / rate) * 1000;
     public duration: number;
-    public lifeTime: number;
     private _remainTime: number = 0;
     public constructor(owner: IEmitter) {
         super(owner);
@@ -20,13 +19,11 @@ export class ModSpawn extends Module {
         this._remainTime = 0;
         this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
-        this.lifeTime = 0;
     }
 
     public update(dt: number) {
-        dt = Math.min(dt, this.duration - this.lifeTime);
+        dt = Math.min(dt, this.duration - this.owner.time);
         if (this.interval && dt > 0) {
-            this.lifeTime += dt;
             let interval = this.interval;
             dt = this._remainTime + dt;
             let pCount = Math.floor(dt / interval);

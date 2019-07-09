@@ -14,4 +14,5 @@ export declare class Player extends eventEmitter.EventEmitter implements IPlayer
     pause(): void;
     stop(): void;
     update(dt: number): void;
+    readonly time: number;
 }

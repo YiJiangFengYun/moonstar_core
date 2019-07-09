@@ -35,6 +35,13 @@ var Player = /** @class */ (function (_super) {
     Player.prototype.update = function (dt) {
         this.elapsedTime += dt;
     };
+    Object.defineProperty(Player.prototype, "time", {
+        get: function () {
+            return this.elapsedTime;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Player;
 }(eventEmitter.EventEmitter));
 exports.Player = Player;
