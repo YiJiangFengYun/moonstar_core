@@ -7,12 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Test</title>
     <style>
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 100%;
         }
 
         body {
+            position: relative;
             margin: 0px;
         }
 
@@ -20,11 +22,37 @@
             width: 100%;
             height: 100%;
         }
+
+        #ui {
+            display: block;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+        }
+
+        #interaction {
+            display: block;
+            position: absolute;
+            left: 0%;
+            bottom: 0%;
+        }
+
+        
     </style>
 </head>
 
 <body>
     <canvas id="glCanvas"></canvas>
+    <div id="ui">
+        <div id="stats"></div>
+        <div id="interaction">
+            <select id="select">
+            </select>
+        </div>
+
+    </div>
     <script src="./build/index.pack.js"></script>
 </body>
 

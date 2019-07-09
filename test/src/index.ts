@@ -1,63 +1,13 @@
 import * as stats from "stats.js";
 import * as renderMod from "../../renderer";
 import * as core from "../../core";
+import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
+import * as sampleTest from "./sample_test";
 
-const psInfo: core.ParticleSystemInfo = {
-    emitters: [{
-        maxParticleCount: 10000,
-        root: true,
-        modules: [
-            {
-                name: "life_time",
-                life: 10,
-            },
-            {
-                name: "sprite",
-                texturePath: "./res/spritesheet.png",
-                useSubUV: true,
-            },
-            {
-                name: "spawn",
-                rate: 100,
-                duration: 3
-            },
-            {
-                name: "size_initial",
-                width: 240,
-                height: 160,
-            },
-            {
-                name: "location_initial_circle",
-                radius: 1,
-            },
-            {
-                name: "orientation_initial_radiation",
-                effectRotation: true,
-            },
-            {
-                name: "velocity_constant",
-                x: 100,
-                y: 0,
-            },
-            {
-                name: "color_over_life",
-                beginColorR: 1,
-                beginColorG: 1,
-                beginColorB: 1,
-                beginColorA: 1,
-                endColorR: 1,
-                endColorG: 1,
-                endColorB: 1,
-                endColorA: 0,
-            },
-            {
-                name: "subuv_spritesheet_simple",
-                uvSize: [0.333, 0.5],
-                frameRate: 3,
-            }
-        ]
-    }],
-}
+const tests: { name: string; info: core.ParticleSystemInfo }[] = [
+    { name: sampleTest.name, info: sampleTest.psInfo },
+    { name: sampleSpriteSheetSimple.name, info: sampleSpriteSheetSimple.psInfo },
+];
 
 class App {
     private _intervalI: number;
@@ -65,6 +15,7 @@ class App {
     private _renderer: renderMod.Renderer;
     private _particleSystem: renderMod.ParticleSystem;
     private _stats: stats;
+    private _selectedIndex = 0;
     public constructor() {
         this._init()
     }
@@ -99,23 +50,28 @@ class App {
                 context._renderer = renderer;
             })
             .then(() => {
-                this._particleSystem = new renderMod.ParticleSystem();
-                this._particleSystem.init(psInfo);
-                context._renderer.addParticleSystem(this._particleSystem);
-            })
-            .then(() => {
-                context._intervalI = window.setInterval(this._update.bind(this), 20);
+                context._intervalI = window.setInterval(context._update.bind(context), 20);
                 context._lastTime = new Date().getTime();
             })
             .then(() => {
-                context._particleSystem.play();
-            })
-            .then(() => {
-                var st =  new stats();
+                var st = new stats();
                 st.showPanel(1);
-                document.body.appendChild(st.dom);
+                let statsElement = document.getElementById("stats");
+                statsElement.appendChild(st.dom);
                 context._stats = st;
             })
+            .then(() => {
+                let selectElement = document.getElementById("select");
+                tests.forEach(test => {
+                    let newElement = document.createElement("option");
+                    newElement.innerText = test.name;
+                    selectElement.appendChild(newElement);
+                });
+                selectElement.onchange = context._onChangeSelect.bind(context);
+            })
+            .then(() => {
+                context._updateParticleSystem();
+            });
     }
 
     private _update() {
@@ -140,6 +96,26 @@ class App {
 
     private _postRender() {
 
+    }
+
+    private _updateParticleSystem() {
+        if (this._particleSystem) {
+            this._renderer.removeParticleSystem(this._particleSystem);
+        }
+        this._particleSystem = new renderMod.ParticleSystem();
+        this._particleSystem.init(tests[this._selectedIndex].info);
+        this._renderer.addParticleSystem(this._particleSystem);
+        this._particleSystem.play();
+    }
+
+    private _onChangeSelect() {
+        let selectElement: HTMLSelectElement = document.getElementById("select") as HTMLSelectElement;
+        let name = selectElement.value;
+        this._selectedIndex = tests.findIndex((value) => {
+            if (value.name === name) return true;
+            else return false;
+        });
+        this._updateParticleSystem();
     }
 }
 
