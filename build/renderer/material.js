@@ -22,8 +22,8 @@ var render_data_1 = require("./render_data");
 exports.shaderLibs = [];
 exports.shaderLibs[core.MaterialType.UNDEFINED] = null;
 exports.shaderLibs[core.MaterialType.SPRITE] = {
-    vert: "\n    attribute vec2 aVertexPosition;\n    attribute vec2 aVertexUV;\n    attribute vec4 aVertexColor;\n\n    uniform mat4 uProjectionMatrix;\n    uniform mat4 uModelViewMatrix;\n    uniform mat4 uEmitterModelMatrix;\n\n    varying lowp vec2 vUV;\n    varying lowp vec4 vColor;\n    void main() {\n      gl_Position = uProjectionMatrix * uModelViewMatrix * uEmitterModelMatrix * vec4(aVertexPosition, 1.0, 1.0);\n      vUV = aVertexUV;\n      vColor = aVertexColor;\n    }\n    ",
-    frag: "\n    varying lowp vec2 vUV;\n    varying lowp vec4 vColor;\n\n    uniform lowp vec4 uColor;\n\n    uniform sampler2D uSampler;\n\n    void main() {\n        gl_FragColor = uColor * vColor * texture2D(uSampler, vUV);\n    }\n    ",
+    vert: "\n    precision lowp float;\n    attribute vec2 aVertexPosition;\n    attribute vec2 aVertexUV;\n    attribute vec4 aVertexColor;\n\n    uniform mat4 uProjectionMatrix;\n    uniform mat4 uModelViewMatrix;\n    uniform mat4 uEmitterModelMatrix;\n\n    varying vec2 vUV;\n    varying vec4 vColor;\n    void main() {\n      gl_Position = uProjectionMatrix * uModelViewMatrix * uEmitterModelMatrix * vec4(aVertexPosition, 1.0, 1.0);\n      vUV = aVertexUV;\n      vColor = aVertexColor;\n    }\n    ",
+    frag: "\n    precision lowp float;\n    varying vec2 vUV;\n    varying vec4 vColor;\n\n    uniform vec4 uColor;\n\n    uniform sampler2D uSampler;\n\n    void main() {\n        gl_FragColor = uColor * vColor * texture2D(uSampler, vUV);\n    }\n    ",
 };
 function getGLTypeFromValueFormat(valueFormat, gl) {
     var map = [];

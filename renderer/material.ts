@@ -11,6 +11,7 @@ export const shaderLibs: { vert: string; frag: string }[] = [];
 shaderLibs[core.MaterialType.UNDEFINED] = null;
 shaderLibs[core.MaterialType.SPRITE] = {
     vert: `
+    precision lowp float;
     attribute vec2 aVertexPosition;
     attribute vec2 aVertexUV;
     attribute vec4 aVertexColor;
@@ -19,8 +20,8 @@ shaderLibs[core.MaterialType.SPRITE] = {
     uniform mat4 uModelViewMatrix;
     uniform mat4 uEmitterModelMatrix;
 
-    varying lowp vec2 vUV;
-    varying lowp vec4 vColor;
+    varying vec2 vUV;
+    varying vec4 vColor;
     void main() {
       gl_Position = uProjectionMatrix * uModelViewMatrix * uEmitterModelMatrix * vec4(aVertexPosition, 1.0, 1.0);
       vUV = aVertexUV;
@@ -28,10 +29,11 @@ shaderLibs[core.MaterialType.SPRITE] = {
     }
     `,
     frag: `
-    varying lowp vec2 vUV;
-    varying lowp vec4 vColor;
+    precision lowp float;
+    varying vec2 vUV;
+    varying vec4 vColor;
 
-    uniform lowp vec4 uColor;
+    uniform vec4 uColor;
 
     uniform sampler2D uSampler;
 
