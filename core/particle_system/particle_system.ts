@@ -44,7 +44,6 @@ export class ParticleSystem extends common.Player {
                 et.name = `emitter_${i + 1}`;
             }
             mapEmitters[et.name] = et;
-            if ( ! etInfo.parent) et.play();
         }
 
         // Initialize the hierarchy of the emiiters
@@ -58,9 +57,10 @@ export class ParticleSystem extends common.Player {
             }
         }
 
-        // Ready the emitters
+        // Ready and player the emitters
         for (let i = 0; i < newCount; ++i) {
             emitters[i].ready();
+            if ( ! info.emitters[i].parent) emitters[i].play();
         }
 
         let maxVtxCount = 0;
