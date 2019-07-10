@@ -14,8 +14,8 @@ export class ModSprite extends Module implements ModRender {
     private _uvHelper: common.Vector = common.Vector.create();
     private _cmdHelper: render.DrawCmd = render.DrawCmd.create();
 
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
         this.name = ModSprite.NAME;
         this.material = new material.Material(material.MaterialType.SPRITE);
     }
@@ -27,23 +27,23 @@ export class ModSprite extends Module implements ModRender {
     }
 
     public getTotalVtxCount(): number {
-        let owner = this.owner;
-        let particleCount = owner.particleCount;
+        let player = this.player;
+        let particleCount = player.particleCount;
         return particleCount * 4;
     }
 
     public getTotalIdxCount(): number {
-        let owner = this.owner;
-        let particleCount = owner.particleCount;
+        let player = this.player;
+        let particleCount = player.particleCount;
         return particleCount * 6;
     }
 
     public getMaxVtxCount(): number {
-        return this.owner.maxParticleCount * 4;
+        return this.player.maxParticleCount * 4;
     }
 
     public getMaxIdxCount(): number {
-        return this.owner.maxParticleCount * 6;
+        return this.player.maxParticleCount * 6;
     }
 
     public fillBuffers(drawData: render.DrawData, offsets: {
@@ -52,13 +52,13 @@ export class ModSprite extends Module implements ModRender {
         lastVertexCount: number; //used as idxValueOffset
         lastIndexCount: number; // used as index offset of cmd.
     }): void {
-        let owner = this.owner;
-        let particles = owner.particles;
-        let particleCount = owner.particleCount;
+        let player = this.player;
+        let particles = player.particles;
+        let particleCount = player.particleCount;
         let useSubUV = this.useSubUV;
         // todo 
-        // let origin = owner.origin;
-        // let useLocal = owner.useLocalSpace; 
+        // let origin = player.origin;
+        // let useLocal = player.useLocalSpace; 
 
         let vtxBufferByteOffset = offsets.idxBufferByteOffset;
 
@@ -166,8 +166,8 @@ export class ModSprite extends Module implements ModRender {
         cmdHelper.indexCount = particleCount * 6;
         cmdHelper.material = this.material;
 
-        common.Vector.copy(cmdHelper.translationEmitter, owner.origin);
-        cmdHelper.rotationEmitter = owner.rotation;
+        common.Vector.copy(cmdHelper.translationEmitter, player.origin);
+        cmdHelper.rotationEmitter = player.rotation;
 
         drawData.fillDrawCmd(cmdHelper);
         

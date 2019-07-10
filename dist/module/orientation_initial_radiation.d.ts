@@ -5,7 +5,7 @@ export declare class ModOrientationInitialRadiation extends Module {
     static NAME: string;
     effectRotation: boolean;
     vecHelper: import("gl-matrix").vec2;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     private _onCreateParticle;
 }

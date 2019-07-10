@@ -19,8 +19,8 @@ var render = require("../render");
 var module_1 = require("./module");
 var ModSprite = /** @class */ (function (_super) {
     __extends(ModSprite, _super);
-    function ModSprite(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModSprite(player) {
+        var _this = _super.call(this, player) || this;
         _this._posHelper = common.Vector.create();
         _this._uvHelper = common.Vector.create();
         _this._cmdHelper = render.DrawCmd.create();
@@ -34,29 +34,29 @@ var ModSprite = /** @class */ (function (_super) {
         this.useSubUV = info.useSubUV || false;
     };
     ModSprite.prototype.getTotalVtxCount = function () {
-        var owner = this.owner;
-        var particleCount = owner.particleCount;
+        var player = this.player;
+        var particleCount = player.particleCount;
         return particleCount * 4;
     };
     ModSprite.prototype.getTotalIdxCount = function () {
-        var owner = this.owner;
-        var particleCount = owner.particleCount;
+        var player = this.player;
+        var particleCount = player.particleCount;
         return particleCount * 6;
     };
     ModSprite.prototype.getMaxVtxCount = function () {
-        return this.owner.maxParticleCount * 4;
+        return this.player.maxParticleCount * 4;
     };
     ModSprite.prototype.getMaxIdxCount = function () {
-        return this.owner.maxParticleCount * 6;
+        return this.player.maxParticleCount * 6;
     };
     ModSprite.prototype.fillBuffers = function (drawData, offsets) {
-        var owner = this.owner;
-        var particles = owner.particles;
-        var particleCount = owner.particleCount;
+        var player = this.player;
+        var particles = player.particles;
+        var particleCount = player.particleCount;
         var useSubUV = this.useSubUV;
         // todo 
-        // let origin = owner.origin;
-        // let useLocal = owner.useLocalSpace; 
+        // let origin = player.origin;
+        // let useLocal = player.useLocalSpace; 
         var vtxBufferByteOffset = offsets.idxBufferByteOffset;
         var idxBufferByteOffset = offsets.idxBufferByteOffset;
         var idxValueOffset = offsets.lastVertexCount;
@@ -158,8 +158,8 @@ var ModSprite = /** @class */ (function (_super) {
         cmdHelper.indexOffset = offsets.lastIndexCount;
         cmdHelper.indexCount = particleCount * 6;
         cmdHelper.material = this.material;
-        common.Vector.copy(cmdHelper.translationEmitter, owner.origin);
-        cmdHelper.rotationEmitter = owner.rotation;
+        common.Vector.copy(cmdHelper.translationEmitter, player.origin);
+        cmdHelper.rotationEmitter = player.rotation;
         drawData.fillDrawCmd(cmdHelper);
     };
     ModSprite.NAME = "sprite";

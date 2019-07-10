@@ -9,7 +9,7 @@ export declare class ModSprite extends Module implements ModRender {
     private _posHelper;
     private _uvHelper;
     private _cmdHelper;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     getTotalVtxCount(): number;
     getTotalIdxCount(): number;

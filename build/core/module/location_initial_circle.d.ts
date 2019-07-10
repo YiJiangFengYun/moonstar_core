@@ -3,7 +3,7 @@ import { Module } from "./module";
 export declare class ModLocationInitialCircle extends Module {
     static NAME: string;
     radius: number;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     private _onCreateParticle;
 }

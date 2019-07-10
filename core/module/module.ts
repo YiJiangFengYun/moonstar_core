@@ -5,11 +5,11 @@ import * as render from "../render";
 
 export class Module {
     public name: string;
-    public owner: emitterPlayer.EmitterPlayer;
+    public player: emitterPlayer.EmitterPlayer;
 
     private _id: number;
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        this.owner = owner;
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        this.player = player;
         this._id = common.gainID();
     }
 

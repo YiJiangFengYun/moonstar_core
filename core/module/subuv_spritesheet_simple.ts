@@ -32,10 +32,10 @@ export class ModSubUVSpriteSheetSimple extends Module {
     private _totalFrames: number;
 
 
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
         this.name = ModSubUVSpriteSheetSimple.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -51,15 +51,15 @@ export class ModSubUVSpriteSheetSimple extends Module {
 
     public update(dt: number) {
         super.update(dt);
-        let owner = this.owner;
-        let particles = owner.particles;
-        let particleCount = owner.particleCount;
+        let player = this.player;
+        let particles = player.particles;
+        let particleCount = player.particleCount;
         let times = this.times;
         let frameInterval = this.frameInterval;
         let totalFrames = this._totalFrames;
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleWithFrameInfo = particles[i];
-            let framePastTime = owner.time - particle.startFrameTime;
+            let framePastTime = player.time - particle.startFrameTime;
             let frame = Math.floor(framePastTime / frameInterval);
             let playTimes = Math.floor(frame / totalFrames);
             if (times && playTimes >= times) {
@@ -81,7 +81,7 @@ export class ModSubUVSpriteSheetSimple extends Module {
     private _onCreateParticle(particle: ParticleWithFrameInfo) {
         particle.currFrame = 0;
         particle.currTimes = 0;
-        particle.startFrameTime = this.owner.time;
+        particle.startFrameTime = this.player.time;
         this._updateParticleSubUV(particle);
     }
 

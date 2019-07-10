@@ -5,7 +5,7 @@ export declare class ModSpawn extends Module {
     interval: number;
     duration: number;
     private _remainTime;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(dt: number): void;
     private _createParticle;

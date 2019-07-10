@@ -18,8 +18,8 @@ var common = require("../common");
 var module_1 = require("./module");
 var ModSpawn = /** @class */ (function (_super) {
     __extends(ModSpawn, _super);
-    function ModSpawn(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModSpawn(player) {
+        var _this = _super.call(this, player) || this;
         _this._remainTime = 0;
         _this.name = ModSpawn.NAME;
         return _this;
@@ -31,7 +31,7 @@ var ModSpawn = /** @class */ (function (_super) {
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
     };
     ModSpawn.prototype.update = function (dt) {
-        dt = Math.min(dt, this.duration - this.owner.time);
+        dt = Math.min(dt, this.duration - this.player.time);
         if (this.interval && dt > 0) {
             var interval = this.interval;
             dt = this._remainTime + dt;
@@ -45,7 +45,7 @@ var ModSpawn = /** @class */ (function (_super) {
     };
     ModSpawn.prototype._createParticle = function () {
         var particle;
-        var emitter = this.owner;
+        var emitter = this.player;
         if (emitter.particleCount < emitter.maxParticleCount) {
             particle = emitter.particles[emitter.particleCount];
             if (!particle)

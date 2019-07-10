@@ -12,10 +12,10 @@ export class ModVelocityConstant extends Module {
     public velocity: common.Vector = common.Vector.create();
 
     private _vecHelper: common.Vector = common.Vector.create();
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
         this.name = ModVelocityConstant.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -27,9 +27,9 @@ export class ModVelocityConstant extends Module {
 
     public update(dt: number) {
         super.update(dt);
-        let owner = this.owner;
-        let particles = owner.particles;
-        let particleCount = owner.particleCount;
+        let player = this.player;
+        let particles = player.particles;
+        let particleCount = player.particleCount;
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleWithVelocity = particles[i];
             let vel = particle.velocity;

@@ -18,11 +18,11 @@ var particleMod = require("../particle");
 var module_1 = require("./module");
 var ModOrientationInitialRadiation = /** @class */ (function (_super) {
     __extends(ModOrientationInitialRadiation, _super);
-    function ModOrientationInitialRadiation(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModOrientationInitialRadiation(player) {
+        var _this = _super.call(this, player) || this;
         _this.vecHelper = common.Vector.create();
         _this.name = ModOrientationInitialRadiation.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModOrientationInitialRadiation.prototype.init = function (info) {

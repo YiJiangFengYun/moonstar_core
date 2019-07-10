@@ -12,12 +12,12 @@ export class ModColorOverLife extends Module {
     public static NAME = "color_over_life";
     public beginColor: common.Color;
     public endColor: common.Color;
-    public constructor(owner: emitterData.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterData.EmitterPlayer) {
+        super(player);
         this.name = ModColorOverLife.NAME;
         this.beginColor = common.Color.create();
         this.endColor = common.Color.create();
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -35,9 +35,9 @@ export class ModColorOverLife extends Module {
     }
 
     public update() {
-        let owner = this.owner;
-        let particles = owner.particles;
-        let particleCount = owner.particleCount;
+        let player = this.player;
+        let particles = player.particles;
+        let particleCount = player.particleCount;
         let beginColor = this.beginColor || common.COLOR_WHITE;
         let endColor = this.endColor || common.COLOR_WHITE;
         let beginColorR = beginColor[0];

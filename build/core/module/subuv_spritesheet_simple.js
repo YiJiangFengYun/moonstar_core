@@ -18,14 +18,14 @@ var particleMod = require("../particle");
 var module_1 = require("./module");
 var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
     __extends(ModSubUVSpriteSheetSimple, _super);
-    function ModSubUVSpriteSheetSimple(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModSubUVSpriteSheetSimple(player) {
+        var _this = _super.call(this, player) || this;
         /**
          * UV Size of one frame.
          */
         _this.frameUVSize = common.Vector.create();
         _this.name = ModSubUVSpriteSheetSimple.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModSubUVSpriteSheetSimple.prototype.init = function (info) {
@@ -40,15 +40,15 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
     };
     ModSubUVSpriteSheetSimple.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);
-        var owner = this.owner;
-        var particles = owner.particles;
-        var particleCount = owner.particleCount;
+        var player = this.player;
+        var particles = player.particles;
+        var particleCount = player.particleCount;
         var times = this.times;
         var frameInterval = this.frameInterval;
         var totalFrames = this._totalFrames;
         for (var i = 0; i < particleCount; ++i) {
             var particle = particles[i];
-            var framePastTime = owner.time - particle.startFrameTime;
+            var framePastTime = player.time - particle.startFrameTime;
             var frame = Math.floor(framePastTime / frameInterval);
             var playTimes = Math.floor(frame / totalFrames);
             if (times && playTimes >= times) {
@@ -68,7 +68,7 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
     ModSubUVSpriteSheetSimple.prototype._onCreateParticle = function (particle) {
         particle.currFrame = 0;
         particle.currTimes = 0;
-        particle.startFrameTime = this.owner.time;
+        particle.startFrameTime = this.player.time;
         this._updateParticleSubUV(particle);
     };
     ModSubUVSpriteSheetSimple.prototype._updateParticleSubUV = function (particle) {

@@ -18,7 +18,7 @@ export declare class ModSubUVSpriteSheetSimple extends Module {
     private _colSize;
     private _rowSize;
     private _totalFrames;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(dt: number): void;
     private _onCreateParticle;

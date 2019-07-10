@@ -9,10 +9,10 @@ export class ModOrientationInitialRadiation extends Module {
     public effectRotation: boolean;
     public vecHelper = common.Vector.create();
 
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
         this.name = ModOrientationInitialRadiation.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {

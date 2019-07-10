@@ -3,9 +3,9 @@ import * as emitterPlayer from "../emitter_player";
 import * as render from "../render";
 export declare class Module {
     name: string;
-    owner: emitterPlayer.EmitterPlayer;
+    player: emitterPlayer.EmitterPlayer;
     private _id;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     readonly id: number;
     init(info: any): void;
     update(dt: number): void;

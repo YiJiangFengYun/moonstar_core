@@ -10,7 +10,7 @@ export declare class ModColorOverLife extends Module {
     static NAME: string;
     beginColor: common.Color;
     endColor: common.Color;
-    constructor(owner: emitterData.EmitterPlayer);
+    constructor(player: emitterData.EmitterPlayer);
     init(info: any): void;
     update(): void;
     private _onCreateParticle;

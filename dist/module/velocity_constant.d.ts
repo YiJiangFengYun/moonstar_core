@@ -9,7 +9,7 @@ export declare class ModVelocityConstant extends Module {
     static NAME: string;
     velocity: common.Vector;
     private _vecHelper;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(dt: number): void;
     private _onCreateParticle;

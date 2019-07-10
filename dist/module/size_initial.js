@@ -18,11 +18,11 @@ var particleMod = require("../particle");
 var module_1 = require("./module");
 var ModSizeInitial = /** @class */ (function (_super) {
     __extends(ModSizeInitial, _super);
-    function ModSizeInitial(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModSizeInitial(player) {
+        var _this = _super.call(this, player) || this;
         _this.size = common.Vector.create();
         _this.name = ModSizeInitial.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModSizeInitial.prototype.init = function (info) {

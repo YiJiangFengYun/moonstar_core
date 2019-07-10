@@ -8,8 +8,8 @@ export class ModSpawn extends Module {
     public interval: number; //Unit(ms), from (1 / rate) * 1000;
     public duration: number;
     private _remainTime: number = 0;
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
         this.name = ModSpawn.NAME;
     }
 
@@ -21,7 +21,7 @@ export class ModSpawn extends Module {
     }
 
     public update(dt: number) {
-        dt = Math.min(dt, this.duration - this.owner.time);
+        dt = Math.min(dt, this.duration - this.player.time);
         if (this.interval && dt > 0) {
             let interval = this.interval;
             dt = this._remainTime + dt;
@@ -36,7 +36,7 @@ export class ModSpawn extends Module {
 
     private _createParticle(){
         let particle: particleMod.Particle;
-        let emitter = this.owner;
+        let emitter = this.player;
         if (emitter.particleCount < emitter.maxParticleCount) {
             particle = emitter.particles[emitter.particleCount];
             if (! particle) emitter.particles[emitter.particleCount] = 

@@ -7,10 +7,10 @@ export class ModSizeInitial extends Module {
     public static NAME = "size_initial";
     public size: common.Vector = common.Vector.create();
 
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
         this.name = ModSizeInitial.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {

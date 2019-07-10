@@ -18,12 +18,12 @@ var particleMod = require("../particle");
 var module_1 = require("./module");
 var ModColorOverLife = /** @class */ (function (_super) {
     __extends(ModColorOverLife, _super);
-    function ModColorOverLife(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModColorOverLife(player) {
+        var _this = _super.call(this, player) || this;
         _this.name = ModColorOverLife.NAME;
         _this.beginColor = common.Color.create();
         _this.endColor = common.Color.create();
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModColorOverLife.prototype.init = function (info) {
@@ -40,9 +40,9 @@ var ModColorOverLife = /** @class */ (function (_super) {
         endColor[3] = info.endColorA || 0;
     };
     ModColorOverLife.prototype.update = function () {
-        var owner = this.owner;
-        var particles = owner.particles;
-        var particleCount = owner.particleCount;
+        var player = this.player;
+        var particles = player.particles;
+        var particleCount = player.particleCount;
         var beginColor = this.beginColor || common.COLOR_WHITE;
         var endColor = this.endColor || common.COLOR_WHITE;
         var beginColorR = beginColor[0];

@@ -12,10 +12,10 @@ export class ModLifeTime extends Module {
     public static NAME = "life_time";
     public life: number; //Unit(ms)
 
-    public constructor(owner: emitterPlayer.EmitterPlayer) {
-        super(owner);
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
         this.name = ModLifeTime.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -24,14 +24,14 @@ export class ModLifeTime extends Module {
     }
 
     public update(dt: number) {
-        let owner = this.owner;
-        let particles = owner.particles;
-        let particleCount = owner.particleCount;
+        let player = this.player;
+        let particles = player.particles;
+        let particleCount = player.particleCount;
         for (let i = particleCount - 1; i >= 0; --i) {
             let particle: ParticleWithLifeTime = particles[i];
             particle.time = (particle.time || 0) + dt;
             if (particle.time >= particle.life) {
-                owner.particleCount = particleCount = this._deleteParticle(
+                player.particleCount = particleCount = this._deleteParticle(
                     particle, 
                     particles,
                     particleCount,
@@ -48,7 +48,7 @@ export class ModLifeTime extends Module {
             let endParticle = particles[end];
             particles[end] = particles[index];
             particles[index] = endParticle;
-            this.owner.emit(particleMod.EVENT_DESTROYED_PARTICLE, particle);
+            this.player.emit(particleMod.EVENT_DESTROYED_PARTICLE, particle);
             
         } else {
             log.error("Can't find the particle from the particles for delete the particle.");

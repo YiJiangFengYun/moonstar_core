@@ -18,11 +18,11 @@ var particleMod = require("../particle");
 var module_1 = require("./module");
 var ModLocationInitialCircle = /** @class */ (function (_super) {
     __extends(ModLocationInitialCircle, _super);
-    function ModLocationInitialCircle(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModLocationInitialCircle(player) {
+        var _this = _super.call(this, player) || this;
         _this.radius = 0;
         _this.name = ModLocationInitialCircle.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModLocationInitialCircle.prototype.init = function (info) {

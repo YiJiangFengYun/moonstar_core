@@ -18,12 +18,12 @@ var particleMod = require("../particle");
 var module_1 = require("./module");
 var ModVelocityConstant = /** @class */ (function (_super) {
     __extends(ModVelocityConstant, _super);
-    function ModVelocityConstant(owner) {
-        var _this = _super.call(this, owner) || this;
+    function ModVelocityConstant(player) {
+        var _this = _super.call(this, player) || this;
         _this.velocity = common.Vector.create();
         _this._vecHelper = common.Vector.create();
         _this.name = ModVelocityConstant.NAME;
-        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModVelocityConstant.prototype.init = function (info) {
@@ -34,9 +34,9 @@ var ModVelocityConstant = /** @class */ (function (_super) {
     };
     ModVelocityConstant.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);
-        var owner = this.owner;
-        var particles = owner.particles;
-        var particleCount = owner.particleCount;
+        var player = this.player;
+        var particles = player.particles;
+        var particleCount = player.particleCount;
         for (var i = 0; i < particleCount; ++i) {
             var particle = particles[i];
             var vel = particle.velocity;

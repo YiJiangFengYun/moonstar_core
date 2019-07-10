@@ -8,7 +8,7 @@ export interface ParticleWithLifeTime extends particleMod.Particle {
 export declare class ModLifeTime extends Module {
     static NAME: string;
     life: number;
-    constructor(owner: emitterPlayer.EmitterPlayer);
+    constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(dt: number): void;
     private _deleteParticle;
