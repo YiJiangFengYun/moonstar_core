@@ -21,9 +21,14 @@ export class ModSpawn extends Module {
         this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
         this._time = 0;
+        
     }
 
     public update(dt: number) {
+        let player = this.player;
+        if (! player.emitted) {
+            player.startEmit();
+        }
         let dt2 = Math.min(dt, this.duration - this._time);
         if (this.interval && dt2 > 0) {
             let interval = this.interval;
@@ -34,6 +39,9 @@ export class ModSpawn extends Module {
                 this._createParticle();
                 --pCount;
             }
+        }
+        if (this.player.emitted && dt2 <= 0) {
+            this.player.endEmit();
         }
         this._time += dt;
     }

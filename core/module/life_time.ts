@@ -39,6 +39,10 @@ export class ModLifeTime extends Module {
             }
         }
 
+        if ( ! player.completed && player.checkComplete()) {
+            player.complete();
+        }
+
     }
 
     private _deleteParticle(particle: particleMod.Particle, particles: particleMod.Particle[], particleCount: number) {
