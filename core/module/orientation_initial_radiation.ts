@@ -12,7 +12,7 @@ export class ModOrientationInitialRadiation extends Module {
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModOrientationInitialRadiation.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {

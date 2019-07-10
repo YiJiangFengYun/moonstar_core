@@ -1,6 +1,6 @@
 import * as common from "../common";
 import * as particleMod from "../particle";
-import * as emitterData from "../emitter_player";
+import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
 
 export interface ParticleSpecial extends particleMod.Particle {
@@ -12,12 +12,12 @@ export class ModColorOverLife extends Module {
     public static NAME = "color_over_life";
     public beginColor: common.Color;
     public endColor: common.Color;
-    public constructor(player: emitterData.EmitterPlayer) {
+    public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModColorOverLife.NAME;
         this.beginColor = common.Color.create();
         this.endColor = common.Color.create();
-        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {

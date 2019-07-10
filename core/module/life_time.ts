@@ -15,7 +15,7 @@ export class ModLifeTime extends Module {
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModLifeTime.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -48,7 +48,7 @@ export class ModLifeTime extends Module {
             let endParticle = particles[end];
             particles[end] = particles[index];
             particles[index] = endParticle;
-            this.player.emit(particleMod.EVENT_DESTROYED_PARTICLE, particle);
+            this.player.emit(emitterPlayer.EVENT_DESTROYED_PARTICLE, particle);
             
         } else {
             log.error("Can't find the particle from the particles for delete the particle.");

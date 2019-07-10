@@ -47,7 +47,7 @@ export class ModSpawn extends Module {
                 particle = { pos: common.Vector.create()};
             ++emitter.particleCount;
             common.Vector.set(particle.pos, 0, 0);
-            emitter.emit(particleMod.EVENT_CREATED_PARTICLE, particle);
+            emitter.emit(emitterPlayer.EVENT_CREATED_PARTICLE, particle);
         }
     }
 }

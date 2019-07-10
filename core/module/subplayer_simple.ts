@@ -15,8 +15,8 @@ export class ModSubPlayerSimple extends Module {
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModSubPlayerSimple.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
-        player.on(particleMod.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+        player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);
     }
 
     public init(info: any) {
