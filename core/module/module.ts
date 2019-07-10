@@ -1,37 +1,14 @@
 import * as common from "../common";
 import * as material from "../material";
-import * as particle from "../particle";
+import * as emitterPlayer from "../emitter_player";
 import * as render from "../render";
 
-export interface IModule {
-    init(info: any): void;
-    update(dt: number): void;
-}
-
-export interface IEmitter extends common.EventEmitter {
-    particles: particle.Particle[];
-    particleCount: number;
-    modules: IModule[];
-    maxParticleCount: number;
-    origin: common.Vector;
-    /**
-     * rotation (Radian)
-     */
-    rotation: number;
-    useLocalSpace: boolean;
-    time: number;
-}
-
-export type ModuleType = {
-    NAME: string;
-}
-
-export class Module implements IModule {
+export class Module {
     public name: string;
-    public owner: IEmitter;
+    public owner: emitterPlayer.EmitterPlayer;
 
     private _id: number;
-    public constructor(owner: IEmitter) {
+    public constructor(owner: emitterPlayer.EmitterPlayer) {
         this.owner = owner;
         this._id = common.gainID();
     }

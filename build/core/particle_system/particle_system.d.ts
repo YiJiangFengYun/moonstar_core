@@ -2,11 +2,7 @@ import * as common from "../common";
 import * as emitter from "../emitter";
 import * as render from "../render";
 export declare type ParticleSystemInfo = {
-    emitters: {
-        maxParticleCount?: number;
-        root?: boolean;
-        modules: any[];
-    }[];
+    emitters: emitter.EmitterInfo[];
 };
 /**
  * Note: All emitters should be created when the ParticleSystem init.

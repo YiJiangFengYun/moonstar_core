@@ -1,9 +1,10 @@
 import * as common from "../common";
-import { Module, IEmitter } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { Module } from "./module";
 export declare class ModSizeInitial extends Module {
     static NAME: string;
     size: common.Vector;
-    constructor(owner: IEmitter);
+    constructor(owner: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     private _onCreateParticle;
 }

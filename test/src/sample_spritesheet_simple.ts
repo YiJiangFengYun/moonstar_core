@@ -5,7 +5,6 @@ export const name = "sample_spritesheet_simple";
 export const psInfo: core.ParticleSystemInfo = {
     emitters: [{
         maxParticleCount: 1,
-        root: true,
         modules: [
             {
                 name: "life_time",

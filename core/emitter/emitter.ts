@@ -1,31 +1,23 @@
 import * as log from "loglevel";
 import * as common from "../common";
 import * as module from "../module";
-import * as particle from "../particle";
+import * as emitter_player from "../emitter_player";
 
-const DEFAULT_MAX_PARTICLE_COUNT = 100;
-
-export interface EmitterInfo {
-    maxParticleCount?: number;
-    modules?: ( {
+export interface EmitterInfo extends emitter_player.EmitterPlayerInfo {
+    name?: string;
+    parent?: string; //If it is root, parent is empty, it will play directly after the parent particle system inited.
+    modules?: ({
         name: string;
     } | any)[];
 }
 
-export class Emitter extends common.Player implements module.IEmitter {
-    public particles: particle.Particle[] = [];
-    public particleCount: number = 0;
+export class Emitter {
+    public name: string;
+    public player: emitter_player.EmitterPlayer = new emitter_player.EmitterPlayer();
     public modules: module.Module[] = [];
     public renderModule: module.ModRender;
-    public origin: common.Vector = common.Vector.create();
-    public rotation: number = 0;
-    public useLocalSpace: boolean;
-
-    private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
-
     private _id: number;
     public constructor() {
-        super();
         this._id = common.gainID();
     }
 
@@ -34,14 +26,15 @@ export class Emitter extends common.Player implements module.IEmitter {
     }
 
     public init(info: EmitterInfo) {
-        this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        this.name = info.name;
+        this.player.init(info);
         let modules = this.modules;
         let newModCount = info.modules ? info.modules.length : 0;
         modules.length = newModCount;
         for (let i = 0; i < newModCount; ++i) {
             let moduleClass = module.mapModules[info.modules[i].name];
             if (! moduleClass) throw new Error(`The module ${info.modules[i].name} is invalid.`);
-            modules[i] = new moduleClass(this);
+            modules[i] = new moduleClass(this.player);
             modules[i].init(info.modules[i]);
             if (module.renderModules.indexOf(moduleClass) >= 0) {
                 if (this.renderModule) {
@@ -50,30 +43,23 @@ export class Emitter extends common.Player implements module.IEmitter {
                 this.renderModule = modules[i] as any as module.ModRender;
             }
         }
-        this.stop();
-    }
-
-    public get maxParticleCount() {
-        return this._maxParticleCount;
-    }
-
-    public set maxParticleCount(value: number) {
-        value = value || DEFAULT_MAX_PARTICLE_COUNT;
-        this.particles.length = value;
-        this._maxParticleCount = value;
+        this.player.stop();
     }
 
     public update(dt: number) {
-        super.update(dt);
-        if (this.isPlay) {
+        this.player.update(dt);
+        if (this.player.isPlay) {
             this.modules.forEach(mod => {
                 mod.update(dt);
             });
         }
     }
 
+    public play() {
+        this.player.play();
+    }
+
     public stop() {
-        super.stop();
-        this.particleCount = 0;
+        this.player.stop();
     }
 }

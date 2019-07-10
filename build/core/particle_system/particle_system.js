@@ -15,8 +15,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
 var common = require("../common");
+var emitter = require("../emitter");
 var render = require("../render");
-var emitter_1 = require("../emitter");
 /**
  * Note: All emitters should be created when the ParticleSystem init.
  * If a emitter play latter, you should stop the emitter, and then play it.
@@ -45,12 +45,30 @@ var ParticleSystem = /** @class */ (function (_super) {
         if (emitters.length < newCount) {
             emitters.length = newCount;
         }
+        // Create emitters
+        var mapEmitters = {};
         for (var i = 0; i < newCount; ++i) {
-            if (!emitters[i])
-                emitters[i] = new emitter_1.Emitter();
-            emitters[i].init(info.emitters[i]);
-            if (info.emitters[i].root)
-                emitters[i].play();
+            var et = emitters[i];
+            var etInfo = info.emitters[i];
+            if (!et)
+                emitters[i] = et = new emitter.Emitter();
+            et.init(etInfo);
+            if (!et.name) {
+                et.name = "emitter_" + (i + 1);
+            }
+            mapEmitters[et.name] = et;
+            if (!etInfo.parent)
+                et.play();
+        }
+        // Initialize the hierarchy of the emiiters
+        for (var i = 0; i < newCount; ++i) {
+            var et = emitters[i];
+            var etInfo = info.emitters[i];
+            if (etInfo.parent) {
+                var parentEt = mapEmitters[etInfo.parent];
+                var parentPlayer = parentEt.player;
+                parentPlayer.addPlayer(et.player);
+            }
         }
         var maxVtxCount = 0;
         var maxIdxCount = 0;

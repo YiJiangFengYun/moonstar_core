@@ -1,6 +1,7 @@
 import * as material from "../material";
 import * as render from "../render";
-import { ModRender, Module, IEmitter } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { ModRender, Module } from "./module";
 export declare class ModSprite extends Module implements ModRender {
     static NAME: string;
     material: material.Material;
@@ -8,7 +9,7 @@ export declare class ModSprite extends Module implements ModRender {
     private _posHelper;
     private _uvHelper;
     private _cmdHelper;
-    constructor(owner: IEmitter);
+    constructor(owner: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     getTotalVtxCount(): number;
     getTotalIdxCount(): number;

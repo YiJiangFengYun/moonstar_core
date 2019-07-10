@@ -2,14 +2,9 @@ import * as log from "loglevel";
 import * as common from "../common";
 import * as emitter from "../emitter";
 import * as render from "../render";
-import { Emitter } from "../emitter";
 
 export type ParticleSystemInfo = {
-    emitters: {
-        maxParticleCount?: number;
-        root?: boolean; //If it is root, it will play directly after the parent particle system inited.
-        modules: any[];
-    }[]
+    emitters: emitter.EmitterInfo[]
 };
 
 /**
@@ -38,12 +33,30 @@ export class ParticleSystem extends common.Player {
         if (emitters.length < newCount) {
             emitters.length = newCount;
         }
+        // Create emitters
+        let mapEmitters: {[name: string]: emitter.Emitter} = {};
         for (let i = 0; i < newCount; ++i) {
-            if (!emitters[i]) emitters[i] = new Emitter();
-            emitters[i].init(info.emitters[i]);
-            if (info.emitters[i].root) emitters[i].play();
+            let et = emitters[i];
+            let etInfo = info.emitters[i];
+            if (! et) emitters[i] = et = new emitter.Emitter();
+            et.init(etInfo);
+            if (! et.name) {
+                et.name = `emitter_${i + 1}`;
+            }
+            mapEmitters[et.name] = et;
+            if ( ! etInfo.parent) et.play();
         }
 
+        // Initialize the hierarchy of the emiiters
+        for (let i = 0; i < newCount; ++i) {
+            let et = emitters[i];
+            let etInfo = info.emitters[i];
+            if (etInfo.parent) {
+                let parentEt = mapEmitters[etInfo.parent];
+                let parentPlayer = parentEt.player;
+                parentPlayer.addPlayer(et.player);
+            }
+        }
 
         let maxVtxCount = 0;
         let maxIdxCount = 0;

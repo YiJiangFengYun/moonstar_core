@@ -1,6 +1,7 @@
 import * as particle from "../particle";
 import * as log from "loglevel";
-import { IEmitter, Module } from "./module";
+import * as emitterPlayer from "../emitter_player"
+import { Module } from "./module";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
 
 export interface ParticleWithLifeTime extends particle.Particle {
@@ -12,7 +13,7 @@ export class ModLifeTime extends Module {
     public static NAME = "life_time";
     public life: number; //Unit(ms)
 
-    public constructor(owner: IEmitter) {
+    public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModLifeTime.NAME;
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);

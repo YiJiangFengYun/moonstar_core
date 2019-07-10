@@ -1,13 +1,14 @@
 import * as common from "../common";
 import * as particle from "../particle";
-import { Module, IEmitter } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { Module } from "./module";
 import { EVENT_CREATE_PARTICLE } from "./spawn";
 
 export class ModSizeInitial extends Module {
     public static NAME = "size_initial";
     public size: common.Vector = common.Vector.create();
 
-    public constructor(owner: IEmitter) {
+    public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModSizeInitial.NAME;
         owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);

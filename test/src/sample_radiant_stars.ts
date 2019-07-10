@@ -5,7 +5,6 @@ export const name = "sample_radiant_stars";
 export const psInfo: core.ParticleSystemInfo = {
     emitters: [{
         maxParticleCount: 10000,
-        root: true,
         modules: [
             {
                 name: "life_time",

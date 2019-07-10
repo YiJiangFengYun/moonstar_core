@@ -1,26 +1,22 @@
-import * as common from "../common";
 import * as module from "../module";
-import * as particle from "../particle";
-export interface EmitterInfo {
-    maxParticleCount?: number;
+import * as emitter_player from "../emitter_player";
+export interface EmitterInfo extends emitter_player.EmitterPlayerInfo {
+    name?: string;
+    parent?: string;
     modules?: ({
         name: string;
     } | any)[];
 }
-export declare class Emitter extends common.Player implements module.IEmitter {
-    particles: particle.Particle[];
-    particleCount: number;
+export declare class Emitter {
+    name: string;
+    player: emitter_player.EmitterPlayer;
     modules: module.Module[];
     renderModule: module.ModRender;
-    origin: common.Vector;
-    rotation: number;
-    useLocalSpace: boolean;
-    private _maxParticleCount;
     private _id;
     constructor();
     readonly id: number;
     init(info: EmitterInfo): void;
-    maxParticleCount: number;
     update(dt: number): void;
+    play(): void;
     stop(): void;
 }

@@ -1,5 +1,6 @@
 import * as common from "../common";
-import { Module, IEmitter } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { Module } from "./module";
 export declare class ModSubUVSpriteSheetSimple extends Module {
     static NAME: string;
     /**
@@ -17,7 +18,7 @@ export declare class ModSubUVSpriteSheetSimple extends Module {
     private _colSize;
     private _rowSize;
     private _totalFrames;
-    constructor(owner: IEmitter);
+    constructor(owner: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(dt: number): void;
     private _onCreateParticle;

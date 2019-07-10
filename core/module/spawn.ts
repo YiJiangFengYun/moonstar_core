@@ -1,6 +1,7 @@
 import * as particle from "../particle";
 import * as common from "../common";
-import { Module, IEmitter } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { Module } from "./module";
 
 export const EVENT_CREATE_PARTICLE = "create_particle";
 
@@ -9,7 +10,7 @@ export class ModSpawn extends Module {
     public interval: number; //Unit(ms), from (1 / rate) * 1000;
     public duration: number;
     private _remainTime: number = 0;
-    public constructor(owner: IEmitter) {
+    public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModSpawn.NAME;
     }

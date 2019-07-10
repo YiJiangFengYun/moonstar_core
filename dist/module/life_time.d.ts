@@ -1,5 +1,6 @@
 import * as particle from "../particle";
-import { IEmitter, Module } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { Module } from "./module";
 export interface ParticleWithLifeTime extends particle.Particle {
     time?: number;
     life?: number;
@@ -7,7 +8,7 @@ export interface ParticleWithLifeTime extends particle.Particle {
 export declare class ModLifeTime extends Module {
     static NAME: string;
     life: number;
-    constructor(owner: IEmitter);
+    constructor(owner: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(dt: number): void;
     private _deleteParticle;

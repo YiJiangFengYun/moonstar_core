@@ -1,7 +1,8 @@
 import * as common from "../common";
 import * as material from "../material";
 import * as render from "../render";
-import { ModRender, Module, IEmitter } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { ModRender, Module } from "./module";
 
 export class ModSprite extends Module implements ModRender {
     public static NAME = "sprite";
@@ -13,7 +14,7 @@ export class ModSprite extends Module implements ModRender {
     private _uvHelper: common.Vector = common.Vector.create();
     private _cmdHelper: render.DrawCmd = render.DrawCmd.create();
 
-    public constructor(owner: IEmitter) {
+    public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModSprite.NAME;
         this.material = new material.Material(material.MaterialType.SPRITE);
