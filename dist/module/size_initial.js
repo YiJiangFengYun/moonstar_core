@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
-var particleMod = require("../particle");
+var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModSizeInitial = /** @class */ (function (_super) {
     __extends(ModSizeInitial, _super);
@@ -22,7 +22,7 @@ var ModSizeInitial = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.size = common.Vector.create();
         _this.name = ModSizeInitial.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModSizeInitial.prototype.init = function (info) {

@@ -30,6 +30,9 @@ var Player = /** @class */ (function (_super) {
     };
     Player.prototype.stop = function () {
         this.isPlay = false;
+        this._reset();
+    };
+    Player.prototype._reset = function () {
         this.elapsedTime = 0;
     };
     Player.prototype.update = function (dt) {

@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
+var events_1 = require("./events");
 var DEFAULT_MAX_PARTICLE_COUNT = 100;
 var EmitterPlayer = /** @class */ (function (_super) {
     __extends(EmitterPlayer, _super);
@@ -30,6 +31,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
     }
     EmitterPlayer.prototype.init = function (info) {
         this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        this._reset();
     };
     Object.defineProperty(EmitterPlayer.prototype, "maxParticleCount", {
         get: function () {
@@ -49,6 +51,37 @@ var EmitterPlayer = /** @class */ (function (_super) {
     };
     EmitterPlayer.prototype.addPlayer = function (player) {
         this.players[this.playerCount++] = player;
+    };
+    EmitterPlayer.prototype.startEmit = function () {
+        if (!this.emitted) {
+            this.emitted = true;
+            this.emitComplete = false;
+            this.completed = false;
+            this.emit(events_1.EVENT_START_EMITT, this);
+        }
+    };
+    EmitterPlayer.prototype.endEmit = function () {
+        if (this.emitComplete) {
+            this.emitComplete = true;
+            this.emit(events_1.EVENT_END_EMITT, this);
+        }
+    };
+    EmitterPlayer.prototype.checkComplete = function () {
+        if (this.emitted && this.emitComplete && this.particleCount <= 0)
+            return true;
+        return false;
+    };
+    EmitterPlayer.prototype.complete = function () {
+        if (!this.completed) {
+            this.completed = true;
+            this.emit(events_1.EVENT_COMPLETE, this);
+        }
+    };
+    EmitterPlayer.prototype._reset = function () {
+        _super.prototype._reset.call(this);
+        this.emitted = false;
+        this.emitComplete = false;
+        this.completed = false;
     };
     return EmitterPlayer;
 }(common.Player));

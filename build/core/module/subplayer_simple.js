@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
-var particleMod = require("../particle");
+var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModSubPlayerSimple = /** @class */ (function (_super) {
     __extends(ModSubPlayerSimple, _super);
@@ -23,8 +23,7 @@ var ModSubPlayerSimple = /** @class */ (function (_super) {
         _this.idlePlayerIndexs = [];
         _this.idlePlayerIndexCount = 0;
         _this.name = ModSubPlayerSimple.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
-        player.on(particleMod.EVENT_DESTROYED_PARTICLE, _this._onDestroyedParticle, _this);
+        player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, _this._onDestroyedParticle, _this);
         return _this;
     }
     ModSubPlayerSimple.prototype.init = function (info) {
@@ -37,7 +36,7 @@ var ModSubPlayerSimple = /** @class */ (function (_super) {
         var idlePlayerIndexs = this.idlePlayerIndexs;
         idlePlayerIndexs.length = subPlayerCount;
         for (var i = 0; i < subPlayerCount; ++i) {
-            idlePlayerIndexs[i] = i + 1;
+            idlePlayerIndexs[i] = i;
         }
         this.idlePlayerIndexCount = subPlayerCount;
     };
@@ -57,21 +56,22 @@ var ModSubPlayerSimple = /** @class */ (function (_super) {
     ModSubPlayerSimple.prototype._freePlayer = function (index) {
         this.idlePlayerIndexs[this.idlePlayerIndexCount++] = index;
     };
-    ModSubPlayerSimple.prototype._onCreateParticle = function (particle) {
+    ModSubPlayerSimple.prototype._onDestroyedParticle = function (particle) {
         var index = this._getIdlePlayer();
         if (index) {
-            particle.subPLayerIndex = index;
-            var subPlayer = this.player.players[index - 1];
+            var subPlayer = this.player.players[index];
+            subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
             common.Vector.copy(subPlayer.origin, particle.pos);
             subPlayer.play();
         }
     };
-    ModSubPlayerSimple.prototype._onDestroyedParticle = function (particle) {
-        var index = particle.subPLayerIndex;
-        if (index) {
+    ModSubPlayerSimple.prototype._onSubPlayerComplete = function (player) {
+        var players = this.player.players;
+        var index = players.indexOf(player);
+        if (index > 0) {
             this._freePlayer(index);
-            particle.subPLayerIndex = 0;
-            var subPlayer = this.player.players[index - 1];
+            var subPlayer = players[index];
+            subPlayer.off(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
             subPlayer.stop();
         }
     };

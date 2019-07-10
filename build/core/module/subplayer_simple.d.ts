@@ -1,9 +1,5 @@
-import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-export interface ParticleWithSubPlayer extends particleMod.Particle {
-    subPLayerIndex?: number;
-}
 export declare class ModSubPlayerSimple extends Module {
     static NAME: string;
     idlePlayerIndexs: number[];
@@ -13,6 +9,6 @@ export declare class ModSubPlayerSimple extends Module {
     ready(): void;
     private _getIdlePlayer;
     private _freePlayer;
-    private _onCreateParticle;
     private _onDestroyedParticle;
+    private _onSubPlayerComplete;
 }

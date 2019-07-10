@@ -9,10 +9,18 @@ export declare class EmitterPlayer extends common.Player {
     origin: common.Vector;
     rotation: number;
     useLocalSpace: boolean;
+    emitted: boolean;
+    emitComplete: boolean;
+    completed: boolean;
     private _maxParticleCount;
     constructor();
     init(info: EmitterPlayerInfo): void;
     maxParticleCount: number;
     stop(): void;
     addPlayer(player: EmitterPlayer): void;
+    startEmit(): void;
+    endEmit(): void;
+    checkComplete(): boolean;
+    complete(): void;
+    protected _reset(): void;
 }

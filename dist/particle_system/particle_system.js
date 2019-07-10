@@ -39,7 +39,21 @@ var ParticleSystem = /** @class */ (function (_super) {
         configurable: true
     });
     ParticleSystem.prototype.init = function (info) {
-        var newCount = info.emitters ? info.emitters.length : 0;
+        var len = info.emitters ? info.emitters.length : 0;
+        var newCount = 0;
+        for (var i = 0; i < len; ++i) {
+            newCount += (info.emitters[i].count || 1);
+        }
+        var emitterInfos = [];
+        emitterInfos.length = newCount;
+        var emitterInfoIndex = 0;
+        for (var i = 0; i < len; ++i) {
+            var count = info.emitters[i].count || 1;
+            for (var j = 0; j < count; ++j) {
+                emitterInfos[emitterInfoIndex] = info.emitters[i];
+                ++emitterInfoIndex;
+            }
+        }
         this.emitterCount = newCount;
         var emitters = this.emitters;
         if (emitters.length < newCount) {
@@ -49,7 +63,7 @@ var ParticleSystem = /** @class */ (function (_super) {
         var mapEmitters = {};
         for (var i = 0; i < newCount; ++i) {
             var et = emitters[i];
-            var etInfo = info.emitters[i];
+            var etInfo = emitterInfos[i];
             if (!et)
                 emitters[i] = et = new emitter.Emitter();
             et.init(etInfo);
@@ -61,7 +75,7 @@ var ParticleSystem = /** @class */ (function (_super) {
         // Initialize the hierarchy of the emiiters
         for (var i = 0; i < newCount; ++i) {
             var et = emitters[i];
-            var etInfo = info.emitters[i];
+            var etInfo = emitterInfos[i];
             if (etInfo.parent) {
                 var parentEt = mapEmitters[etInfo.parent];
                 var parentPlayer = parentEt.player;
@@ -71,7 +85,7 @@ var ParticleSystem = /** @class */ (function (_super) {
         // Ready and player the emitters
         for (var i = 0; i < newCount; ++i) {
             emitters[i].ready();
-            if (!info.emitters[i].parent)
+            if (!emitterInfos[i].parent)
                 emitters[i].play();
         }
         var maxVtxCount = 0;

@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var particleMod = require("../particle");
 var common = require("../common");
+var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModSpawn = /** @class */ (function (_super) {
     __extends(ModSpawn, _super);
@@ -33,6 +33,10 @@ var ModSpawn = /** @class */ (function (_super) {
         this._time = 0;
     };
     ModSpawn.prototype.update = function (dt) {
+        var player = this.player;
+        if (!player.emitted) {
+            player.startEmit();
+        }
         var dt2 = Math.min(dt, this.duration - this._time);
         if (this.interval && dt2 > 0) {
             var interval = this.interval;
@@ -43,6 +47,9 @@ var ModSpawn = /** @class */ (function (_super) {
                 this._createParticle();
                 --pCount;
             }
+        }
+        if (this.player.emitted && dt2 <= 0) {
+            this.player.endEmit();
         }
         this._time += dt;
     };
@@ -56,7 +63,7 @@ var ModSpawn = /** @class */ (function (_super) {
                     particle = { pos: common.Vector.create() };
             ++emitter.particleCount;
             common.Vector.set(particle.pos, 0, 0);
-            emitter.emit(particleMod.EVENT_CREATED_PARTICLE, particle);
+            emitter.emit(emitterPlayer.EVENT_CREATED_PARTICLE, particle);
         }
     };
     ModSpawn.NAME = "spawn";

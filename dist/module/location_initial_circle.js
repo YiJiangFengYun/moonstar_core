@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
-var particleMod = require("../particle");
+var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModLocationInitialCircle = /** @class */ (function (_super) {
     __extends(ModLocationInitialCircle, _super);
@@ -22,7 +22,7 @@ var ModLocationInitialCircle = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.radius = 0;
         _this.name = ModLocationInitialCircle.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModLocationInitialCircle.prototype.init = function (info) {

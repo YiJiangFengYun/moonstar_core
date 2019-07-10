@@ -13,15 +13,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var particleMod = require("../particle");
 var log = require("loglevel");
+var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModLifeTime = /** @class */ (function (_super) {
     __extends(ModLifeTime, _super);
     function ModLifeTime(player) {
         var _this = _super.call(this, player) || this;
         _this.name = ModLifeTime.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModLifeTime.prototype.init = function (info) {
@@ -39,6 +39,9 @@ var ModLifeTime = /** @class */ (function (_super) {
                 player.particleCount = particleCount = this._deleteParticle(particle, particles, particleCount);
             }
         }
+        if (!player.completed && player.checkComplete()) {
+            player.complete();
+        }
     };
     ModLifeTime.prototype._deleteParticle = function (particle, particles, particleCount) {
         var index = particles.indexOf(particle);
@@ -47,7 +50,7 @@ var ModLifeTime = /** @class */ (function (_super) {
             var endParticle = particles[end];
             particles[end] = particles[index];
             particles[index] = endParticle;
-            this.player.emit(particleMod.EVENT_DESTROYED_PARTICLE, particle);
+            this.player.emit(emitterPlayer.EVENT_DESTROYED_PARTICLE, particle);
         }
         else {
             log.error("Can't find the particle from the particles for delete the particle.");

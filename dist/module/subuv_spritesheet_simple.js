@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
-var particleMod = require("../particle");
+var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
     __extends(ModSubUVSpriteSheetSimple, _super);
@@ -25,7 +25,7 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
          */
         _this.frameUVSize = common.Vector.create();
         _this.name = ModSubUVSpriteSheetSimple.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModSubUVSpriteSheetSimple.prototype.init = function (info) {

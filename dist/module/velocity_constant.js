@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
-var particleMod = require("../particle");
+var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModVelocityConstant = /** @class */ (function (_super) {
     __extends(ModVelocityConstant, _super);
@@ -23,7 +23,7 @@ var ModVelocityConstant = /** @class */ (function (_super) {
         _this.velocity = common.Vector.create();
         _this._vecHelper = common.Vector.create();
         _this.name = ModVelocityConstant.NAME;
-        player.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModVelocityConstant.prototype.init = function (info) {
