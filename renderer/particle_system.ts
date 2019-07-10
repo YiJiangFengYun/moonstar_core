@@ -24,7 +24,7 @@ export class ParticleSystem implements core.IPlayer {
             let renderModule = emitters[i].renderModule;
             let matCore = renderModule.material;
             let material = createMaterial(matCore, this.data);
-            mapMaterials[matCore.type] = material;
+            mapMaterials[matCore.id] = material;
         }
     }
 
@@ -74,7 +74,7 @@ export class ParticleSystem implements core.IPlayer {
         let mapMaterials = this.mapMaterials;
         for (let i = 0; i < cmdCount; ++i) {
             let cmd = cmdList[i];
-            let material = mapMaterials[cmd.material.type];
+            let material = mapMaterials[cmd.material.id];
             if (material) material.render(cmd);
         }
     }
