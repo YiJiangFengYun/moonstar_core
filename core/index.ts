@@ -1,5 +1,12 @@
 export function init() {
-    return Promise.resolve();
+    return Promise.resolve()
+    .then(() => {
+        console.info(`
+////////////////////////
+Moonstar Particle System
+////////////////////////
+        `);
+    })
 }
 
 export * from "./common";

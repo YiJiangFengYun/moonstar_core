@@ -4,7 +4,10 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 function init() {
-    return Promise.resolve();
+    return Promise.resolve()
+        .then(function () {
+        console.info("\n////////////////////////\nMoonstar Particle System\n////////////////////////\n        ");
+    });
 }
 exports.init = init;
 __export(require("./common"));
