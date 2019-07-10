@@ -10,7 +10,7 @@ export const psInfo: core.ParticleSystemInfo = {
             modules: [
                 {
                     name: "life_time",
-                    life: 10,
+                    life: 3,
                 },
                 {
                     name: "sprite",
@@ -48,17 +48,17 @@ export const psInfo: core.ParticleSystemInfo = {
                     endColorR: 1,
                     endColorG: 1,
                     endColorB: 1,
-                    endColorA: 0,
+                    endColorA: 1,
                 },
-                // {
-                //     name: "subplayer_simple",
-                // }
+                {
+                    name: "subplayer_simple",
+                }
             ]
         },
         {
             name: "sub",
             maxParticleCount: 1000,
-            // parent: "root",
+            parent: "root",
             modules: [
                 {
                     name: "life_time",
@@ -66,7 +66,7 @@ export const psInfo: core.ParticleSystemInfo = {
                 },
                 {
                     name: "sprite",
-                    texturePath: "./res/star.png",
+                    texturePath: "./res/star2.png",
                 },
                 {
                     name: "spawn",
@@ -102,7 +102,8 @@ export const psInfo: core.ParticleSystemInfo = {
                     endColorB: 1,
                     endColorA: 0,
                 }
-            ]
+            ],
+            count: 10,
         }
     ],
 }
