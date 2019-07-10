@@ -3,10 +3,6 @@ import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
 
-export interface ParticleWithSubPlayer extends particleMod.Particle {
-    subPLayerIndex?: number;
-}
-
 export class ModSubPlayerSimple extends Module {
     public static NAME = "subplayer_simple";
 
@@ -15,7 +11,6 @@ export class ModSubPlayerSimple extends Module {
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModSubPlayerSimple.NAME;
-        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);
     }
 
@@ -30,7 +25,7 @@ export class ModSubPlayerSimple extends Module {
         let idlePlayerIndexs = this.idlePlayerIndexs;
         idlePlayerIndexs.length = subPlayerCount;
         for (let i = 0; i < subPlayerCount; ++i) {
-            idlePlayerIndexs[i] = i + 1;
+            idlePlayerIndexs[i] = i;
         }
         this.idlePlayerIndexCount = subPlayerCount;
     }
@@ -52,23 +47,24 @@ export class ModSubPlayerSimple extends Module {
         this.idlePlayerIndexs[this.idlePlayerIndexCount++] = index;
     }
 
-    private _onCreateParticle(particle: ParticleWithSubPlayer) {
+    private _onDestroyedParticle(particle: particleMod.Particle) {
         let index = this._getIdlePlayer();
         if (index) {
-            particle.subPLayerIndex = index;
-            let subPlayer = this.player.players[index - 1];
+            let subPlayer = this.player.players[index];
+            subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
             common.Vector.copy(subPlayer.origin, particle.pos);
             subPlayer.play();
         }
         
     }
 
-    private _onDestroyedParticle(particle: ParticleWithSubPlayer) {
-        let index = particle.subPLayerIndex;
-        if (index) {
+    private _onSubPlayerComplete(player: emitterPlayer.EmitterPlayer) {
+        let players = this.player.players;
+        let index = players.indexOf(player);
+        if (index > 0) {
             this._freePlayer(index);
-            particle.subPLayerIndex = 0;
-            let subPlayer = this.player.players[index - 1];
+            let subPlayer = players[index];
+            subPlayer.off(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
             subPlayer.stop();
         }
     }
