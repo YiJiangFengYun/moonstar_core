@@ -3,10 +3,12 @@ import * as renderMod from "../../renderer";
 import * as core from "../../core";
 import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
 import * as sampleRadiantStars from "./sample_radiant_stars";
+import * as sampleSubplayers from "./sample_subplayers";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleRadiantStars.name, info: sampleRadiantStars.psInfo },
     { name: sampleSpriteSheetSimple.name, info: sampleSpriteSheetSimple.psInfo },
+    { name: sampleSubplayers.name, info: sampleSubplayers.psInfo },
 ];
 
 class App {

@@ -8,6 +8,7 @@ import { ModColorOverLife } from "./color_over_life";
 import { ModLocationInitialCircle } from "./location_initial_circle";
 import { ModOrientationInitialRadiation } from "./orientation_initial_radiation";
 import { ModSubUVSpriteSheetSimple } from "./subuv_spritesheet_simple";
+import { ModSubPlayerSimple } from "./subplayer_simple";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -33,6 +34,9 @@ mapModules[ModColorOverLife.NAME] = ModColorOverLife;
 
 //Sub UV modules
 mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
+
+//Sub player modules
+mapModules[ModSubPlayerSimple.NAME] = ModSubPlayerSimple;
 
 export const moduleGroup = {
     sprite: [

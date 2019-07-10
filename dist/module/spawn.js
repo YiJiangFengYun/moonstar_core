@@ -20,6 +20,7 @@ var ModSpawn = /** @class */ (function (_super) {
     __extends(ModSpawn, _super);
     function ModSpawn(player) {
         var _this = _super.call(this, player) || this;
+        _this._time = 0;
         _this._remainTime = 0;
         _this.name = ModSpawn.NAME;
         return _this;
@@ -29,19 +30,21 @@ var ModSpawn = /** @class */ (function (_super) {
         this._remainTime = 0;
         this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
+        this._time = 0;
     };
     ModSpawn.prototype.update = function (dt) {
-        dt = Math.min(dt, this.duration - this.player.time);
-        if (this.interval && dt > 0) {
+        var dt2 = Math.min(dt, this.duration - this._time);
+        if (this.interval && dt2 > 0) {
             var interval = this.interval;
-            dt = this._remainTime + dt;
-            var pCount = Math.ceil(dt / interval);
-            this._remainTime = dt % interval - interval;
+            dt2 = this._remainTime + dt2;
+            var pCount = Math.ceil(dt2 / interval);
+            this._remainTime = (dt2 - interval) % interval;
             while (pCount > 0) {
                 this._createParticle();
                 --pCount;
             }
         }
+        this._time += dt;
     };
     ModSpawn.prototype._createParticle = function () {
         var particle;
