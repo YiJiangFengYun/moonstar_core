@@ -16,6 +16,7 @@ export declare class Emitter {
     constructor();
     readonly id: number;
     init(info: EmitterInfo): void;
+    ready(): void;
     update(dt: number): void;
     play(): void;
     stop(): void;

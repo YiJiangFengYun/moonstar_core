@@ -58,6 +58,11 @@ export class ParticleSystem extends common.Player {
             }
         }
 
+        // Ready the emitters
+        for (let i = 0; i < newCount; ++i) {
+            emitters[i].ready();
+        }
+
         let maxVtxCount = 0;
         let maxIdxCount = 0;
         //Get totalVtxCount and totalIdxCount.

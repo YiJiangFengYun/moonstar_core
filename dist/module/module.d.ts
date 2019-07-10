@@ -8,6 +8,7 @@ export declare class Module {
     constructor(player: emitterPlayer.EmitterPlayer);
     readonly id: number;
     init(info: any): void;
+    ready(): void;
     update(dt: number): void;
 }
 export interface ModRender {

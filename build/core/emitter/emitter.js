@@ -38,6 +38,12 @@ var Emitter = /** @class */ (function () {
         }
         this.player.stop();
     };
+    Emitter.prototype.ready = function () {
+        var modules = this.modules;
+        modules.forEach(function (mod) {
+            mod.ready();
+        });
+    };
     Emitter.prototype.update = function (dt) {
         this.player.update(dt);
         if (this.player.isPlay) {

@@ -70,6 +70,10 @@ var ParticleSystem = /** @class */ (function (_super) {
                 parentPlayer.addPlayer(et.player);
             }
         }
+        // Ready the emitters
+        for (var i = 0; i < newCount; ++i) {
+            emitters[i].ready();
+        }
         var maxVtxCount = 0;
         var maxIdxCount = 0;
         //Get totalVtxCount and totalIdxCount.

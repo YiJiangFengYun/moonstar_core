@@ -15,6 +15,8 @@ var Module = /** @class */ (function () {
     });
     Module.prototype.init = function (info) {
     };
+    Module.prototype.ready = function () {
+    };
     Module.prototype.update = function (dt) {
     };
     return Module;

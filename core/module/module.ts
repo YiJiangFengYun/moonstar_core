@@ -21,6 +21,10 @@ export class Module {
 
     }
 
+    public ready(): void {
+        
+    }
+
     public update(dt: number):void {
 
     }

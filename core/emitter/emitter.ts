@@ -46,6 +46,13 @@ export class Emitter {
         this.player.stop();
     }
 
+    public ready() {
+        let modules = this.modules;
+        modules.forEach(mod => {
+            mod.ready();
+        });
+    }
+
     public update(dt: number) {
         this.player.update(dt);
         if (this.player.isPlay) {
