@@ -4,7 +4,7 @@ import * as emitter from "../emitter";
 import * as render from "../render";
 
 export type ParticleSystemInfo = {
-    emitters: emitter.EmitterInfo[]
+    emitters: (emitter.EmitterInfo & { count?: number; } ) []
 };
 
 /**
@@ -27,7 +27,22 @@ export class ParticleSystem extends common.Player {
     }
 
     public init(info: ParticleSystemInfo) {
-        let newCount = info.emitters ? info.emitters.length : 0;
+        let len = info.emitters ? info.emitters.length : 0;
+        let newCount: number = 0;
+        for (let i = 0; i < len; ++i) {
+            newCount += (info.emitters[i].count || 1);
+        }
+        let emitterInfos: emitter.EmitterInfo[] = [];
+        emitterInfos.length = newCount;
+        let emitterInfoIndex = 0;
+        for (let i = 0; i < len; ++i) {
+            let count = info.emitters[i].count || 1;
+            for (let j = 0; j < count; ++j) {
+                emitterInfos[emitterInfoIndex] = info.emitters[i];
+                ++emitterInfoIndex;
+            }
+        }
+
         this.emitterCount = newCount;
         let emitters = this.emitters;
         if (emitters.length < newCount) {
@@ -35,9 +50,10 @@ export class ParticleSystem extends common.Player {
         }
         // Create emitters
         let mapEmitters: {[name: string]: emitter.Emitter} = {};
+
         for (let i = 0; i < newCount; ++i) {
             let et = emitters[i];
-            let etInfo = info.emitters[i];
+            let etInfo = emitterInfos[i];
             if (! et) emitters[i] = et = new emitter.Emitter();
             et.init(etInfo);
             if (! et.name) {
@@ -49,7 +65,7 @@ export class ParticleSystem extends common.Player {
         // Initialize the hierarchy of the emiiters
         for (let i = 0; i < newCount; ++i) {
             let et = emitters[i];
-            let etInfo = info.emitters[i];
+            let etInfo = emitterInfos[i];
             if (etInfo.parent) {
                 let parentEt = mapEmitters[etInfo.parent];
                 let parentPlayer = parentEt.player;
@@ -60,7 +76,7 @@ export class ParticleSystem extends common.Player {
         // Ready and player the emitters
         for (let i = 0; i < newCount; ++i) {
             emitters[i].ready();
-            if ( ! info.emitters[i].parent) emitters[i].play();
+            if ( ! emitterInfos[i].parent) emitters[i].play();
         }
 
         let maxVtxCount = 0;
