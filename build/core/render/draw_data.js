@@ -42,6 +42,7 @@ exports.fillVertex = fillVertex;
 exports.DrawCmd = {
     create: function () {
         return {
+            vertexBufferByteOffset: 0,
             indexOffset: 0,
             indexCount: 0,
             material: null,
@@ -53,6 +54,7 @@ exports.DrawCmd = {
     copy: function (out, cmd) {
         if (!out)
             out = exports.DrawCmd.create();
+        out.vertexBufferByteOffset = cmd.vertexBufferByteOffset;
         out.indexOffset = cmd.indexOffset;
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;

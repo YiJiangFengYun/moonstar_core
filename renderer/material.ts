@@ -188,7 +188,7 @@ export class SpriteMaterial extends Material {
 
         //Tell WebGL vertex info and assembly info.
         gl.bindBuffer(gl.ARRAY_BUFFER, psData.vertexBuffer);
-        let offset = 0;
+        let offset = cmd.vertexBufferByteOffset;
         let vertexInfo = drawData.vertexInfo;
         // Position
         gl.vertexAttribPointer(

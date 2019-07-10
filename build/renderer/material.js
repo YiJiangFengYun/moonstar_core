@@ -143,7 +143,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
         var vFSizes = core.valueFormatSizes;
         //Tell WebGL vertex info and assembly info.
         gl.bindBuffer(gl.ARRAY_BUFFER, psData.vertexBuffer);
-        var offset = 0;
+        var offset = cmd.vertexBufferByteOffset;
         var vertexInfo = drawData.vertexInfo;
         // Position
         gl.vertexAttribPointer(locations.aVertexPos, vertexInfo[0].count, getGLTypeFromValueFormat(vertexInfo[0].format, gl), false, drawData.vtxSize, offset);

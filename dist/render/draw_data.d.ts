@@ -9,6 +9,7 @@ export interface FillVertexInfo {
 }
 export declare function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset: number): number;
 export interface DrawCmd {
+    vertexBufferByteOffset: number;
     indexOffset: number;
     indexCount: number;
     material: material.Material;

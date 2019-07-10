@@ -60,10 +60,10 @@ export class ModSprite extends Module implements ModRender {
         // let origin = player.origin;
         // let useLocal = player.useLocalSpace; 
 
-        let vtxBufferByteOffset = offsets.idxBufferByteOffset;
+        let vtxBufferByteOffset = offsets.vtxBufferByteOffset;
 
         let idxBufferByteOffset = offsets.idxBufferByteOffset;
-        let idxValueOffset = offsets.lastVertexCount;
+        let idxValueOffset = 0;
 
         let posHelper: common.Vector = this._posHelper;
         let uvHelper: common.Vector = this._uvHelper;
@@ -162,6 +162,7 @@ export class ModSprite extends Module implements ModRender {
             idxValueOffset += 4;
         }
 
+        cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
         cmdHelper.indexOffset = offsets.lastIndexCount;
         cmdHelper.indexCount = particleCount * 6;
         cmdHelper.material = this.material;

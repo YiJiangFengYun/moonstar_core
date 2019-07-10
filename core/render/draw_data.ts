@@ -50,6 +50,7 @@ export function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset
 }
 
 export interface DrawCmd {
+    vertexBufferByteOffset: number;
     indexOffset: number;
     indexCount: number;
     material: material.Material;
@@ -61,6 +62,7 @@ export interface DrawCmd {
 export const DrawCmd = {
     create: function(): DrawCmd {
         return {
+            vertexBufferByteOffset: 0,
             indexOffset: 0,
             indexCount: 0,
             material: null,
@@ -72,6 +74,7 @@ export const DrawCmd = {
 
     copy: function(out: DrawCmd, cmd: DrawCmd) {
         if (! out) out = DrawCmd.create();
+        out.vertexBufferByteOffset = cmd.vertexBufferByteOffset;
         out.indexOffset = cmd.indexOffset;
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;

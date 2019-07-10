@@ -57,9 +57,9 @@ var ModSprite = /** @class */ (function (_super) {
         // todo 
         // let origin = player.origin;
         // let useLocal = player.useLocalSpace; 
-        var vtxBufferByteOffset = offsets.idxBufferByteOffset;
+        var vtxBufferByteOffset = offsets.vtxBufferByteOffset;
         var idxBufferByteOffset = offsets.idxBufferByteOffset;
-        var idxValueOffset = offsets.lastVertexCount;
+        var idxValueOffset = 0;
         var posHelper = this._posHelper;
         var uvHelper = this._uvHelper;
         var cmdHelper = this._cmdHelper;
@@ -155,6 +155,7 @@ var ModSprite = /** @class */ (function (_super) {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
             idxValueOffset += 4;
         }
+        cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
         cmdHelper.indexOffset = offsets.lastIndexCount;
         cmdHelper.indexCount = particleCount * 6;
         cmdHelper.material = this.material;
