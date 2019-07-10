@@ -1,8 +1,8 @@
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-export interface ParticleWithVelocity extends particle.Particle {
+export interface ParticleWithVelocity extends particleMod.Particle {
     velocity?: common.Vector;
 }
 export declare class ModVelocityConstant extends Module {

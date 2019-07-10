@@ -1,8 +1,8 @@
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterData from "../emitter_player";
 import { Module } from "./module";
-export interface ParticleSpecial extends particle.Particle {
+export interface ParticleSpecial extends particleMod.Particle {
     time?: number;
     life?: number;
 }

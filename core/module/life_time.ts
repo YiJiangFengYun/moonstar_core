@@ -1,10 +1,9 @@
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as log from "loglevel";
 import * as emitterPlayer from "../emitter_player"
 import { Module } from "./module";
-import { EVENT_CREATE_PARTICLE } from "./spawn";
 
-export interface ParticleWithLifeTime extends particle.Particle {
+export interface ParticleWithLifeTime extends particleMod.Particle {
     time?: number;
     life?: number;
 }
@@ -16,7 +15,7 @@ export class ModLifeTime extends Module {
     public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModLifeTime.NAME;
-        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -42,13 +41,14 @@ export class ModLifeTime extends Module {
 
     }
 
-    private _deleteParticle(particle: particle.Particle, particles: particle.Particle[], particleCount: number) {
+    private _deleteParticle(particle: particleMod.Particle, particles: particleMod.Particle[], particleCount: number) {
         let index = particles.indexOf(particle);
         if (index >= 0) {
             let end = --particleCount;
             let endParticle = particles[end];
             particles[end] = particles[index];
             particles[index] = endParticle;
+            this.owner.emit(particleMod.EVENT_DESTROYED_PARTICLE, particle);
             
         } else {
             log.error("Can't find the particle from the particles for delete the particle.");

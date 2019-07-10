@@ -14,15 +14,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
+var particleMod = require("../particle");
 var module_1 = require("./module");
-var spawn_1 = require("./spawn");
 var ModOrientationInitialRadiation = /** @class */ (function (_super) {
     __extends(ModOrientationInitialRadiation, _super);
     function ModOrientationInitialRadiation(owner) {
         var _this = _super.call(this, owner) || this;
         _this.vecHelper = common.Vector.create();
         _this.name = ModOrientationInitialRadiation.NAME;
-        owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModOrientationInitialRadiation.prototype.init = function (info) {

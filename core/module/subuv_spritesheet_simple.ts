@@ -1,10 +1,9 @@
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-import { EVENT_CREATE_PARTICLE } from "./spawn";
 
-interface ParticleWithFrameInfo extends particle.Particle {
+interface ParticleWithFrameInfo extends particleMod.Particle {
     currTimes?: number;
     currFrame?: number;
     startFrameTime?: number;
@@ -36,7 +35,7 @@ export class ModSubUVSpriteSheetSimple extends Module {
     public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModSubUVSpriteSheetSimple.NAME;
-        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {

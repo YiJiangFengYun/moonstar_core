@@ -1,8 +1,7 @@
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-import { EVENT_CREATE_PARTICLE } from "./spawn";
 
 export class ModSizeInitial extends Module {
     public static NAME = "size_initial";
@@ -11,7 +10,7 @@ export class ModSizeInitial extends Module {
     public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModSizeInitial.NAME;
-        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -21,7 +20,7 @@ export class ModSizeInitial extends Module {
         size[1] = info.height || 0;
     }
 
-    private _onCreateParticle(particle: particle.Particle) {
+    private _onCreateParticle(particle: particleMod.Particle) {
         if (particle.size) {
             common.Vector.copy(particle.size, this.size);
         } else {

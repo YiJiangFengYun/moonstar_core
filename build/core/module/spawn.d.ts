@@ -1,6 +1,5 @@
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-export declare const EVENT_CREATE_PARTICLE = "create_particle";
 export declare class ModSpawn extends Module {
     static NAME: string;
     interval: number;

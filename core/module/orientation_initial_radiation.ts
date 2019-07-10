@@ -1,8 +1,7 @@
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-import { EVENT_CREATE_PARTICLE } from "./spawn";
 
 export class ModOrientationInitialRadiation extends Module {
     public static NAME = "orientation_initial_radiation";
@@ -13,7 +12,7 @@ export class ModOrientationInitialRadiation extends Module {
     public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModOrientationInitialRadiation.NAME;
-        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -21,7 +20,7 @@ export class ModOrientationInitialRadiation extends Module {
         this.effectRotation = info.effectRotation || false;
     }
 
-    private _onCreateParticle(particle: particle.Particle) {
+    private _onCreateParticle(particle: particleMod.Particle) {
         let vecHelper = this.vecHelper;
         common.Vector.sub(vecHelper, particle.pos || common.VECTOR_ZERO, common.VECTOR_ZERO);
         let angle: number;

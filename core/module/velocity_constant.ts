@@ -1,10 +1,9 @@
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-import { EVENT_CREATE_PARTICLE } from "./spawn";
 
-export interface ParticleWithVelocity extends particle.Particle {
+export interface ParticleWithVelocity extends particleMod.Particle {
     velocity?: common.Vector;
 }
 
@@ -16,7 +15,7 @@ export class ModVelocityConstant extends Module {
     public constructor(owner: emitterPlayer.EmitterPlayer) {
         super(owner);
         this.name = ModVelocityConstant.NAME;
-        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {

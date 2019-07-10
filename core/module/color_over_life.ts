@@ -1,10 +1,9 @@
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterData from "../emitter_player";
 import { Module } from "./module";
-import { EVENT_CREATE_PARTICLE } from "./spawn";
 
-export interface ParticleSpecial extends particle.Particle {
+export interface ParticleSpecial extends particleMod.Particle {
     time?: number;
     life?: number;
 }
@@ -18,7 +17,7 @@ export class ModColorOverLife extends Module {
         this.name = ModColorOverLife.NAME;
         this.beginColor = common.Color.create();
         this.endColor = common.Color.create();
-        owner.on(EVENT_CREATE_PARTICLE, this._onCreateParticle, this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
@@ -60,7 +59,7 @@ export class ModColorOverLife extends Module {
         }
     }
 
-    private _onCreateParticle(particle: particle.Particle) {
+    private _onCreateParticle(particle: particleMod.Particle) {
         if (particle.color) {
             common.Color.copy(particle.color, this.beginColor);
         } else {

@@ -14,8 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
+var particleMod = require("../particle");
 var module_1 = require("./module");
-var spawn_1 = require("./spawn");
 var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
     __extends(ModSubUVSpriteSheetSimple, _super);
     function ModSubUVSpriteSheetSimple(owner) {
@@ -25,7 +25,7 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
          */
         _this.frameUVSize = common.Vector.create();
         _this.name = ModSubUVSpriteSheetSimple.NAME;
-        owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModSubUVSpriteSheetSimple.prototype.init = function (info) {
@@ -47,8 +47,8 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
         var frameInterval = this.frameInterval;
         var totalFrames = this._totalFrames;
         for (var i = 0; i < particleCount; ++i) {
-            var particle_1 = particles[i];
-            var framePastTime = owner.time - particle_1.startFrameTime;
+            var particle = particles[i];
+            var framePastTime = owner.time - particle.startFrameTime;
             var frame = Math.floor(framePastTime / frameInterval);
             var playTimes = Math.floor(frame / totalFrames);
             if (times && playTimes >= times) {
@@ -58,10 +58,10 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
             else {
                 frame = frame % totalFrames;
             }
-            if (particle_1.currFrame !== frame || particle_1.currTimes !== playTimes) {
-                particle_1.currFrame = frame;
-                particle_1.currTimes = playTimes;
-                this._updateParticleSubUV(particle_1);
+            if (particle.currFrame !== frame || particle.currTimes !== playTimes) {
+                particle.currFrame = frame;
+                particle.currTimes = playTimes;
+                this._updateParticleSubUV(particle);
             }
         }
     };

@@ -1,7 +1,7 @@
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-export interface ParticleWithLifeTime extends particle.Particle {
+export interface ParticleWithLifeTime extends particleMod.Particle {
     time?: number;
     life?: number;
 }

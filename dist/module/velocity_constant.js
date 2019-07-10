@@ -14,8 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
+var particleMod = require("../particle");
 var module_1 = require("./module");
-var spawn_1 = require("./spawn");
 var ModVelocityConstant = /** @class */ (function (_super) {
     __extends(ModVelocityConstant, _super);
     function ModVelocityConstant(owner) {
@@ -23,7 +23,7 @@ var ModVelocityConstant = /** @class */ (function (_super) {
         _this.velocity = common.Vector.create();
         _this._vecHelper = common.Vector.create();
         _this.name = ModVelocityConstant.NAME;
-        owner.on(spawn_1.EVENT_CREATE_PARTICLE, _this._onCreateParticle, _this);
+        owner.on(particleMod.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModVelocityConstant.prototype.init = function (info) {
@@ -38,12 +38,12 @@ var ModVelocityConstant = /** @class */ (function (_super) {
         var particles = owner.particles;
         var particleCount = owner.particleCount;
         for (var i = 0; i < particleCount; ++i) {
-            var particle_1 = particles[i];
-            var vel = particle_1.velocity;
-            var orientation_1 = particle_1.orientation || 0;
+            var particle = particles[i];
+            var vel = particle.velocity;
+            var orientation_1 = particle.orientation || 0;
             var vecHelper = this._vecHelper;
             common.Vector.rotate(vecHelper, vel, common.VECTOR_ZERO, orientation_1);
-            var pos = particle_1.pos;
+            var pos = particle.pos;
             pos[0] = pos[0] + vecHelper[0] * dt;
             pos[1] = pos[1] + vecHelper[1] * dt;
         }
