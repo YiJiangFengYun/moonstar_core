@@ -11,6 +11,8 @@ const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleSubplayers.name, info: sampleSubplayers.psInfo },
 ];
 
+const FRAME_INTERVAL = 20;
+
 class App {
     private _intervalI: number;
     private _lastTime: number;
@@ -52,7 +54,7 @@ class App {
                 context._renderer = renderer;
             })
             .then(() => {
-                context._intervalI = window.setInterval(context._update.bind(context), 20);
+                context._intervalI = window.setInterval(context._update.bind(context), FRAME_INTERVAL);
                 context._lastTime = new Date().getTime();
             })
             .then(() => {
@@ -82,6 +84,7 @@ class App {
         let dt = now - this._lastTime;
         this._lastTime = now;
 
+        dt = Math.min(dt, FRAME_INTERVAL);
         this._renderer.update(dt / 1000);
 
         this._preRender();
