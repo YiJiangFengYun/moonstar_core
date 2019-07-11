@@ -37,13 +37,22 @@ var Texture = /** @class */ (function () {
             image_1.onload = function () {
                 gl_1.bindTexture(gl_1.TEXTURE_2D, texture_1);
                 gl_1.texImage2D(gl_1.TEXTURE_2D, level_1, internalFormat_1, srcFormat_1, srcType_1, image_1);
+                if (isPowerOf2(image_1.width) && isPowerOf2(image_1.height)) {
+                    gl_1.generateMipmap(gl_1.TEXTURE_2D);
+                    gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_MIN_FILTER, gl_1.LINEAR_MIPMAP_LINEAR);
+                }
+                else {
+                    gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_MIN_FILTER, gl_1.LINEAR);
+                }
+                gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_MAG_FILTER, gl_1.LINEAR);
                 gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_WRAP_S, gl_1.CLAMP_TO_EDGE);
                 gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_WRAP_T, gl_1.CLAMP_TO_EDGE);
-                gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_MAG_FILTER, gl_1.LINEAR);
-                gl_1.texParameteri(gl_1.TEXTURE_2D, gl_1.TEXTURE_MIN_FILTER, gl_1.LINEAR);
                 // Other texture parameters use they default values.
             };
             image_1.src = url;
+        }
+        function isPowerOf2(value) {
+            return (value & (value - 1)) == 0;
         }
     };
     return Texture;
