@@ -47,7 +47,6 @@ var EmitterPlayer = /** @class */ (function (_super) {
     });
     EmitterPlayer.prototype.stop = function () {
         _super.prototype.stop.call(this);
-        this.particleCount = 0;
     };
     EmitterPlayer.prototype.addPlayer = function (player) {
         this.players[this.playerCount++] = player;
@@ -82,6 +81,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
         this.emitted = false;
         this.emitComplete = false;
         this.completed = false;
+        this.particleCount = 0;
     };
     return EmitterPlayer;
 }(common.Player));

@@ -40,7 +40,6 @@ export class EmitterPlayer extends common.Player {
 
     public stop() {
         super.stop();
-        this.particleCount = 0;
     }
 
     public addPlayer(player: EmitterPlayer) {
@@ -80,5 +79,6 @@ export class EmitterPlayer extends common.Player {
         this.emitted = false;
         this.emitComplete = false;
         this.completed = false;
+        this.particleCount = 0;
     }
 }
