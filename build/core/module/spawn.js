@@ -67,7 +67,12 @@ var ModSpawn = /** @class */ (function (_super) {
                 emitter.particles[emitter.particleCount] =
                     particle = { pos: common.Vector.create() };
             ++emitter.particleCount;
-            common.Vector.set(particle.pos, 0, 0);
+            if (particle.pos) {
+                common.Vector.set(particle.pos, 0, 0);
+            }
+            else {
+                particle.pos = common.Vector.fromValues(0, 0);
+            }
             emitter.emit(emitterPlayer.EVENT_CREATED_PARTICLE, particle);
         }
     };

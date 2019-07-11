@@ -23,4 +23,5 @@ export declare class EmitterPlayer extends common.Player {
     checkComplete(): boolean;
     complete(): void;
     protected _reset(): void;
+    private _prepareParticles;
 }

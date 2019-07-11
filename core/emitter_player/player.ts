@@ -36,6 +36,7 @@ export class EmitterPlayer extends common.Player {
         value = value || DEFAULT_MAX_PARTICLE_COUNT;
         this.particles.length = value;
         this._maxParticleCount = value;
+        this._prepareParticles();
     }
 
     public stop() {
@@ -80,5 +81,15 @@ export class EmitterPlayer extends common.Player {
         this.emitComplete = false;
         this.completed = false;
         this.particleCount = 0;
+    }
+
+    private _prepareParticles() {
+        let particleCount = this._maxParticleCount;
+        let particles = this.particles;
+        for (let i = 0; i < particleCount; ++i) {
+            if (! particles[i]) particles[i] = {
+                pos: common.Vector.create(),
+            };
+        }
     }
 }

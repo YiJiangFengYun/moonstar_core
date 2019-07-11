@@ -41,6 +41,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
             value = value || DEFAULT_MAX_PARTICLE_COUNT;
             this.particles.length = value;
             this._maxParticleCount = value;
+            this._prepareParticles();
         },
         enumerable: true,
         configurable: true
@@ -82,6 +83,16 @@ var EmitterPlayer = /** @class */ (function (_super) {
         this.emitComplete = false;
         this.completed = false;
         this.particleCount = 0;
+    };
+    EmitterPlayer.prototype._prepareParticles = function () {
+        var particleCount = this._maxParticleCount;
+        var particles = this.particles;
+        for (var i = 0; i < particleCount; ++i) {
+            if (!particles[i])
+                particles[i] = {
+                    pos: common.Vector.create(),
+                };
+        }
     };
     return EmitterPlayer;
 }(common.Player));
