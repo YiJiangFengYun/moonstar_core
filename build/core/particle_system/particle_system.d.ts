@@ -24,4 +24,5 @@ export declare class ParticleSystem extends common.Player {
      */
     update(dt: number): void;
     render(): void;
+    protected _reset(): void;
 }

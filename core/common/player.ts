@@ -29,6 +29,10 @@ export class Player extends eventEmitter.EventEmitter implements IPlayer {
         this._reset();
     }
 
+    public reset() {
+        this._reset();
+    }
+
     protected _reset() {
         this.elapsedTime = 0;
     }

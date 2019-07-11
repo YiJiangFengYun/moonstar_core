@@ -20,4 +20,5 @@ export declare class Emitter {
     update(dt: number): void;
     play(): void;
     stop(): void;
+    reset(): void;
 }

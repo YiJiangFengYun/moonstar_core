@@ -58,6 +58,9 @@ var Emitter = /** @class */ (function () {
     Emitter.prototype.stop = function () {
         this.player.stop();
     };
+    Emitter.prototype.reset = function () {
+        this.player.reset();
+    };
     return Emitter;
 }());
 exports.Emitter = Emitter;

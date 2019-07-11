@@ -166,6 +166,14 @@ var ParticleSystem = /** @class */ (function (_super) {
             }
         }
     };
+    ParticleSystem.prototype._reset = function () {
+        _super.prototype._reset.call(this);
+        var emitterCount = this.emitterCount;
+        var emitters = this.emitters;
+        for (var i = 0; i < emitterCount; ++i) {
+            emitters[i].reset();
+        }
+    };
     return ParticleSystem;
 }(common.Player));
 exports.ParticleSystem = ParticleSystem;

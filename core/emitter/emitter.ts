@@ -69,4 +69,8 @@ export class Emitter {
     public stop() {
         this.player.stop();
     }
+
+    public reset() {
+        this.player.reset();
+    }
 }

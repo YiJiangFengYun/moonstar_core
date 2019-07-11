@@ -162,8 +162,12 @@ export class ParticleSystem extends common.Player {
         }
     }
 
-    // public _createEmitter() {
-    //     let emitter = new Emitter2D();
-    //     emitter.
-    // }
+    protected _reset() {
+        super._reset();
+        let emitterCount = this.emitterCount;
+        let emitters = this.emitters;
+        for (let i = 0; i < emitterCount; ++i) {
+            emitters[i].reset();
+        }
+    }
 }
