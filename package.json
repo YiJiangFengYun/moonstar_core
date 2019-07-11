@@ -6,6 +6,9 @@
   "scripts": {
     "build_development": "tsc --build tsconfig.json",
     "build_production": "tsc --build tsconfig.dist.json",
+    "build_renderer": "tsc --build tsconfig.renderer.json",
+    "build_test": "webpack --config webpack.config.test.js",
+    "build": "npm run build_development & npm run build_production & npm run build_renderer & npm run build_test",
     "test": "node test"
   },
   "repository": {
@@ -20,6 +23,20 @@
   "author": "luoyujiang",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^3.4.5"
-  }
+    "@types/stats.js": "^0.17.0",
+    "stats.js": "^0.17.0",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.4.5",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
+  },
+  "dependencies": {
+    "@types/gl-matrix": "^2.4.5",
+    "eventemitter3": "^3.1.0",
+    "gl-matrix": "^3.0.0",
+    "loglevel": "^1.6.3"
+  },
+  "files": [
+    "dist"
+  ]
 }

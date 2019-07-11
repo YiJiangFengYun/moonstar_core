@@ -63,4 +63,4 @@ typings/
 
 #custom
 .vscode
-test/output
+test/build/

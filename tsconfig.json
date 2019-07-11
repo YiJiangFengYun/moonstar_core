@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "lib": ["es2018"],
-        "outDir": "./build/",
+        "lib": ["es2018", "dom"],
+        "outDir": "./build/core/",
         "sourceMap": true,
         "declaration": true,
         "declarationMap": false,
@@ -13,6 +13,6 @@
         "target": "es5"
     },
     "include": [
-        "./src/**/*"
+        "./core/**/*"
     ]
 }
