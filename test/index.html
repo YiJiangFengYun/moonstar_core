@@ -39,6 +39,27 @@
             bottom: 0%;
         }
 
+        .playerbtns {
+            border: none;
+            background-image: url('./res/player_btns.png');
+            background-repeat: no-repeat;
+            background-size: 156.3px 29.4px;
+            width: 30px;
+            height: 29.4px;
+        }
+
+        #playbtn {
+            background-position: -63px, 0px;
+        }
+
+        #pausebtn {
+            background-position: 0px, 0px;
+        }
+
+        #stopbtn {
+            background-position: -31.5px, 0px;
+        }
+
         
     </style>
 </head>
@@ -50,6 +71,9 @@
         <div id="interaction">
             <select id="select">
             </select>
+            <button type="button" id="playbtn" class="playerbtns"></button>
+            <button type="button" id="pausebtn" class="playerbtns"></button>
+            <button type="button" id="stopbtn" class="playerbtns"></button>
         </div>
 
     </div>

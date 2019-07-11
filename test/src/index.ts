@@ -75,7 +75,18 @@ class App {
             })
             .then(() => {
                 context._updateParticleSystem();
+                context._initPlayerBtns();
             });
+    }
+
+    private _initPlayerBtns() {
+        let stopBtnElement = document.getElementById("stopbtn");
+        let playBtnElement = document.getElementById("playbtn");
+        let pauseBtnElement = document.getElementById("pausebtn");
+        stopBtnElement.onclick = this._onClickStop.bind(this);
+        playBtnElement.onclick = this._onClickPlay.bind(this);
+        pauseBtnElement.onclick = this._onClickPause.bind(this);
+        this._updatePlayerBtns();
     }
 
     private _update() {
@@ -113,6 +124,29 @@ class App {
         this._particleSystem.play();
     }
 
+    private _updatePlayerBtns() {
+        let ps = this._particleSystem;
+        if (ps) {
+            let stopBtnElement = document.getElementById("stopbtn");
+            let playBtnElement = document.getElementById("playbtn");
+            let pauseBtnElement = document.getElementById("pausebtn");
+            stopBtnElement.hidden = false;
+            if (ps.isPlay) {
+                playBtnElement.hidden = true;
+                pauseBtnElement.hidden = false;
+            } else {
+                playBtnElement.hidden = false;
+                pauseBtnElement.hidden = true;
+            }
+        } else {
+            let elements = document.getElementsByClassName("playerbtns");
+            let len = elements.length;
+            for (let i = 0; i < len; ++i) {
+                (elements[i] as HTMLElement).hidden = true;
+            }
+        }
+    }
+
     private _onChangeSelect() {
         let selectElement: HTMLSelectElement = document.getElementById("select") as HTMLSelectElement;
         let name = selectElement.value;
@@ -121,6 +155,30 @@ class App {
             else return false;
         });
         this._updateParticleSystem();
+    }
+
+    private _onClickStop() {
+        let ps = this._particleSystem;
+        if (ps) {
+            ps.stop();
+            this._updatePlayerBtns();
+        }
+    }
+
+    private _onClickPlay() {
+        let ps = this._particleSystem;
+        if (ps && ! ps.isPlay) {
+            ps.play();
+            this._updatePlayerBtns();
+        }
+    } 
+
+    private _onClickPause() {
+        let ps = this._particleSystem;
+        if (ps && ps.isPlay) {
+            ps.pause();
+            this._updatePlayerBtns();
+        }
     }
 }
 
