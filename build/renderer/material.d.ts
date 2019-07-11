@@ -9,6 +9,7 @@ export declare function getGLTypeFromValueFormat(valueFormat: core.ValueFormat, 
 export declare function getGLBlendEquation(blendOp: core.BlendOp, gl: WebGLRenderingContext): number;
 export declare function getGLBlendFactor(factor: core.BlendFactor, gl: WebGLRenderingContext): number;
 export declare class Material {
+    inited: boolean;
     matCore: core.Material;
     shaderProgram: WebGLProgram;
     particleSystemData: ParticleSystemData;

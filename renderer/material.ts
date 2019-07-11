@@ -69,6 +69,7 @@ export function getGLBlendFactor(factor: core.BlendFactor, gl: WebGLRenderingCon
 }
 
 export class Material {
+    public inited: boolean;
     public matCore: core.Material;
     public shaderProgram: WebGLProgram;
     public particleSystemData: ParticleSystemData;
@@ -77,6 +78,11 @@ export class Material {
         this.particleSystemData = particleSystemData;
         this.matCore = materialCore;
         this.shaderProgram = this._initShaderProgram(shaderLibs[materialCore.type]);
+        if (this.shaderProgram) {
+            this.inited = true;
+        } else {
+            this.inited = false;
+        }
     }
 
     public render(cmd: core.DrawCmd) {
@@ -86,20 +92,23 @@ export class Material {
         vert: string; frag: string
     }) {
         let gl = context.gl;
+
         const vertexShader = this._loadShader(gl.VERTEX_SHADER, src.vert);
+        if (! vertexShader) return null;
+
         const fragmentShader = this._loadShader(gl.FRAGMENT_SHADER, src.frag);
+        if (! fragmentShader) return null;
 
         // Create the shader program
-
         const shaderProgram = gl.createProgram();
         gl.attachShader(shaderProgram, vertexShader);
         gl.attachShader(shaderProgram, fragmentShader);
         gl.linkProgram(shaderProgram);
 
-        // If creating the shader program failed, alert
+        // If creating the shader program failed, return null
 
         if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-            alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+            log.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
             return null;
         }
 
@@ -125,7 +134,7 @@ export class Material {
         // See if it compiled successfully
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+            log.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
             gl.deleteShader(shader);
             return null;
         }
@@ -159,15 +168,17 @@ export class SpriteMaterial extends Material {
         super.init(materialCore, particleSystemData);
         let gl = context.gl;
         let locations = this.locations;
-        let shaderProgram = this.shaderProgram
-        locations.aVertexPos = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-        locations.avertexUV = gl.getAttribLocation(shaderProgram, "aVertexUV");
-        locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
-        locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
-        locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-        locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
-        locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
-        locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
+        let shaderProgram = this.shaderProgram;
+        if (shaderProgram) {
+            locations.aVertexPos = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            locations.avertexUV = gl.getAttribLocation(shaderProgram, "aVertexUV");
+            locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
+            locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
+            locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
+            locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
+            locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
+            locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
+        }
         this.texture.init({
             url: materialCore.texturePath
         });
@@ -175,6 +186,10 @@ export class SpriteMaterial extends Material {
 
     public render(cmd: core.DrawCmd) {
         super.render(cmd);
+        if (! this.inited) {
+            log.warn(`The material was not initialized successfully, so it can't be used for render.`);
+            return;
+        }
         let gl = context.gl;
         let rData = renderData;
         let psData = this.particleSystemData;

@@ -57,21 +57,31 @@ var Material = /** @class */ (function () {
         this.particleSystemData = particleSystemData;
         this.matCore = materialCore;
         this.shaderProgram = this._initShaderProgram(exports.shaderLibs[materialCore.type]);
+        if (this.shaderProgram) {
+            this.inited = true;
+        }
+        else {
+            this.inited = false;
+        }
     };
     Material.prototype.render = function (cmd) {
     };
     Material.prototype._initShaderProgram = function (src) {
         var gl = context_1.context.gl;
         var vertexShader = this._loadShader(gl.VERTEX_SHADER, src.vert);
+        if (!vertexShader)
+            return null;
         var fragmentShader = this._loadShader(gl.FRAGMENT_SHADER, src.frag);
+        if (!fragmentShader)
+            return null;
         // Create the shader program
         var shaderProgram = gl.createProgram();
         gl.attachShader(shaderProgram, vertexShader);
         gl.attachShader(shaderProgram, fragmentShader);
         gl.linkProgram(shaderProgram);
-        // If creating the shader program failed, alert
+        // If creating the shader program failed, return null
         if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-            alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+            log.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
             return null;
         }
         return shaderProgram;
@@ -89,7 +99,7 @@ var Material = /** @class */ (function () {
         gl.compileShader(shader);
         // See if it compiled successfully
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+            log.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
             gl.deleteShader(shader);
             return null;
         }
@@ -115,20 +125,26 @@ var SpriteMaterial = /** @class */ (function (_super) {
         var gl = context_1.context.gl;
         var locations = this.locations;
         var shaderProgram = this.shaderProgram;
-        locations.aVertexPos = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-        locations.avertexUV = gl.getAttribLocation(shaderProgram, "aVertexUV");
-        locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
-        locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
-        locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-        locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
-        locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
-        locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
+        if (shaderProgram) {
+            locations.aVertexPos = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            locations.avertexUV = gl.getAttribLocation(shaderProgram, "aVertexUV");
+            locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
+            locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
+            locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
+            locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
+            locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
+            locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
+        }
         this.texture.init({
             url: materialCore.texturePath
         });
     };
     SpriteMaterial.prototype.render = function (cmd) {
         _super.prototype.render.call(this, cmd);
+        if (!this.inited) {
+            log.warn("The material was not initialized successfully, so it can't be used for render.");
+            return;
+        }
         var gl = context_1.context.gl;
         var rData = render_data_1.renderData;
         var psData = this.particleSystemData;
