@@ -33,6 +33,7 @@ var ModSpawn = /** @class */ (function (_super) {
         this._time = 0;
     };
     ModSpawn.prototype.reset = function () {
+        _super.prototype.reset.call(this);
         this._time = 0;
         this._remainTime = 0;
     };

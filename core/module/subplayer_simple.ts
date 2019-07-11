@@ -20,6 +20,21 @@ export class ModSubPlayerSimple extends Module {
 
     public ready() {
         super.ready();
+        this._prepareAllPlayer();
+    }
+
+    public reset() {
+        super.reset();
+        let player = this.player;
+        let subPlayerCount = player.playerCount;
+        let subPlayers = player.players;
+        for (let i = 0; i < subPlayerCount; ++i) {
+            subPlayers[i].stop();
+        }
+        this._prepareAllPlayer();
+    }
+
+    private _prepareAllPlayer() {
         let player = this.player;
         let subPlayerCount = player.playerCount;
         let idlePlayerIndexs = this.idlePlayerIndexs;

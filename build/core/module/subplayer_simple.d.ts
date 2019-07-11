@@ -7,6 +7,8 @@ export declare class ModSubPlayerSimple extends Module {
     constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     ready(): void;
+    reset(): void;
+    private _prepareAllPlayer;
     private _getIdlePlayer;
     private _freePlayer;
     private _onDestroyedParticle;

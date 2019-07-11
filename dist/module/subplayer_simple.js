@@ -31,6 +31,19 @@ var ModSubPlayerSimple = /** @class */ (function (_super) {
     };
     ModSubPlayerSimple.prototype.ready = function () {
         _super.prototype.ready.call(this);
+        this._prepareAllPlayer();
+    };
+    ModSubPlayerSimple.prototype.reset = function () {
+        _super.prototype.reset.call(this);
+        var player = this.player;
+        var subPlayerCount = player.playerCount;
+        var subPlayers = player.players;
+        for (var i = 0; i < subPlayerCount; ++i) {
+            subPlayers[i].stop();
+        }
+        this._prepareAllPlayer();
+    };
+    ModSubPlayerSimple.prototype._prepareAllPlayer = function () {
         var player = this.player;
         var subPlayerCount = player.playerCount;
         var idlePlayerIndexs = this.idlePlayerIndexs;

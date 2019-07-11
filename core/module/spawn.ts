@@ -25,6 +25,7 @@ export class ModSpawn extends Module {
     }
 
     public reset() {
+        super.reset();
         this._time = 0;
         this._remainTime = 0;
     }
