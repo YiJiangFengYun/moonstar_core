@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.fireant.com:moonstar/moonstar_core.git"
+    "url": "git@github.com:YiJiangFengYun/moonstar_core.git"
   },
   "keywords": [
     "library",
     "particle",
     "system"
   ],
-  "author": "luoyujiang",
+  "author": "YiJiangFengYun",
   "license": "MIT",
   "devDependencies": {
     "@types/stats.js": "^0.17.0",
