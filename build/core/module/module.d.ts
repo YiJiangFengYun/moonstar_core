@@ -10,6 +10,7 @@ export declare class Module {
     init(info: any): void;
     ready(): void;
     update(dt: number): void;
+    reset(): void;
 }
 export interface ModRender {
     material: material.Material;

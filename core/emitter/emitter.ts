@@ -72,5 +72,8 @@ export class Emitter {
 
     public reset() {
         this.player.reset();
+        this.modules.forEach(mod => {
+            mod.reset();
+        });
     }
 }

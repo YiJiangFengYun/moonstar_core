@@ -19,6 +19,8 @@ var Module = /** @class */ (function () {
     };
     Module.prototype.update = function (dt) {
     };
+    Module.prototype.reset = function () {
+    };
     return Module;
 }());
 exports.Module = Module;

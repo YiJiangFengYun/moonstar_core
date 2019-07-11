@@ -60,6 +60,9 @@ var Emitter = /** @class */ (function () {
     };
     Emitter.prototype.reset = function () {
         this.player.reset();
+        this.modules.forEach(function (mod) {
+            mod.reset();
+        });
     };
     return Emitter;
 }());

@@ -29,6 +29,10 @@ export class Module {
 
     }
 
+    public reset(): void {
+
+    }
+
     
 }
 

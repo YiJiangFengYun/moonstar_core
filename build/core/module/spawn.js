@@ -32,6 +32,10 @@ var ModSpawn = /** @class */ (function (_super) {
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
         this._time = 0;
     };
+    ModSpawn.prototype.reset = function () {
+        this._time = 0;
+        this._remainTime = 0;
+    };
     ModSpawn.prototype.update = function (dt) {
         var player = this.player;
         if (!player.emitted) {

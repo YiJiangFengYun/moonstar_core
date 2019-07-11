@@ -24,6 +24,11 @@ export class ModSpawn extends Module {
         
     }
 
+    public reset() {
+        this._time = 0;
+        this._remainTime = 0;
+    }
+
     public update(dt: number) {
         let player = this.player;
         if (! player.emitted) {
