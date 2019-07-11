@@ -4,11 +4,13 @@ import * as core from "../../core";
 import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
 import * as sampleRadiantStars from "./sample_radiant_stars";
 import * as sampleSubplayers from "./sample_subplayers";
+import * as sampleSizeInitialRandom from "./sample_size_initial_random";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleRadiantStars.name, info: sampleRadiantStars.psInfo },
     { name: sampleSpriteSheetSimple.name, info: sampleSpriteSheetSimple.psInfo },
     { name: sampleSubplayers.name, info: sampleSubplayers.psInfo },
+    { name: sampleSizeInitialRandom.name, info: sampleSizeInitialRandom.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;
