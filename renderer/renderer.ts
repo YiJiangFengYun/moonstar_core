@@ -28,11 +28,11 @@ export class Renderer {
         glMatrix.mat4.identity(projectionMatrix4x4);
         glMatrix.mat3.fromScaling(
             projectionMatrix,
-            [1 / info.width || 1, 1 / info.height || 1],
+            [2 / info.width || 2, 2 / info.height || 2],
         );
         glMatrix.mat4.fromScaling(
             projectionMatrix4x4,
-            [1 / (info.width || 1), 1 / (info.height || 1), 1 / (info.depth || 1)],
+            [2 / (info.width || 2), 2 / (info.height || 2), 2 / (info.depth || 2)],
         );
         let infoClearColor = info.clearColor;
         if (info.clearColor) {
