@@ -14,5 +14,6 @@ __export(require("./common"));
 __export(require("./material"));
 __export(require("./render"));
 __export(require("./module"));
+__export(require("./emitter_player"));
 __export(require("./emitter"));
 __export(require("./particle_system"));

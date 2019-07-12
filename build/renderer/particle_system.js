@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
+var core = require("../core");
 var material_1 = require("./material");
 var render_data_1 = require("./render_data");
 var particle_system_data_1 = require("./particle_system_data");
@@ -11,6 +12,7 @@ var ParticleSystem = /** @class */ (function () {
     function ParticleSystem() {
         this.data = new particle_system_data_1.ParticleSystemData();
         this.mapMaterials = {};
+        this.mapGlobalBoundsOfEmitter = {};
     }
     ParticleSystem.prototype.init = function (info) {
         this.data.init(info);
@@ -24,6 +26,11 @@ var ParticleSystem = /** @class */ (function () {
             var matCore = renderModule.material;
             var material = material_1.createMaterial(matCore, this.data);
             mapMaterials[matCore.id] = material;
+            var player = emitters[i].player;
+            var bounds = this.mapGlobalBoundsOfEmitter[player.id] = core.Bounds.create();
+            core.Bounds.copy(bounds, player.rootBounds);
+            core.Bounds.translate(bounds, bounds, psCore.position);
+            player.on(core.EVENT_CHANGE_POSITION, this._onEmitterChangePos, this);
         }
     };
     ParticleSystem.prototype.update = function (dt) {
@@ -71,14 +78,23 @@ var ParticleSystem = /** @class */ (function () {
         var cmdList = drawData.cmdList;
         var cmdCount = drawData.cmdCount;
         var mapMaterials = this.mapMaterials;
+        var mapBounds = this.mapGlobalBoundsOfEmitter;
         for (var i = 0; i < cmdCount; ++i) {
             var cmd = cmdList[i];
             if (cmd.indexCount > 0) {
-                var material = mapMaterials[cmd.material.id];
-                if (material)
-                    material.render(cmd);
+                var bounds = mapBounds[cmd.emitterPlayer];
+                if (core.Bounds.isEmpty(bounds) || core.Bounds.intersecting(bounds, rData.viewBounds)) {
+                    var material = mapMaterials[cmd.material];
+                    if (material)
+                        material.render(cmd);
+                }
             }
         }
+    };
+    ParticleSystem.prototype._onEmitterChangePos = function (player) {
+        var bounds = this.mapGlobalBoundsOfEmitter[player.id];
+        core.Bounds.copy(bounds, player.rootBounds);
+        core.Bounds.translate(bounds, bounds, this.data.psCore.position);
     };
     return ParticleSystem;
 }());

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var glMatrix = require("gl-matrix");
+var core = require("../core");
 var context_1 = require("./context");
 var render_data_1 = require("./render_data");
 var stat_1 = require("./stat");
@@ -14,12 +15,15 @@ var Renderer = /** @class */ (function () {
         var projectionMatrix = rD.projectionMatrix;
         var projectionMatrix4x4 = rD.projectionMatrix4x4;
         glMatrix.mat4.identity(projectionMatrix4x4);
-        glMatrix.mat3.fromScaling(projectionMatrix, [1 / info.width || 1, 1 / info.height || 1]);
-        glMatrix.mat4.fromScaling(projectionMatrix4x4, [1 / (info.width || 1), 1 / (info.height || 1), 1 / (info.depth || 1)]);
+        glMatrix.mat3.fromScaling(projectionMatrix, [2 / info.width || 2, 2 / info.height || 2]);
+        glMatrix.mat4.fromScaling(projectionMatrix4x4, [2 / (info.width || 2), 2 / (info.height || 2), 2 / (info.depth || 2)]);
         var infoClearColor = info.clearColor;
         if (info.clearColor) {
             glMatrix.vec4.copy(rD.clearColor, [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a]);
         }
+        var wHalf = info.width / 2;
+        var hHalf = info.height / 2;
+        core.Bounds.set(rD.viewBounds, -wHalf, -hHalf, wHalf, hHalf);
         stat_1.stats.init(info.frameRate);
     };
     Renderer.prototype.addParticleSystem = function (ps) {

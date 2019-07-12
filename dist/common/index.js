@@ -8,4 +8,5 @@ __export(require("./player"));
 __export(require("./vector"));
 __export(require("./vertex"));
 __export(require("./matrix"));
+__export(require("./bounds"));
 __export(require("./id"));

@@ -1,5 +1,4 @@
 import * as common from "../common";
-import * as material from "../material";
 import { Vector, Color } from "../common";
 export declare const vertexInfo: common.VertexInfo;
 export interface FillVertexInfo {
@@ -12,10 +11,11 @@ export interface DrawCmd {
     vertexBufferByteOffset: number;
     indexOffset: number;
     indexCount: number;
-    material: material.Material;
     translationEmitter: common.Vector;
     rotationEmitter: number;
     scaleEmitter: common.Vector;
+    material: number;
+    emitterPlayer: number;
 }
 export declare const DrawCmd: {
     create: () => DrawCmd;
