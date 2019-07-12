@@ -49,20 +49,21 @@ export class ParticleSystemData {
     private _refreshBuffers() {
         let gl = context.gl;
         let drawData = this.psCore.drawData;
-
-        //Vertex buffer.
-        let vertexBuffer = this.vertexBuffer;
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-
-
-        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
-
-        //Index buffer
-        let indexBuffer = this.indexBuffer;
-
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
+        if (drawData.totalIdxCount > 0) {
+            //Vertex buffer.
+            let vertexBuffer = this.vertexBuffer;
+    
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    
+    
+            gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
+    
+            //Index buffer
+            let indexBuffer = this.indexBuffer;
+    
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
+        }
     }
 }

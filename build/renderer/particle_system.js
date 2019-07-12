@@ -73,9 +73,11 @@ var ParticleSystem = /** @class */ (function () {
         var mapMaterials = this.mapMaterials;
         for (var i = 0; i < cmdCount; ++i) {
             var cmd = cmdList[i];
-            var material = mapMaterials[cmd.material.id];
-            if (material)
-                material.render(cmd);
+            if (cmd.indexCount > 0) {
+                var material = mapMaterials[cmd.material.id];
+                if (material)
+                    material.render(cmd);
+            }
         }
     };
     return ParticleSystem;
