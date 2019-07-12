@@ -38,7 +38,7 @@ export class EmitterPlayer extends common.Player {
     public init(info: EmitterPlayerInfo) {
         this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
         let boundsInfo = info.bounds;
-        common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
+        if (boundsInfo) common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         this._reset();
         this._updateRootBounds();
     }

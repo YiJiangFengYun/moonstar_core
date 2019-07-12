@@ -1,4 +1,3 @@
-import * as common from "../common";
 import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";

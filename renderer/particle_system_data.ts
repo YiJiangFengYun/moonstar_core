@@ -12,6 +12,14 @@ export class ParticleSystemData {
         let psCore = this.psCore;
         //Initialize the core particle system.
         psCore.init(info);
+
+        let pos = psCore.position;
+        glMatrix.mat4.translate(
+            this.modelViewMatrix, 
+            this.modelViewMatrix, 
+            [pos[0], pos[1], 0],
+        );
+
         //Initialize the buffers from the draw data of the particle system.
         this._initBuffers();
     }

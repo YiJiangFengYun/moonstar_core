@@ -1,5 +1,4 @@
 import * as common from "../common";
-import * as material from "../material";
 import { Vector, Color } from "../common";
 export const vertexInfo: common.VertexInfo = [
     {
@@ -80,6 +79,7 @@ export const DrawCmd = {
         out.indexOffset = cmd.indexOffset;
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;
+        out.emitterPlayer = cmd.emitterPlayer;
         common.Vector.copy(out.translationEmitter, cmd.translationEmitter);
         out.rotationEmitter = cmd.rotationEmitter;
         common.Vector.copy(out.scaleEmitter, cmd.scaleEmitter);

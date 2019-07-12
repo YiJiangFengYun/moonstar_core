@@ -36,4 +36,8 @@ export namespace Bounds {
         out[1] = target[1] + value[1];
         out[3] = target[3] + value[1];
     }
+
+    export function isEmpty(target: Bounds) {
+        return target[0] === target[2] || target[1] === target[3];
+    }
 }

@@ -9,7 +9,7 @@ export type ParticleSystemInfo = {
      * First two value is minX and minY
      * Last two value is maxX and MaxY
      */
-    bounds: [number, number, number, number];
+    bounds?: [number, number, number, number];
     emitters: (emitter.EmitterInfo & { count?: number; } ) []
 };
 
@@ -36,7 +36,7 @@ export class ParticleSystem extends common.Player {
 
     public init(info: ParticleSystemInfo) {
         let boundsInfo = info.bounds;
-        common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
+        if (boundsInfo) common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         let len = info.emitters ? info.emitters.length : 0;
         let newCount: number = 0;
         for (let i = 0; i < len; ++i) {

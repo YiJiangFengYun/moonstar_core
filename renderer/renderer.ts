@@ -1,4 +1,5 @@
 import * as glMatrix from "gl-matrix";
+import * as core from "../core";
 import { ParticleSystem } from "./particle_system";
 import { context } from "./context";
 import { renderData } from "./render_data";
@@ -40,6 +41,11 @@ export class Renderer {
                 [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a],
             );
         }
+
+        let wHalf = info.width / 2;
+        let hHalf = info.height / 2;
+
+        core.Bounds.set(rD.viewBounds, -wHalf, -hHalf, wHalf, hHalf);
         stats.init(info.frameRate);
     }
 
