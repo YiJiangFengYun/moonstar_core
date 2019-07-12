@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var glMatrix = require("gl-matrix");
 var context_1 = require("./context");
 var render_data_1 = require("./render_data");
+var stat_1 = require("./stat");
 var Renderer = /** @class */ (function () {
     function Renderer() {
         this.particleSystems = [];
@@ -19,6 +20,7 @@ var Renderer = /** @class */ (function () {
         if (info.clearColor) {
             glMatrix.vec4.copy(rD.clearColor, [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a]);
         }
+        stat_1.stats.init(info.frameRate);
     };
     Renderer.prototype.addParticleSystem = function (ps) {
         var index = this.particleSystems.indexOf(ps);
@@ -31,6 +33,9 @@ var Renderer = /** @class */ (function () {
         if (index >= 0) {
             this.particleSystems.splice(index, 1);
         }
+    };
+    Renderer.prototype.begin = function () {
+        stat_1.stats.begin();
     };
     Renderer.prototype.update = function (dt) {
         this.particleSystems.forEach(function (ps) {
@@ -49,6 +54,9 @@ var Renderer = /** @class */ (function () {
         this.particleSystems.forEach(function (ps) {
             ps.render();
         });
+    };
+    Renderer.prototype.end = function () {
+        stat_1.stats.end();
     };
     return Renderer;
 }());

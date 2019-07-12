@@ -19,6 +19,7 @@ var log = require("loglevel");
 var context_1 = require("./context");
 var texture_1 = require("./texture");
 var render_data_1 = require("./render_data");
+var stat_1 = require("./stat");
 exports.shaderLibs = [];
 exports.shaderLibs[core.MaterialType.UNDEFINED] = null;
 exports.shaderLibs[core.MaterialType.SPRITE] = {
@@ -52,6 +53,7 @@ function getGLBlendFactor(factor, gl) {
 exports.getGLBlendFactor = getGLBlendFactor;
 var Material = /** @class */ (function () {
     function Material() {
+        this._stats = stat_1.stats;
     }
     Material.prototype.init = function (materialCore, particleSystemData) {
         this.particleSystemData = particleSystemData;
@@ -191,6 +193,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
         gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
         gl.blendFunc(getGLBlendFactor(materialCore.srcBlendFactor, gl), getGLBlendFactor(materialCore.dstBlendFactor, gl));
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
+        this._stats.addDrawCall();
     };
     return SpriteMaterial;
 }(Material));
