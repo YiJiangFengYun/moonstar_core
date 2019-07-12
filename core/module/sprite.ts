@@ -165,7 +165,8 @@ export class ModSprite extends Module implements ModRender {
         cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
         cmdHelper.indexOffset = offsets.lastIndexCount;
         cmdHelper.indexCount = particleCount * 6;
-        cmdHelper.material = this.material;
+        cmdHelper.material = this.material.id;
+        cmdHelper.emitterPlayer = this.player.id;
 
         common.Vector.copy(cmdHelper.translationEmitter, player.origin);
         cmdHelper.rotationEmitter = player.rotation;

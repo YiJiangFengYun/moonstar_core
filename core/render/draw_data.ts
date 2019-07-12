@@ -53,10 +53,11 @@ export interface DrawCmd {
     vertexBufferByteOffset: number;
     indexOffset: number;
     indexCount: number;
-    material: material.Material;
     translationEmitter: common.Vector;
     rotationEmitter: number;
     scaleEmitter: common.Vector;
+    material: number;
+    emitterPlayer: number;
 }
 
 export const DrawCmd = {
@@ -65,10 +66,11 @@ export const DrawCmd = {
             vertexBufferByteOffset: 0,
             indexOffset: 0,
             indexCount: 0,
-            material: null,
             translationEmitter: common.Vector.create(),
             rotationEmitter: 0,
             scaleEmitter: common.Vector.fromValues(1, 1),
+            material: 0,
+            emitterPlayer: 0,
         };
     },
 
