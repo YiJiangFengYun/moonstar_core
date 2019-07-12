@@ -158,7 +158,7 @@ class App {
         let ss = stats;
         let drawcallElement = document.getElementById("drawcall");
         drawcallElement.innerText = `draw call: ${ss.drawCall.toString()}` ;
-        let costTimeElement = document.getElementById("frameCostTime");
+        let costTimeElement = document.getElementById("frame_cost_time");
         costTimeElement.innerText = `cost time: ${ss.costTime.toString()}ms`;
     }
 
