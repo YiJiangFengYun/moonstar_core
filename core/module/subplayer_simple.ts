@@ -67,7 +67,7 @@ export class ModSubPlayerSimple extends Module {
         if (index) {
             let subPlayer = this.player.players[index];
             subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
-            subPlayer.setOrigin(particle.pos);
+            subPlayer.setPosition(particle.pos);
             subPlayer.play();
         }
         

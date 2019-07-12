@@ -1,7 +1,7 @@
 import * as common from "../common";
 import * as particle from "../particle";
 import { EmitterPlayerInfo } from "./info";
-import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE } from "./events";
+import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE, EVENT_CHANGE_POSITION } from "./events";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
 
@@ -10,7 +10,7 @@ export class EmitterPlayer extends common.Player {
     public particleCount: number = 0;
     public players: EmitterPlayer[] = [];
     public playerCount: number = 0;
-    public origin: common.Vector = common.Vector.create();
+    public position: common.Vector = common.Vector.create();
     public rotation: number = 0;
     public useLocalSpace: boolean;
     public bounds: common.Bounds = common.Bounds.create();
@@ -90,9 +90,10 @@ export class EmitterPlayer extends common.Player {
         }
     }
 
-    public setOrigin(value: common.Vector | number[]) {
-        common.Vector.copy(this.origin, value);
+    public setPosition(value: common.Vector | number[]) {
+        common.Vector.copy(this.position, value);
         this._updateRootBounds();
+        this.emit(EVENT_CHANGE_POSITION, this);
     }
 
     protected _reset() {
@@ -114,6 +115,6 @@ export class EmitterPlayer extends common.Player {
     }
 
     private _updateRootBounds() {
-        common.Bounds.translate(this.rootBounds, this.bounds, this.origin);
+        common.Bounds.translate(this.rootBounds, this.bounds, this.position);
     }
 }
