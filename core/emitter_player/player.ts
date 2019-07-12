@@ -15,6 +15,11 @@ export class EmitterPlayer extends common.Player {
     public useLocalSpace: boolean;
     public bounds: common.Bounds = common.Bounds.create();
 
+    /**
+     * This bounds is in the cordinate system of the particle system.
+     */
+    public rootBounds: common.Bounds = common.Bounds.create();
+
     public emitted: boolean;
     public emitComplete: boolean;
     public completed: boolean;
@@ -35,6 +40,7 @@ export class EmitterPlayer extends common.Player {
         let boundsInfo = info.bounds;
         common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         this._reset();
+        this._updateRootBounds();
     }
 
     public get maxParticleCount() {
@@ -84,6 +90,11 @@ export class EmitterPlayer extends common.Player {
         }
     }
 
+    public setOrigin(value: common.Vector | number[]) {
+        common.Vector.copy(this.origin, value);
+        this._updateRootBounds();
+    }
+
     protected _reset() {
         super._reset();
         this.emitted = false;
@@ -100,5 +111,9 @@ export class EmitterPlayer extends common.Player {
                 pos: common.Vector.create(),
             };
         }
+    }
+
+    private _updateRootBounds() {
+        common.Bounds.translate(this.rootBounds, this.bounds, this.origin);
     }
 }

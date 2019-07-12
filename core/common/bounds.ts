@@ -1,4 +1,5 @@
 import * as glMatrix from "gl-matrix";
+import { Vector } from "./vector";
 
 export type Bounds = glMatrix.vec4;
 
@@ -27,5 +28,12 @@ export namespace Bounds {
         if (a[0] > b[2] || a[2] < b[0]) return false;
         if (a[1] > b[3] || a[3] < b[1]) return false;
         return true;
+    }
+
+    export function translate(out: Bounds, target: Bounds, value: Vector) {
+        out[0] = target[0] + value[0];
+        out[2] = target[2] + value[0];
+        out[1] = target[1] + value[1];
+        out[3] = target[3] + value[1];
     }
 }
