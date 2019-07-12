@@ -1,4 +1,3 @@
-// import * as stats from "stats.js";
 import * as renderMod from "../../renderer";
 import * as core from "../../core";
 import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
@@ -62,13 +61,6 @@ class App {
                 context._lastTime = new Date().getTime();
             })
             .then(() => {
-                // var st = new stats();
-                // st.showPanel(1);
-                // let statsElement = document.getElementById("stats");
-                // statsElement.appendChild(st.dom);
-                // context._stats = st;
-            })
-            .then(() => {
                 let selectElement = document.getElementById("select");
                 tests.forEach(test => {
                     let newElement = document.createElement("option");
@@ -94,7 +86,6 @@ class App {
     }
 
     private _update() {
-        // this._stats.begin();
         this._renderer.begin();
         let now = new Date().getTime();
         let dt = now - this._lastTime;
@@ -109,7 +100,6 @@ class App {
 
         this._postRender();
         this._renderer.end();
-        // this._stats.end();
         this._updateStats();
     }
 

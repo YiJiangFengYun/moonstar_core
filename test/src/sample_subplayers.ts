@@ -10,7 +10,7 @@ export const psInfo: core.ParticleSystemInfo = {
             modules: [
                 {
                     name: "life_time",
-                    life: 3,
+                    life: 10,
                 },
                 {
                     name: "sprite",
@@ -36,7 +36,7 @@ export const psInfo: core.ParticleSystemInfo = {
                 },
                 {
                     name: "velocity_constant",
-                    x: 100,
+                    x: 50,
                     y: 0,
                 },
                 {
@@ -59,6 +59,7 @@ export const psInfo: core.ParticleSystemInfo = {
             name: "sub",
             maxParticleCount: 1000,
             parent: "root",
+            bounds: [-10, -10, 10, 10],
             modules: [
                 {
                     name: "life_time",
