@@ -13,6 +13,7 @@ export class EmitterPlayer extends common.Player {
     public origin: common.Vector = common.Vector.create();
     public rotation: number = 0;
     public useLocalSpace: boolean;
+    public bounds: common.Bounds = common.Bounds.create();
 
     public emitted: boolean;
     public emitComplete: boolean;
@@ -25,6 +26,8 @@ export class EmitterPlayer extends common.Player {
 
     public init(info: EmitterPlayerInfo) {
         this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        let boundsInfo = info.bounds;
+        common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         this._reset();
     }
 
