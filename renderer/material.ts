@@ -5,6 +5,7 @@ import { context } from "./context";
 import { ParticleSystemData } from "./particle_system_data";
 import { Texture } from "./texture";
 import { renderData } from "./render_data";
+import { Stats, stats } from "./stat";
 
 export const shaderLibs: { vert: string; frag: string }[] = [];
 
@@ -73,6 +74,10 @@ export class Material {
     public matCore: core.Material;
     public shaderProgram: WebGLProgram;
     public particleSystemData: ParticleSystemData;
+    protected _stats: Stats;
+    public constructor() {
+        this._stats = stats;
+    }
 
     public init(materialCore: core.Material, particleSystemData: ParticleSystemData) {
         this.particleSystemData = particleSystemData;
@@ -94,10 +99,10 @@ export class Material {
         let gl = context.gl;
 
         const vertexShader = this._loadShader(gl.VERTEX_SHADER, src.vert);
-        if (! vertexShader) return null;
+        if (!vertexShader) return null;
 
         const fragmentShader = this._loadShader(gl.FRAGMENT_SHADER, src.frag);
-        if (! fragmentShader) return null;
+        if (!fragmentShader) return null;
 
         // Create the shader program
         const shaderProgram = gl.createProgram();
@@ -186,7 +191,7 @@ export class SpriteMaterial extends Material {
 
     public render(cmd: core.DrawCmd) {
         super.render(cmd);
-        if (! this.inited) {
+        if (!this.inited) {
             log.warn(`The material was not initialized successfully, so it can't be used for render.`);
             return;
         }
@@ -284,6 +289,7 @@ export class SpriteMaterial extends Material {
         );
 
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
+        this._stats.addDrawCall();
     }
 }
 

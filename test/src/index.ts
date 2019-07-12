@@ -1,10 +1,11 @@
-import * as stats from "stats.js";
+// import * as stats from "stats.js";
 import * as renderMod from "../../renderer";
 import * as core from "../../core";
 import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
 import * as sampleRadiantStars from "./sample_radiant_stars";
 import * as sampleSubplayers from "./sample_subplayers";
 import * as sampleSizeInitialRandom from "./sample_size_initial_random";
+import { stats } from "../../renderer/stat";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleRadiantStars.name, info: sampleRadiantStars.psInfo },
@@ -20,7 +21,7 @@ class App {
     private _lastTime: number;
     private _renderer: renderMod.Renderer;
     private _particleSystem: renderMod.ParticleSystem;
-    private _stats: stats;
+    // private _stats: stats;
     private _selectedIndex = 0;
     public constructor() {
         this._init()
@@ -49,7 +50,8 @@ class App {
                         g: 0,
                         b: 0,
                         a: 1,
-                    }
+                    },
+                    frameRate: 1000 / FRAME_INTERVAL,
                 });
             })
             .then((renderer) => {
@@ -60,11 +62,11 @@ class App {
                 context._lastTime = new Date().getTime();
             })
             .then(() => {
-                var st = new stats();
-                st.showPanel(1);
-                let statsElement = document.getElementById("stats");
-                statsElement.appendChild(st.dom);
-                context._stats = st;
+                // var st = new stats();
+                // st.showPanel(1);
+                // let statsElement = document.getElementById("stats");
+                // statsElement.appendChild(st.dom);
+                // context._stats = st;
             })
             .then(() => {
                 let selectElement = document.getElementById("select");
@@ -92,7 +94,8 @@ class App {
     }
 
     private _update() {
-        this._stats.begin();
+        // this._stats.begin();
+        this._renderer.begin();
         let now = new Date().getTime();
         let dt = now - this._lastTime;
         this._lastTime = now;
@@ -105,7 +108,9 @@ class App {
         this._renderer.render();
 
         this._postRender();
-        this._stats.end();
+        this._renderer.end();
+        // this._stats.end();
+        this._updateStats();
     }
 
     private _preRender() {
@@ -147,6 +152,14 @@ class App {
                 (elements[i] as HTMLElement).hidden = true;
             }
         }
+    }
+
+    private _updateStats() {
+        let ss = stats;
+        let drawcallElement = document.getElementById("drawcall");
+        drawcallElement.innerText = `draw call: ${ss.drawCall.toString()}` ;
+        let costTimeElement = document.getElementById("frameCostTime");
+        costTimeElement.innerText = `cost time: ${ss.costTime.toString()}`;
     }
 
     private _onChangeSelect() {

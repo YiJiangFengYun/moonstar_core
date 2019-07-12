@@ -2,6 +2,7 @@ import * as glMatrix from "gl-matrix";
 import { ParticleSystem } from "./particle_system";
 import { context } from "./context";
 import { renderData } from "./render_data";
+import { stats } from "./stat";
 
 export interface RendererInfo {
     canvas: HTMLCanvasElement;
@@ -9,6 +10,7 @@ export interface RendererInfo {
     height: number;
     depth?: number;
     clearColor?: { r: number; g: number; b: number; a: number; }
+    frameRate?: number;
 }
 
 export class Renderer {
@@ -38,6 +40,7 @@ export class Renderer {
                 [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a],
             );
         }
+        stats.init(info.frameRate);
     }
 
     public addParticleSystem(ps: ParticleSystem) {
@@ -52,6 +55,10 @@ export class Renderer {
         if (index >= 0) {
             this.particleSystems.splice(index, 1);
         }
+    }
+
+    public begin() {
+        stats.begin();
     }
 
     public update(dt: number) {
@@ -74,6 +81,10 @@ export class Renderer {
         this.particleSystems.forEach(ps => {
             ps.render();
         });
+    }
+
+    public end() {
+        stats.end();
     }
 }
 
