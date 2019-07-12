@@ -15,7 +15,7 @@ export interface RendererInfo {
 export declare class Renderer {
     particleSystems: ParticleSystem[];
     constructor();
-    init(info: RendererInfo): void;
+    init(info: RendererInfo): Promise<void>;
     addParticleSystem(ps: ParticleSystem): void;
     removeParticleSystem(ps: ParticleSystem): void;
     begin(): void;

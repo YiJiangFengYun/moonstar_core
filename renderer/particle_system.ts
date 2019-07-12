@@ -4,6 +4,7 @@ import { Material, createMaterial } from "./material";
 import { renderData } from "./render_data";
 import { ParticleSystemData } from "./particle_system_data";
 import { Bounds } from "../core";
+import { emitterBoundsOutline } from "./emitter_bounds_outline";
 /**
  * A particle system class is for a draw data state of a particle system of the core.
  */
@@ -12,6 +13,8 @@ export class ParticleSystem implements core.IPlayer {
     public data: ParticleSystemData = new ParticleSystemData();
     public mapMaterials: {[id: number]: Material} = {};
     public mapGlobalBoundsOfEmitter: {[id: number]: Bounds} = {};
+
+    private _boundsSizeHelper: core.Vector = core.Vector.create();
     public constructor() {
     }
 
@@ -82,13 +85,20 @@ export class ParticleSystem implements core.IPlayer {
         let cmdCount = drawData.cmdCount;
         let mapMaterials = this.mapMaterials;
         let mapBounds = this.mapGlobalBoundsOfEmitter;
+        let boundsSizeHelper = this._boundsSizeHelper;
         for (let i = 0; i < cmdCount; ++i) {
             let cmd = cmdList[i];
             if (cmd.indexCount > 0) {
                 let bounds = mapBounds[cmd.emitterPlayer];
                 if (core.Bounds.isEmpty(bounds) || core.Bounds.intersecting(bounds, rData.viewBounds)) {
                     let material = mapMaterials[cmd.material];
-                    if (material) material.render(cmd);
+                    if (material) {
+                        material.render(cmd);
+                    }
+                    if (! core.Bounds.isEmpty(bounds)) {
+                        core.Vector.set(boundsSizeHelper, bounds[2] - bounds[0], bounds[3] - bounds[1]);
+                        emitterBoundsOutline.render(cmd, data.modelViewMatrix, boundsSizeHelper);
+                    }
                 }
             }
         }

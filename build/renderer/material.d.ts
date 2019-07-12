@@ -18,8 +18,6 @@ export declare class Material {
     constructor();
     init(materialCore: core.Material, particleSystemData: ParticleSystemData): void;
     render(cmd: core.DrawCmd): void;
-    private _initShaderProgram;
-    private _loadShader;
 }
 /**
  * A material class is for a material state of a emiter of the core

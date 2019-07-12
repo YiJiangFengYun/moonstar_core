@@ -4,6 +4,7 @@ import { ParticleSystem } from "./particle_system";
 import { context } from "./context";
 import { renderData } from "./render_data";
 import { stats } from "./stat";
+import { emitterBoundsOutline } from "./emitter_bounds_outline";
 
 export interface RendererInfo {
     canvas: HTMLCanvasElement;
@@ -21,32 +22,39 @@ export class Renderer {
     }
 
     public init(info: RendererInfo) {
-        context.init(info.canvas);
-        let rD = renderData;
-        let projectionMatrix = rD.projectionMatrix;
-        let projectionMatrix4x4 = rD.projectionMatrix4x4;
-        glMatrix.mat4.identity(projectionMatrix4x4);
-        glMatrix.mat3.fromScaling(
-            projectionMatrix,
-            [2 / info.width || 2, 2 / info.height || 2],
-        );
-        glMatrix.mat4.fromScaling(
-            projectionMatrix4x4,
-            [2 / (info.width || 2), 2 / (info.height || 2), 2 / (info.depth || 2)],
-        );
-        let infoClearColor = info.clearColor;
-        if (info.clearColor) {
-            glMatrix.vec4.copy(
-                rD.clearColor,
-                [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a],
-            );
-        }
+        return context.init(info.canvas)
+            .then(() => {
+                let rD = renderData;
+                let projectionMatrix = rD.projectionMatrix;
+                let projectionMatrix4x4 = rD.projectionMatrix4x4;
+                glMatrix.mat4.identity(projectionMatrix4x4);
+                glMatrix.mat3.fromScaling(
+                    projectionMatrix,
+                    [2 / info.width || 2, 2 / info.height || 2],
+                );
+                glMatrix.mat4.fromScaling(
+                    projectionMatrix4x4,
+                    [2 / (info.width || 2), 2 / (info.height || 2), 2 / (info.depth || 2)],
+                );
+                let infoClearColor = info.clearColor;
+                if (info.clearColor) {
+                    glMatrix.vec4.copy(
+                        rD.clearColor,
+                        [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a],
+                    );
+                }
 
-        let wHalf = info.width / 2;
-        let hHalf = info.height / 2;
+                let wHalf = info.width / 2;
+                let hHalf = info.height / 2;
 
-        core.Bounds.set(rD.viewBounds, -wHalf, -hHalf, wHalf, hHalf);
-        stats.init(info.frameRate);
+                core.Bounds.set(rD.viewBounds, -wHalf, -hHalf, wHalf, hHalf);
+
+                stats.init(info.frameRate);
+            })
+            .then(() => {
+                return emitterBoundsOutline.init();
+            });
+
     }
 
     public addParticleSystem(ps: ParticleSystem) {

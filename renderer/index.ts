@@ -9,8 +9,10 @@ export function init(info: RendererInfo) {
         return core.init();
     })
     .then(() => {
-        r.init(info);
-        return r;
+        return r.init(info)
+        .then(() => {
+            return r;
+        });
     });
 }
 

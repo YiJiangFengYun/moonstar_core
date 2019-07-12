@@ -13,6 +13,7 @@ export declare class ParticleSystem implements core.IPlayer {
     mapGlobalBoundsOfEmitter: {
         [id: number]: Bounds;
     };
+    private _boundsSizeHelper;
     constructor();
     init(info: core.ParticleSystemInfo): void;
     update(dt: number): void;

@@ -7,6 +7,7 @@ export const psInfo: core.ParticleSystemInfo = {
         {
             name: "root",
             maxParticleCount: 5,
+            bounds: [-16, -16, 16, 16],
             modules: [
                 {
                     name: "life_time",
