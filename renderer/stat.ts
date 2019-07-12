@@ -5,7 +5,7 @@ export interface Stats {
     drawCall: number;
 
     /**
-     * The average cost time of a frame.
+     * The average cost time (ms) of a frame.
      */
     costTime: number;
 
@@ -21,7 +21,7 @@ export interface Stats {
     drawCallFrame: number;
 
     /**
-     * The cost time of a frame.
+     * The cost time (ms) of a frame.
      */
     costTimeFrame: number;
 

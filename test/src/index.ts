@@ -159,7 +159,7 @@ class App {
         let drawcallElement = document.getElementById("drawcall");
         drawcallElement.innerText = `draw call: ${ss.drawCall.toString()}` ;
         let costTimeElement = document.getElementById("frameCostTime");
-        costTimeElement.innerText = `cost time: ${ss.costTime.toString()}`;
+        costTimeElement.innerText = `cost time: ${ss.costTime.toString()}ms`;
     }
 
     private _onChangeSelect() {
