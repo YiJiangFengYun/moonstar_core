@@ -20,8 +20,14 @@ export class EmitterPlayer extends common.Player {
     public completed: boolean;
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
 
+    private _id: number;
     public constructor() {
         super();
+        this._id = common.gainID();
+    }
+
+    public get id() {
+        return this._id;
     }
 
     public init(info: EmitterPlayerInfo) {
