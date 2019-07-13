@@ -11,6 +11,7 @@ var orientation_initial_radiation_1 = require("./orientation_initial_radiation")
 var subuv_spritesheet_simple_1 = require("./subuv_spritesheet_simple");
 var subplayer_simple_1 = require("./subplayer_simple");
 var size_initial_random_1 = require("./size_initial_random");
+var location_initial_circle_border_1 = require("./location_initial_circle_border");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
@@ -19,6 +20,7 @@ exports.mapModules[spawn_1.ModSpawn.NAME] = spawn_1.ModSpawn;
 // Initial modules.
 exports.mapModules[size_initial_1.ModSizeInitial.NAME] = size_initial_1.ModSizeInitial;
 exports.mapModules[location_initial_circle_1.ModLocationInitialCircle.NAME] = location_initial_circle_1.ModLocationInitialCircle;
+exports.mapModules[location_initial_circle_border_1.ModLocationInitialCircleBorder.NAME] = location_initial_circle_border_1.ModLocationInitialCircleBorder;
 exports.mapModules[orientation_initial_radiation_1.ModOrientationInitialRadiation.NAME] = orientation_initial_radiation_1.ModOrientationInitialRadiation;
 exports.mapModules[size_initial_random_1.ModSizeInitialRandom.NAME] = size_initial_random_1.ModSizeInitialRandom;
 // Constant modules.

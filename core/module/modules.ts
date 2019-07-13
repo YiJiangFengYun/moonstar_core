@@ -10,6 +10,7 @@ import { ModOrientationInitialRadiation } from "./orientation_initial_radiation"
 import { ModSubUVSpriteSheetSimple } from "./subuv_spritesheet_simple";
 import { ModSubPlayerSimple } from "./subplayer_simple";
 import { ModSizeInitialRandom } from "./size_initial_random";
+import { ModLocationInitialCircleBorder } from "./location_initial_circle_border";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -22,6 +23,7 @@ mapModules[ModSpawn.NAME] = ModSpawn;
 // Initial modules.
 mapModules[ModSizeInitial.NAME] = ModSizeInitial;
 mapModules[ModLocationInitialCircle.NAME] = ModLocationInitialCircle;
+mapModules[ModLocationInitialCircleBorder.NAME] = ModLocationInitialCircleBorder;
 mapModules[ModOrientationInitialRadiation.NAME] = ModOrientationInitialRadiation;
 mapModules[ModSizeInitialRandom.NAME] = ModSizeInitialRandom;
 

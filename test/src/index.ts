@@ -4,6 +4,7 @@ import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
 import * as sampleRadiantStars from "./sample_radiant_stars";
 import * as sampleSubplayers from "./sample_subplayers";
 import * as sampleSizeInitialRandom from "./sample_size_initial_random";
+import * as sampleCircleBorder from "./sample_circle_border";
 import { stats } from "../../renderer/stat";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
@@ -11,6 +12,7 @@ const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleSpriteSheetSimple.name, info: sampleSpriteSheetSimple.psInfo },
     { name: sampleSubplayers.name, info: sampleSubplayers.psInfo },
     { name: sampleSizeInitialRandom.name, info: sampleSizeInitialRandom.psInfo },
+    { name: sampleCircleBorder.name, info: sampleCircleBorder.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;
