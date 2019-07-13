@@ -17,6 +17,7 @@ var size_over_life_1 = require("./size_over_life");
 var color_initial_1 = require("./color_initial");
 var color_initial_random_1 = require("./color_initial_random");
 var life_time_random_1 = require("./life_time_random");
+var velocity_constant_random_1 = require("./velocity_constant_random");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
@@ -33,6 +34,7 @@ exports.mapModules[color_initial_1.ModColorInitial.NAME] = color_initial_1.ModCo
 exports.mapModules[color_initial_random_1.ModColorInitialRandom.NAME] = color_initial_random_1.ModColorInitialRandom;
 // Constant modules.
 exports.mapModules[velocity_constant_1.ModVelocityConstant.NAME] = velocity_constant_1.ModVelocityConstant;
+exports.mapModules[velocity_constant_random_1.ModVelocityConstantRandom.NAME] = velocity_constant_random_1.ModVelocityConstantRandom;
 // Life time modules
 exports.mapModules[life_time_1.ModLifeTime.NAME] = life_time_1.ModLifeTime;
 exports.mapModules[life_time_random_1.ModLifeTimeRandom.NAME] = life_time_random_1.ModLifeTimeRandom;

@@ -1,0 +1,63 @@
+import * as common from "../common";
+import * as particleMod from "../particle";
+import * as emitterPlayer from "../emitter_player";
+import { Module } from "./module";
+
+export interface ParticleWithVelocity extends particleMod.Particle {
+    velocity?: common.Vector;
+}
+
+export class ModVelocityConstantRandom extends Module {
+    public static NAME = "velocity_constant_random";
+    public velocityMin: common.Vector = common.Vector.create();
+    public velocityMax: common.Vector = common.Vector.create();
+
+    private _vecHelper: common.Vector = common.Vector.create();
+    public constructor(player: emitterPlayer.EmitterPlayer) {
+        super(player);
+        this.name = ModVelocityConstantRandom.NAME;
+        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
+    }
+
+    public init(info: any) {
+        super.init(info);
+        let velMin = this.velocityMin;
+        let velMinConfig = info.velocityMin || common.VECTOR_ZERO;
+        let velMax = this.velocityMax;
+        let velMaxConfig = info.velocityMax || common.VECTOR_ZERO;
+        velMin[0] = velMinConfig[0] || 0;
+        velMin[1] = velMinConfig[1] || 0;
+        velMax[0] = velMaxConfig[0] || 0;
+        velMax[1] = velMaxConfig[1] || 0;
+    }
+
+    public update(dt: number) {
+        super.update(dt);
+        let player = this.player;
+        let particles = player.particles;
+        let particleCount = player.particleCount;
+        for (let i = 0; i < particleCount; ++i) {
+            let particle: ParticleWithVelocity = particles[i];
+            let vel = particle.velocity;
+            let orientation = particle.orientation || 0;
+            let vecHelper = this._vecHelper;
+            common.Vector.rotate(vecHelper, vel, common.VECTOR_ZERO, orientation);
+            let pos = particle.pos;
+            pos[0] = pos[0] + vecHelper[0] * dt;
+            pos[1] = pos[1] + vecHelper[1] * dt;
+        }
+    }
+
+    private _onCreateParticle(particle: ParticleWithVelocity) {
+        let velMin = this.velocityMin;
+        let velMax = this.velocityMax;
+        let r = Math.random();
+        let x = Math.max(0, velMin[0] + (velMax[0] - velMin[0]) * r);
+        let y = Math.max(0, velMin[1] + (velMax[1] - velMin[0]) * r);
+        if (particle.velocity) {
+            common.Vector.copy(particle.velocity, [x, y]);
+        } else {
+            particle.velocity = common.Vector.clone([x, y]);
+        }
+    }
+}

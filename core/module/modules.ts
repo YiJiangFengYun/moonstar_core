@@ -16,6 +16,7 @@ import { ModSizeOverLife } from "./size_over_life";
 import { ModColorInitial } from "./color_initial";
 import { ModColorInitialRandom } from "./color_initial_random";
 import { ModLifeTimeRandom } from "./life_time_random";
+import { ModVelocityConstantRandom } from "./velocity_constant_random";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -37,7 +38,7 @@ mapModules[ModColorInitialRandom.NAME] = ModColorInitialRandom;
 
 // Constant modules.
 mapModules[ModVelocityConstant.NAME] = ModVelocityConstant;
-
+mapModules[ModVelocityConstantRandom.NAME] = ModVelocityConstantRandom;
 // Life time modules
 mapModules[ModLifeTime.NAME] = ModLifeTime;
 mapModules[ModLifeTimeRandom.NAME] = ModLifeTimeRandom;
