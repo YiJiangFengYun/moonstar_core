@@ -18,6 +18,9 @@ import { ModLifeTimeRandom } from "./life_time_random";
 import { ModVelocityInitialRandom } from "./velocity_initial_random";
 import { ModVelocity } from "./velocity";
 import { ModVelocityInitial } from "./velocity_initial";
+import { ModRotation } from "./rotation";
+import { ModRotationInitial } from "./rotation_initial";
+import { ModRotationInitialRandom } from "./rotation_initial_random";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -30,6 +33,9 @@ mapModules[ModSpawn.NAME] = ModSpawn;
 // Velocity module
 mapModules[ModVelocity.NAME] = ModVelocity;
 
+// Rotation module
+mapModules[ModRotation.NAME] = ModRotation;
+
 // Initial modules.
 mapModules[ModSizeInitial.NAME] = ModSizeInitial;
 mapModules[ModLocationInitialCircle.NAME] = ModLocationInitialCircle;
@@ -41,6 +47,8 @@ mapModules[ModColorInitial.NAME] = ModColorInitial;
 mapModules[ModColorInitialRandom.NAME] = ModColorInitialRandom;
 mapModules[ModVelocityInitial.NAME] = ModVelocityInitial;
 mapModules[ModVelocityInitialRandom.NAME] = ModVelocityInitialRandom;
+mapModules[ModRotationInitial.NAME] = ModRotationInitial;
+mapModules[ModRotationInitialRandom.NAME] = ModRotationInitialRandom;
 
 // Life time modules
 mapModules[ModLifeTime.NAME] = ModLifeTime;

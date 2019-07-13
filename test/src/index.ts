@@ -11,6 +11,8 @@ import * as sampleColorInitial from "./sample_color_initial";
 import * as sampleColorInitialRandom from "./sample_color_initial_random";
 import * as sampleLifeRandom from "./sample_life_random";
 import * as smapleVelocityRandom from "./sample_velocity_random";
+import * as sampleRotation from "./sample_rotation";
+import * as sampleRotationRandom from "./sample_rotation_random";
 import { stats } from "../../renderer/stat";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
@@ -25,6 +27,8 @@ const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleColorInitialRandom.name, info: sampleColorInitialRandom.psInfo },
     { name: sampleLifeRandom.name, info: sampleLifeRandom.psInfo },
     { name: smapleVelocityRandom.name, info: smapleVelocityRandom.psInfo },
+    { name: sampleRotation.name, info: sampleRotation.psInfo },
+    { name: sampleRotationRandom.name, info: sampleRotationRandom.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;

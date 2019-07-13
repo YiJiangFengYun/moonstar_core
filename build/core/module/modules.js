@@ -19,6 +19,9 @@ var life_time_random_1 = require("./life_time_random");
 var velocity_initial_random_1 = require("./velocity_initial_random");
 var velocity_1 = require("./velocity");
 var velocity_initial_1 = require("./velocity_initial");
+var rotation_1 = require("./rotation");
+var rotation_initial_1 = require("./rotation_initial");
+var rotation_initial_random_1 = require("./rotation_initial_random");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
@@ -26,6 +29,8 @@ exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
 exports.mapModules[spawn_1.ModSpawn.NAME] = spawn_1.ModSpawn;
 // Velocity module
 exports.mapModules[velocity_1.ModVelocity.NAME] = velocity_1.ModVelocity;
+// Rotation module
+exports.mapModules[rotation_1.ModRotation.NAME] = rotation_1.ModRotation;
 // Initial modules.
 exports.mapModules[size_initial_1.ModSizeInitial.NAME] = size_initial_1.ModSizeInitial;
 exports.mapModules[location_initial_circle_1.ModLocationInitialCircle.NAME] = location_initial_circle_1.ModLocationInitialCircle;
@@ -37,6 +42,8 @@ exports.mapModules[color_initial_1.ModColorInitial.NAME] = color_initial_1.ModCo
 exports.mapModules[color_initial_random_1.ModColorInitialRandom.NAME] = color_initial_random_1.ModColorInitialRandom;
 exports.mapModules[velocity_initial_1.ModVelocityInitial.NAME] = velocity_initial_1.ModVelocityInitial;
 exports.mapModules[velocity_initial_random_1.ModVelocityInitialRandom.NAME] = velocity_initial_random_1.ModVelocityInitialRandom;
+exports.mapModules[rotation_initial_1.ModRotationInitial.NAME] = rotation_initial_1.ModRotationInitial;
+exports.mapModules[rotation_initial_random_1.ModRotationInitialRandom.NAME] = rotation_initial_random_1.ModRotationInitialRandom;
 // Life time modules
 exports.mapModules[life_time_1.ModLifeTime.NAME] = life_time_1.ModLifeTime;
 exports.mapModules[life_time_random_1.ModLifeTimeRandom.NAME] = life_time_random_1.ModLifeTimeRandom;
