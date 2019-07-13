@@ -12,6 +12,7 @@ import { ModSubPlayerSimple } from "./subplayer_simple";
 import { ModSizeInitialRandom } from "./size_initial_random";
 import { ModLocationInitialCircleBorder } from "./location_initial_circle_border";
 import { ModLocationInitialRectangle } from "./location_initial_rectangle";
+import { ModSizeOverLife } from "./size_over_life";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -37,6 +38,7 @@ mapModules[ModLifeTime.NAME] = ModLifeTime;
 
 // Over Life modules
 mapModules[ModColorOverLife.NAME] = ModColorOverLife;
+mapModules[ModSizeOverLife.NAME] = ModSizeOverLife;
 
 //Sub UV modules
 mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;

@@ -20,30 +20,34 @@ var ModSizeInitialRandom = /** @class */ (function (_super) {
     __extends(ModSizeInitialRandom, _super);
     function ModSizeInitialRandom(player) {
         var _this = _super.call(this, player) || this;
-        _this.size = common.Vector.create();
-        _this.scaleMinMax = common.Vector.create();
+        _this.sizeMin = common.Vector.create();
+        _this.sizeMax = common.Vector.create();
         _this.name = ModSizeInitialRandom.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModSizeInitialRandom.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
-        var size = this.size;
-        var scaleMinMax = this.scaleMinMax;
-        size[0] = info.width || 0;
-        size[1] = info.height || 0;
-        scaleMinMax[0] = info.scaleMin || 1;
-        scaleMinMax[1] = info.scaleMax || 1;
+        var sizeMin = this.sizeMin;
+        var sizeMax = this.sizeMax;
+        var sizeMinConfig = info.sizeMin || common.VECTOR_ZERO;
+        var sizeMaxConfig = info.sizeMax || common.VECTOR_ZERO;
+        sizeMin[0] = sizeMinConfig[0] || 0;
+        sizeMin[1] = sizeMinConfig[1] || 0;
+        sizeMax[0] = sizeMaxConfig[0] || 0;
+        sizeMax[1] = sizeMaxConfig[1] || 0;
     };
     ModSizeInitialRandom.prototype._onCreateParticle = function (particle) {
-        var scaleMinMax = this.scaleMinMax;
-        var scale = scaleMinMax[0] + Math.random() * (scaleMinMax[1] - scaleMinMax[0]);
+        var sizeMin = this.sizeMin;
+        var sizeMax = this.sizeMax;
+        var r = Math.random();
+        var w = Math.max(0, sizeMin[0] + (sizeMax[0] - sizeMin[0]) * r);
+        var h = Math.max(0, sizeMin[1] + (sizeMax[1] - sizeMin[0]) * r);
         if (particle.size) {
-            common.Vector.scale(particle.size, this.size, scale);
+            common.Vector.set(particle.size, w, h);
         }
         else {
-            particle.size = common.Vector.clone(this.size);
-            common.Vector.scale(particle.size, particle.size, scale);
+            particle.size = common.Vector.fromValues(w, h);
         }
     };
     ModSizeInitialRandom.NAME = "size_initial_random";

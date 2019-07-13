@@ -13,6 +13,7 @@ var subplayer_simple_1 = require("./subplayer_simple");
 var size_initial_random_1 = require("./size_initial_random");
 var location_initial_circle_border_1 = require("./location_initial_circle_border");
 var location_initial_rectangle_1 = require("./location_initial_rectangle");
+var size_over_life_1 = require("./size_over_life");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
@@ -31,6 +32,7 @@ exports.mapModules[velocity_constant_1.ModVelocityConstant.NAME] = velocity_cons
 exports.mapModules[life_time_1.ModLifeTime.NAME] = life_time_1.ModLifeTime;
 // Over Life modules
 exports.mapModules[color_over_life_1.ModColorOverLife.NAME] = color_over_life_1.ModColorOverLife;
+exports.mapModules[size_over_life_1.ModSizeOverLife.NAME] = size_over_life_1.ModSizeOverLife;
 //Sub UV modules
 exports.mapModules[subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple.NAME] = subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple;
 //Sub player modules
