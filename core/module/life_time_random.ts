@@ -8,19 +8,21 @@ export interface ParticleWithLifeTime extends particleMod.Particle {
     life?: number;
 }
 
-export class ModLifeTime extends Module {
-    public static NAME = "life_time";
-    public life: number; //Unit(s)
+export class ModLifeTimeRandom extends Module {
+    public static NAME = "life_time_random";
+    public lifeMin: number; //Uint(s)
+    public lifeMax: number; //Unit(s)
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModLifeTime.NAME;
+        this.name = ModLifeTimeRandom.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
         super.init(info);
-        this.life = info.life;
+        this.lifeMin = info.lifeMin || 0;
+        this.lifeMax = info.lifeMax || Number.MAX_VALUE;
     }
 
     public update(dt: number) {
@@ -61,7 +63,7 @@ export class ModLifeTime extends Module {
     }
 
     private _onCreateParticle(particle: ParticleWithLifeTime) {
-        particle.life = this.life;
+        particle.life = this.lifeMin + (this.lifeMax - this.lifeMin) * Math.random();
         particle.time = 0;
     }
 }

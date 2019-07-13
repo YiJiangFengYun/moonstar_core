@@ -9,6 +9,7 @@ import * as sampleLocationRectangle from "./sample_location_rectangle";
 import * as sampleSizeOverLife from "./sample_size_over_life";
 import * as sampleColorInitial from "./sample_color_initial";
 import * as sampleColorInitialRandom from "./sample_color_initial_random";
+import * as sampleLifeRandom from "./sample_life_random";
 import { stats } from "../../renderer/stat";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
@@ -21,6 +22,7 @@ const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleSizeOverLife.name, info: sampleSizeOverLife.psInfo },
     { name: sampleColorInitial.name, info: sampleColorInitial.psInfo },
     { name: sampleColorInitialRandom.name, info: sampleColorInitialRandom.psInfo },
+    { name: sampleLifeRandom.name, info: sampleLifeRandom.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;
