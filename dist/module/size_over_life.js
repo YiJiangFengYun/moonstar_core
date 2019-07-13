@@ -41,13 +41,13 @@ var ModSizeOverLife = /** @class */ (function (_super) {
         var player = this.player;
         var particles = player.particles;
         var particleCount = player.particleCount;
-        var colorBegin = this.sizeBegin;
-        var colorEnd = this.sizeEnd;
+        var sizeBegin = this.sizeBegin;
+        var sizeEnd = this.sizeEnd;
         for (var i = 0; i < particleCount; ++i) {
             var particle = particles[i];
             var size = particle.size;
-            size[0] = colorBegin[0] + (colorEnd[0] - colorBegin[0]) * (particle.time / particle.life);
-            size[1] = colorBegin[1] + (colorEnd[1] - colorBegin[1]) * (particle.time / particle.life);
+            size[0] = sizeBegin[0] + (sizeEnd[0] - sizeBegin[0]) * (particle.time / particle.life);
+            size[1] = sizeBegin[1] + (sizeEnd[1] - sizeBegin[1]) * (particle.time / particle.life);
         }
     };
     ModSizeOverLife.prototype._onCreateParticle = function (particle) {

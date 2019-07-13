@@ -36,14 +36,8 @@ export const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "color_over_life",
-                rBegin: 1,
-                gBegin: 1,
-                bBegin: 1,
-                aBegin: 1,
-                rEnd: 1,
-                gEnd: 1,
-                bEnd: 1,
-                aEnd: 0,
+                colorBegin: [1, 1, 1, 1],
+                colorEnd: [1, 1, 1, 0],
             }
         ]
     }],

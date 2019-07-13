@@ -29,15 +29,17 @@ var ModColorOverLife = /** @class */ (function (_super) {
     ModColorOverLife.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
         var colorBegin = this.colorBegin;
+        var colorBeginConfig = info.colorBegin || common.COLOR_WHITE;
         var colorEnd = this.colorEnd;
-        colorBegin[0] = info.rBegin || 0;
-        colorBegin[1] = info.gBegin || 0;
-        colorBegin[2] = info.bBegin || 0;
-        colorBegin[3] = info.aBegin || 0;
-        colorEnd[0] = info.rEnd || 0;
-        colorEnd[1] = info.gEnd || 0;
-        colorEnd[2] = info.bEnd || 0;
-        colorEnd[3] = info.aEnd || 0;
+        var colorEndConfig = info.colorEnd || common.COLOR_WHITE;
+        colorBegin[0] = colorBeginConfig[0];
+        colorBegin[1] = colorBeginConfig[1];
+        colorBegin[2] = colorBeginConfig[2];
+        colorBegin[3] = colorBeginConfig[3];
+        colorEnd[0] = colorEndConfig[0];
+        colorEnd[1] = colorEndConfig[1];
+        colorEnd[2] = colorEndConfig[2];
+        colorEnd[3] = colorEndConfig[3];
     };
     ModColorOverLife.prototype.update = function () {
         var player = this.player;
