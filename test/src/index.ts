@@ -7,6 +7,7 @@ import * as sampleSizeInitialRandom from "./sample_size_initial_random";
 import * as sampleCircleBorder from "./sample_circle_border";
 import * as sampleLocationRectangle from "./sample_location_rectangle";
 import * as sampleSizeOverLife from "./sample_size_over_life";
+import * as sampleColorInitial from "./sample_color_initial";
 import { stats } from "../../renderer/stat";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
@@ -17,6 +18,7 @@ const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleCircleBorder.name, info: sampleCircleBorder.psInfo },
     { name: sampleLocationRectangle.name, info: sampleLocationRectangle.psInfo },
     { name: sampleSizeOverLife.name, info: sampleSizeOverLife.psInfo },
+    { name: sampleColorInitial.name, info: sampleColorInitial.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;
