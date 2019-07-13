@@ -34,8 +34,7 @@ export const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "velocity_constant",
-                x: 100,
-                y: 0,
+                velocity: [100, 0],
             },
             {
                 name: "color_over_life",

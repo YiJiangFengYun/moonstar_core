@@ -21,8 +21,9 @@ export class ModVelocityConstant extends Module {
     public init(info: any) {
         super.init(info);
         let vel = this.velocity;
-        vel[0] = info.x;
-        vel[1] = info.y;
+        let velConfig = info.velocity || common.VECTOR_ZERO;
+        vel[0] = velConfig[0];
+        vel[1] = velConfig[1];
     }
 
     public update(dt: number) {

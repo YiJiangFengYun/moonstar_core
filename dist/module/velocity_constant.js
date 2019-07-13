@@ -29,8 +29,9 @@ var ModVelocityConstant = /** @class */ (function (_super) {
     ModVelocityConstant.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
         var vel = this.velocity;
-        vel[0] = info.x;
-        vel[1] = info.y;
+        var velConfig = info.velocity || common.VECTOR_ZERO;
+        vel[0] = velConfig[0];
+        vel[1] = velConfig[1];
     };
     ModVelocityConstant.prototype.update = function (dt) {
         _super.prototype.update.call(this, dt);

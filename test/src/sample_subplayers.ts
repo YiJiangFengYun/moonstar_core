@@ -37,8 +37,7 @@ export const psInfo: core.ParticleSystemInfo = {
                 },
                 {
                     name: "velocity_constant",
-                    x: 50,
-                    y: 0,
+                    velocity: [50, 0],
                 },
                 {
                     name: "subplayer_simple",
@@ -79,8 +78,7 @@ export const psInfo: core.ParticleSystemInfo = {
                 },
                 {
                     name: "velocity_constant",
-                    x: 100,
-                    y: 0,
+                    velocity: [100, 0],
                 },
                 {
                     name: "color_over_life",
