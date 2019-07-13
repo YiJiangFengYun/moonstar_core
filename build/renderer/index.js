@@ -9,8 +9,10 @@ function init(info) {
         return core.init();
     })
         .then(function () {
-        r.init(info);
-        return r;
+        return r.init(info)
+            .then(function () {
+            return r;
+        });
     });
 }
 exports.init = init;

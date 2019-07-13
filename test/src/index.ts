@@ -1,16 +1,34 @@
-import * as stats from "stats.js";
 import * as renderMod from "../../renderer";
 import * as core from "../../core";
 import * as sampleSpriteSheetSimple from "./sample_spritesheet_simple";
 import * as sampleRadiantStars from "./sample_radiant_stars";
 import * as sampleSubplayers from "./sample_subplayers";
 import * as sampleSizeInitialRandom from "./sample_size_initial_random";
+import * as sampleCircleBorder from "./sample_circle_border";
+import * as sampleLocationRectangle from "./sample_location_rectangle";
+import * as sampleSizeOverLife from "./sample_size_over_life";
+import * as sampleColorInitial from "./sample_color_initial";
+import * as sampleColorInitialRandom from "./sample_color_initial_random";
+import * as sampleLifeRandom from "./sample_life_random";
+import * as smapleVelocityRandom from "./sample_velocity_random";
+import * as sampleRotation from "./sample_rotation";
+import * as sampleRotationRandom from "./sample_rotation_random";
+import { stats } from "../../renderer/stat";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: sampleRadiantStars.name, info: sampleRadiantStars.psInfo },
     { name: sampleSpriteSheetSimple.name, info: sampleSpriteSheetSimple.psInfo },
     { name: sampleSubplayers.name, info: sampleSubplayers.psInfo },
     { name: sampleSizeInitialRandom.name, info: sampleSizeInitialRandom.psInfo },
+    { name: sampleCircleBorder.name, info: sampleCircleBorder.psInfo },
+    { name: sampleLocationRectangle.name, info: sampleLocationRectangle.psInfo },
+    { name: sampleSizeOverLife.name, info: sampleSizeOverLife.psInfo },
+    { name: sampleColorInitial.name, info: sampleColorInitial.psInfo },
+    { name: sampleColorInitialRandom.name, info: sampleColorInitialRandom.psInfo },
+    { name: sampleLifeRandom.name, info: sampleLifeRandom.psInfo },
+    { name: smapleVelocityRandom.name, info: smapleVelocityRandom.psInfo },
+    { name: sampleRotation.name, info: sampleRotation.psInfo },
+    { name: sampleRotationRandom.name, info: sampleRotationRandom.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;
@@ -20,7 +38,7 @@ class App {
     private _lastTime: number;
     private _renderer: renderMod.Renderer;
     private _particleSystem: renderMod.ParticleSystem;
-    private _stats: stats;
+    // private _stats: stats;
     private _selectedIndex = 0;
     public constructor() {
         this._init()
@@ -49,7 +67,8 @@ class App {
                         g: 0,
                         b: 0,
                         a: 1,
-                    }
+                    },
+                    frameRate: 1000 / FRAME_INTERVAL,
                 });
             })
             .then((renderer) => {
@@ -58,13 +77,6 @@ class App {
             .then(() => {
                 context._intervalI = window.setInterval(context._update.bind(context), FRAME_INTERVAL);
                 context._lastTime = new Date().getTime();
-            })
-            .then(() => {
-                var st = new stats();
-                st.showPanel(1);
-                let statsElement = document.getElementById("stats");
-                statsElement.appendChild(st.dom);
-                context._stats = st;
             })
             .then(() => {
                 let selectElement = document.getElementById("select");
@@ -92,7 +104,7 @@ class App {
     }
 
     private _update() {
-        this._stats.begin();
+        this._renderer.begin();
         let now = new Date().getTime();
         let dt = now - this._lastTime;
         this._lastTime = now;
@@ -105,7 +117,8 @@ class App {
         this._renderer.render();
 
         this._postRender();
-        this._stats.end();
+        this._renderer.end();
+        this._updateStats();
     }
 
     private _preRender() {
@@ -147,6 +160,14 @@ class App {
                 (elements[i] as HTMLElement).hidden = true;
             }
         }
+    }
+
+    private _updateStats() {
+        let ss = stats;
+        let drawcallElement = document.getElementById("drawcall");
+        drawcallElement.innerText = `draw call: ${ss.drawCall.toString()}` ;
+        let costTimeElement = document.getElementById("frame_cost_time");
+        costTimeElement.innerText = `cost time: ${ss.costTime.toString()}ms`;
     }
 
     private _onChangeSelect() {

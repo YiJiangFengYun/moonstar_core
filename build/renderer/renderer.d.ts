@@ -10,14 +10,17 @@ export interface RendererInfo {
         b: number;
         a: number;
     };
+    frameRate?: number;
 }
 export declare class Renderer {
     particleSystems: ParticleSystem[];
     constructor();
-    init(info: RendererInfo): void;
+    init(info: RendererInfo): Promise<void>;
     addParticleSystem(ps: ParticleSystem): void;
     removeParticleSystem(ps: ParticleSystem): void;
+    begin(): void;
     update(dt: number): void;
     render(): void;
+    end(): void;
 }
 export declare const renderer: Renderer;

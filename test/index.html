@@ -32,6 +32,10 @@
             height: 100%;
         }
 
+        .stats_item {
+            color: white;
+        }
+
         #interaction {
             display: block;
             position: absolute;
@@ -79,7 +83,10 @@
 <body>
     <canvas id="glCanvas"></canvas>
     <div id="ui">
-        <div id="stats"></div>
+        <div id="stats">
+            <div id="drawcall" class="stats_item"></div>
+            <div id="frame_cost_time" class="stats_item"></div>
+        </div>
         <div id="interaction">
             <select id="select">
             </select>

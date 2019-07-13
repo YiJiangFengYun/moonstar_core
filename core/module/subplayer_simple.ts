@@ -1,4 +1,3 @@
-import * as common from "../common";
 import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
@@ -67,7 +66,7 @@ export class ModSubPlayerSimple extends Module {
         if (index) {
             let subPlayer = this.player.players[index];
             subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
-            common.Vector.copy(subPlayer.origin, particle.pos);
+            subPlayer.setPosition(particle.pos);
             subPlayer.play();
         }
         

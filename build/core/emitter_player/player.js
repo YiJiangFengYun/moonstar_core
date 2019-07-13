@@ -24,14 +24,31 @@ var EmitterPlayer = /** @class */ (function (_super) {
         _this.particleCount = 0;
         _this.players = [];
         _this.playerCount = 0;
-        _this.origin = common.Vector.create();
+        _this.position = common.Vector.create();
         _this.rotation = 0;
+        _this.bounds = common.Bounds.create();
+        /**
+         * This bounds is in the cordinate system of the particle system.
+         */
+        _this.rootBounds = common.Bounds.create();
         _this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
+        _this._id = common.gainID();
         return _this;
     }
+    Object.defineProperty(EmitterPlayer.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        enumerable: true,
+        configurable: true
+    });
     EmitterPlayer.prototype.init = function (info) {
         this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        var boundsInfo = info.bounds;
+        if (boundsInfo)
+            common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         this._reset();
+        this._updateRootBounds();
     };
     Object.defineProperty(EmitterPlayer.prototype, "maxParticleCount", {
         get: function () {
@@ -77,6 +94,11 @@ var EmitterPlayer = /** @class */ (function (_super) {
             this.emit(events_1.EVENT_COMPLETE, this);
         }
     };
+    EmitterPlayer.prototype.setPosition = function (value) {
+        common.Vector.copy(this.position, value);
+        this._updateRootBounds();
+        this.emit(events_1.EVENT_CHANGE_POSITION, this);
+    };
     EmitterPlayer.prototype._reset = function () {
         _super.prototype._reset.call(this);
         this.emitted = false;
@@ -93,6 +115,9 @@ var EmitterPlayer = /** @class */ (function (_super) {
                     pos: common.Vector.create(),
                 };
         }
+    };
+    EmitterPlayer.prototype._updateRootBounds = function () {
+        common.Bounds.translate(this.rootBounds, this.bounds, this.position);
     };
     return EmitterPlayer;
 }(common.Player));

@@ -19,6 +19,8 @@ var log = require("loglevel");
 var context_1 = require("./context");
 var texture_1 = require("./texture");
 var render_data_1 = require("./render_data");
+var stat_1 = require("./stat");
+var util_shader_1 = require("./util_shader");
 exports.shaderLibs = [];
 exports.shaderLibs[core.MaterialType.UNDEFINED] = null;
 exports.shaderLibs[core.MaterialType.SPRITE] = {
@@ -52,11 +54,12 @@ function getGLBlendFactor(factor, gl) {
 exports.getGLBlendFactor = getGLBlendFactor;
 var Material = /** @class */ (function () {
     function Material() {
+        this._stats = stat_1.stats;
     }
     Material.prototype.init = function (materialCore, particleSystemData) {
         this.particleSystemData = particleSystemData;
         this.matCore = materialCore;
-        this.shaderProgram = this._initShaderProgram(exports.shaderLibs[materialCore.type]);
+        this.shaderProgram = util_shader_1.initShaderProgram(exports.shaderLibs[materialCore.type]);
         if (this.shaderProgram) {
             this.inited = true;
         }
@@ -65,45 +68,6 @@ var Material = /** @class */ (function () {
         }
     };
     Material.prototype.render = function (cmd) {
-    };
-    Material.prototype._initShaderProgram = function (src) {
-        var gl = context_1.context.gl;
-        var vertexShader = this._loadShader(gl.VERTEX_SHADER, src.vert);
-        if (!vertexShader)
-            return null;
-        var fragmentShader = this._loadShader(gl.FRAGMENT_SHADER, src.frag);
-        if (!fragmentShader)
-            return null;
-        // Create the shader program
-        var shaderProgram = gl.createProgram();
-        gl.attachShader(shaderProgram, vertexShader);
-        gl.attachShader(shaderProgram, fragmentShader);
-        gl.linkProgram(shaderProgram);
-        // If creating the shader program failed, return null
-        if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-            log.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
-            return null;
-        }
-        return shaderProgram;
-    };
-    //
-    // creates a shader of the given type, uploads the source and
-    // compiles it.
-    //
-    Material.prototype._loadShader = function (type, source) {
-        var gl = context_1.context.gl;
-        var shader = gl.createShader(type);
-        // Send the source to the shader object
-        gl.shaderSource(shader, source);
-        // Compile the shader program
-        gl.compileShader(shader);
-        // See if it compiled successfully
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            log.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            return null;
-        }
-        return shader;
     };
     return Material;
 }());
@@ -191,6 +155,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
         gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
         gl.blendFunc(getGLBlendFactor(materialCore.srcBlendFactor, gl), getGLBlendFactor(materialCore.dstBlendFactor, gl));
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
+        this._stats.addDrawCall();
     };
     return SpriteMaterial;
 }(Material));

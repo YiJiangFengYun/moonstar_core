@@ -8,8 +8,8 @@ export interface ParticleSpecial extends particleMod.Particle {
 }
 export declare class ModColorOverLife extends Module {
     static NAME: string;
-    beginColor: common.Color;
-    endColor: common.Color;
+    colorBegin: common.Color;
+    colorEnd: common.Color;
     constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(): void;

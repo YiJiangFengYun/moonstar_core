@@ -1,6 +1,7 @@
 import * as core from "../core";
 import { ParticleSystemData } from "./particle_system_data";
 import { Texture } from "./texture";
+import { Stats } from "./stat";
 export declare const shaderLibs: {
     vert: string;
     frag: string;
@@ -13,10 +14,10 @@ export declare class Material {
     matCore: core.Material;
     shaderProgram: WebGLProgram;
     particleSystemData: ParticleSystemData;
+    protected _stats: Stats;
+    constructor();
     init(materialCore: core.Material, particleSystemData: ParticleSystemData): void;
     render(cmd: core.DrawCmd): void;
-    private _initShaderProgram;
-    private _loadShader;
 }
 /**
  * A material class is for a material state of a emiter of the core

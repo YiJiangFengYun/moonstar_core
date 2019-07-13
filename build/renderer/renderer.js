@@ -1,24 +1,36 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var glMatrix = require("gl-matrix");
+var core = require("../core");
 var context_1 = require("./context");
 var render_data_1 = require("./render_data");
+var stat_1 = require("./stat");
+var emitter_bounds_outline_1 = require("./emitter_bounds_outline");
 var Renderer = /** @class */ (function () {
     function Renderer() {
         this.particleSystems = [];
     }
     Renderer.prototype.init = function (info) {
-        context_1.context.init(info.canvas);
-        var rD = render_data_1.renderData;
-        var projectionMatrix = rD.projectionMatrix;
-        var projectionMatrix4x4 = rD.projectionMatrix4x4;
-        glMatrix.mat4.identity(projectionMatrix4x4);
-        glMatrix.mat3.fromScaling(projectionMatrix, [1 / info.width || 1, 1 / info.height || 1]);
-        glMatrix.mat4.fromScaling(projectionMatrix4x4, [1 / (info.width || 1), 1 / (info.height || 1), 1 / (info.depth || 1)]);
-        var infoClearColor = info.clearColor;
-        if (info.clearColor) {
-            glMatrix.vec4.copy(rD.clearColor, [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a]);
-        }
+        return context_1.context.init(info.canvas)
+            .then(function () {
+            var rD = render_data_1.renderData;
+            var projectionMatrix = rD.projectionMatrix;
+            var projectionMatrix4x4 = rD.projectionMatrix4x4;
+            glMatrix.mat4.identity(projectionMatrix4x4);
+            glMatrix.mat3.fromScaling(projectionMatrix, [2 / info.width || 2, 2 / info.height || 2]);
+            glMatrix.mat4.fromScaling(projectionMatrix4x4, [2 / (info.width || 2), 2 / (info.height || 2), 2 / (info.depth || 2)]);
+            var infoClearColor = info.clearColor;
+            if (info.clearColor) {
+                glMatrix.vec4.copy(rD.clearColor, [infoClearColor.r, infoClearColor.g, infoClearColor.b, infoClearColor.a]);
+            }
+            var wHalf = info.width / 2;
+            var hHalf = info.height / 2;
+            core.Bounds.set(rD.viewBounds, -wHalf, -hHalf, wHalf, hHalf);
+            stat_1.stats.init(info.frameRate);
+        })
+            .then(function () {
+            return emitter_bounds_outline_1.emitterBoundsOutline.init();
+        });
     };
     Renderer.prototype.addParticleSystem = function (ps) {
         var index = this.particleSystems.indexOf(ps);
@@ -31,6 +43,9 @@ var Renderer = /** @class */ (function () {
         if (index >= 0) {
             this.particleSystems.splice(index, 1);
         }
+    };
+    Renderer.prototype.begin = function () {
+        stat_1.stats.begin();
     };
     Renderer.prototype.update = function (dt) {
         this.particleSystems.forEach(function (ps) {
@@ -49,6 +64,9 @@ var Renderer = /** @class */ (function () {
         this.particleSystems.forEach(function (ps) {
             ps.render();
         });
+    };
+    Renderer.prototype.end = function () {
+        stat_1.stats.end();
     };
     return Renderer;
 }());

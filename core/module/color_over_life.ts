@@ -10,44 +10,46 @@ export interface ParticleSpecial extends particleMod.Particle {
 
 export class ModColorOverLife extends Module {
     public static NAME = "color_over_life";
-    public beginColor: common.Color;
-    public endColor: common.Color;
+    public colorBegin: common.Color;
+    public colorEnd: common.Color;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModColorOverLife.NAME;
-        this.beginColor = common.Color.create();
-        this.endColor = common.Color.create();
+        this.colorBegin = common.Color.create();
+        this.colorEnd = common.Color.create();
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
         super.init(info);
-        let beginColor = this.beginColor;
-        let endColor = this.endColor;
-        beginColor[0] = info.beginColorR || 0;
-        beginColor[1] = info.beginColorG || 0;
-        beginColor[2] = info.beginColorB || 0;
-        beginColor[3] = info.beginColorA || 0;
-        endColor[0] = info.endColorR || 0;
-        endColor[1] = info.endColorG || 0;
-        endColor[2] = info.endColorB || 0;
-        endColor[3] = info.endColorA || 0;
+        let colorBegin = this.colorBegin;
+        let colorBeginConfig = info.colorBegin || common.COLOR_WHITE;
+        let colorEnd = this.colorEnd;
+        let colorEndConfig = info.colorEnd || common.COLOR_WHITE;
+        colorBegin[0] = colorBeginConfig[0];
+        colorBegin[1] = colorBeginConfig[1];
+        colorBegin[2] = colorBeginConfig[2];
+        colorBegin[3] = colorBeginConfig[3];
+        colorEnd[0] = colorEndConfig[0];
+        colorEnd[1] = colorEndConfig[1];
+        colorEnd[2] = colorEndConfig[2];
+        colorEnd[3] = colorEndConfig[3];
     }
 
     public update() {
         let player = this.player;
         let particles = player.particles;
         let particleCount = player.particleCount;
-        let beginColor = this.beginColor || common.COLOR_WHITE;
-        let endColor = this.endColor || common.COLOR_WHITE;
-        let beginColorR = beginColor[0];
-        let beginColorG = beginColor[1];
-        let beginColorB = beginColor[2];
-        let beginColorA = beginColor[3];
-        let endColorR = endColor[0];
-        let endColorG = endColor[1];
-        let endColorB = endColor[2];
-        let endColorA = endColor[3];
+        let colorBegin = this.colorBegin || common.COLOR_WHITE;
+        let colorEnd = this.colorEnd || common.COLOR_WHITE;
+        let beginColorR = colorBegin[0];
+        let beginColorG = colorBegin[1];
+        let beginColorB = colorBegin[2];
+        let beginColorA = colorBegin[3];
+        let endColorR = colorEnd[0];
+        let endColorG = colorEnd[1];
+        let endColorB = colorEnd[2];
+        let endColorA = colorEnd[3];
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleSpecial = particles[i];
             let color = particle.color;
@@ -61,9 +63,9 @@ export class ModColorOverLife extends Module {
 
     private _onCreateParticle(particle: particleMod.Particle) {
         if (particle.color) {
-            common.Color.copy(particle.color, this.beginColor);
+            common.Color.copy(particle.color, this.colorBegin);
         } else {
-            particle.color = common.Color.clone(this.beginColor);
+            particle.color = common.Color.clone(this.colorBegin);
         }
     }
 }

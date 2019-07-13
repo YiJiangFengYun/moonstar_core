@@ -1,7 +1,7 @@
 import * as common from "../common";
 import * as particle from "../particle";
 import { EmitterPlayerInfo } from "./info";
-import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE } from "./events";
+import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE, EVENT_CHANGE_POSITION } from "./events";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
 
@@ -10,22 +10,37 @@ export class EmitterPlayer extends common.Player {
     public particleCount: number = 0;
     public players: EmitterPlayer[] = [];
     public playerCount: number = 0;
-    public origin: common.Vector = common.Vector.create();
+    public position: common.Vector = common.Vector.create();
     public rotation: number = 0;
     public useLocalSpace: boolean;
+    public bounds: common.Bounds = common.Bounds.create();
+
+    /**
+     * This bounds is in the cordinate system of the particle system.
+     */
+    public rootBounds: common.Bounds = common.Bounds.create();
 
     public emitted: boolean;
     public emitComplete: boolean;
     public completed: boolean;
     private _maxParticleCount: number = DEFAULT_MAX_PARTICLE_COUNT;
 
+    private _id: number;
     public constructor() {
         super();
+        this._id = common.gainID();
+    }
+
+    public get id() {
+        return this._id;
     }
 
     public init(info: EmitterPlayerInfo) {
         this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        let boundsInfo = info.bounds;
+        if (boundsInfo) common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         this._reset();
+        this._updateRootBounds();
     }
 
     public get maxParticleCount() {
@@ -75,6 +90,12 @@ export class EmitterPlayer extends common.Player {
         }
     }
 
+    public setPosition(value: common.Vector | number[]) {
+        common.Vector.copy(this.position, value);
+        this._updateRootBounds();
+        this.emit(EVENT_CHANGE_POSITION, this);
+    }
+
     protected _reset() {
         super._reset();
         this.emitted = false;
@@ -91,5 +112,9 @@ export class EmitterPlayer extends common.Player {
                 pos: common.Vector.create(),
             };
         }
+    }
+
+    private _updateRootBounds() {
+        common.Bounds.translate(this.rootBounds, this.bounds, this.position);
     }
 }

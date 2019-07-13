@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var common = require("../common");
 var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModSubPlayerSimple = /** @class */ (function (_super) {
@@ -74,7 +73,7 @@ var ModSubPlayerSimple = /** @class */ (function (_super) {
         if (index) {
             var subPlayer = this.player.players[index];
             subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
-            common.Vector.copy(subPlayer.origin, particle.pos);
+            subPlayer.setPosition(particle.pos);
             subPlayer.play();
         }
     };

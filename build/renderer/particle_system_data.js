@@ -12,6 +12,8 @@ var ParticleSystemData = /** @class */ (function () {
         var psCore = this.psCore;
         //Initialize the core particle system.
         psCore.init(info);
+        var pos = psCore.position;
+        glMatrix.mat4.translate(this.modelViewMatrix, this.modelViewMatrix, [pos[0], pos[1], 0]);
         //Initialize the buffers from the draw data of the particle system.
         this._initBuffers();
     };
@@ -38,14 +40,16 @@ var ParticleSystemData = /** @class */ (function () {
     ParticleSystemData.prototype._refreshBuffers = function () {
         var gl = context_1.context.gl;
         var drawData = this.psCore.drawData;
-        //Vertex buffer.
-        var vertexBuffer = this.vertexBuffer;
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
-        //Index buffer
-        var indexBuffer = this.indexBuffer;
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
+        if (drawData.totalIdxCount > 0) {
+            //Vertex buffer.
+            var vertexBuffer = this.vertexBuffer;
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, drawData.vtxBuffer, gl.DYNAMIC_DRAW);
+            //Index buffer
+            var indexBuffer = this.indexBuffer;
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drawData.idxBuffer, gl.DYNAMIC_DRAW);
+        }
     };
     return ParticleSystemData;
 }());

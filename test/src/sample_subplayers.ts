@@ -7,10 +7,11 @@ export const psInfo: core.ParticleSystemInfo = {
         {
             name: "root",
             maxParticleCount: 5,
+            bounds: [-16, -16, 16, 16],
             modules: [
                 {
                     name: "life_time",
-                    life: 3,
+                    life: 10,
                 },
                 {
                     name: "sprite",
@@ -35,20 +36,11 @@ export const psInfo: core.ParticleSystemInfo = {
                     effectRotation: true,
                 },
                 {
-                    name: "velocity_constant",
-                    x: 100,
-                    y: 0,
+                    name: "velocity",
                 },
                 {
-                    name: "color_over_life",
-                    beginColorR: 1,
-                    beginColorG: 1,
-                    beginColorB: 1,
-                    beginColorA: 1,
-                    endColorR: 1,
-                    endColorG: 1,
-                    endColorB: 1,
-                    endColorA: 1,
+                    name: "velocity_initial",
+                    velocity: [50, 0],
                 },
                 {
                     name: "subplayer_simple",
@@ -59,6 +51,7 @@ export const psInfo: core.ParticleSystemInfo = {
             name: "sub",
             maxParticleCount: 1000,
             parent: "root",
+            bounds: [-10, -10, 10, 10],
             modules: [
                 {
                     name: "life_time",
@@ -87,21 +80,17 @@ export const psInfo: core.ParticleSystemInfo = {
                     effectRotation: true,
                 },
                 {
-                    name: "velocity_constant",
-                    x: 100,
-                    y: 0,
+                    name: "velocity",
+                },
+                {
+                    name: "velocity_initial",
+                    velocity: [100, 0],
                 },
                 {
                     name: "color_over_life",
-                    beginColorR: 1,
-                    beginColorG: 1,
-                    beginColorB: 1,
-                    beginColorA: 1,
-                    endColorR: 1,
-                    endColorG: 1,
-                    endColorB: 1,
-                    endColorA: 0,
-                }
+                    colorBegin: [1, 1, 1, 1],
+                    colorEnd: [1, 1, 1, 0],
+                },
             ],
             count: 10,
         }

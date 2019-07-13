@@ -4,6 +4,12 @@ import * as emitter from "../emitter";
 import * as render from "../render";
 
 export type ParticleSystemInfo = {
+    /**
+     * Bounds local
+     * First two value is minX and minY
+     * Last two value is maxX and MaxY
+     */
+    bounds?: [number, number, number, number];
     emitters: (emitter.EmitterInfo & { count?: number; } ) []
 };
 
@@ -15,6 +21,8 @@ export class ParticleSystem extends common.Player {
     public drawData: render.DrawData = new render.DrawData();
     public emitters: emitter.Emitter[] = [];
     public emitterCount: number = 0;
+    public bounds: common.Bounds = common.Bounds.create();
+    public position: common.Vector = common.Vector.create();
 
     private _id: number;
     public constructor() {
@@ -27,6 +35,8 @@ export class ParticleSystem extends common.Player {
     }
 
     public init(info: ParticleSystemInfo) {
+        let boundsInfo = info.bounds;
+        if (boundsInfo) common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         let len = info.emitters ? info.emitters.length : 0;
         let newCount: number = 0;
         for (let i = 0; i < len; ++i) {

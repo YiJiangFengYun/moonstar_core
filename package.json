@@ -23,8 +23,6 @@
   "author": "YiJiangFengYun",
   "license": "MIT",
   "devDependencies": {
-    "@types/stats.js": "^0.17.0",
-    "stats.js": "^0.17.0",
     "ts-loader": "^6.0.4",
     "typescript": "^3.4.5",
     "webpack": "^4.35.2",

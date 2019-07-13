@@ -10,7 +10,7 @@ export interface ParticleWithLifeTime extends particleMod.Particle {
 
 export class ModLifeTime extends Module {
     public static NAME = "life_time";
-    public life: number; //Unit(ms)
+    public life: number; //Unit(s)
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);

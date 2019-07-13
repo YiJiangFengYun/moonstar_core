@@ -21,38 +21,40 @@ var ModColorOverLife = /** @class */ (function (_super) {
     function ModColorOverLife(player) {
         var _this = _super.call(this, player) || this;
         _this.name = ModColorOverLife.NAME;
-        _this.beginColor = common.Color.create();
-        _this.endColor = common.Color.create();
+        _this.colorBegin = common.Color.create();
+        _this.colorEnd = common.Color.create();
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }
     ModColorOverLife.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
-        var beginColor = this.beginColor;
-        var endColor = this.endColor;
-        beginColor[0] = info.beginColorR || 0;
-        beginColor[1] = info.beginColorG || 0;
-        beginColor[2] = info.beginColorB || 0;
-        beginColor[3] = info.beginColorA || 0;
-        endColor[0] = info.endColorR || 0;
-        endColor[1] = info.endColorG || 0;
-        endColor[2] = info.endColorB || 0;
-        endColor[3] = info.endColorA || 0;
+        var colorBegin = this.colorBegin;
+        var colorBeginConfig = info.colorBegin || common.COLOR_WHITE;
+        var colorEnd = this.colorEnd;
+        var colorEndConfig = info.colorEnd || common.COLOR_WHITE;
+        colorBegin[0] = colorBeginConfig[0];
+        colorBegin[1] = colorBeginConfig[1];
+        colorBegin[2] = colorBeginConfig[2];
+        colorBegin[3] = colorBeginConfig[3];
+        colorEnd[0] = colorEndConfig[0];
+        colorEnd[1] = colorEndConfig[1];
+        colorEnd[2] = colorEndConfig[2];
+        colorEnd[3] = colorEndConfig[3];
     };
     ModColorOverLife.prototype.update = function () {
         var player = this.player;
         var particles = player.particles;
         var particleCount = player.particleCount;
-        var beginColor = this.beginColor || common.COLOR_WHITE;
-        var endColor = this.endColor || common.COLOR_WHITE;
-        var beginColorR = beginColor[0];
-        var beginColorG = beginColor[1];
-        var beginColorB = beginColor[2];
-        var beginColorA = beginColor[3];
-        var endColorR = endColor[0];
-        var endColorG = endColor[1];
-        var endColorB = endColor[2];
-        var endColorA = endColor[3];
+        var colorBegin = this.colorBegin || common.COLOR_WHITE;
+        var colorEnd = this.colorEnd || common.COLOR_WHITE;
+        var beginColorR = colorBegin[0];
+        var beginColorG = colorBegin[1];
+        var beginColorB = colorBegin[2];
+        var beginColorA = colorBegin[3];
+        var endColorR = colorEnd[0];
+        var endColorG = colorEnd[1];
+        var endColorB = colorEnd[2];
+        var endColorA = colorEnd[3];
         for (var i = 0; i < particleCount; ++i) {
             var particle = particles[i];
             var color = particle.color;
@@ -66,10 +68,10 @@ var ModColorOverLife = /** @class */ (function (_super) {
     };
     ModColorOverLife.prototype._onCreateParticle = function (particle) {
         if (particle.color) {
-            common.Color.copy(particle.color, this.beginColor);
+            common.Color.copy(particle.color, this.colorBegin);
         }
         else {
-            particle.color = common.Color.clone(this.beginColor);
+            particle.color = common.Color.clone(this.colorBegin);
         }
     };
     ModColorOverLife.NAME = "color_over_life";

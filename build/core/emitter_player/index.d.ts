@@ -1,3 +1,3 @@
 export * from "./info";
-export * from "./events";
 export * from "./player";
+export * from "./events";
