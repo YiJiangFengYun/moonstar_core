@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var sprite_1 = require("./sprite");
 var spawn_1 = require("./spawn");
 var size_initial_1 = require("./size_initial");
-var velocity_constant_1 = require("./velocity_constant");
 var life_time_1 = require("./life_time");
 var color_over_life_1 = require("./color_over_life");
 var location_initial_circle_1 = require("./location_initial_circle");
@@ -17,12 +16,16 @@ var size_over_life_1 = require("./size_over_life");
 var color_initial_1 = require("./color_initial");
 var color_initial_random_1 = require("./color_initial_random");
 var life_time_random_1 = require("./life_time_random");
-var velocity_constant_random_1 = require("./velocity_constant_random");
+var velocity_initial_random_1 = require("./velocity_initial_random");
+var velocity_1 = require("./velocity");
+var velocity_initial_1 = require("./velocity_initial");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
 // Spawn modules
 exports.mapModules[spawn_1.ModSpawn.NAME] = spawn_1.ModSpawn;
+// Velocity module
+exports.mapModules[velocity_1.ModVelocity.NAME] = velocity_1.ModVelocity;
 // Initial modules.
 exports.mapModules[size_initial_1.ModSizeInitial.NAME] = size_initial_1.ModSizeInitial;
 exports.mapModules[location_initial_circle_1.ModLocationInitialCircle.NAME] = location_initial_circle_1.ModLocationInitialCircle;
@@ -32,9 +35,8 @@ exports.mapModules[orientation_initial_radiation_1.ModOrientationInitialRadiatio
 exports.mapModules[size_initial_random_1.ModSizeInitialRandom.NAME] = size_initial_random_1.ModSizeInitialRandom;
 exports.mapModules[color_initial_1.ModColorInitial.NAME] = color_initial_1.ModColorInitial;
 exports.mapModules[color_initial_random_1.ModColorInitialRandom.NAME] = color_initial_random_1.ModColorInitialRandom;
-// Constant modules.
-exports.mapModules[velocity_constant_1.ModVelocityConstant.NAME] = velocity_constant_1.ModVelocityConstant;
-exports.mapModules[velocity_constant_random_1.ModVelocityConstantRandom.NAME] = velocity_constant_random_1.ModVelocityConstantRandom;
+exports.mapModules[velocity_initial_1.ModVelocityInitial.NAME] = velocity_initial_1.ModVelocityInitial;
+exports.mapModules[velocity_initial_random_1.ModVelocityInitialRandom.NAME] = velocity_initial_random_1.ModVelocityInitialRandom;
 // Life time modules
 exports.mapModules[life_time_1.ModLifeTime.NAME] = life_time_1.ModLifeTime;
 exports.mapModules[life_time_random_1.ModLifeTimeRandom.NAME] = life_time_random_1.ModLifeTimeRandom;
@@ -49,10 +51,10 @@ exports.moduleGroup = {
     sprite: [
         { module: sprite_1.ModSprite, required: true, default: true },
         { module: spawn_1.ModSpawn, required: true, default: true },
+        { module: velocity_1.ModVelocity, required: false, default: true },
         { module: size_initial_1.ModSizeInitial, required: false, default: true },
         { module: location_initial_circle_1.ModLocationInitialCircle, required: false, default: false },
         { module: life_time_1.ModLifeTime, required: false, default: true },
-        { module: velocity_constant_1.ModVelocityConstant, required: false, default: true },
         { module: color_over_life_1.ModColorOverLife, required: false, default: true },
     ],
     trail: [
@@ -61,7 +63,7 @@ exports.moduleGroup = {
         { module: size_initial_1.ModSizeInitial, required: false, default: true },
         { module: location_initial_circle_1.ModLocationInitialCircle, required: false, default: true },
         { module: life_time_1.ModLifeTime, required: false, default: true },
-        { module: velocity_constant_1.ModVelocityConstant, required: false, default: true },
+        { module: velocity_1.ModVelocity, required: false, default: true },
         { module: color_over_life_1.ModColorOverLife, required: false, default: true },
     ]
 };

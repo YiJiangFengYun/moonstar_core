@@ -2,7 +2,6 @@ import { Module } from "./module";
 import { ModSprite } from "./sprite";
 import { ModSpawn } from "./spawn";
 import { ModSizeInitial } from "./size_initial";
-import { ModVelocityConstant } from "./velocity_constant";
 import { ModLifeTime } from "./life_time";
 import { ModColorOverLife } from "./color_over_life";
 import { ModLocationInitialCircle } from "./location_initial_circle";
@@ -16,7 +15,9 @@ import { ModSizeOverLife } from "./size_over_life";
 import { ModColorInitial } from "./color_initial";
 import { ModColorInitialRandom } from "./color_initial_random";
 import { ModLifeTimeRandom } from "./life_time_random";
-import { ModVelocityConstantRandom } from "./velocity_constant_random";
+import { ModVelocityInitialRandom } from "./velocity_initial_random";
+import { ModVelocity } from "./velocity";
+import { ModVelocityInitial } from "./velocity_initial";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -25,6 +26,9 @@ mapModules[ModSprite.NAME] = ModSprite;
 
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
+
+// Velocity module
+mapModules[ModVelocity.NAME] = ModVelocity;
 
 // Initial modules.
 mapModules[ModSizeInitial.NAME] = ModSizeInitial;
@@ -35,10 +39,9 @@ mapModules[ModOrientationInitialRadiation.NAME] = ModOrientationInitialRadiation
 mapModules[ModSizeInitialRandom.NAME] = ModSizeInitialRandom;
 mapModules[ModColorInitial.NAME] = ModColorInitial;
 mapModules[ModColorInitialRandom.NAME] = ModColorInitialRandom;
+mapModules[ModVelocityInitial.NAME] = ModVelocityInitial;
+mapModules[ModVelocityInitialRandom.NAME] = ModVelocityInitialRandom;
 
-// Constant modules.
-mapModules[ModVelocityConstant.NAME] = ModVelocityConstant;
-mapModules[ModVelocityConstantRandom.NAME] = ModVelocityConstantRandom;
 // Life time modules
 mapModules[ModLifeTime.NAME] = ModLifeTime;
 mapModules[ModLifeTimeRandom.NAME] = ModLifeTimeRandom;
@@ -57,10 +60,10 @@ export const moduleGroup = {
     sprite: [
         { module: ModSprite, required: true, default: true },
         { module: ModSpawn, required: true, default: true },
+        { module: ModVelocity, required: false, default: true },
         { module: ModSizeInitial, required: false, default: true },
         { module: ModLocationInitialCircle, required: false, default: false},
         { module: ModLifeTime, required: false, default: true },
-        { module: ModVelocityConstant, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },
     ],
     trail: [
@@ -69,7 +72,7 @@ export const moduleGroup = {
         { module: ModSizeInitial, required: false, default: true },
         { module: ModLocationInitialCircle, required: false, default: true},
         { module: ModLifeTime, required: false, default: true },
-        { module: ModVelocityConstant, required: false, default: true },
+        { module: ModVelocity, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },
     ]
 }

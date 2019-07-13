@@ -30,7 +30,10 @@ export const psInfo: core.ParticleSystemInfo = {
                 height: 100,
             },
             {
-                name: "velocity_constant",
+                name: "velocity",
+            },
+            {
+                name: "velocity_initial",
                 velocity: [50, 0],
             },
             {

@@ -7,15 +7,14 @@ export interface ParticleWithVelocity extends particleMod.Particle {
     velocity?: common.Vector;
 }
 
-export class ModVelocityConstantRandom extends Module {
-    public static NAME = "velocity_constant_random";
+export class ModVelocityInitialRandom extends Module {
+    public static NAME = "velocity_initial_random";
     public velocityMin: common.Vector = common.Vector.create();
     public velocityMax: common.Vector = common.Vector.create();
 
-    private _vecHelper: common.Vector = common.Vector.create();
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModVelocityConstantRandom.NAME;
+        this.name = ModVelocityInitialRandom.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
@@ -29,23 +28,6 @@ export class ModVelocityConstantRandom extends Module {
         velMin[1] = velMinConfig[1] || 0;
         velMax[0] = velMaxConfig[0] || 0;
         velMax[1] = velMaxConfig[1] || 0;
-    }
-
-    public update(dt: number) {
-        super.update(dt);
-        let player = this.player;
-        let particles = player.particles;
-        let particleCount = player.particleCount;
-        for (let i = 0; i < particleCount; ++i) {
-            let particle: ParticleWithVelocity = particles[i];
-            let vel = particle.velocity;
-            let orientation = particle.orientation || 0;
-            let vecHelper = this._vecHelper;
-            common.Vector.rotate(vecHelper, vel, common.VECTOR_ZERO, orientation);
-            let pos = particle.pos;
-            pos[0] = pos[0] + vecHelper[0] * dt;
-            pos[1] = pos[1] + vecHelper[1] * dt;
-        }
     }
 
     private _onCreateParticle(particle: ParticleWithVelocity) {

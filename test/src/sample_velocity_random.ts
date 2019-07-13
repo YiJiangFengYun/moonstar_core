@@ -33,7 +33,10 @@ export const psInfo: core.ParticleSystemInfo = {
                 effectRotation: true,
             },
             {
-                name: "velocity_constant_random",
+                name: "velocity",
+            },
+            {
+                name: "velocity_initial_random",
                 velocityMin: [0, 0],
                 velocityMax: [100, 0],
             },
