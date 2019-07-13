@@ -4,6 +4,7 @@ export function init() {
         console.info(`
 ////////////////////////
 Moonstar Particle System
+A cascade particle system.
 ////////////////////////
         `);
     })

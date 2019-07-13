@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 function init() {
     return Promise.resolve()
         .then(function () {
-        console.info("\n////////////////////////\nMoonstar Particle System\n////////////////////////\n        ");
+        console.info("\n////////////////////////\nMoonstar Particle System\nA cascade particle system.\n////////////////////////\n        ");
     });
 }
 exports.init = init;
