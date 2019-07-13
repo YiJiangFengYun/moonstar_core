@@ -11,6 +11,7 @@ import { ModSubUVSpriteSheetSimple } from "./subuv_spritesheet_simple";
 import { ModSubPlayerSimple } from "./subplayer_simple";
 import { ModSizeInitialRandom } from "./size_initial_random";
 import { ModLocationInitialCircleBorder } from "./location_initial_circle_border";
+import { ModLocationInitialRectangle } from "./location_initial_rectangle";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -24,6 +25,7 @@ mapModules[ModSpawn.NAME] = ModSpawn;
 mapModules[ModSizeInitial.NAME] = ModSizeInitial;
 mapModules[ModLocationInitialCircle.NAME] = ModLocationInitialCircle;
 mapModules[ModLocationInitialCircleBorder.NAME] = ModLocationInitialCircleBorder;
+mapModules[ModLocationInitialRectangle.NAME] = ModLocationInitialRectangle;
 mapModules[ModOrientationInitialRadiation.NAME] = ModOrientationInitialRadiation;
 mapModules[ModSizeInitialRandom.NAME] = ModSizeInitialRandom;
 
