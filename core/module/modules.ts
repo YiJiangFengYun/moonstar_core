@@ -14,6 +14,7 @@ import { ModLocationInitialCircleBorder } from "./location_initial_circle_border
 import { ModLocationInitialRectangle } from "./location_initial_rectangle";
 import { ModSizeOverLife } from "./size_over_life";
 import { ModColorInitial } from "./color_initial";
+import { ModColorInitialRandom } from "./color_initial_random";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -31,6 +32,7 @@ mapModules[ModLocationInitialRectangle.NAME] = ModLocationInitialRectangle;
 mapModules[ModOrientationInitialRadiation.NAME] = ModOrientationInitialRadiation;
 mapModules[ModSizeInitialRandom.NAME] = ModSizeInitialRandom;
 mapModules[ModColorInitial.NAME] = ModColorInitial;
+mapModules[ModColorInitialRandom.NAME] = ModColorInitialRandom;
 
 // Constant modules.
 mapModules[ModVelocityConstant.NAME] = ModVelocityConstant;
