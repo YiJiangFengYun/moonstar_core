@@ -19,7 +19,7 @@ export const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "spawn",
-                rate: 5,
+                rate: 10,
                 duration: 60
             },
             {
@@ -31,8 +31,8 @@ export const psInfo: core.ParticleSystemInfo = {
             },
             // {
             //     name: "velocity_initial_random",
-            //     velocityMin: [100, 0],
-            //     velocityMax: [100, 100],
+            //     velocityMin: [100, -20],
+            //     velocityMax: [100, 20],
             // },
             {
                 name: "velocity_initial",
@@ -41,7 +41,7 @@ export const psInfo: core.ParticleSystemInfo = {
             {
                 name: "color_over_life",
                 colorBegin: [1, 0, 0, 1],
-                colorEnd: [0, 1, 0, 0],
+                colorEnd: [1, 1, 0, 0],
             }
         ]
     }],
