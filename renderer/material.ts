@@ -97,10 +97,7 @@ export class Material {
    
 }
 
-/**
- * A material class is for a material state of a emiter of the core 
- */
-export class SpriteMaterial extends Material {
+export class MaterialSprite extends Material {
     public texture: Texture = new Texture();
     public locations: {
         aVertexPos?: number;
@@ -244,7 +241,7 @@ export class SpriteMaterial extends Material {
 
 const materials: (typeof Material)[] = []
 materials[core.MaterialType.UNDEFINED] = null;
-materials[core.MaterialType.SPRITE] = SpriteMaterial;
+materials[core.MaterialType.SPRITE] = MaterialSprite;
 
 export function createMaterial(materialCore: core.Material, particleSystemData: ParticleSystemData) {
     let materialClass = materials[materialCore.type];
