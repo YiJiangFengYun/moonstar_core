@@ -72,6 +72,10 @@ export class ParticleSystem implements core.IPlayer {
         return this.data.psCore.isPlay;
     }
 
+    public changePos(pos: core.Vector) {
+        this.data.changePos(pos);
+    }
+
     private _draw() {
         let rData = renderData;
         if (! rData) {

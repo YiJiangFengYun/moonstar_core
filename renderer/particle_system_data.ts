@@ -24,6 +24,15 @@ export class ParticleSystemData {
         this._initBuffers();
     }
 
+    public changePos(pos: core.Vector) {
+        core.Vector.copy(this.psCore.position, pos);
+        glMatrix.mat4.translate(
+            this.modelViewMatrix, 
+            this.modelViewMatrix, 
+            [pos[0], pos[1], 0],
+        );
+    }
+
     public refreshBuffers() {
         this._refreshBuffers();
     }
