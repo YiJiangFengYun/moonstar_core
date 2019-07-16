@@ -35,7 +35,7 @@ export class ModVelocityInitialRandom extends Module {
         let velMax = this.velocityMax;
         let r = Math.random();
         let x = Math.max(0, velMin[0] + (velMax[0] - velMin[0]) * r);
-        let y = Math.max(0, velMin[1] + (velMax[1] - velMin[0]) * r);
+        let y = Math.max(0, velMin[1] + (velMax[1] - velMin[1]) * r);
         if (particle.velocity) {
             common.Vector.copy(particle.velocity, [x, y]);
         } else {
