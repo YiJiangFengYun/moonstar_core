@@ -22,6 +22,7 @@ import { ModRotation } from "./rotation";
 import { ModRotationInitial } from "./rotation_initial";
 import { ModRotationInitialRandom } from "./rotation_initial_random";
 import { ModWidthInitial } from "./width_inital";
+import { ModSpawnMoving } from "./spawn_moving";
 import { ModRibbon } from "./ribbon";
 import { ModLifeTimeInitial } from "./life_time_initial";
 
@@ -33,6 +34,7 @@ mapModules[ModRibbon.NAME] = ModRibbon;
 
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
+mapModules[ModSpawnMoving.NAME] = ModSpawnMoving;
 
 // Velocity module
 mapModules[ModVelocity.NAME] = ModVelocity;
@@ -80,13 +82,13 @@ export const moduleGroup = {
         { module: ModLifeTime, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },
     ],
-    trail: [
-        // { module: ModTrail, required: true, default: true },
-        { module: ModSpawn, required: true, default: true },
-        { module: ModSizeInitial, required: false, default: true },
-        { module: ModLocationInitialCircle, required: false, default: true},
-        { module: ModLifeTime, required: false, default: true },
-        { module: ModVelocity, required: false, default: true },
+    ribbon: [
+        { module: ModRibbon, required: true, default: true },
+        { module: ModSpawnMoving, required: true, default: true },
+        { module: ModSpawn, required: false, default: false },
+        { module: ModWidthInitial, required: true, default: true },
+        { module: ModLifeTime, required: true, default: true },
+        { module: ModVelocity, required: false, default: false },
         { module: ModColorOverLife, required: false, default: true },
     ]
 }
