@@ -13,40 +13,35 @@ export const psInfo: core.ParticleSystemInfo = {
                 name: "life_time_initial",
                 life: 3,
             },
-            // {
-            //     name: "sprite",
-            //     texturePath: "./res/star.png",
-            // },
             {
                 name: "ribbon",
-                texturePath: "./res/star.png",
+                texturePath: "./res/ribbon.png",
             },
             {
                 name: "spawn",
-                rate: 10,
+                rate: 5,
                 duration: 60
             },
             {
                 name: "width_initial",
                 width: 32,
             },
-            // {
-            //     name: "size_initial",
-            //     width: 32,
-            //     height: 32,
-            // },
             {
                 name: "velocity",
             },
+            // {
+            //     name: "velocity_initial_random",
+            //     velocityMin: [100, 0],
+            //     velocityMax: [100, 100],
+            // },
             {
-                name: "velocity_initial_random",
-                velocityMin: [100, 0],
-                velocityMax: [100, 100],
+                name: "velocity_initial",
+                velocity: [100, 0],
             },
             {
                 name: "color_over_life",
-                colorBegin: [1, 1, 1, 1],
-                colorEnd: [1, 1, 1, 0],
+                colorBegin: [1, 0, 0, 1],
+                colorEnd: [0, 1, 0, 0],
             }
         ]
     }],
