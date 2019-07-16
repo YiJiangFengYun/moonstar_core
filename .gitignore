@@ -64,3 +64,5 @@ typings/
 #custom
 .vscode
 test/build/
+build/
+dist/
