@@ -54,10 +54,11 @@ export class ModColorOverLife extends Module {
             let particle: ParticleSpecial = particles[i];
             let color = particle.color;
             if (! color) particle.color = color = common.Color.create();
-            color[0] = beginColorR + (endColorR - beginColorR) * (particle.time / particle.life);
-            color[1] = beginColorG + (endColorG - beginColorG) * (particle.time / particle.life);
-            color[2] = beginColorB + (endColorB - beginColorB) * (particle.time / particle.life);
-            color[3] = beginColorA + (endColorA - beginColorA) * (particle.time / particle.life);
+            let life = particle.life;
+            color[0] = beginColorR + (endColorR - beginColorR) * life;
+            color[1] = beginColorG + (endColorG - beginColorG) * life;
+            color[2] = beginColorB + (endColorB - beginColorB) * life;
+            color[3] = beginColorA + (endColorA - beginColorA) * life;
         }
     }
 

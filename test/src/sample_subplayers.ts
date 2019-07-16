@@ -11,6 +11,9 @@ export const psInfo: core.ParticleSystemInfo = {
             modules: [
                 {
                     name: "life_time",
+                },
+                {
+                    name: "life_time_initial",
                     life: 10,
                 },
                 {
@@ -55,6 +58,9 @@ export const psInfo: core.ParticleSystemInfo = {
             modules: [
                 {
                     name: "life_time",
+                },
+                {
+                    name: "life_time_initial",
                     life: 10,
                 },
                 {

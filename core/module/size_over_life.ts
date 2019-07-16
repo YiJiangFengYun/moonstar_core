@@ -41,8 +41,9 @@ export class ModSizeOverLife extends Module {
         for (let i = 0; i < particleCount; ++i) {
             let particle: ParticleSpecial = particles[i];
             let size = particle.size;
-            size[0] = sizeBegin[0] + (sizeEnd[0] - sizeBegin[0]) * (particle.time / particle.life);
-            size[1] = sizeBegin[1] + (sizeEnd[1] - sizeBegin[1]) * (particle.time / particle.life);
+            let life = particle.life;
+            size[0] = sizeBegin[0] + (sizeEnd[0] - sizeBegin[0]) * life;
+            size[1] = sizeBegin[1] + (sizeEnd[1] - sizeBegin[1]) * life;
         }
     }
 

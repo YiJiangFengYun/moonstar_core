@@ -7,7 +7,10 @@ export const psInfo: core.ParticleSystemInfo = {
         maxParticleCount: 10000,
         modules: [
             {
-                name: "life_time_random",
+                name: "life_time",
+            },
+            {
+                name: "life_time_initial_random",
                 lifeMin: 0,
                 lifeMax: 10,
             },
