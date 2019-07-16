@@ -36,7 +36,8 @@ export class EmitterPlayer extends common.Player {
     }
 
     public init(info: EmitterPlayerInfo) {
-        this.maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        this._maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
+        this._prepareParticles();
         let boundsInfo = info.bounds;
         if (boundsInfo) common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         this._reset();
@@ -45,13 +46,6 @@ export class EmitterPlayer extends common.Player {
 
     public get maxParticleCount() {
         return this._maxParticleCount;
-    }
-
-    public set maxParticleCount(value: number) {
-        value = value || DEFAULT_MAX_PARTICLE_COUNT;
-        this.particles.length = value;
-        this._maxParticleCount = value;
-        this._prepareParticles();
     }
 
     public stop() {
@@ -107,6 +101,7 @@ export class EmitterPlayer extends common.Player {
     private _prepareParticles() {
         let particleCount = this._maxParticleCount;
         let particles = this.particles;
+        this.particles.length = this.particleCount;
         for (let i = 0; i < particleCount; ++i) {
             if (! particles[i]) particles[i] = {
                 pos: common.Vector.create(),

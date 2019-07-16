@@ -14,13 +14,14 @@ import { ModLocationInitialRectangle } from "./location_initial_rectangle";
 import { ModSizeOverLife } from "./size_over_life";
 import { ModColorInitial } from "./color_initial";
 import { ModColorInitialRandom } from "./color_initial_random";
-import { ModLifeTimeRandom } from "./life_time_random";
+import { ModLifeTimeInitialRandom } from "./life_time_initial_random";
 import { ModVelocityInitialRandom } from "./velocity_initial_random";
 import { ModVelocity } from "./velocity";
 import { ModVelocityInitial } from "./velocity_initial";
 import { ModRotation } from "./rotation";
 import { ModRotationInitial } from "./rotation_initial";
 import { ModRotationInitialRandom } from "./rotation_initial_random";
+import { ModLifeTimeInitial } from "./life_time_initial";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -49,10 +50,11 @@ mapModules[ModVelocityInitial.NAME] = ModVelocityInitial;
 mapModules[ModVelocityInitialRandom.NAME] = ModVelocityInitialRandom;
 mapModules[ModRotationInitial.NAME] = ModRotationInitial;
 mapModules[ModRotationInitialRandom.NAME] = ModRotationInitialRandom;
+mapModules[ModLifeTimeInitial.NAME] = ModLifeTimeInitial;
+mapModules[ModLifeTimeInitialRandom.NAME] = ModLifeTimeInitialRandom;
 
 // Life time modules
 mapModules[ModLifeTime.NAME] = ModLifeTime;
-mapModules[ModLifeTimeRandom.NAME] = ModLifeTimeRandom;
 
 // Over Life modules
 mapModules[ModColorOverLife.NAME] = ModColorOverLife;

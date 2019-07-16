@@ -7,7 +7,7 @@ import { ModRender, Module } from "./module";
 export class ModSprite extends Module implements ModRender {
     public static NAME = "sprite";
 
-    public material: material.Material;
+    public material: material.Material = new material.Material(material.MaterialType.SPRITE);
     public useSubUV: boolean;
 
     private _posHelper: common.Vector = common.Vector.create();
@@ -17,7 +17,6 @@ export class ModSprite extends Module implements ModRender {
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModSprite.NAME;
-        this.material = new material.Material(material.MaterialType.SPRITE);
     }
 
     public init(info: any) {
@@ -56,9 +55,6 @@ export class ModSprite extends Module implements ModRender {
         let particles = player.particles;
         let particleCount = player.particleCount;
         let useSubUV = this.useSubUV;
-        // todo 
-        // let origin = player.origin;
-        // let useLocal = player.useLocalSpace; 
 
         let vtxBufferByteOffset = offsets.vtxBufferByteOffset;
 

@@ -4,23 +4,31 @@ import * as emitterPlayer from "../emitter_player"
 import { Module } from "./module";
 
 export interface ParticleWithLifeTime extends particleMod.Particle {
+    /**
+     * Elapsed time of the particle.
+     */
     time?: number;
+    /**
+     * Total time of the life of the particle.
+     */
+    lifeTime: number;
+
+    /**
+     * Relative value of the life of the particle, value is [0 1]
+     */
     life?: number;
 }
 
 export class ModLifeTime extends Module {
     public static NAME = "life_time";
-    public life: number; //Unit(s)
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
         this.name = ModLifeTime.NAME;
-        player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 
     public init(info: any) {
         super.init(info);
-        this.life = info.life;
     }
 
     public update(dt: number) {
@@ -28,14 +36,17 @@ export class ModLifeTime extends Module {
         let particles = player.particles;
         let particleCount = player.particleCount;
         for (let i = particleCount - 1; i >= 0; --i) {
-            let particle: ParticleWithLifeTime = particles[i];
-            particle.time = (particle.time || 0) + dt;
-            if (particle.time >= particle.life) {
+            let particle: ParticleWithLifeTime = particles[i] as ParticleWithLifeTime;
+            particle.time = particle.time + dt;
+            if (particle.time >= particle.lifeTime) {
+                particle.life = 1;
                 player.particleCount = particleCount = this._deleteParticle(
                     particle, 
                     particles,
                     particleCount,
                 );
+            } else {
+                particle.life = particle.time / particle.lifeTime;
             }
         }
 
@@ -58,10 +69,5 @@ export class ModLifeTime extends Module {
             log.error("Can't find the particle from the particles for delete the particle.");
         }
         return particleCount;
-    }
-
-    private _onCreateParticle(particle: ParticleWithLifeTime) {
-        particle.life = this.life;
-        particle.time = 0;
     }
 }
