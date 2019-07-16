@@ -13,6 +13,7 @@ import * as sampleLifeRandom from "./sample_life_random";
 import * as smapleVelocityRandom from "./sample_velocity_random";
 import * as sampleRotation from "./sample_rotation";
 import * as sampleRotationRandom from "./sample_rotation_random";
+import * as sampleRibbon from "./sample_ribbon";
 import { stats } from "../../renderer/stat";
 
 const tests: { name: string; info: core.ParticleSystemInfo }[] = [
@@ -29,6 +30,7 @@ const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: smapleVelocityRandom.name, info: smapleVelocityRandom.psInfo },
     { name: sampleRotation.name, info: sampleRotation.psInfo },
     { name: sampleRotationRandom.name, info: sampleRotationRandom.psInfo },
+    { name: sampleRibbon.name, info: sampleRibbon.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;

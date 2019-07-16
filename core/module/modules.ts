@@ -21,12 +21,15 @@ import { ModVelocityInitial } from "./velocity_initial";
 import { ModRotation } from "./rotation";
 import { ModRotationInitial } from "./rotation_initial";
 import { ModRotationInitialRandom } from "./rotation_initial_random";
+import { ModWidthInitial } from "./width_inital";
+import { ModRibbon } from "./ribbon";
 import { ModLifeTimeInitial } from "./life_time_initial";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
 // Render modules
 mapModules[ModSprite.NAME] = ModSprite;
+mapModules[ModRibbon.NAME] = ModRibbon;
 
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
@@ -50,6 +53,7 @@ mapModules[ModVelocityInitial.NAME] = ModVelocityInitial;
 mapModules[ModVelocityInitialRandom.NAME] = ModVelocityInitialRandom;
 mapModules[ModRotationInitial.NAME] = ModRotationInitial;
 mapModules[ModRotationInitialRandom.NAME] = ModRotationInitialRandom;
+mapModules[ModWidthInitial.NAME] = ModWidthInitial;
 mapModules[ModLifeTimeInitial.NAME] = ModLifeTimeInitial;
 mapModules[ModLifeTimeInitialRandom.NAME] = ModLifeTimeInitialRandom;
 
@@ -89,4 +93,6 @@ export const moduleGroup = {
 
 export const renderModules: typeof Module[] = [];
 
-renderModules.push(ModSprite);
+renderModules.length = 2;
+renderModules[0] = ModSprite;
+renderModules[1] = ModRibbon;
