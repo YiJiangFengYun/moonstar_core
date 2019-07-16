@@ -1,7 +1,8 @@
+import * as log from "loglevel";
 import * as common from "../common";
 import * as particle from "../particle";
 import { EmitterPlayerInfo } from "./info";
-import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE, EVENT_CHANGE_POSITION } from "./events";
+import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE, EVENT_CHANGE_POSITION, EVENT_CREATED_PARTICLE, EVENT_DESTROYED_PARTICLE } from "./events";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
 
@@ -88,6 +89,39 @@ export class EmitterPlayer extends common.Player {
         common.Vector.copy(this.position, value);
         this._updateRootBounds();
         this.emit(EVENT_CHANGE_POSITION, this);
+    }
+
+    public createParticle(){
+        let particle: particle.Particle;
+        if (this.particleCount < this.maxParticleCount) {
+            particle = this.particles[this.particleCount];
+            if (! particle) this.particles[this.particleCount] = 
+                particle = { pos: common.Vector.create()};
+            ++this.particleCount;
+            if (particle.pos) {
+                common.Vector.set(particle.pos, 0, 0);
+            } else {
+                particle.pos = common.Vector.fromValues(0, 0);
+            }
+            this.emit(EVENT_CREATED_PARTICLE, particle);
+        }
+        return particle;
+    }
+
+    public deleteParticle(particle: particle.Particle) {
+        let particles = this.particles;
+        let index = particles.indexOf(particle);
+        if (index >= 0) {
+            let end = --this.particleCount;
+            let endParticle = particles[end];
+            particles[end] = particles[index];
+            particles[index] = endParticle;
+            this.emit(EVENT_DESTROYED_PARTICLE, particle);
+            return true;
+        } else {
+            log.error("Can't find the particle from the particles for delete the particle.");
+            return false;
+        }
     }
 
     protected _reset() {

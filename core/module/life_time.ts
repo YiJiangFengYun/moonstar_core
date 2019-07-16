@@ -1,5 +1,4 @@
 import * as particleMod from "../particle";
-import * as log from "loglevel";
 import * as emitterPlayer from "../emitter_player"
 import { Module } from "./module";
 
@@ -40,10 +39,8 @@ export class ModLifeTime extends Module {
             particle.time = particle.time + dt;
             if (particle.time >= particle.lifeTime) {
                 particle.life = 1;
-                player.particleCount = particleCount = this._deleteParticle(
+                player.deleteParticle(
                     particle, 
-                    particles,
-                    particleCount,
                 );
             } else {
                 particle.life = particle.time / particle.lifeTime;
@@ -54,20 +51,5 @@ export class ModLifeTime extends Module {
             player.complete();
         }
 
-    }
-
-    private _deleteParticle(particle: particleMod.Particle, particles: particleMod.Particle[], particleCount: number) {
-        let index = particles.indexOf(particle);
-        if (index >= 0) {
-            let end = --particleCount;
-            let endParticle = particles[end];
-            particles[end] = particles[index];
-            particles[index] = endParticle;
-            this.player.emit(emitterPlayer.EVENT_DESTROYED_PARTICLE, particle);
-            
-        } else {
-            log.error("Can't find the particle from the particles for delete the particle.");
-        }
-        return particleCount;
     }
 }
