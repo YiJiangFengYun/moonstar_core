@@ -16,7 +16,7 @@ import * as sampleRotationRandom from "./sample_rotation_random";
 import * as sampleRibbon from "./sample_ribbon";
 import { stats } from "../../renderer/stat";
 
-const tests: { name: string; info: core.ParticleSystemInfo }[] = [
+const tests: { name: string; info: core.ParticleSystemInfo; moveable?: boolean }[] = [
     { name: sampleRadiantStars.name, info: sampleRadiantStars.psInfo },
     { name: sampleSpriteSheetSimple.name, info: sampleSpriteSheetSimple.psInfo },
     { name: sampleSubplayers.name, info: sampleSubplayers.psInfo },
@@ -30,18 +30,23 @@ const tests: { name: string; info: core.ParticleSystemInfo }[] = [
     { name: smapleVelocityRandom.name, info: smapleVelocityRandom.psInfo },
     { name: sampleRotation.name, info: sampleRotation.psInfo },
     { name: sampleRotationRandom.name, info: sampleRotationRandom.psInfo },
-    { name: sampleRibbon.name, info: sampleRibbon.psInfo },
+    { name: sampleRibbon.name, info: sampleRibbon.psInfo, moveable: true },
 ];
 
 const FRAME_INTERVAL = 20;
 
 class App {
+    private _canvas: HTMLCanvasElement;
+    private _width: number;
+    private _height: number;
     private _intervalI: number;
     private _lastTime: number;
     private _renderer: renderMod.Renderer;
     private _particleSystem: renderMod.ParticleSystem;
     // private _stats: stats;
     private _selectedIndex = 0;
+    private _mousePressed: boolean;
+    private _moveable: boolean;
     public constructor() {
         this._init()
     }
@@ -55,11 +60,18 @@ class App {
         let context = this;
         return Promise.resolve()
             .then(() => {
-                let canvas = document.getElementById("glCanvas") as HTMLCanvasElement;
-                var width = canvas.scrollWidth;
-                var height = canvas.scrollHeight;
+                let canvas = this._canvas = document.getElementById("glCanvas") as HTMLCanvasElement;
+                let width = canvas.scrollWidth;
+                let height = canvas.scrollHeight;
                 canvas.width = width;
                 canvas.height = height;
+                this._width = width;
+                this._height = height;
+            })
+            .then(() => {
+                let canvas = context._canvas;
+                let width = this._width;
+                let height = this._height;
                 return renderMod.init({
                     canvas: canvas,
                     width: width,
@@ -92,6 +104,9 @@ class App {
             .then(() => {
                 context._updateParticleSystem();
                 context._initPlayerBtns();
+            })
+            .then(() => {
+                context._initMouseEventHandlers();
             });
     }
 
@@ -103,6 +118,13 @@ class App {
         playBtnElement.onclick = this._onClickPlay.bind(this);
         pauseBtnElement.onclick = this._onClickPause.bind(this);
         this._updatePlayerBtns();
+    }
+
+    private _initMouseEventHandlers() {
+        let canvas = this._canvas;
+        canvas.addEventListener("mousedown", this._onMouseDown.bind(this));
+        canvas.addEventListener("mousemove", this._onMouseMove.bind(this));
+        canvas.addEventListener("mouseup", this._onMouseUp.bind(this));
     }
 
     private _update() {
@@ -139,6 +161,7 @@ class App {
         this._particleSystem.init(tests[this._selectedIndex].info);
         this._renderer.addParticleSystem(this._particleSystem);
         this._particleSystem.play();
+        this._moveable = tests[this._selectedIndex].moveable || false;
     }
 
     private _updatePlayerBtns() {
@@ -170,6 +193,13 @@ class App {
         drawcallElement.innerText = `draw call: ${ss.drawCall.toString()}` ;
         let costTimeElement = document.getElementById("frame_cost_time");
         costTimeElement.innerText = `cost time: ${ss.costTime.toString()}ms`;
+    }
+
+    /**
+     * Get coordinate from local (DOM content) coordinates.
+     */
+    private _getCoordinate(clientX: number, clientY: number) {
+        return core.Vector.fromValues(clientX - this._width / 2, - clientY + this._height / 2 );
     }
 
     private _onChangeSelect() {
@@ -204,6 +234,25 @@ class App {
             ps.pause();
             this._updatePlayerBtns();
         }
+    }
+
+    private _onMouseDown(e: MouseEvent) {
+        this._mousePressed = true;
+        if (this._moveable) {
+            let pos = this._getCoordinate(e.clientX, e.clientY);
+            this._particleSystem.changePos(pos);
+        }
+    }
+
+    private _onMouseMove(e: MouseEvent) {
+        if (this._mousePressed && this._moveable) {
+            let pos = this._getCoordinate(e.clientX, e.clientY);
+            this._particleSystem.changePos(pos);
+        }
+    }
+
+    private _onMouseUp() {
+        this._mousePressed = false;
     }
 }
 
