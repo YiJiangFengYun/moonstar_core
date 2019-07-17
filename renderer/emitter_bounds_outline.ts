@@ -9,11 +9,12 @@ export namespace emitterBoundsOutline {
 precision lowp float;
 attribute vec2 aVertexPosition;
 uniform mat4 uProjectionMatrix;
+uniform mat4 uModelViewMatrix;
 uniform vec2 uSize;
 void main() {
     vec2 scale = uSize / 2.0;
     vec2 pos = scale * aVertexPosition;
-    gl_Position = uProjectionMatrix * vec4(pos, 1.0, 1.0);
+    gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(pos, 1.0, 1.0);
 }
         `,
         frag: `
@@ -33,10 +34,11 @@ void main() {
         aVertexPos?: number;
         uProjectionMatrix?: WebGLUniformLocation;
         uModelViewMatrix?: WebGLUniformLocation;
-        uEmitterModelMatrix?: WebGLUniformLocation;
         uSize?: WebGLUniformLocation;
         uColor?: WebGLUniformLocation;
     } = {};
+
+    var matModelHelper = core.Matrix4x4.create();
 
     export function init() {
         // Initialize vertex buffer.
@@ -61,16 +63,18 @@ void main() {
         locations.aVertexPos = gl.getAttribLocation(shaderProgram, "aVertexPosition");
         locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
         locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-        locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
         locations.uSize = gl.getUniformLocation(shaderProgram, "uSize");
         locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
 
     }
 
-    export function render(size: core.Vector) {
+    export function render(pos: core.Vector, size: core.Vector) {
         let gl = context.gl;
         let rData = renderData;
         let loc = locations;
+
+        let matModel = matModelHelper;
+        core.Matrix4x4.fromTranslation(matModel, [pos[0], pos[1], 0]);
 
         //Tell WebGL vertex info and assembly info.
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -93,6 +97,12 @@ void main() {
             loc.uProjectionMatrix,
             false,
             rData.projectionMatrix4x4
+        );
+
+        gl.uniformMatrix4fv(
+            loc.uModelViewMatrix,
+            false,
+            matModel,
         );
 
         gl.uniform2fv(

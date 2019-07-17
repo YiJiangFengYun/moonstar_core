@@ -5,6 +5,7 @@ export const name = "sample_ribbon";
 export const psInfo: core.ParticleSystemInfo = {
     emitters: [{
         maxParticleCount: 10000,
+        bounds: [0, -50, 400, 50],
         modules: [
             {
                 name: "life_time",

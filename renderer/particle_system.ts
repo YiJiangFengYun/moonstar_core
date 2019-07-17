@@ -12,7 +12,7 @@ export class ParticleSystem implements core.IPlayer {
     public data: ParticleSystemData = new ParticleSystemData();
     public mapMaterials: {[id: number]: Material} = {};
     public mapPlayers: {[id: number]: core.EmitterPlayer} = {};
-
+    private _boundsPosHelper: core.Vector = core.Vector.create();
     private _boundsSizeHelper: core.Vector = core.Vector.create();
     public constructor() {
     }
@@ -84,6 +84,7 @@ export class ParticleSystem implements core.IPlayer {
         let cmdCount = drawData.cmdCount;
         let mapMaterials = this.mapMaterials;
         let mapPlayers = this.mapPlayers;
+        let boundsPosHelper = this._boundsPosHelper;
         let boundsSizeHelper = this._boundsSizeHelper;
         for (let i = 0; i < cmdCount; ++i) {
             let cmd = cmdList[i];
@@ -96,8 +97,11 @@ export class ParticleSystem implements core.IPlayer {
                         material.render(cmd);
                     }
                     if (! core.Bounds.isEmpty(bounds)) {
-                        core.Vector.set(boundsSizeHelper, bounds[2] - bounds[0], bounds[3] - bounds[1]);
-                        emitterBoundsOutline.render(boundsSizeHelper);
+                        let width = bounds[2] - bounds[0];
+                        let height = bounds[3] - bounds[1];
+                        core.Vector.set(boundsPosHelper, bounds[0] + width / 2, bounds[1] + height / 2);
+                        core.Vector.set(boundsSizeHelper, width, height);
+                        emitterBoundsOutline.render(boundsPosHelper, boundsSizeHelper);
                     }
                 }
             }
