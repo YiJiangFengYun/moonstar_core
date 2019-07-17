@@ -140,9 +140,11 @@ export class EmitterPlayer extends common.Player {
                 particle = { pos: common.Vector.create()};
             ++this.particleCount;
             if (particle.pos) {
-                common.Vector.set(particle.pos, 0, 0);
+                common.Vector.copy(particle.pos, this.position);
+                // common.Vector.set(particle.pos, 0, 0);
             } else {
-                particle.pos = common.Vector.fromValues(0, 0);
+                particle.pos = common.Vector.clone(this.position);
+                // particle.pos = common.Vector.fromValues(0, 0);
             }
             this.emit(EVENT_CREATED_PARTICLE, particle);
         }
