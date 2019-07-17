@@ -25,6 +25,7 @@ import { ModWidthInitial } from "./width_inital";
 import { ModSpawnMoving } from "./spawn_moving";
 import { ModRibbon } from "./ribbon";
 import { ModLifeTimeInitial } from "./life_time_initial";
+import { ModVelocityOverLife } from "./velocity_over_life";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -65,6 +66,7 @@ mapModules[ModLifeTime.NAME] = ModLifeTime;
 // Over Life modules
 mapModules[ModColorOverLife.NAME] = ModColorOverLife;
 mapModules[ModSizeOverLife.NAME] = ModSizeOverLife;
+mapModules[ModVelocityOverLife.NAME] = ModVelocityOverLife;
 
 //Sub UV modules
 mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
