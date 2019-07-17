@@ -132,7 +132,7 @@ export class EmitterPlayer extends common.Player {
         this.emit(EVENT_CHANGE_POSITION, this);
     }
 
-    public createParticle(){
+    public createParticle(pos?: common.Vector){
         let particle: particle.Particle;
         if (this.particleCount < this.maxParticleCount) {
             particle = this.particles[this.particleCount];
@@ -140,10 +140,10 @@ export class EmitterPlayer extends common.Player {
                 particle = { pos: common.Vector.create()};
             ++this.particleCount;
             if (particle.pos) {
-                common.Vector.copy(particle.pos, this.position);
+                common.Vector.copy(particle.pos, pos || this.position);
                 // common.Vector.set(particle.pos, 0, 0);
             } else {
-                particle.pos = common.Vector.clone(this.position);
+                particle.pos = common.Vector.clone(pos || this.position);
                 // particle.pos = common.Vector.fromValues(0, 0);
             }
             this.emit(EVENT_CREATED_PARTICLE, particle);
