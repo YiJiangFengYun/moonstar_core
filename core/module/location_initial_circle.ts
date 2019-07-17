@@ -21,10 +21,18 @@ export class ModLocationInitialCircle extends Module {
     private _onCreateParticle(particle: particleMod.Particle) {
         let randomR = Math.random() * this.radius;
         let randomAngle = Math.random() * 2 * Math.PI;
+        let pos = this.player.position;
         if (particle.pos) {
-            common.Vector.set(particle.pos, Math.cos(randomAngle) * randomR, Math.sin(randomAngle) * randomR);
+            common.Vector.set(
+                particle.pos, 
+                pos[0] + Math.cos(randomAngle) * randomR, 
+                pos[1] + Math.sin(randomAngle) * randomR,
+            );
         } else {
-            particle.pos = common.Vector.fromValues(Math.cos(randomAngle) * randomR, Math.sin(randomAngle) * randomR);
+            particle.pos = common.Vector.fromValues(
+                pos[0] + Math.cos(randomAngle) * randomR,
+                pos[1] + Math.sin(randomAngle) * randomR,
+            );
         }
     }
 }

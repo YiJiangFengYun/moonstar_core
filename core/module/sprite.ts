@@ -164,9 +164,13 @@ export class ModSprite extends Module implements ModRender {
         cmdHelper.material = this.material.id;
         cmdHelper.emitterPlayer = this.player.id;
 
-        common.Vector.copy(cmdHelper.translationEmitter, player.position);
-        cmdHelper.rotationEmitter = player.rotation;
-
+        let psData = this.player.psData;
+        if (psData.useLocalSpace) {
+            common.Matrix4x4.copy(cmdHelper.matrixModel, psData.matrix4x4);
+        } else {
+            common.Matrix4x4.identity(cmdHelper.matrixModel);
+        }
+        
         drawData.fillDrawCmd(cmdHelper);
         
     }

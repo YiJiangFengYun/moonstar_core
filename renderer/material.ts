@@ -1,5 +1,4 @@
 import * as core from "../core";
-import * as glMatrix from "gl-matrix";
 import * as log from "loglevel";
 import { context } from "./context";
 import { ParticleSystemData } from "./particle_system_data";
@@ -19,12 +18,11 @@ const normalShader = {
 
     uniform mat4 uProjectionMatrix;
     uniform mat4 uModelViewMatrix;
-    uniform mat4 uEmitterModelMatrix;
 
     varying vec2 vUV;
     varying vec4 vColor;
     void main() {
-      gl_Position = uProjectionMatrix * uModelViewMatrix * uEmitterModelMatrix * vec4(aVertexPosition, 1.0, 1.0);
+      gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0, 1.0);
       vUV = aVertexUV;
       vColor = aVertexColor;
     }
@@ -108,12 +106,10 @@ export class MaterialSprite extends Material {
         aVertexColor?: number;
         uProjectionMatrix?: WebGLUniformLocation;
         uModelViewMatrix?: WebGLUniformLocation;
-        uEmitterModelMatrix?: WebGLUniformLocation;
         uColor?: WebGLUniformLocation;
         uSampler?: WebGLUniformLocation;
     } = {};
 
-    private _emitterModelMatrixHelper: glMatrix.mat4 = glMatrix.mat4.create();
     public constructor() {
         super();
     }
@@ -129,7 +125,6 @@ export class MaterialSprite extends Material {
             locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
             locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
             locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-            locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
             locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
             locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
         }
@@ -147,11 +142,7 @@ export class MaterialSprite extends Material {
         let gl = context.gl;
         let rData = renderData;
         let psData = this.particleSystemData;
-        let modelViewMatrix = psData.modelViewMatrix;
-        let emitterModelMatrix = this._emitterModelMatrixHelper;
-        glMatrix.mat4.fromScaling(emitterModelMatrix, [cmd.scaleEmitter[0], cmd.scaleEmitter[1], 1]);
-        glMatrix.mat4.rotateZ(emitterModelMatrix, emitterModelMatrix, cmd.rotationEmitter);
-        glMatrix.mat4.translate(emitterModelMatrix, emitterModelMatrix, [cmd.translationEmitter[0], cmd.translationEmitter[1], 0]);
+        let modelViewMatrix = cmd.matrixModel;
         let locations = this.locations;
         let materialCore = this.matCore;
         let drawData = psData.psCore.drawData;
@@ -210,11 +201,6 @@ export class MaterialSprite extends Material {
             locations.uModelViewMatrix,
             false,
             modelViewMatrix
-        );
-        gl.uniformMatrix4fv(
-            locations.uEmitterModelMatrix,
-            false,
-            emitterModelMatrix
         );
         gl.uniform4fv(
             locations.uColor,
@@ -253,12 +239,10 @@ export class MaterialRibbon extends Material {
         aVertexColor?: number;
         uProjectionMatrix?: WebGLUniformLocation;
         uModelViewMatrix?: WebGLUniformLocation;
-        uEmitterModelMatrix?: WebGLUniformLocation;
         uColor?: WebGLUniformLocation;
         uSampler?: WebGLUniformLocation;
     } = {};
 
-    private _emitterModelMatrixHelper: glMatrix.mat4 = glMatrix.mat4.create();
     public constructor() {
         super();
     }
@@ -274,7 +258,6 @@ export class MaterialRibbon extends Material {
             locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
             locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
             locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-            locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
             locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
             locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
         }
@@ -292,11 +275,7 @@ export class MaterialRibbon extends Material {
         let gl = context.gl;
         let rData = renderData;
         let psData = this.particleSystemData;
-        let modelViewMatrix = psData.modelViewMatrix;
-        let emitterModelMatrix = this._emitterModelMatrixHelper;
-        glMatrix.mat4.fromScaling(emitterModelMatrix, [cmd.scaleEmitter[0], cmd.scaleEmitter[1], 1]);
-        glMatrix.mat4.rotateZ(emitterModelMatrix, emitterModelMatrix, cmd.rotationEmitter);
-        glMatrix.mat4.translate(emitterModelMatrix, emitterModelMatrix, [cmd.translationEmitter[0], cmd.translationEmitter[1], 0]);
+        let modelViewMatrix = cmd.matrixModel;
         let locations = this.locations;
         let materialCore = this.matCore;
         let drawData = psData.psCore.drawData;
@@ -355,11 +334,6 @@ export class MaterialRibbon extends Material {
             locations.uModelViewMatrix,
             false,
             modelViewMatrix
-        );
-        gl.uniformMatrix4fv(
-            locations.uEmitterModelMatrix,
-            false,
-            emitterModelMatrix
         );
         gl.uniform4fv(
             locations.uColor,

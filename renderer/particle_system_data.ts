@@ -1,4 +1,3 @@
-import * as glMatrix from "gl-matrix";
 import * as core from "../core";
 import { context } from "./context";
 
@@ -6,31 +5,18 @@ export class ParticleSystemData {
     public psCore: core.ParticleSystem = new core.ParticleSystem();
     public vertexBuffer: WebGLBuffer;
     public indexBuffer: WebGLBuffer;
-    public modelViewMatrix: glMatrix.mat4 = glMatrix.mat4.create();
 
     public init(info: core.ParticleSystemInfo) {
         let psCore = this.psCore;
         //Initialize the core particle system.
         psCore.init(info);
 
-        let pos = psCore.position;
-        glMatrix.mat4.translate(
-            this.modelViewMatrix, 
-            this.modelViewMatrix, 
-            [pos[0], pos[1], 0],
-        );
-
         //Initialize the buffers from the draw data of the particle system.
         this._initBuffers();
     }
 
     public changePos(pos: core.Vector) {
-        core.Vector.copy(this.psCore.position, pos);
-        glMatrix.mat4.translate(
-            this.modelViewMatrix, 
-            this.modelViewMatrix, 
-            [pos[0], pos[1], 0],
-        );
+        this.psCore.data.setPosition(pos);
     }
 
     public refreshBuffers() {

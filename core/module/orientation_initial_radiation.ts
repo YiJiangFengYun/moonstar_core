@@ -22,7 +22,8 @@ export class ModOrientationInitialRadiation extends Module {
 
     private _onCreateParticle(particle: particleMod.Particle) {
         let vecHelper = this.vecHelper;
-        common.Vector.sub(vecHelper, particle.pos || common.VECTOR_ZERO, common.VECTOR_ZERO);
+        let origin = this.player.position;
+        common.Vector.sub(vecHelper, particle.pos, origin);
         let angle: number;
         if (vecHelper[0]) {
             angle = Math.atan(vecHelper[1] / vecHelper[0]);

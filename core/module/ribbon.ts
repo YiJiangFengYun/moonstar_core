@@ -69,7 +69,6 @@ export class ModRibbon extends Module implements ModRender {
         lastVertexCount: number; //used as idxValueOffset
         lastIndexCount: number; // used as index offset of cmd.
     }): void {
-        let player = this.player;
         let queueParticles = this.queueParticles;
         let particleCount = queueParticles.length;
 
@@ -178,8 +177,12 @@ export class ModRibbon extends Module implements ModRender {
         cmdHelper.material = this.material.id;
         cmdHelper.emitterPlayer = this.player.id;
 
-        common.Vector.copy(cmdHelper.translationEmitter, player.position);
-        cmdHelper.rotationEmitter = player.rotation;
+        let psData = this.player.psData;
+        if (psData.useLocalSpace) {
+            common.Matrix4x4.copy(cmdHelper.matrixModel, psData.matrix4x4);
+        } else {
+            common.Matrix4x4.identity(cmdHelper.matrixModel);
+        }
 
         drawData.fillDrawCmd(cmdHelper);
     }

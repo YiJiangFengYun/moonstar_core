@@ -2,6 +2,7 @@ import * as log from "loglevel";
 import * as common from "../common";
 import * as module from "../module";
 import * as emitter_player from "../emitter_player";
+import * as psData from "../ps_data";
 
 export interface EmitterInfo extends emitter_player.EmitterPlayerInfo {
     name?: string;
@@ -13,12 +14,13 @@ export interface EmitterInfo extends emitter_player.EmitterPlayerInfo {
 
 export class Emitter {
     public name: string;
-    public player: emitter_player.EmitterPlayer = new emitter_player.EmitterPlayer();
+    public player: emitter_player.EmitterPlayer;
     public modules: module.Module[] = [];
     public renderModule: module.ModRender;
     private _id: number;
-    public constructor() {
+    public constructor(psData: psData.PSData) {
         this._id = common.gainID();
+        this.player = new emitter_player.EmitterPlayer(psData);
     }
 
     public get id() {
@@ -27,7 +29,7 @@ export class Emitter {
 
     public init(info: EmitterInfo) {
         this.name = info.name;
-        this.player.init(info);
+        this.player.init(info, ! info.parent);
         let modules = this.modules;
         let newModCount = info.modules ? info.modules.length : 0;
         modules.length = newModCount;
