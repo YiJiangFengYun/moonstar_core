@@ -17,26 +17,31 @@ export const psInfo: core.ParticleSystemInfo = {
                 name: "ribbon",
                 texturePath: "./res/ribbon.png",
             },
+            // {
+            //     name: "sprite",
+            //     texturePath: "./res/star2.png",
+            // },
+            // {
+            //     name: "spawn_moving",
+            //     interval: 10,
+            // },
             {
                 name: "spawn",
-                rate: 10,
-                duration: 60
+                rate: 20,
             },
             {
                 name: "width_initial",
-                width: 32,
+                width: 5,
             },
             {
                 name: "velocity",
             },
-            // {
-            //     name: "velocity_initial_random",
-            //     velocityMin: [100, -20],
-            //     velocityMax: [100, 20],
-            // },
             {
-                name: "velocity_initial",
-                velocity: [100, 0],
+                name: "velocity_initial_vary",
+                velocityBegin: [100, 20],
+                velocityEnd: [100, -20],
+                period: 2,
+                trigSmooth: true,
             },
             {
                 name: "color_over_life",
