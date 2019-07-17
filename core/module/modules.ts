@@ -26,6 +26,7 @@ import { ModSpawnMoving } from "./spawn_moving";
 import { ModRibbon } from "./ribbon";
 import { ModLifeTimeInitial } from "./life_time_initial";
 import { ModVelocityOverLife } from "./velocity_over_life";
+import { ModVelocityInitialVary } from "./velocity_initial_vary";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -54,6 +55,7 @@ mapModules[ModColorInitial.NAME] = ModColorInitial;
 mapModules[ModColorInitialRandom.NAME] = ModColorInitialRandom;
 mapModules[ModVelocityInitial.NAME] = ModVelocityInitial;
 mapModules[ModVelocityInitialRandom.NAME] = ModVelocityInitialRandom;
+mapModules[ModVelocityInitialVary.NAME] = ModVelocityInitialVary;
 mapModules[ModRotationInitial.NAME] = ModRotationInitial;
 mapModules[ModRotationInitialRandom.NAME] = ModRotationInitialRandom;
 mapModules[ModWidthInitial.NAME] = ModWidthInitial;
