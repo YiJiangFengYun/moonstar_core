@@ -18,7 +18,7 @@ export class ModRibbon extends Module implements ModRender {
     public material: material.Material = new material.Material(material.MaterialType.RIBBON);
 
     private _vecDirectHelper: common.Vector = common.Vector.create();
-    // private _vecDirectHelper2: common.Vector = common.Vector.create();
+    private _vecDirectHelper2: common.Vector = common.Vector.create();
     private _vecPerpendicularHelper: common.Vector = common.Vector.create();
     private _posHelper: common.Vector = common.Vector.create();
     private _uvHelper: common.Vector = common.Vector.create();
@@ -44,15 +44,11 @@ export class ModRibbon extends Module implements ModRender {
     }
 
     public getTotalVtxCount(): number {
-        let player = this.player;
-        let particleCount = player.particleCount;
-        return particleCount * 2;
+        return this.queueParticles.length * 2;
     }
 
     public getTotalIdxCount(): number {
-        let player = this.player;
-        let particleCount = player.particleCount;
-        return (particleCount - 1) * 6;
+        return (this.queueParticles.length - 1) * 6;
     }
 
     public getMaxVtxCount(): number {
@@ -78,7 +74,7 @@ export class ModRibbon extends Module implements ModRender {
         let idxValueOffset = 0;
 
         let vecDirectHelper = this._vecDirectHelper;
-        // let vecDirectHelper2 = this._vecDirectHelper2;
+        let vecDirectHelper2 = this._vecDirectHelper2;
         let vecPerpendicularHelper = this._vecPerpendicularHelper;
         let posHelper = this._posHelper;
         let uvHelper = this._uvHelper;
@@ -90,30 +86,30 @@ export class ModRibbon extends Module implements ModRender {
                 let particle: ParticleWithLifeTime = queueParticles.getItem(particleIndex) as ParticleWithLifeTime;
                 let particlePos = particle.pos;
                 let particle2: particle.Particle;
-                // let particle3: particle.Particle;
+                let particle3: particle.Particle;
                 let particle2Pos: common.Vector;
-                // let particle3Pos: common.Vector;
+                let particle3Pos: common.Vector;
                 let vecDirect = vecDirectHelper;
-                // let vecDirect2 = vecDirectHelper2;
+                let vecDirect2 = vecDirectHelper2;
                 if (particleIndex < particleCountDecOne) {
-                    // if (particleIndex > 0) {
-                    //     particle2 = queueParticles.getItem(particleIndex + 1);
-                    //     particle2Pos = particle2.pos;
-                    //     particle3 = queueParticles.getItem(particleIndex - 1);
-                    //     particle3Pos = particle3.pos;
-                    //     vecDirect[0] = (particle2Pos[0] - particlePos[0]);
-                    //     vecDirect[1] = (particle2Pos[1] - particlePos[1]);
-                    //     vecDirect2[0] = (particlePos[0] - particle3Pos[0]);
-                    //     vecDirect2[1] = (particlePos[1] - particle3Pos[1]);
-                    //     common.Vector.normalize(vecDirect, vecDirect);
-                    //     common.Vector.normalize(vecDirect2, vecDirect2);
-                    //     common.Vector.add(vecDirect, vecDirect, vecDirect2);
-                    // } else {
+                    if (particleIndex > 0) {
+                        particle2 = queueParticles.getItem(particleIndex + 1);
+                        particle2Pos = particle2.pos;
+                        particle3 = queueParticles.getItem(particleIndex - 1);
+                        particle3Pos = particle3.pos;
+                        vecDirect[0] = (particle2Pos[0] - particlePos[0]);
+                        vecDirect[1] = (particle2Pos[1] - particlePos[1]);
+                        vecDirect2[0] = (particlePos[0] - particle3Pos[0]);
+                        vecDirect2[1] = (particlePos[1] - particle3Pos[1]);
+                        common.Vector.normalize(vecDirect, vecDirect);
+                        common.Vector.normalize(vecDirect2, vecDirect2);
+                        common.Vector.add(vecDirect, vecDirect, vecDirect2);
+                    } else {
                         particle2 = queueParticles.getItem(particleIndex + 1);
                         particle2Pos = particle2.pos;
                         vecDirect[0] = particle2Pos[0] - particlePos[0];
                         vecDirect[1] = particle2Pos[1] - particlePos[1];
-                    // }
+                    }
                 } else {
                     particle2 = queueParticles.getItem(particleIndex - 1);
                     particle2Pos = particle2.pos;
@@ -135,9 +131,9 @@ export class ModRibbon extends Module implements ModRender {
                 let vec_width_y = vecPerpendicular[1] * width;
 
                 //The vertex of the left.
-                posHelper[0] = particlePos[0] + vec_width_x;
-                posHelper[1] = particlePos[1] + vec_width_y;
-                uvHelper[0] = 1;
+                posHelper[0] = particlePos[0] - vec_width_x;
+                posHelper[1] = particlePos[1] - vec_width_y;
+                uvHelper[0] = 0;
                 uvHelper[1] = life;
                 vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                     pos: posHelper,
@@ -147,9 +143,9 @@ export class ModRibbon extends Module implements ModRender {
                 
 
                 //The vertex of the right.
-                posHelper[0] = particlePos[0] - vec_width_x;
-                posHelper[1] = particlePos[1] - vec_width_y;
-                uvHelper[0] = 0;
+                posHelper[0] = particlePos[0] + vec_width_x;
+                posHelper[1] = particlePos[1] + vec_width_y;
+                uvHelper[0] = 1;
                 uvHelper[1] = life;
                 vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                     pos: posHelper,
