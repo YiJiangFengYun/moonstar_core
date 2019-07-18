@@ -27,6 +27,7 @@ import { ModRibbon } from "./ribbon";
 import { ModLifeTimeInitial } from "./life_time_initial";
 import { ModVelocityOverLife } from "./velocity_over_life";
 import { ModVelocityInitialVary } from "./velocity_initial_vary";
+import { ModSpawnIntermittency } from "./spawn_intermittency";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -37,6 +38,7 @@ mapModules[ModRibbon.NAME] = ModRibbon;
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
 mapModules[ModSpawnMoving.NAME] = ModSpawnMoving;
+mapModules[ModSpawnIntermittency.NAME] = ModSpawnIntermittency;
 
 // Velocity module
 mapModules[ModVelocity.NAME] = ModVelocity;
