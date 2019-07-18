@@ -40,7 +40,7 @@ export class ModSpawnIntermittency extends Module {
     public update(dt: number) {
         let delay = this.delay;
         let time = this._time;
-        if (time > delay) {
+        if (time >= delay) {
             let player = this.player;
             if (!player.emitted) {
                 player.startEmit();
