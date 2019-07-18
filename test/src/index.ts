@@ -99,6 +99,7 @@ class App {
             })
             .then(() => {
                 context._updateParticleSystem();
+                context._updateEmitterStatElements();
                 context._initPlayerBtns();
             })
             .then(() => {
@@ -198,12 +199,42 @@ class App {
         }
     }
 
+    private _updateEmitterStatElements() {
+        let emittersElement = document.getElementById("emitters");
+        let ps = this._particleSystem;
+        // Clear all child elements
+        while (emittersElement.firstChild) {
+            emittersElement.removeChild(emittersElement.firstChild);
+        }
+        
+        let psCore = ps.data.psCore;
+        let emitterCount = psCore.emitterCount;
+        let emitters = psCore.emitters;
+        for (let i = 0; i < emitterCount; ++i) {
+            let element = document.createElement("div");
+            element.id = `emitter_${emitters[i].id}`;
+            emittersElement.appendChild(element);
+        }
+    }
+
     private _updateStats() {
         let ss = stats;
+        let ps = this._particleSystem;
+        let psCore = ps.data.psCore;
         let drawcallElement = document.getElementById("drawcall");
         drawcallElement.innerText = `draw call: ${ss.drawCall.toString()}` ;
         let costTimeElement = document.getElementById("frame_cost_time");
         costTimeElement.innerText = `cost time: ${ss.costTime.toString()}ms`;
+        let timePSElement = document.getElementById("time_ps");
+        timePSElement.innerText = `Particle system time: ${ps.elapsedTime.toFixed(2)}s`;
+        
+        let emitterCount = psCore.emitterCount;
+        let emitters = psCore.emitters;
+        for (let i = 0; i < emitterCount; ++i) {
+            let id = `emitter_${emitters[i].id}`;
+            let element = document.getElementById(id);
+            element.innerText = `Emitter ${emitters[i].name} time: ${emitters[i].player.time.toFixed(2)}s`;
+        }
     }
 
     /**
@@ -222,6 +253,7 @@ class App {
         });
         this._updateParticleSystem();
         this._updatePlayerBtns();
+        this._updateEmitterStatElements();
     }
 
     private _onChangeShowBounds(e: Event) {
