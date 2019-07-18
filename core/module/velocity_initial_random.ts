@@ -1,11 +1,7 @@
 import * as common from "../common";
-import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
-
-export interface ParticleWithVelocity extends particleMod.Particle {
-    velocity?: common.Vector;
-}
+import { ParticleWithVelocity } from "./velocity";
 
 export class ModVelocityInitialRandom extends Module {
     public static NAME = "velocity_initial_random";
@@ -35,7 +31,7 @@ export class ModVelocityInitialRandom extends Module {
         let velMax = this.velocityMax;
         let r = Math.random();
         let x = Math.max(0, velMin[0] + (velMax[0] - velMin[0]) * r);
-        let y = Math.max(0, velMin[1] + (velMax[1] - velMin[0]) * r);
+        let y = Math.max(0, velMin[1] + (velMax[1] - velMin[1]) * r);
         if (particle.velocity) {
             common.Vector.copy(particle.velocity, [x, y]);
         } else {

@@ -23,8 +23,9 @@ export class ModLocationInitialRectangle extends Module {
     private _onCreateParticle(particle: particleMod.Particle) {
         let width = this.width;
         let height = this.height;
-        let x = Math.random() * width - width / 2;
-        let y = Math.random() * height - height / 2;
+        let pos = this.player.position;
+        let x = pos[0] + Math.random() * width - width / 2;
+        let y = pos[1] + Math.random() * height - height / 2;
         if (particle.pos) {
             common.Vector.set(particle.pos, x, y);
         } else {

@@ -21,15 +21,22 @@ import { ModVelocityInitial } from "./velocity_initial";
 import { ModRotation } from "./rotation";
 import { ModRotationInitial } from "./rotation_initial";
 import { ModRotationInitialRandom } from "./rotation_initial_random";
+import { ModWidthInitial } from "./width_inital";
+import { ModSpawnMoving } from "./spawn_moving";
+import { ModRibbon } from "./ribbon";
 import { ModLifeTimeInitial } from "./life_time_initial";
+import { ModVelocityOverLife } from "./velocity_over_life";
+import { ModVelocityInitialVary } from "./velocity_initial_vary";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
 // Render modules
 mapModules[ModSprite.NAME] = ModSprite;
+mapModules[ModRibbon.NAME] = ModRibbon;
 
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
+mapModules[ModSpawnMoving.NAME] = ModSpawnMoving;
 
 // Velocity module
 mapModules[ModVelocity.NAME] = ModVelocity;
@@ -48,8 +55,10 @@ mapModules[ModColorInitial.NAME] = ModColorInitial;
 mapModules[ModColorInitialRandom.NAME] = ModColorInitialRandom;
 mapModules[ModVelocityInitial.NAME] = ModVelocityInitial;
 mapModules[ModVelocityInitialRandom.NAME] = ModVelocityInitialRandom;
+mapModules[ModVelocityInitialVary.NAME] = ModVelocityInitialVary;
 mapModules[ModRotationInitial.NAME] = ModRotationInitial;
 mapModules[ModRotationInitialRandom.NAME] = ModRotationInitialRandom;
+mapModules[ModWidthInitial.NAME] = ModWidthInitial;
 mapModules[ModLifeTimeInitial.NAME] = ModLifeTimeInitial;
 mapModules[ModLifeTimeInitialRandom.NAME] = ModLifeTimeInitialRandom;
 
@@ -59,6 +68,7 @@ mapModules[ModLifeTime.NAME] = ModLifeTime;
 // Over Life modules
 mapModules[ModColorOverLife.NAME] = ModColorOverLife;
 mapModules[ModSizeOverLife.NAME] = ModSizeOverLife;
+mapModules[ModVelocityOverLife.NAME] = ModVelocityOverLife;
 
 //Sub UV modules
 mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
@@ -76,17 +86,19 @@ export const moduleGroup = {
         { module: ModLifeTime, required: false, default: true },
         { module: ModColorOverLife, required: false, default: true },
     ],
-    trail: [
-        // { module: ModTrail, required: true, default: true },
-        { module: ModSpawn, required: true, default: true },
-        { module: ModSizeInitial, required: false, default: true },
-        { module: ModLocationInitialCircle, required: false, default: true},
-        { module: ModLifeTime, required: false, default: true },
-        { module: ModVelocity, required: false, default: true },
+    ribbon: [
+        { module: ModRibbon, required: true, default: true },
+        { module: ModSpawnMoving, required: true, default: true },
+        { module: ModSpawn, required: false, default: false },
+        { module: ModWidthInitial, required: true, default: true },
+        { module: ModLifeTime, required: true, default: true },
+        { module: ModVelocity, required: false, default: false },
         { module: ModColorOverLife, required: false, default: true },
     ]
 }
 
 export const renderModules: typeof Module[] = [];
 
-renderModules.push(ModSprite);
+renderModules.length = 2;
+renderModules[0] = ModSprite;
+renderModules[1] = ModRibbon;

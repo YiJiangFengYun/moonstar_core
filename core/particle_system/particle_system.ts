@@ -1,7 +1,9 @@
 import * as log from "loglevel";
 import * as common from "../common";
 import * as emitter from "../emitter";
+import * as psData from "../ps_data";
 import * as render from "../render";
+
 
 export type ParticleSystemInfo = {
     /**
@@ -18,11 +20,10 @@ export type ParticleSystemInfo = {
  * If a emitter play latter, you should stop the emitter, and then play it.
  */
 export class ParticleSystem extends common.Player {
+    public data: psData.PSData = new psData.PSData();
     public drawData: render.DrawData = new render.DrawData();
     public emitters: emitter.Emitter[] = [];
     public emitterCount: number = 0;
-    public bounds: common.Bounds = common.Bounds.create();
-    public position: common.Vector = common.Vector.create();
 
     private _id: number;
     public constructor() {
@@ -35,8 +36,7 @@ export class ParticleSystem extends common.Player {
     }
 
     public init(info: ParticleSystemInfo) {
-        let boundsInfo = info.bounds;
-        if (boundsInfo) common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
+        this.data.init(info);
         let len = info.emitters ? info.emitters.length : 0;
         let newCount: number = 0;
         for (let i = 0; i < len; ++i) {
@@ -64,7 +64,7 @@ export class ParticleSystem extends common.Player {
         for (let i = 0; i < newCount; ++i) {
             let et = emitters[i];
             let etInfo = emitterInfos[i];
-            if (! et) emitters[i] = et = new emitter.Emitter();
+            if (! et) emitters[i] = et = new emitter.Emitter(this.data);
             et.init(etInfo);
             if (! et.name) {
                 et.name = `emitter_${i + 1}`;
@@ -106,6 +106,10 @@ export class ParticleSystem extends common.Player {
             maxVtxCount: maxVtxCount,
             maxIdxCount: maxIdxCount,
         });
+    }
+
+    public setPosition(pos: common.Vector) {
+        this.data.setPosition(pos);
     }
 
     /**

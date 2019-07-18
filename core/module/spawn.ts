@@ -1,5 +1,3 @@
-import * as particleMod from "../particle";
-import * as common from "../common";
 import * as emitterPlayer from "../emitter_player";
 import { Module } from "./module";
 
@@ -42,7 +40,7 @@ export class ModSpawn extends Module {
             let pCount = Math.ceil(dt2 / interval);
             this._remainTime = (dt2 - interval) % interval;
             while (pCount > 0) {
-                this._createParticle();
+                player.createParticle();
                 --pCount;
             }
         }
@@ -50,22 +48,5 @@ export class ModSpawn extends Module {
             this.player.endEmit();
         }
         this._time += dt;
-    }
-
-    private _createParticle(){
-        let particle: particleMod.Particle;
-        let emitter = this.player;
-        if (emitter.particleCount < emitter.maxParticleCount) {
-            particle = emitter.particles[emitter.particleCount];
-            if (! particle) emitter.particles[emitter.particleCount] = 
-                particle = { pos: common.Vector.create()};
-            ++emitter.particleCount;
-            if (particle.pos) {
-                common.Vector.set(particle.pos, 0, 0);
-            } else {
-                particle.pos = common.Vector.fromValues(0, 0);
-            }
-            emitter.emit(emitterPlayer.EVENT_CREATED_PARTICLE, particle);
-        }
     }
 }

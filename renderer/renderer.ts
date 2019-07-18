@@ -27,8 +27,8 @@ export class Renderer {
                 let rD = renderData;
                 let projectionMatrix = rD.projectionMatrix;
                 let projectionMatrix4x4 = rD.projectionMatrix4x4;
-                glMatrix.mat4.identity(projectionMatrix4x4);
-                glMatrix.mat3.fromScaling(
+                core.Matrix4x4.identity(projectionMatrix4x4);
+                core.Matrix.fromScaling(
                     projectionMatrix,
                     [2 / info.width || 2, 2 / info.height || 2],
                 );
