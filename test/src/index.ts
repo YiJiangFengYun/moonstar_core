@@ -15,6 +15,7 @@ import * as sampleRotation from "./sample_rotation";
 import * as sampleRotationRandom from "./sample_rotation_random";
 import * as sampleRibbon from "./sample_ribbon";
 import * as sampleSpawnIntermittency from "./sample_spawn_intermittency";
+import * as sampleLocationLineSegment from "./sample_location_line_segment";
 import { stats } from "../../renderer/stat";
 import { renderData } from "../../renderer/render_data";
 
@@ -34,6 +35,7 @@ const tests: { name: string; info: core.ParticleSystemInfo; moveable?: boolean }
     { name: sampleRotationRandom.name, info: sampleRotationRandom.psInfo },
     { name: sampleRibbon.name, info: sampleRibbon.psInfo, moveable: true },
     { name: sampleSpawnIntermittency.name, info: sampleSpawnIntermittency.psInfo },
+    { name: sampleLocationLineSegment.name, info: sampleLocationLineSegment.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;

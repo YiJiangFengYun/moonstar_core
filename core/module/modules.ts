@@ -28,6 +28,7 @@ import { ModLifeTimeInitial } from "./life_time_initial";
 import { ModVelocityOverLife } from "./velocity_over_life";
 import { ModVelocityInitialVary } from "./velocity_initial_vary";
 import { ModSpawnIntermittency } from "./spawn_intermittency";
+import { ModLocationInitialLineSegment } from "./location_initial_line_segment";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -51,6 +52,7 @@ mapModules[ModSizeInitial.NAME] = ModSizeInitial;
 mapModules[ModLocationInitialCircle.NAME] = ModLocationInitialCircle;
 mapModules[ModLocationInitialCircleBorder.NAME] = ModLocationInitialCircleBorder;
 mapModules[ModLocationInitialRectangle.NAME] = ModLocationInitialRectangle;
+mapModules[ModLocationInitialLineSegment.NAME] = ModLocationInitialLineSegment;
 mapModules[ModOrientationInitialRadiation.NAME] = ModOrientationInitialRadiation;
 mapModules[ModSizeInitialRandom.NAME] = ModSizeInitialRandom;
 mapModules[ModColorInitial.NAME] = ModColorInitial;
