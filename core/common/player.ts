@@ -38,7 +38,9 @@ export class Player extends eventEmitter.EventEmitter implements IPlayer {
     }
 
     public update(dt: number) {
-        this.elapsedTime += dt;
+        if (this.isPlay) {
+            this.elapsedTime += dt;
+        }
     }
 
     public get time() {
