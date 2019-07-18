@@ -74,7 +74,7 @@ export class EmitterPlayer extends common.Player {
     }
 
     public endEmit() {
-        if (this.emitComplete) {
+        if (! this.emitComplete) {
             this.emitComplete = true;
             this.emit(EVENT_END_EMITT, this);
         }
