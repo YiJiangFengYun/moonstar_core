@@ -7,5 +7,6 @@ exports.renderData = {
     projectionMatrix4x4: glMatrix.mat4.create(),
     clearColor: core.Color.create(),
     viewBounds: core.Bounds.create(),
+    showBounds: true,
 };
 //# sourceMappingURL=render_data.js.map

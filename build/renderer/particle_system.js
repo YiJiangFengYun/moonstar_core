@@ -13,7 +13,8 @@ var ParticleSystem = /** @class */ (function () {
     function ParticleSystem() {
         this.data = new particle_system_data_1.ParticleSystemData();
         this.mapMaterials = {};
-        this.mapGlobalBoundsOfEmitter = {};
+        this.mapPlayers = {};
+        this._boundsPosHelper = core.Vector.create();
         this._boundsSizeHelper = core.Vector.create();
     }
     ParticleSystem.prototype.init = function (info) {
@@ -23,16 +24,13 @@ var ParticleSystem = /** @class */ (function () {
         var emitters = psCore.emitters;
         var emitterCount = psCore.emitterCount;
         var mapMaterials = this.mapMaterials;
+        var mapPlayers = this.mapPlayers;
         for (var i = 0; i < emitterCount; ++i) {
             var renderModule = emitters[i].renderModule;
             var matCore = renderModule.material;
             var material = material_1.createMaterial(matCore, this.data);
             mapMaterials[matCore.id] = material;
-            var player = emitters[i].player;
-            var bounds = this.mapGlobalBoundsOfEmitter[player.id] = core.Bounds.create();
-            core.Bounds.copy(bounds, player.rootBounds);
-            core.Bounds.translate(bounds, bounds, psCore.position);
-            player.on(core.EVENT_CHANGE_POSITION, this._onEmitterChangePos, this);
+            mapPlayers[emitters[i].player.id] = emitters[i].player;
         }
     };
     ParticleSystem.prototype.update = function (dt) {
@@ -68,6 +66,9 @@ var ParticleSystem = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    ParticleSystem.prototype.changePos = function (pos) {
+        this.data.changePos(pos);
+    };
     ParticleSystem.prototype._draw = function () {
         var rData = render_data_1.renderData;
         if (!rData) {
@@ -80,29 +81,29 @@ var ParticleSystem = /** @class */ (function () {
         var cmdList = drawData.cmdList;
         var cmdCount = drawData.cmdCount;
         var mapMaterials = this.mapMaterials;
-        var mapBounds = this.mapGlobalBoundsOfEmitter;
+        var mapPlayers = this.mapPlayers;
+        var boundsPosHelper = this._boundsPosHelper;
         var boundsSizeHelper = this._boundsSizeHelper;
         for (var i = 0; i < cmdCount; ++i) {
             var cmd = cmdList[i];
             if (cmd.indexCount > 0) {
-                var bounds = mapBounds[cmd.emitterPlayer];
+                var player = mapPlayers[cmd.emitterPlayer];
+                var bounds = player.globalBounds;
                 if (core.Bounds.isEmpty(bounds) || core.Bounds.intersecting(bounds, rData.viewBounds)) {
                     var material = mapMaterials[cmd.material];
                     if (material) {
                         material.render(cmd);
                     }
-                    if (!core.Bounds.isEmpty(bounds)) {
-                        core.Vector.set(boundsSizeHelper, bounds[2] - bounds[0], bounds[3] - bounds[1]);
-                        emitter_bounds_outline_1.emitterBoundsOutline.render(cmd, data.modelViewMatrix, boundsSizeHelper);
+                    if (rData.showBounds && !core.Bounds.isEmpty(bounds)) {
+                        var width = bounds[2] - bounds[0];
+                        var height = bounds[3] - bounds[1];
+                        core.Vector.set(boundsPosHelper, bounds[0] + width / 2, bounds[1] + height / 2);
+                        core.Vector.set(boundsSizeHelper, width, height);
+                        emitter_bounds_outline_1.emitterBoundsOutline.render(boundsPosHelper, boundsSizeHelper);
                     }
                 }
             }
         }
-    };
-    ParticleSystem.prototype._onEmitterChangePos = function (player) {
-        var bounds = this.mapGlobalBoundsOfEmitter[player.id];
-        core.Bounds.copy(bounds, player.rootBounds);
-        core.Bounds.translate(bounds, bounds, this.data.psCore.position);
     };
     return ParticleSystem;
 }());

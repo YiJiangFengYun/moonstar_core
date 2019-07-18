@@ -11,11 +11,9 @@ export interface DrawCmd {
     vertexBufferByteOffset: number;
     indexOffset: number;
     indexCount: number;
-    translationEmitter: common.Vector;
-    rotationEmitter: number;
-    scaleEmitter: common.Vector;
     material: number;
     emitterPlayer: number;
+    matrixModel: common.Matrix4x4;
 }
 export declare const DrawCmd: {
     create: () => DrawCmd;

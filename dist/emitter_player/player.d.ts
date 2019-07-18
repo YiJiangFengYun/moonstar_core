@@ -1,27 +1,28 @@
+/// <reference types="gl-matrix" />
 import * as common from "../common";
 import * as particle from "../particle";
+import * as psDataMod from "../ps_data";
 import { EmitterPlayerInfo } from "./info";
 export declare class EmitterPlayer extends common.Player {
+    root: boolean;
+    psData: psDataMod.PSData;
     particles: particle.Particle[];
     particleCount: number;
     players: EmitterPlayer[];
     playerCount: number;
-    position: common.Vector;
-    rotation: number;
-    useLocalSpace: boolean;
     bounds: common.Bounds;
-    /**
-     * This bounds is in the cordinate system of the particle system.
-     */
-    rootBounds: common.Bounds;
+    globalBounds: common.Bounds;
+    private _position;
+    private _rotation;
     emitted: boolean;
     emitComplete: boolean;
     completed: boolean;
     private _maxParticleCount;
+    private _globalPositionHelper;
     private _id;
-    constructor();
+    constructor(psData: psDataMod.PSData);
     readonly id: number;
-    init(info: EmitterPlayerInfo): void;
+    init(info: EmitterPlayerInfo, root: boolean): void;
     readonly maxParticleCount: number;
     stop(): void;
     addPlayer(player: EmitterPlayer): void;
@@ -29,8 +30,14 @@ export declare class EmitterPlayer extends common.Player {
     endEmit(): void;
     checkComplete(): boolean;
     complete(): void;
+    readonly position: import("gl-matrix").vec2;
+    readonly rotation: number;
     setPosition(value: common.Vector | number[]): void;
+    createParticle(pos?: common.Vector): particle.Particle;
+    deleteParticle(particle: particle.Particle): boolean;
     protected _reset(): void;
     private _prepareParticles;
-    private _updateRootBounds;
+    private _updateGlobalBounds;
+    private _updateGlobalPosition;
+    private _onPSDataChangePos;
 }

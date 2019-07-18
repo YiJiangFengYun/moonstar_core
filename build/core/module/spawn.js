@@ -13,8 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var common = require("../common");
-var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModSpawn = /** @class */ (function (_super) {
     __extends(ModSpawn, _super);
@@ -49,7 +47,7 @@ var ModSpawn = /** @class */ (function (_super) {
             var pCount = Math.ceil(dt2 / interval);
             this._remainTime = (dt2 - interval) % interval;
             while (pCount > 0) {
-                this._createParticle();
+                player.createParticle();
                 --pCount;
             }
         }
@@ -57,24 +55,6 @@ var ModSpawn = /** @class */ (function (_super) {
             this.player.endEmit();
         }
         this._time += dt;
-    };
-    ModSpawn.prototype._createParticle = function () {
-        var particle;
-        var emitter = this.player;
-        if (emitter.particleCount < emitter.maxParticleCount) {
-            particle = emitter.particles[emitter.particleCount];
-            if (!particle)
-                emitter.particles[emitter.particleCount] =
-                    particle = { pos: common.Vector.create() };
-            ++emitter.particleCount;
-            if (particle.pos) {
-                common.Vector.set(particle.pos, 0, 0);
-            }
-            else {
-                particle.pos = common.Vector.fromValues(0, 0);
-            }
-            emitter.emit(emitterPlayer.EVENT_CREATED_PARTICLE, particle);
-        }
     };
     ModSpawn.NAME = "spawn";
     return ModSpawn;

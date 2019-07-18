@@ -45,11 +45,9 @@ exports.DrawCmd = {
             vertexBufferByteOffset: 0,
             indexOffset: 0,
             indexCount: 0,
-            translationEmitter: common.Vector.create(),
-            rotationEmitter: 0,
-            scaleEmitter: common.Vector.fromValues(1, 1),
             material: 0,
             emitterPlayer: 0,
+            matrixModel: common.Matrix4x4.create(),
         };
     },
     copy: function (out, cmd) {
@@ -60,9 +58,7 @@ exports.DrawCmd = {
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;
         out.emitterPlayer = cmd.emitterPlayer;
-        common.Vector.copy(out.translationEmitter, cmd.translationEmitter);
-        out.rotationEmitter = cmd.rotationEmitter;
-        common.Vector.copy(out.scaleEmitter, cmd.scaleEmitter);
+        common.Matrix4x4.copy(out.matrixModel, cmd.matrixModel);
         return out;
     }
 };

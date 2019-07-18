@@ -5,10 +5,6 @@ export interface RenderData {
     projectionMatrix4x4: glMatrix.mat4;
     clearColor: core.Color;
     viewBounds: core.Bounds;
+    showBounds: boolean;
 }
-export declare const renderData: {
-    projectionMatrix: glMatrix.mat3;
-    projectionMatrix4x4: glMatrix.mat4;
-    clearColor: glMatrix.vec4;
-    viewBounds: glMatrix.vec4;
-};
+export declare const renderData: RenderData;

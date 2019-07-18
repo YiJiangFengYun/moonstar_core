@@ -31,7 +31,8 @@ var ModOrientationInitialRadiation = /** @class */ (function (_super) {
     };
     ModOrientationInitialRadiation.prototype._onCreateParticle = function (particle) {
         var vecHelper = this.vecHelper;
-        common.Vector.sub(vecHelper, particle.pos || common.VECTOR_ZERO, common.VECTOR_ZERO);
+        var origin = this.player.position;
+        common.Vector.sub(vecHelper, particle.pos, origin);
         var angle;
         if (vecHelper[0]) {
             angle = Math.atan(vecHelper[1] / vecHelper[0]);

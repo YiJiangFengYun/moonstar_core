@@ -157,8 +157,13 @@ var ModSprite = /** @class */ (function (_super) {
         cmdHelper.indexCount = particleCount * 6;
         cmdHelper.material = this.material.id;
         cmdHelper.emitterPlayer = this.player.id;
-        common.Vector.copy(cmdHelper.translationEmitter, player.position);
-        cmdHelper.rotationEmitter = player.rotation;
+        var psData = this.player.psData;
+        if (psData.useLocalSpace) {
+            common.Matrix4x4.copy(cmdHelper.matrixModel, psData.matrix4x4);
+        }
+        else {
+            common.Matrix4x4.identity(cmdHelper.matrixModel);
+        }
         drawData.fillDrawCmd(cmdHelper);
     };
     ModSprite.NAME = "sprite";

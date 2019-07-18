@@ -1,21 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var glMatrix = require("gl-matrix");
 var core = require("../core");
 var context_1 = require("./context");
 var ParticleSystemData = /** @class */ (function () {
     function ParticleSystemData() {
         this.psCore = new core.ParticleSystem();
-        this.modelViewMatrix = glMatrix.mat4.create();
     }
     ParticleSystemData.prototype.init = function (info) {
         var psCore = this.psCore;
         //Initialize the core particle system.
         psCore.init(info);
-        var pos = psCore.position;
-        glMatrix.mat4.translate(this.modelViewMatrix, this.modelViewMatrix, [pos[0], pos[1], 0]);
         //Initialize the buffers from the draw data of the particle system.
         this._initBuffers();
+    };
+    ParticleSystemData.prototype.changePos = function (pos) {
+        this.psCore.data.setPosition(pos);
     };
     ParticleSystemData.prototype.refreshBuffers = function () {
         this._refreshBuffers();

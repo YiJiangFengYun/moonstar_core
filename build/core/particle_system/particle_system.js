@@ -16,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
 var common = require("../common");
 var emitter = require("../emitter");
+var psData = require("../ps_data");
 var render = require("../render");
 /**
  * Note: All emitters should be created when the ParticleSystem init.
@@ -25,11 +26,10 @@ var ParticleSystem = /** @class */ (function (_super) {
     __extends(ParticleSystem, _super);
     function ParticleSystem() {
         var _this = _super.call(this) || this;
+        _this.data = new psData.PSData();
         _this.drawData = new render.DrawData();
         _this.emitters = [];
         _this.emitterCount = 0;
-        _this.bounds = common.Bounds.create();
-        _this.position = common.Vector.create();
         _this._id = common.gainID();
         return _this;
     }
@@ -41,9 +41,7 @@ var ParticleSystem = /** @class */ (function (_super) {
         configurable: true
     });
     ParticleSystem.prototype.init = function (info) {
-        var boundsInfo = info.bounds;
-        if (boundsInfo)
-            common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
+        this.data.init(info);
         var len = info.emitters ? info.emitters.length : 0;
         var newCount = 0;
         for (var i = 0; i < len; ++i) {
@@ -70,7 +68,7 @@ var ParticleSystem = /** @class */ (function (_super) {
             var et = emitters[i];
             var etInfo = emitterInfos[i];
             if (!et)
-                emitters[i] = et = new emitter.Emitter();
+                emitters[i] = et = new emitter.Emitter(this.data);
             et.init(etInfo);
             if (!et.name) {
                 et.name = "emitter_" + (i + 1);
@@ -110,6 +108,9 @@ var ParticleSystem = /** @class */ (function (_super) {
             maxVtxCount: maxVtxCount,
             maxIdxCount: maxIdxCount,
         });
+    };
+    ParticleSystem.prototype.setPosition = function (pos) {
+        this.data.setPosition(pos);
     };
     /**
      *

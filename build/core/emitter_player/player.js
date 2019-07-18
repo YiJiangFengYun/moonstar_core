@@ -13,26 +13,29 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var log = require("loglevel");
 var common = require("../common");
+var psDataMod = require("../ps_data");
 var events_1 = require("./events");
 var DEFAULT_MAX_PARTICLE_COUNT = 100;
 var EmitterPlayer = /** @class */ (function (_super) {
     __extends(EmitterPlayer, _super);
-    function EmitterPlayer() {
+    function EmitterPlayer(psData) {
         var _this = _super.call(this) || this;
         _this.particles = [];
         _this.particleCount = 0;
         _this.players = [];
         _this.playerCount = 0;
-        _this.position = common.Vector.create();
-        _this.rotation = 0;
         _this.bounds = common.Bounds.create();
-        /**
-         * This bounds is in the cordinate system of the particle system.
-         */
-        _this.rootBounds = common.Bounds.create();
+        _this.globalBounds = common.Bounds.create();
+        _this._position = common.Vector.create();
+        _this._rotation = 0;
         _this._maxParticleCount = DEFAULT_MAX_PARTICLE_COUNT;
+        _this._globalPositionHelper = common.Vector.create();
         _this._id = common.gainID();
+        _this.psData = psData;
+        _this.psData.on(psDataMod.EVENT_CHANGE_POSITION, _this._onPSDataChangePos, _this);
+        _this._updateGlobalPosition();
         return _this;
     }
     Object.defineProperty(EmitterPlayer.prototype, "id", {
@@ -42,14 +45,15 @@ var EmitterPlayer = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    EmitterPlayer.prototype.init = function (info) {
+    EmitterPlayer.prototype.init = function (info, root) {
+        this.root = root;
         this._maxParticleCount = info.maxParticleCount || DEFAULT_MAX_PARTICLE_COUNT;
         this._prepareParticles();
         var boundsInfo = info.bounds;
         if (boundsInfo)
             common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
         this._reset();
-        this._updateRootBounds();
+        this._updateGlobalBounds();
     };
     Object.defineProperty(EmitterPlayer.prototype, "maxParticleCount", {
         get: function () {
@@ -89,10 +93,90 @@ var EmitterPlayer = /** @class */ (function (_super) {
             this.emit(events_1.EVENT_COMPLETE, this);
         }
     };
+    Object.defineProperty(EmitterPlayer.prototype, "position", {
+        get: function () {
+            var psData = this.psData;
+            if (psData.useLocalSpace) {
+                // If use local space, the position of the emitter is relative to the particle system.
+                return this._position;
+            }
+            else {
+                // If not use local space, the position of the emitter is global, but the _position
+                // of the root emiiter is relative to the particle system.
+                if (this.root) {
+                    return this._globalPositionHelper;
+                }
+                else {
+                    return this._position;
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(EmitterPlayer.prototype, "rotation", {
+        get: function () {
+            var psData = this.psData;
+            if (psData.useLocalSpace) {
+                // If use local space, the rotation of the emitter is relative to the particle system.
+                return this._rotation;
+            }
+            else {
+                // If not use local space, the position of the emitter is global, but the _rotation of the
+                // the root emitter is relative to the particle system.
+                if (this.root) {
+                    // Now the particle system don't own its rotation.
+                    // return 0 + this._rotation;
+                    return this._rotation;
+                }
+                else {
+                    return this._rotation;
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     EmitterPlayer.prototype.setPosition = function (value) {
-        common.Vector.copy(this.position, value);
-        this._updateRootBounds();
+        common.Vector.copy(this._position, value);
+        this._updateGlobalBounds();
         this.emit(events_1.EVENT_CHANGE_POSITION, this);
+    };
+    EmitterPlayer.prototype.createParticle = function (pos) {
+        var particle;
+        if (this.particleCount < this.maxParticleCount) {
+            particle = this.particles[this.particleCount];
+            if (!particle)
+                this.particles[this.particleCount] =
+                    particle = { pos: common.Vector.create() };
+            ++this.particleCount;
+            if (particle.pos) {
+                common.Vector.copy(particle.pos, pos || this.position);
+                // common.Vector.set(particle.pos, 0, 0);
+            }
+            else {
+                particle.pos = common.Vector.clone(pos || this.position);
+                // particle.pos = common.Vector.fromValues(0, 0);
+            }
+            this.emit(events_1.EVENT_CREATED_PARTICLE, particle);
+        }
+        return particle;
+    };
+    EmitterPlayer.prototype.deleteParticle = function (particle) {
+        var particles = this.particles;
+        var index = particles.indexOf(particle);
+        if (index >= 0) {
+            var end = --this.particleCount;
+            var endParticle = particles[end];
+            particles[end] = particles[index];
+            particles[index] = endParticle;
+            this.emit(events_1.EVENT_DESTROYED_PARTICLE, particle);
+            return true;
+        }
+        else {
+            log.error("Can't find the particle from the particles for delete the particle.");
+            return false;
+        }
     };
     EmitterPlayer.prototype._reset = function () {
         _super.prototype._reset.call(this);
@@ -112,8 +196,27 @@ var EmitterPlayer = /** @class */ (function (_super) {
                 };
         }
     };
-    EmitterPlayer.prototype._updateRootBounds = function () {
-        common.Bounds.translate(this.rootBounds, this.bounds, this.position);
+    EmitterPlayer.prototype._updateGlobalBounds = function () {
+        var psData = this.psData;
+        var pos;
+        if (psData.useLocalSpace) {
+            pos = common.Vector.create();
+            common.Vector.transformMat2d(pos, this._position, psData.matrix);
+        }
+        else {
+            pos = this.position;
+        }
+        common.Bounds.translate(this.globalBounds, this.bounds, pos);
+    };
+    EmitterPlayer.prototype._updateGlobalPosition = function () {
+        var psData = this.psData;
+        if (!psData.useLocalSpace && this.root) {
+            common.Vector.transformMat2d(this._globalPositionHelper, this._position, psData.matrix);
+            this._updateGlobalBounds();
+        }
+    };
+    EmitterPlayer.prototype._onPSDataChangePos = function () {
+        this._updateGlobalPosition();
     };
     return EmitterPlayer;
 }(common.Player));

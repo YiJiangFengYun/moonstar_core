@@ -5,10 +5,10 @@ var common = require("../common");
 var module = require("../module");
 var emitter_player = require("../emitter_player");
 var Emitter = /** @class */ (function () {
-    function Emitter() {
-        this.player = new emitter_player.EmitterPlayer();
+    function Emitter(psData) {
         this.modules = [];
         this._id = common.gainID();
+        this.player = new emitter_player.EmitterPlayer(psData);
     }
     Object.defineProperty(Emitter.prototype, "id", {
         get: function () {
@@ -19,7 +19,7 @@ var Emitter = /** @class */ (function () {
     });
     Emitter.prototype.init = function (info) {
         this.name = info.name;
-        this.player.init(info);
+        this.player.init(info, !info.parent);
         var modules = this.modules;
         var newModCount = info.modules ? info.modules.length : 0;
         modules.length = newModCount;

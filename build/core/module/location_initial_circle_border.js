@@ -32,11 +32,12 @@ var ModLocationInitialCircleBorder = /** @class */ (function (_super) {
     ModLocationInitialCircleBorder.prototype._onCreateParticle = function (particle) {
         var r = this.radius;
         var randomAngle = Math.random() * 2 * Math.PI;
+        var pos = this.player.position;
         if (particle.pos) {
-            common.Vector.set(particle.pos, Math.cos(randomAngle) * r, Math.sin(randomAngle) * r);
+            common.Vector.set(particle.pos, pos[0] + Math.cos(randomAngle) * r, pos[1] + Math.sin(randomAngle) * r);
         }
         else {
-            particle.pos = common.Vector.fromValues(Math.cos(randomAngle) * r, Math.sin(randomAngle) * r);
+            particle.pos = common.Vector.fromValues(pos[0] + Math.cos(randomAngle) * r, pos[1] + Math.sin(randomAngle) * r);
         }
     };
     ModLocationInitialCircleBorder.NAME = "location_initial_circle_border";

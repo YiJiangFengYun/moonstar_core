@@ -10,5 +10,4 @@ export declare class ModSpawn extends Module {
     init(info: any): void;
     reset(): void;
     update(dt: number): void;
-    private _createParticle;
 }

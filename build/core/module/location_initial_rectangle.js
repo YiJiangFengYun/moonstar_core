@@ -34,8 +34,9 @@ var ModLocationInitialRectangle = /** @class */ (function (_super) {
     ModLocationInitialRectangle.prototype._onCreateParticle = function (particle) {
         var width = this.width;
         var height = this.height;
-        var x = Math.random() * width - width / 2;
-        var y = Math.random() * height - height / 2;
+        var pos = this.player.position;
+        var x = pos[0] + Math.random() * width - width / 2;
+        var y = pos[1] + Math.random() * height - height / 2;
         if (particle.pos) {
             common.Vector.set(particle.pos, x, y);
         }

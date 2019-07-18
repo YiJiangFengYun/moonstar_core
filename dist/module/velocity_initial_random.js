@@ -42,7 +42,7 @@ var ModVelocityInitialRandom = /** @class */ (function (_super) {
         var velMax = this.velocityMax;
         var r = Math.random();
         var x = Math.max(0, velMin[0] + (velMax[0] - velMin[0]) * r);
-        var y = Math.max(0, velMin[1] + (velMax[1] - velMin[0]) * r);
+        var y = Math.max(0, velMin[1] + (velMax[1] - velMin[1]) * r);
         if (particle.velocity) {
             common.Vector.copy(particle.velocity, [x, y]);
         }

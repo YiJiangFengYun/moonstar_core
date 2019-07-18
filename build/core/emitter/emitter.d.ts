@@ -1,5 +1,6 @@
 import * as module from "../module";
 import * as emitter_player from "../emitter_player";
+import * as psData from "../ps_data";
 export interface EmitterInfo extends emitter_player.EmitterPlayerInfo {
     name?: string;
     parent?: string;
@@ -13,7 +14,7 @@ export declare class Emitter {
     modules: module.Module[];
     renderModule: module.ModRender;
     private _id;
-    constructor();
+    constructor(psData: psData.PSData);
     readonly id: number;
     init(info: EmitterInfo): void;
     ready(): void;

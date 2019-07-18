@@ -1,7 +1,6 @@
 import * as core from "../core";
 import { Material } from "./material";
 import { ParticleSystemData } from "./particle_system_data";
-import { Bounds } from "../core";
 /**
  * A particle system class is for a draw data state of a particle system of the core.
  */
@@ -10,9 +9,10 @@ export declare class ParticleSystem implements core.IPlayer {
     mapMaterials: {
         [id: number]: Material;
     };
-    mapGlobalBoundsOfEmitter: {
-        [id: number]: Bounds;
+    mapPlayers: {
+        [id: number]: core.EmitterPlayer;
     };
+    private _boundsPosHelper;
     private _boundsSizeHelper;
     constructor();
     init(info: core.ParticleSystemInfo): void;
@@ -23,6 +23,6 @@ export declare class ParticleSystem implements core.IPlayer {
     stop(): void;
     readonly elapsedTime: number;
     readonly isPlay: boolean;
+    changePos(pos: core.Vector): void;
     private _draw;
-    private _onEmitterChangePos;
 }

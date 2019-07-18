@@ -13,8 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var log = require("loglevel");
-var emitterPlayer = require("../emitter_player");
 var module_1 = require("./module");
 var ModLifeTime = /** @class */ (function (_super) {
     __extends(ModLifeTime, _super);
@@ -35,7 +33,7 @@ var ModLifeTime = /** @class */ (function (_super) {
             particle.time = particle.time + dt;
             if (particle.time >= particle.lifeTime) {
                 particle.life = 1;
-                player.particleCount = particleCount = this._deleteParticle(particle, particles, particleCount);
+                player.deleteParticle(particle);
             }
             else {
                 particle.life = particle.time / particle.lifeTime;
@@ -44,20 +42,6 @@ var ModLifeTime = /** @class */ (function (_super) {
         if (!player.completed && player.checkComplete()) {
             player.complete();
         }
-    };
-    ModLifeTime.prototype._deleteParticle = function (particle, particles, particleCount) {
-        var index = particles.indexOf(particle);
-        if (index >= 0) {
-            var end = --particleCount;
-            var endParticle = particles[end];
-            particles[end] = particles[index];
-            particles[index] = endParticle;
-            this.player.emit(emitterPlayer.EVENT_DESTROYED_PARTICLE, particle);
-        }
-        else {
-            log.error("Can't find the particle from the particles for delete the particle.");
-        }
-        return particleCount;
     };
     ModLifeTime.NAME = "life_time";
     return ModLifeTime;

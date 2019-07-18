@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var core = require("../core");
-var glMatrix = require("gl-matrix");
 var log = require("loglevel");
 var context_1 = require("./context");
 var texture_1 = require("./texture");
@@ -22,11 +21,13 @@ var render_data_1 = require("./render_data");
 var stat_1 = require("./stat");
 var util_shader_1 = require("./util_shader");
 exports.shaderLibs = [];
-exports.shaderLibs[core.MaterialType.UNDEFINED] = null;
-exports.shaderLibs[core.MaterialType.SPRITE] = {
-    vert: "\n    precision lowp float;\n    attribute vec2 aVertexPosition;\n    attribute vec2 aVertexUV;\n    attribute vec4 aVertexColor;\n\n    uniform mat4 uProjectionMatrix;\n    uniform mat4 uModelViewMatrix;\n    uniform mat4 uEmitterModelMatrix;\n\n    varying vec2 vUV;\n    varying vec4 vColor;\n    void main() {\n      gl_Position = uProjectionMatrix * uModelViewMatrix * uEmitterModelMatrix * vec4(aVertexPosition, 1.0, 1.0);\n      vUV = aVertexUV;\n      vColor = aVertexColor;\n    }\n    ",
+var normalShader = {
+    vert: "\n    precision lowp float;\n    attribute vec2 aVertexPosition;\n    attribute vec2 aVertexUV;\n    attribute vec4 aVertexColor;\n\n    uniform mat4 uProjectionMatrix;\n    uniform mat4 uModelViewMatrix;\n\n    varying vec2 vUV;\n    varying vec4 vColor;\n    void main() {\n      gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0, 1.0);\n      vUV = aVertexUV;\n      vColor = aVertexColor;\n    }\n    ",
     frag: "\n    precision lowp float;\n    varying vec2 vUV;\n    varying vec4 vColor;\n\n    uniform vec4 uColor;\n\n    uniform sampler2D uSampler;\n\n    void main() {\n        gl_FragColor = uColor * vColor * texture2D(uSampler, vUV);\n    }\n    ",
 };
+exports.shaderLibs[core.MaterialType.UNDEFINED] = null;
+exports.shaderLibs[core.MaterialType.SPRITE] = normalShader;
+exports.shaderLibs[core.MaterialType.RIBBON] = normalShader;
 function getGLTypeFromValueFormat(valueFormat, gl) {
     var map = [];
     map[core.ValueFormat.UNDEFINED] = 0;
@@ -72,19 +73,15 @@ var Material = /** @class */ (function () {
     return Material;
 }());
 exports.Material = Material;
-/**
- * A material class is for a material state of a emiter of the core
- */
-var SpriteMaterial = /** @class */ (function (_super) {
-    __extends(SpriteMaterial, _super);
-    function SpriteMaterial() {
+var MaterialSprite = /** @class */ (function (_super) {
+    __extends(MaterialSprite, _super);
+    function MaterialSprite() {
         var _this = _super.call(this) || this;
         _this.texture = new texture_1.Texture();
         _this.locations = {};
-        _this._emitterModelMatrixHelper = glMatrix.mat4.create();
         return _this;
     }
-    SpriteMaterial.prototype.init = function (materialCore, particleSystemData) {
+    MaterialSprite.prototype.init = function (materialCore, particleSystemData) {
         _super.prototype.init.call(this, materialCore, particleSystemData);
         var gl = context_1.context.gl;
         var locations = this.locations;
@@ -95,7 +92,6 @@ var SpriteMaterial = /** @class */ (function (_super) {
             locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
             locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
             locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
-            locations.uEmitterModelMatrix = gl.getUniformLocation(shaderProgram, "uEmitterModelMatrix");
             locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
             locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
         }
@@ -103,7 +99,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
             url: materialCore.texturePath
         });
     };
-    SpriteMaterial.prototype.render = function (cmd) {
+    MaterialSprite.prototype.render = function (cmd) {
         _super.prototype.render.call(this, cmd);
         if (!this.inited) {
             log.warn("The material was not initialized successfully, so it can't be used for render.");
@@ -112,11 +108,7 @@ var SpriteMaterial = /** @class */ (function (_super) {
         var gl = context_1.context.gl;
         var rData = render_data_1.renderData;
         var psData = this.particleSystemData;
-        var modelViewMatrix = psData.modelViewMatrix;
-        var emitterModelMatrix = this._emitterModelMatrixHelper;
-        glMatrix.mat4.fromScaling(emitterModelMatrix, [cmd.scaleEmitter[0], cmd.scaleEmitter[1], 1]);
-        glMatrix.mat4.rotateZ(emitterModelMatrix, emitterModelMatrix, cmd.rotationEmitter);
-        glMatrix.mat4.translate(emitterModelMatrix, emitterModelMatrix, [cmd.translationEmitter[0], cmd.translationEmitter[1], 0]);
+        var modelViewMatrix = cmd.matrixModel;
         var locations = this.locations;
         var materialCore = this.matCore;
         var drawData = psData.psCore.drawData;
@@ -143,7 +135,6 @@ var SpriteMaterial = /** @class */ (function (_super) {
         // Set the shader uniforms
         gl.uniformMatrix4fv(locations.uProjectionMatrix, false, rData.projectionMatrix4x4);
         gl.uniformMatrix4fv(locations.uModelViewMatrix, false, modelViewMatrix);
-        gl.uniformMatrix4fv(locations.uEmitterModelMatrix, false, emitterModelMatrix);
         gl.uniform4fv(locations.uColor, materialCore.color);
         // Tell WebGL we want to affect texture unit 0
         gl.activeTexture(gl.TEXTURE0);
@@ -157,12 +148,94 @@ var SpriteMaterial = /** @class */ (function (_super) {
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
         this._stats.addDrawCall();
     };
-    return SpriteMaterial;
+    return MaterialSprite;
 }(Material));
-exports.SpriteMaterial = SpriteMaterial;
+exports.MaterialSprite = MaterialSprite;
+/**
+ * A material class is for a material state of a emiter of the core
+ */
+var MaterialRibbon = /** @class */ (function (_super) {
+    __extends(MaterialRibbon, _super);
+    function MaterialRibbon() {
+        var _this = _super.call(this) || this;
+        _this.texture = new texture_1.Texture();
+        _this.locations = {};
+        return _this;
+    }
+    MaterialRibbon.prototype.init = function (materialCore, particleSystemData) {
+        _super.prototype.init.call(this, materialCore, particleSystemData);
+        var gl = context_1.context.gl;
+        var locations = this.locations;
+        var shaderProgram = this.shaderProgram;
+        if (shaderProgram) {
+            locations.aVertexPos = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            locations.avertexUV = gl.getAttribLocation(shaderProgram, "aVertexUV");
+            locations.aVertexColor = gl.getAttribLocation(shaderProgram, "aVertexColor");
+            locations.uProjectionMatrix = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
+            locations.uModelViewMatrix = gl.getUniformLocation(shaderProgram, "uModelViewMatrix");
+            locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
+            locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
+        }
+        this.texture.init({
+            url: materialCore.texturePath
+        });
+    };
+    MaterialRibbon.prototype.render = function (cmd) {
+        _super.prototype.render.call(this, cmd);
+        if (!this.inited) {
+            log.warn("The material was not initialized successfully, so it can't be used for render.");
+            return;
+        }
+        var gl = context_1.context.gl;
+        var rData = render_data_1.renderData;
+        var psData = this.particleSystemData;
+        var modelViewMatrix = cmd.matrixModel;
+        var locations = this.locations;
+        var materialCore = this.matCore;
+        var drawData = psData.psCore.drawData;
+        var vFSizes = core.valueFormatSizes;
+        //Tell WebGL vertex info and assembly info.
+        gl.bindBuffer(gl.ARRAY_BUFFER, psData.vertexBuffer);
+        var offset = cmd.vertexBufferByteOffset;
+        var vertexInfo = drawData.vertexInfo;
+        // Position
+        gl.vertexAttribPointer(locations.aVertexPos, vertexInfo[0].count, getGLTypeFromValueFormat(vertexInfo[0].format, gl), false, drawData.vtxSize, offset);
+        offset += vFSizes[vertexInfo[0].format] * vertexInfo[0].count;
+        gl.enableVertexAttribArray(locations.aVertexPos);
+        // UV
+        gl.vertexAttribPointer(locations.avertexUV, vertexInfo[1].count, getGLTypeFromValueFormat(vertexInfo[1].format, gl), false, drawData.vtxSize, offset);
+        offset += vFSizes[vertexInfo[1].format] * vertexInfo[1].count;
+        gl.enableVertexAttribArray(locations.avertexUV);
+        // Color
+        gl.vertexAttribPointer(locations.aVertexColor, vertexInfo[2].count, getGLTypeFromValueFormat(vertexInfo[2].format, gl), true, drawData.vtxSize, offset);
+        gl.enableVertexAttribArray(locations.aVertexColor);
+        // Tell WebGL which indices to use to index the vertices
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, psData.indexBuffer);
+        //Use program
+        gl.useProgram(this.shaderProgram);
+        // Set the shader uniforms
+        gl.uniformMatrix4fv(locations.uProjectionMatrix, false, rData.projectionMatrix4x4);
+        gl.uniformMatrix4fv(locations.uModelViewMatrix, false, modelViewMatrix);
+        gl.uniform4fv(locations.uColor, materialCore.color);
+        // Tell WebGL we want to affect texture unit 0
+        gl.activeTexture(gl.TEXTURE0);
+        // Bind the texture to texture unit 0
+        gl.bindTexture(gl.TEXTURE_2D, this.texture.glTexture);
+        // Tell the shader we bound the texture to texture unit 0
+        gl.uniform1i(locations.uSampler, 0);
+        gl.enable(gl.BLEND);
+        gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
+        gl.blendFunc(getGLBlendFactor(materialCore.srcBlendFactor, gl), getGLBlendFactor(materialCore.dstBlendFactor, gl));
+        gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
+        this._stats.addDrawCall();
+    };
+    return MaterialRibbon;
+}(Material));
+exports.MaterialRibbon = MaterialRibbon;
 var materials = [];
 materials[core.MaterialType.UNDEFINED] = null;
-materials[core.MaterialType.SPRITE] = SpriteMaterial;
+materials[core.MaterialType.SPRITE] = MaterialSprite;
+materials[core.MaterialType.RIBBON] = MaterialRibbon;
 function createMaterial(materialCore, particleSystemData) {
     var materialClass = materials[materialCore.type];
     if (materialClass) {

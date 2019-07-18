@@ -16,8 +16,8 @@ var Renderer = /** @class */ (function () {
             var rD = render_data_1.renderData;
             var projectionMatrix = rD.projectionMatrix;
             var projectionMatrix4x4 = rD.projectionMatrix4x4;
-            glMatrix.mat4.identity(projectionMatrix4x4);
-            glMatrix.mat3.fromScaling(projectionMatrix, [2 / info.width || 2, 2 / info.height || 2]);
+            core.Matrix4x4.identity(projectionMatrix4x4);
+            core.Matrix.fromScaling(projectionMatrix, [2 / info.width || 2, 2 / info.height || 2]);
             glMatrix.mat4.fromScaling(projectionMatrix4x4, [2 / (info.width || 2), 2 / (info.height || 2), 2 / (info.depth || 2)]);
             var infoClearColor = info.clearColor;
             if (info.clearColor) {
