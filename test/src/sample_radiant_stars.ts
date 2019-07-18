@@ -20,7 +20,8 @@ export const psInfo: core.ParticleSystemInfo = {
             {
                 name: "spawn",
                 rate: 100,
-                duration: 3
+                duration: 3,
+                delay: 5,
             },
             {
                 name: "size_initial",
