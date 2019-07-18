@@ -221,6 +221,7 @@ class App {
             else return false;
         });
         this._updateParticleSystem();
+        this._updatePlayerBtns();
     }
 
     private _onChangeShowBounds(e: Event) {
