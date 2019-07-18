@@ -45,6 +45,14 @@
             pointer-events: all;
         }
 
+        #interaction_secondary {
+            display: block;
+            position: absolute;
+            right: 0%;
+            bottom: 0%;
+            pointer-events: all;
+        }
+
         select, button {
             vertical-align: middle;
         }
@@ -79,6 +87,10 @@
         #stopbtn {
             background-position: -31.5px, 0px;
         }
+
+        #labelShowBounds {
+            color: white;
+        }
     </style>
 </head>
 
@@ -96,7 +108,12 @@
             <button type="button" id="pausebtn" class="playerbtns"></button>
             <button type="button" id="stopbtn" class="playerbtns"></button>
         </div>
-
+        <div id="interaction_secondary">
+            <div>
+                <input type="checkbox" id="checkShowBounds" checked>
+                <label id="labelShowBounds" for="checkShowBounds">Show bounds</label>
+            </div>
+        </div>
     </div>
     <script src="./build/index.pack.js"></script>
 </body>

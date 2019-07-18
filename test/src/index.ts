@@ -15,6 +15,7 @@ import * as sampleRotation from "./sample_rotation";
 import * as sampleRotationRandom from "./sample_rotation_random";
 import * as sampleRibbon from "./sample_ribbon";
 import { stats } from "../../renderer/stat";
+import { renderData } from "../../renderer/render_data";
 
 const tests: { name: string; info: core.ParticleSystemInfo; moveable?: boolean }[] = [
     { name: sampleRadiantStars.name, info: sampleRadiantStars.psInfo },
@@ -93,13 +94,8 @@ class App {
                 context._lastTime = new Date().getTime();
             })
             .then(() => {
-                let selectElement = document.getElementById("select");
-                tests.forEach(test => {
-                    let newElement = document.createElement("option");
-                    newElement.innerText = test.name;
-                    selectElement.appendChild(newElement);
-                });
-                selectElement.onchange = context._onChangeSelect.bind(context);
+                context._initSelectOptions();
+                context._initSecondaryInteraction();
             })
             .then(() => {
                 context._updateParticleSystem();
@@ -108,6 +104,21 @@ class App {
             .then(() => {
                 context._initMouseEventHandlers();
             });
+    }
+
+    private _initSelectOptions() {
+        let selectElement = document.getElementById("select");
+        tests.forEach(test => {
+            let newElement = document.createElement("option");
+            newElement.innerText = test.name;
+            selectElement.appendChild(newElement);
+        });
+        selectElement.addEventListener("change", this._onChangeSelect.bind(this));
+    }
+
+    private _initSecondaryInteraction() {
+        let checkShowBoundsElement = document.getElementById("checkShowBounds");
+        checkShowBoundsElement.addEventListener("change", this._onChangeShowBounds.bind(this));
     }
 
     private _initPlayerBtns() {
@@ -210,6 +221,11 @@ class App {
             else return false;
         });
         this._updateParticleSystem();
+    }
+
+    private _onChangeShowBounds(e: Event) {
+        let checkShowBoundsElement: HTMLInputElement = e.target as HTMLInputElement;
+        renderData.showBounds = checkShowBoundsElement.checked;
     }
 
     private _onClickStop() {

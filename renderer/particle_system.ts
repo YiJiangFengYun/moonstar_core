@@ -96,7 +96,7 @@ export class ParticleSystem implements core.IPlayer {
                     if (material) {
                         material.render(cmd);
                     }
-                    if (! core.Bounds.isEmpty(bounds)) {
+                    if (rData.showBounds && ! core.Bounds.isEmpty(bounds)) {
                         let width = bounds[2] - bounds[0];
                         let height = bounds[3] - bounds[1];
                         core.Vector.set(boundsPosHelper, bounds[0] + width / 2, bounds[1] + height / 2);

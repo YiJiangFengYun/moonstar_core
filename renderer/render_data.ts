@@ -6,11 +6,13 @@ export interface RenderData {
     projectionMatrix4x4: glMatrix.mat4;
     clearColor: core.Color;
     viewBounds: core.Bounds;
+    showBounds: boolean;
 }
 
-export const renderData = {
+export const renderData: RenderData = {
     projectionMatrix: core.Matrix.create(),
     projectionMatrix4x4: glMatrix.mat4.create(),
     clearColor: core.Color.create(),
     viewBounds: core.Bounds.create(),
+    showBounds: true,
 };
