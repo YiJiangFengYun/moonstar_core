@@ -173,6 +173,12 @@ export class EmitterPlayer extends common.Player {
         this.emitComplete = false;
         this.completed = false;
         this.particleCount = 0;
+
+        let playerCount = this.playerCount;
+        let players = this.players;
+        for (let i = 0; i < playerCount; ++i) {
+            players[i].reset();
+        }
     }
 
     private _prepareParticles() {
