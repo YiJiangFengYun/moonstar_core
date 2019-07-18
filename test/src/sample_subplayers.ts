@@ -98,7 +98,7 @@ export const psInfo: core.ParticleSystemInfo = {
                     colorEnd: [1, 1, 1, 0],
                 },
             ],
-            count: 10,
+            count: 3,
         }
     ],
 }
