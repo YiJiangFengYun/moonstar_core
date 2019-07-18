@@ -41,19 +41,20 @@ export class ModSpawn extends Module {
             }
 
             let dt2 = Math.min(dt, this.duration + delay - time);
-            if (this.interval && dt2 > 0) {
+            if (dt2 > 0) {
                 let interval = this.interval;
                 dt2 = this._remainTime + dt2;
                 let pCount = Math.ceil(dt2 / interval);
-                this._remainTime = (dt2 - interval) % interval;
+                this._remainTime = dt2 % interval;
+                if (this._remainTime > 0) this._remainTime -= interval;
                 while (pCount > 0) {
                     player.createParticle();
                     --pCount;
                 }
             }
             
-            if (this.player.emitted && dt2 <= 0) {
-                this.player.endEmit();
+            if (player.emitted && ! player.emitComplete && dt2 <= 0) {
+                player.endEmit();
             }
         }
         this._time += dt;
