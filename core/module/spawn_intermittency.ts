@@ -47,8 +47,20 @@ export class ModSpawnIntermittency extends Module {
             }
             time = time - delay;
             if (time < this.duration) {
-                time = time % this.period;
-                let dt2 = Math.min(dt, this.durationPerPeriod - time);
+                let period = this.period;
+                let durationPerPeriod = this.durationPerPeriod;
+                let time2 = time + dt;
+                let sliceIndex1 = Math.floor(time / period);
+                let sliceIndex2 = Math.floor(time2 / period);
+                time = time % period;
+                time2 = time2 % period;
+                let dt2: number = 0;
+                if (sliceIndex1 !== sliceIndex2 && time2 >= durationPerPeriod) {
+                    //Prevent from missing while durationPerPeriod is smaller than dt.
+                    dt2 = durationPerPeriod;
+                } else {
+                    dt2 = Math.min(dt, this.durationPerPeriod - time);
+                }
                 if (dt2 > 0) {
                     let interval = this.interval;
                     dt2 = this._remainTime + dt2;
