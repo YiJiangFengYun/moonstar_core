@@ -7,7 +7,7 @@ export class ModSpawn extends Module {
     public duration: number;
     public delay: number;
 
-    // private _time: number = 0;
+    private _time: number = 0;
     private _remainTime: number = 0;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
@@ -20,20 +20,19 @@ export class ModSpawn extends Module {
         this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
         this.delay = info.delay || 0;
-        // this._time = 0;
+        this._time = 0;
 
     }
 
     public reset() {
         super.reset();
-        // this._time = 0;
+        this._time = 0;
         this._remainTime = 0;
     }
 
     public update(dt: number) {
         let delay = this.delay;
-        // let time = this._time;
-        let time = this.player.time;
+        let time = this._time;
         if (time > delay) {
 
             let player = this.player;
@@ -57,6 +56,6 @@ export class ModSpawn extends Module {
                 this.player.endEmit();
             }
         }
-        // this._time += dt;
+        this._time += dt;
     }
 }
