@@ -50,6 +50,7 @@ export const psInfo: core.ParticleSystemInfo = {
                 texturePath: "./res/lightning.png",
                 head: [-200, 0],
                 tail: [200, 0],
+                ribbon: true,
             },
         ]
     }],
