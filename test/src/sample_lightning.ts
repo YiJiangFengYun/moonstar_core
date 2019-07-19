@@ -21,12 +21,12 @@ export const psInfo: core.ParticleSystemInfo = {
             },
             {
                 name: "life_time_initial",
-                life: 0.5,
+                life: 0.05,
             },
             {
                 name: "spawn_intermittency",
                 duration: 30,
-                period: 0.5,
+                period: 0.05,
                 durationPerPeriod: 0.01,
                 rate: 1000,
             },
