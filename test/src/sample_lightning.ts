@@ -5,7 +5,7 @@
 // 4. Sort line segment
 // 5. Life time
 // 6. Life time initial
-// 7. Width initial random
+// 7. Width initial
 // options:
 // *. SubUV initial random
 import * as core from "../../core";
