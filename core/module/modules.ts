@@ -29,12 +29,15 @@ import { ModVelocityOverLife } from "./velocity_over_life";
 import { ModVelocityInitialVary } from "./velocity_initial_vary";
 import { ModSpawnIntermittency } from "./spawn_intermittency";
 import { ModLocationInitialLineSegment } from "./location_initial_line_segment";
+import { ModSortLineSegment } from "./sort_line_segment";
+import { ModSpriteConnected } from "./sprite_connected";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
 // Render modules
 mapModules[ModSprite.NAME] = ModSprite;
 mapModules[ModRibbon.NAME] = ModRibbon;
+mapModules[ModSpriteConnected.NAME] = ModSpriteConnected;
 
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
@@ -80,6 +83,9 @@ mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
 //Sub player modules
 mapModules[ModSubPlayerSimple.NAME] = ModSubPlayerSimple;
 
+//Sort modules
+mapModules[ModSortLineSegment.NAME] = ModSortLineSegment;
+
 export const moduleGroup = {
     sprite: [
         { module: ModSprite, required: true, default: true },
@@ -103,6 +109,7 @@ export const moduleGroup = {
 
 export const renderModules: typeof Module[] = [];
 
-renderModules.length = 2;
+renderModules.length = 3;
 renderModules[0] = ModSprite;
 renderModules[1] = ModRibbon;
+renderModules[2] = ModSpriteConnected;

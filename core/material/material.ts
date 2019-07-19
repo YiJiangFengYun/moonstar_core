@@ -23,6 +23,7 @@ export enum MaterialType {
     UNDEFINED,
     SPRITE,
     RIBBON,
+    SPRITE_CONNECTED,
 }
 
 //class Material with members: color, texture path, and blend.
