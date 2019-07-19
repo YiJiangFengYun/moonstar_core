@@ -10,6 +10,7 @@ export class ModSpriteConnected extends Module implements ModRender {
     public material: material.Material = new material.Material(material.MaterialType.SPRITE_CONNECTED);
     public head: common.Vector;
     public tail: common.Vector;
+    public ribbon: boolean;
 
     private _posHelper: common.Vector = common.Vector.create();
     private _uvHelper: common.Vector = common.Vector.create();
@@ -18,6 +19,7 @@ export class ModSpriteConnected extends Module implements ModRender {
     private _scaleHelper: common.Vector = common.Vector.create();
     private _colorHelper: common.Color = common.Color.create();
     private _vectorHelper: common.Vector = common.Vector.create();
+    private _vectorHelper2: common.Vector = common.Vector.create();
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
@@ -43,6 +45,7 @@ export class ModSpriteConnected extends Module implements ModRender {
         } else {
             this.tail = null;
         }
+        this.ribbon = info.ribbon || false;
     }
 
     public getTotalVtxCount(): number {
@@ -54,7 +57,11 @@ export class ModSpriteConnected extends Module implements ModRender {
         if (this.tail) {
             ++particleCount;
         }
-        return Math.max(0, 4 * (particleCount - 1));
+        if (this.ribbon) {
+            return 2 * particleCount;
+        } else {
+            return Math.max(0, 4 * (particleCount - 1));
+        }
     }
 
     public getTotalIdxCount(): number {
@@ -77,7 +84,11 @@ export class ModSpriteConnected extends Module implements ModRender {
         if (this.tail) {
             ++particleCount;
         }
-        return  Math.max(0, 4 * (particleCount - 1));
+        if (this.ribbon) {
+            return 2 * particleCount;
+        } else {
+            return  Math.max(0, 4 * (particleCount - 1));
+        }
     }
 
     public getMaxIdxCount(): number {
@@ -101,6 +112,7 @@ export class ModSpriteConnected extends Module implements ModRender {
         let player = this.player;
         let head = this.head;
         let tail = this.tail;
+        let ribbon = this.ribbon;
         let particles = player.particles;
         let particleCount = player.particleCount;
         let finalParticleCount = particleCount;
@@ -122,24 +134,36 @@ export class ModSpriteConnected extends Module implements ModRender {
             scale2: common.Vector,
             color1: common.Color,
             color2: common.Color,
+            lastPos: common.Vector, // It is for ribbon
         ) => {
             let posHelper = context._posHelper;
             let uvHelper = context._uvHelper;
             let perpHelper = context._vectorHelper;
             let total = finalParticleCount;
+            let totalDecOne = total - 1;
+            let isRibbon = ribbon;
 
             let halfSize1 = scale1[0] * size1[0] * 0.5;
             let halfSize2 = scale2[0] * size2[0] * 0.5;
 
-            common.Vector.sub(perpHelper, pos2, pos1);
-            common.Vector.normalize(perpHelper, perpHelper);
+            if (isRibbon && lastPos) {
+                let vecHelper = this._vectorHelper2;
+                common.Vector.sub(vecHelper, pos1, lastPos);
+                common.Vector.sub(perpHelper, pos2, pos1);
+                common.Vector.normalize(vecHelper, vecHelper);
+                common.Vector.normalize(perpHelper, perpHelper);
+                common.Vector.add(perpHelper, vecHelper, perpHelper);
+            } else {
+                common.Vector.sub(perpHelper, pos2, pos1);
+                common.Vector.normalize(perpHelper, perpHelper);
+            }
             //Perpendicular
             common.Vector.set(perpHelper, - perpHelper[1], perpHelper[0]);
 
             //Vertex 0 left top
             common.Vector.scaleAndAdd(posHelper, pos1, perpHelper, - halfSize1);
             uvHelper[0] = 0;
-            uvHelper[1] = sliceIndex / total;
+            uvHelper[1] = sliceIndex / totalDecOne;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                 pos: posHelper,
                 uv: uvHelper,
@@ -149,32 +173,42 @@ export class ModSpriteConnected extends Module implements ModRender {
             //Vertex 1 right top
             common.Vector.scaleAndAdd(posHelper, pos1, perpHelper, halfSize1);
             uvHelper[0] = 1;
-            uvHelper[1] = sliceIndex / total;
+            uvHelper[1] = sliceIndex / totalDecOne;
             vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
                 pos: posHelper,
                 uv: uvHelper,
                 color: color1,
             }, vtxBufferByteOffset);
 
-            //Vertex 2 left bottom
-            common.Vector.scaleAndAdd(posHelper, pos2, perpHelper, - halfSize2);
-            uvHelper[0] = 0;
-            uvHelper[1] = (sliceIndex + 1) / total;
-            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                pos: posHelper,
-                uv: uvHelper,
-                color: color2,
-            }, vtxBufferByteOffset);
+            if (! ribbon || sliceIndex === totalDecOne - 1) {
 
-            //Vertex 3 right bottom
-            common.Vector.scaleAndAdd(posHelper, pos2, perpHelper, halfSize2);
-            uvHelper[0] = 1;
-            uvHelper[1] = (sliceIndex + 1) / total;
-            vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
-                pos: posHelper,
-                uv: uvHelper,
-                color: color2,
-            }, vtxBufferByteOffset);
+                if (ribbon) { //Recaculate perpendicular vector for final point.
+                    common.Vector.sub(perpHelper, pos2, pos1);
+                    common.Vector.normalize(perpHelper, perpHelper);
+                    //Perpendicular
+                    common.Vector.set(perpHelper, - perpHelper[1], perpHelper[0]);
+                }
+
+                //Vertex 2 left bottom
+                common.Vector.scaleAndAdd(posHelper, pos2, perpHelper, - halfSize2);
+                uvHelper[0] = 0;
+                uvHelper[1] = (sliceIndex + 1) / totalDecOne;
+                vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                    pos: posHelper,
+                    uv: uvHelper,
+                    color: color2,
+                }, vtxBufferByteOffset);
+    
+                //Vertex 3 right bottom
+                common.Vector.scaleAndAdd(posHelper, pos2, perpHelper, halfSize2);
+                uvHelper[0] = 1;
+                uvHelper[1] = (sliceIndex + 1) / totalDecOne;
+                vtxBufferByteOffset = vtxBufferByteOffset = drawData.fillVertex({
+                    pos: posHelper,
+                    uv: uvHelper,
+                    color: color2,
+                }, vtxBufferByteOffset);
+            }
 
             //Index
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 0, idxBufferByteOffset);
@@ -184,7 +218,11 @@ export class ModSpriteConnected extends Module implements ModRender {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 3, idxBufferByteOffset);
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
 
-            idxValueOffset += 4;
+            if (ribbon) {
+                idxValueOffset += 2;
+            } else {
+                idxValueOffset += 4;
+            }
         }
 
         let sizeHelper = this._sizeHelper;
@@ -227,6 +265,7 @@ export class ModSpriteConnected extends Module implements ModRender {
                     scale,
                     colorLast,
                     color,
+                    particleIndex > 1 ? particles[particleIndex - 2].pos : head,
                 );
                 ++sliceIndex;
             } else if (head) {
@@ -240,6 +279,7 @@ export class ModSpriteConnected extends Module implements ModRender {
                     scale, 
                     colorHelper,
                     color,
+                    null,
                 );
                 ++sliceIndex;
             }
@@ -265,7 +305,8 @@ export class ModSpriteConnected extends Module implements ModRender {
                     scale,
                     scaleHelper, 
                     color,
-                    colorHelper
+                    colorHelper,
+                    particleCount > 1 ? particles[particleCount - 2].pos : head,
                 );
             } else {
                 fillVertexData(
@@ -278,6 +319,7 @@ export class ModSpriteConnected extends Module implements ModRender {
                     common.VECTOR_ONE,
                     colorHelper,
                     common.COLOR_WHITE,
+                    null,
                 );
             }
         }
