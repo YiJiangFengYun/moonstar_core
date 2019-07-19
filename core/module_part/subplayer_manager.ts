@@ -1,3 +1,4 @@
+import * as log from "loglevel";
 import * as emitterPlayer from "../emitter_player";
 import { ModulePart } from "./module_part";
 
@@ -33,6 +34,10 @@ export class SubPlayerManager implements ModulePart {
             let idleIndexs = this.idlePlayerIndexs;
             let index = idleIndexs[idleCount];
             this.idlePlayerIndexCount = idleCount;
+            let player = this.player.players[index];
+            if (player.isPlay) {
+                log.warn(`Subplayer manager: the player allocated is not idle, it is playing.`);
+            }
             return index;
         } else {
             return null;
@@ -40,6 +45,10 @@ export class SubPlayerManager implements ModulePart {
     }
 
     public freePlayer(index: number) {
+        let player = this.player.players[index];
+        if (player.isPlay) {
+            log.warn(`Subplayer manager: the player deallocated is still playing.`);
+        }
         this.idlePlayerIndexs[this.idlePlayerIndexCount++] = index;
     }
 
