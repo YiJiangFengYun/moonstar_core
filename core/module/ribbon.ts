@@ -126,9 +126,9 @@ export class ModRibbon extends Module implements ModRender {
                 let sizeWidth = size[0];
                 let color = particle.color || common.COLOR_WHITE;
                 let life = (particle as any).life;
-                let width = scaleWidth * sizeWidth;
-                let vec_width_x = vecPerpendicular[0] * width;
-                let vec_width_y = vecPerpendicular[1] * width;
+                let widthHalf = scaleWidth * sizeWidth * 0.5;
+                let vec_width_x = vecPerpendicular[0] * widthHalf;
+                let vec_width_y = vecPerpendicular[1] * widthHalf;
 
                 //The vertex of the left.
                 posHelper[0] = particlePos[0] - vec_width_x;
