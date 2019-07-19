@@ -7,7 +7,7 @@ import { ModColorOverLife } from "./color_over_life";
 import { ModLocationInitialCircle } from "./location_initial_circle";
 import { ModOrientationInitialRadiation } from "./orientation_initial_radiation";
 import { ModSubUVSpriteSheetSimple } from "./subuv_spritesheet_simple";
-import { ModSubPlayerSimple } from "./subplayer_simple";
+import { ModSubPlayerAfterDestroy } from "./subplayer_after_destroy";
 import { ModSizeInitialRandom } from "./size_initial_random";
 import { ModLocationInitialCircleBorder } from "./location_initial_circle_border";
 import { ModLocationInitialRectangle } from "./location_initial_rectangle";
@@ -81,7 +81,7 @@ mapModules[ModVelocityOverLife.NAME] = ModVelocityOverLife;
 mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
 
 //Sub player modules
-mapModules[ModSubPlayerSimple.NAME] = ModSubPlayerSimple;
+mapModules[ModSubPlayerAfterDestroy.NAME] = ModSubPlayerAfterDestroy;
 
 //Sort modules
 mapModules[ModSortLineSegment.NAME] = ModSortLineSegment;

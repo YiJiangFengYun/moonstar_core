@@ -46,7 +46,7 @@ export const psInfo: core.ParticleSystemInfo = {
                     velocity: [50, 0],
                 },
                 {
-                    name: "subplayer_simple",
+                    name: "subplayer_after_destroy",
                 }
             ]
         },
