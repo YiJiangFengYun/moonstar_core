@@ -57,8 +57,9 @@ export class ModSubPlayerFollow extends Module {
 
     private _onCreatedParticle(particle: particleMod.Particle) {
         let index = this.subPlayer.usePlayer();
-        if (index >= 0) {
+        if (typeof index === "number") {
             let subPlayer = this.player.players[index];
+            subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
             subPlayer.setPosition(particle.pos);
             subPlayer.play();
             if (this.mapUsedSubPlayers[particle.id]) {
@@ -70,16 +71,21 @@ export class ModSubPlayerFollow extends Module {
     }
 
     private _onDestroyedParticle(particle: particleMod.Particle) {
-        let players = this.player.players;
         let player = this.mapUsedSubPlayers[particle.id];
         if (player) {
-            player.stop();
-            let index = players.indexOf(player);
-            if (index >= 0) {
-                this.subPlayer.freePlayer(index);
-            } else {
-                log.error(`The freed subplayer is a invalid player.`);
-            }
+            player.endEmit();
+        }
+    }
+
+    private _onSubPlayerComplete(player: emitterPlayer.EmitterPlayer) {
+        let players = this.player.players;
+        let index = players.indexOf(player);
+        if (index >= 0) {
+            let subPlayer = players[index];
+            subPlayer.off(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
+            subPlayer.stop();
+            this.subPlayer.freePlayer(index);
+            let particle = this.mapUsedParticles[player.id];
             this.mapUsedSubPlayers[particle.id] = null;
             this.mapUsedParticles[player.id] = null;
         }
