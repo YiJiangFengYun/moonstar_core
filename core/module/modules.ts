@@ -31,6 +31,7 @@ import { ModSpawnIntermittency } from "./spawn_intermittency";
 import { ModLocationInitialLineSegment } from "./location_initial_line_segment";
 import { ModSortLineSegment } from "./sort_line_segment";
 import { ModSpriteConnected } from "./sprite_connected";
+import { ModSubPlayerFollow } from "./subplayer_follow";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
@@ -82,6 +83,7 @@ mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
 
 //Sub player modules
 mapModules[ModSubPlayerAfterDestroy.NAME] = ModSubPlayerAfterDestroy;
+mapModules[ModSubPlayerFollow.NAME] = ModSubPlayerFollow;
 
 //Sort modules
 mapModules[ModSortLineSegment.NAME] = ModSortLineSegment;

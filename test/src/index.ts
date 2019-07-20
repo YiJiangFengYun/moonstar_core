@@ -17,6 +17,7 @@ import * as sampleRibbon from "./sample_ribbon";
 import * as sampleSpawnIntermittency from "./sample_spawn_intermittency";
 import * as sampleLocationLineSegment from "./sample_location_line_segment";
 import * as sampleLightning from "./sample_lightning";
+import * as sampleSubplayerFollow from "./sample_subplayer_follow";
 import { stats } from "../../renderer/stat";
 import { renderData } from "../../renderer/render_data";
 
@@ -38,6 +39,7 @@ const tests: { name: string; info: core.ParticleSystemInfo; moveable?: boolean }
     { name: sampleSpawnIntermittency.name, info: sampleSpawnIntermittency.psInfo },
     { name: sampleLocationLineSegment.name, info: sampleLocationLineSegment.psInfo },
     { name: sampleLightning.name, info: sampleLightning.psInfo },
+    { name: sampleSubplayerFollow.name, info: sampleSubplayerFollow.psInfo },
 ];
 
 const FRAME_INTERVAL = 20;
