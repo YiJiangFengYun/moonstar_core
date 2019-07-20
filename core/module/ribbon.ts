@@ -30,6 +30,7 @@ export class ModRibbon extends Module implements ModRender {
 
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreatedParticle, this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);
+        player.on(emitterPlayer.EVENT_RESET, this._onReset, this);
     }
 
     public init(info: any) {
@@ -187,8 +188,12 @@ export class ModRibbon extends Module implements ModRender {
         this.queueParticles.push(particle);
     }
 
-    private  _onDestroyedParticle() {
+    private _onDestroyedParticle() {
         this.queueParticles.pop();
+    }
+
+    private _onReset() {
+        this.queueParticles.empty();
     }
 
 }

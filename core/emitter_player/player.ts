@@ -3,7 +3,7 @@ import * as common from "../common";
 import * as particleMod from "../particle";
 import * as psDataMod from "../ps_data";
 import { EmitterPlayerInfo } from "./info";
-import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE, EVENT_CHANGE_POSITION, EVENT_CREATED_PARTICLE, EVENT_DESTROYED_PARTICLE } from "./events";
+import * as events from "./events";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
 
@@ -69,14 +69,14 @@ export class EmitterPlayer extends common.Player {
             this.emitted = true;
             this.emitComplete = false;
             this.completed = false;
-            this.emit(EVENT_START_EMITT, this);
+            this.emit(events.EVENT_START_EMITT, this);
         }
     }
 
     public endEmit() {
         if (! this.emitComplete) {
             this.emitComplete = true;
-            this.emit(EVENT_END_EMITT, this);
+            this.emit(events.EVENT_END_EMITT, this);
         }
     }
 
@@ -88,7 +88,7 @@ export class EmitterPlayer extends common.Player {
     public complete() {
         if (! this.completed) {
             this.completed = true;
-            this.emit(EVENT_COMPLETE, this);
+            this.emit(events.EVENT_COMPLETE, this);
         }
     }
 
@@ -129,7 +129,7 @@ export class EmitterPlayer extends common.Player {
     public setPosition(value: common.Vector | number[]) {
         common.Vector.copy(this._position, value);
         this._updateGlobalBounds();
-        this.emit(EVENT_CHANGE_POSITION, this);
+        this.emit(events.EVENT_CHANGE_POSITION, this);
     }
 
     public createParticle(pos?: common.Vector){
@@ -146,7 +146,7 @@ export class EmitterPlayer extends common.Player {
                 particle.pos = common.Vector.clone(pos || this.position);
                 // particle.pos = common.Vector.fromValues(0, 0);
             }
-            this.emit(EVENT_CREATED_PARTICLE, particle);
+            this.emit(events.EVENT_CREATED_PARTICLE, particle);
         }
         return particle;
     }
@@ -159,7 +159,7 @@ export class EmitterPlayer extends common.Player {
             let endParticle = particles[end];
             particles[end] = particles[index];
             particles[index] = endParticle;
-            this.emit(EVENT_DESTROYED_PARTICLE, particle);
+            this.emit(events.EVENT_DESTROYED_PARTICLE, particle);
             return true;
         } else {
             log.error("Can't find the particle from the particles for delete the particle.");
@@ -179,6 +179,8 @@ export class EmitterPlayer extends common.Player {
         for (let i = 0; i < playerCount; ++i) {
             players[i].reset();
         }
+
+        this.emit(events.EVENT_RESET, this);
     }
 
     private _prepareParticles() {
