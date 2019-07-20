@@ -1,6 +1,6 @@
 import * as log from "loglevel";
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as psDataMod from "../ps_data";
 import { EmitterPlayerInfo } from "./info";
 import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE, EVENT_CHANGE_POSITION, EVENT_CREATED_PARTICLE, EVENT_DESTROYED_PARTICLE } from "./events";
@@ -10,7 +10,7 @@ const DEFAULT_MAX_PARTICLE_COUNT = 100;
 export class EmitterPlayer extends common.Player {
     public root: boolean;
     public psData: psDataMod.PSData;
-    public particles: particle.Particle[] = [];
+    public particles: particleMod.Particle[] = [];
     public particleCount: number = 0;
     public players: EmitterPlayer[] = [];
     public playerCount: number = 0;
@@ -133,11 +133,11 @@ export class EmitterPlayer extends common.Player {
     }
 
     public createParticle(pos?: common.Vector){
-        let particle: particle.Particle;
+        let particle: particleMod.Particle;
         if (this.particleCount < this.maxParticleCount) {
             particle = this.particles[this.particleCount];
             if (! particle) this.particles[this.particleCount] = 
-                particle = { pos: common.Vector.create()};
+                particle = particleMod.create();
             ++this.particleCount;
             if (particle.pos) {
                 common.Vector.copy(particle.pos, pos || this.position);
@@ -151,7 +151,7 @@ export class EmitterPlayer extends common.Player {
         return particle;
     }
 
-    public deleteParticle(particle: particle.Particle) {
+    public deleteParticle(particle: particleMod.Particle) {
         let particles = this.particles;
         let index = particles.indexOf(particle);
         if (index >= 0) {
@@ -186,9 +186,7 @@ export class EmitterPlayer extends common.Player {
         let particles = this.particles;
         this.particles.length = this.particleCount;
         for (let i = 0; i < particleCount; ++i) {
-            if (! particles[i]) particles[i] = {
-                pos: common.Vector.create(),
-            };
+            if (! particles[i]) particles[i] = particleMod.create();
         }
     }
 
