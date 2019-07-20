@@ -48,7 +48,7 @@ export class ModRibbon extends Module implements ModRender {
     }
 
     public getTotalIdxCount(): number {
-        return (this.queueParticles.length - 1) * 6;
+        return Math.max(0, (this.queueParticles.length - 1) * 6);
     }
 
     public getMaxVtxCount(): number {
@@ -56,7 +56,7 @@ export class ModRibbon extends Module implements ModRender {
     }
 
     public getMaxIdxCount(): number {
-        return (this.player.maxParticleCount - 1) * 6;
+        return Math.max(0, (this.player.maxParticleCount - 1) * 6);
     }
 
     public fillBuffers(drawData: render.DrawData, offsets: {
