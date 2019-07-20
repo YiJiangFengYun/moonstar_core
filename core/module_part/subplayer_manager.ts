@@ -6,6 +6,8 @@ export class SubPlayerManager implements ModulePart {
     public player: emitterPlayer.EmitterPlayer;
     public idlePlayerIndexs: number[] = [];
     public idlePlayerIndexCount: number = 0;
+    public usedPlayerIndexs: number[] = [];
+    public usedPlayerIndexCount: number = 0;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         this.player = player;
     }
@@ -38,6 +40,7 @@ export class SubPlayerManager implements ModulePart {
             if (player.isPlay) {
                 log.warn(`Subplayer manager: the player allocated is not idle, it is playing.`);
             }
+            this.usedPlayerIndexs[this.usedPlayerIndexCount++] = index;
             return index;
         } else {
             return null;
@@ -50,6 +53,9 @@ export class SubPlayerManager implements ModulePart {
             log.warn(`Subplayer manager: the player deallocated is still playing.`);
         }
         this.idlePlayerIndexs[this.idlePlayerIndexCount++] = index;
+        let usedPlayerIndexs = this.usedPlayerIndexs;
+        let i = usedPlayerIndexs.indexOf(index);
+        usedPlayerIndexs[i] = usedPlayerIndexs[--this.usedPlayerIndexCount];
     }
 
     private _prepareAllPlayer() {
@@ -61,5 +67,7 @@ export class SubPlayerManager implements ModulePart {
             idlePlayerIndexs[i] = i;
         }
         this.idlePlayerIndexCount = subPlayerCount;
+        this.usedPlayerIndexs.length = subPlayerCount;
+        this.usedPlayerIndexCount = 0;
     }
 }
