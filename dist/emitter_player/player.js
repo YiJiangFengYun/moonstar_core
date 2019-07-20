@@ -15,8 +15,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var log = require("loglevel");
 var common = require("../common");
+var particleMod = require("../particle");
 var psDataMod = require("../ps_data");
-var events_1 = require("./events");
+var events = require("./events");
 var DEFAULT_MAX_PARTICLE_COUNT = 100;
 var EmitterPlayer = /** @class */ (function (_super) {
     __extends(EmitterPlayer, _super);
@@ -73,13 +74,13 @@ var EmitterPlayer = /** @class */ (function (_super) {
             this.emitted = true;
             this.emitComplete = false;
             this.completed = false;
-            this.emit(events_1.EVENT_START_EMITT, this);
+            this.emit(events.EVENT_START_EMITT, this);
         }
     };
     EmitterPlayer.prototype.endEmit = function () {
-        if (this.emitComplete) {
+        if (!this.emitComplete) {
             this.emitComplete = true;
-            this.emit(events_1.EVENT_END_EMITT, this);
+            this.emit(events.EVENT_END_EMITT, this);
         }
     };
     EmitterPlayer.prototype.checkComplete = function () {
@@ -90,7 +91,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
     EmitterPlayer.prototype.complete = function () {
         if (!this.completed) {
             this.completed = true;
-            this.emit(events_1.EVENT_COMPLETE, this);
+            this.emit(events.EVENT_COMPLETE, this);
         }
     };
     Object.defineProperty(EmitterPlayer.prototype, "position", {
@@ -140,7 +141,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
     EmitterPlayer.prototype.setPosition = function (value) {
         common.Vector.copy(this._position, value);
         this._updateGlobalBounds();
-        this.emit(events_1.EVENT_CHANGE_POSITION, this);
+        this.emit(events.EVENT_CHANGE_POSITION, this);
     };
     EmitterPlayer.prototype.createParticle = function (pos) {
         var particle;
@@ -148,7 +149,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
             particle = this.particles[this.particleCount];
             if (!particle)
                 this.particles[this.particleCount] =
-                    particle = { pos: common.Vector.create() };
+                    particle = particleMod.create();
             ++this.particleCount;
             if (particle.pos) {
                 common.Vector.copy(particle.pos, pos || this.position);
@@ -158,7 +159,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
                 particle.pos = common.Vector.clone(pos || this.position);
                 // particle.pos = common.Vector.fromValues(0, 0);
             }
-            this.emit(events_1.EVENT_CREATED_PARTICLE, particle);
+            this.emit(events.EVENT_CREATED_PARTICLE, particle);
         }
         return particle;
     };
@@ -170,7 +171,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
             var endParticle = particles[end];
             particles[end] = particles[index];
             particles[index] = endParticle;
-            this.emit(events_1.EVENT_DESTROYED_PARTICLE, particle);
+            this.emit(events.EVENT_DESTROYED_PARTICLE, particle);
             return true;
         }
         else {
@@ -184,6 +185,12 @@ var EmitterPlayer = /** @class */ (function (_super) {
         this.emitComplete = false;
         this.completed = false;
         this.particleCount = 0;
+        var playerCount = this.playerCount;
+        var players = this.players;
+        for (var i = 0; i < playerCount; ++i) {
+            players[i].reset();
+        }
+        this.emit(events.EVENT_RESET, this);
     };
     EmitterPlayer.prototype._prepareParticles = function () {
         var particleCount = this._maxParticleCount;
@@ -191,9 +198,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
         this.particles.length = this.particleCount;
         for (var i = 0; i < particleCount; ++i) {
             if (!particles[i])
-                particles[i] = {
-                    pos: common.Vector.create(),
-                };
+                particles[i] = particleMod.create();
         }
     };
     EmitterPlayer.prototype._updateGlobalBounds = function () {

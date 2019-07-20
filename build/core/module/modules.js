@@ -8,7 +8,7 @@ var color_over_life_1 = require("./color_over_life");
 var location_initial_circle_1 = require("./location_initial_circle");
 var orientation_initial_radiation_1 = require("./orientation_initial_radiation");
 var subuv_spritesheet_simple_1 = require("./subuv_spritesheet_simple");
-var subplayer_simple_1 = require("./subplayer_simple");
+var subplayer_after_destroy_1 = require("./subplayer_after_destroy");
 var size_initial_random_1 = require("./size_initial_random");
 var location_initial_circle_border_1 = require("./location_initial_circle_border");
 var location_initial_rectangle_1 = require("./location_initial_rectangle");
@@ -28,13 +28,20 @@ var ribbon_1 = require("./ribbon");
 var life_time_initial_1 = require("./life_time_initial");
 var velocity_over_life_1 = require("./velocity_over_life");
 var velocity_initial_vary_1 = require("./velocity_initial_vary");
+var spawn_intermittency_1 = require("./spawn_intermittency");
+var location_initial_line_segment_1 = require("./location_initial_line_segment");
+var sort_line_segment_1 = require("./sort_line_segment");
+var sprite_connected_1 = require("./sprite_connected");
+var subplayer_follow_1 = require("./subplayer_follow");
 exports.mapModules = {};
 // Render modules
 exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
 exports.mapModules[ribbon_1.ModRibbon.NAME] = ribbon_1.ModRibbon;
+exports.mapModules[sprite_connected_1.ModSpriteConnected.NAME] = sprite_connected_1.ModSpriteConnected;
 // Spawn modules
 exports.mapModules[spawn_1.ModSpawn.NAME] = spawn_1.ModSpawn;
 exports.mapModules[spawn_moving_1.ModSpawnMoving.NAME] = spawn_moving_1.ModSpawnMoving;
+exports.mapModules[spawn_intermittency_1.ModSpawnIntermittency.NAME] = spawn_intermittency_1.ModSpawnIntermittency;
 // Velocity module
 exports.mapModules[velocity_1.ModVelocity.NAME] = velocity_1.ModVelocity;
 // Rotation module
@@ -44,6 +51,7 @@ exports.mapModules[size_initial_1.ModSizeInitial.NAME] = size_initial_1.ModSizeI
 exports.mapModules[location_initial_circle_1.ModLocationInitialCircle.NAME] = location_initial_circle_1.ModLocationInitialCircle;
 exports.mapModules[location_initial_circle_border_1.ModLocationInitialCircleBorder.NAME] = location_initial_circle_border_1.ModLocationInitialCircleBorder;
 exports.mapModules[location_initial_rectangle_1.ModLocationInitialRectangle.NAME] = location_initial_rectangle_1.ModLocationInitialRectangle;
+exports.mapModules[location_initial_line_segment_1.ModLocationInitialLineSegment.NAME] = location_initial_line_segment_1.ModLocationInitialLineSegment;
 exports.mapModules[orientation_initial_radiation_1.ModOrientationInitialRadiation.NAME] = orientation_initial_radiation_1.ModOrientationInitialRadiation;
 exports.mapModules[size_initial_random_1.ModSizeInitialRandom.NAME] = size_initial_random_1.ModSizeInitialRandom;
 exports.mapModules[color_initial_1.ModColorInitial.NAME] = color_initial_1.ModColorInitial;
@@ -65,7 +73,10 @@ exports.mapModules[velocity_over_life_1.ModVelocityOverLife.NAME] = velocity_ove
 //Sub UV modules
 exports.mapModules[subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple.NAME] = subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple;
 //Sub player modules
-exports.mapModules[subplayer_simple_1.ModSubPlayerSimple.NAME] = subplayer_simple_1.ModSubPlayerSimple;
+exports.mapModules[subplayer_after_destroy_1.ModSubPlayerAfterDestroy.NAME] = subplayer_after_destroy_1.ModSubPlayerAfterDestroy;
+exports.mapModules[subplayer_follow_1.ModSubPlayerFollow.NAME] = subplayer_follow_1.ModSubPlayerFollow;
+//Sort modules
+exports.mapModules[sort_line_segment_1.ModSortLineSegment.NAME] = sort_line_segment_1.ModSortLineSegment;
 exports.moduleGroup = {
     sprite: [
         { module: sprite_1.ModSprite, required: true, default: true },
@@ -87,7 +98,8 @@ exports.moduleGroup = {
     ]
 };
 exports.renderModules = [];
-exports.renderModules.length = 2;
+exports.renderModules.length = 3;
 exports.renderModules[0] = sprite_1.ModSprite;
 exports.renderModules[1] = ribbon_1.ModRibbon;
+exports.renderModules[2] = sprite_connected_1.ModSpriteConnected;
 //# sourceMappingURL=modules.js.map

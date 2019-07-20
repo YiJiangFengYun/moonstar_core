@@ -7,6 +7,7 @@ var emitter_player = require("../emitter_player");
 var Emitter = /** @class */ (function () {
     function Emitter(psData) {
         this.modules = [];
+        this.mapModules = {};
         this._id = common.gainID();
         this.player = new emitter_player.EmitterPlayer(psData);
     }
@@ -21,17 +22,24 @@ var Emitter = /** @class */ (function () {
         this.name = info.name;
         this.player.init(info, !info.parent);
         var modules = this.modules;
+        var mapModules = this.mapModules;
         var newModCount = info.modules ? info.modules.length : 0;
         modules.length = newModCount;
         for (var i = 0; i < newModCount; ++i) {
-            var moduleClass = module.mapModules[info.modules[i].name];
+            var moduleConfig = info.modules[i];
+            var name_1 = moduleConfig.name;
+            var moduleClass = module.mapModules[name_1];
             if (!moduleClass)
-                throw new Error("The module " + info.modules[i].name + " is invalid.");
+                throw new Error("The module " + name_1 + " is invalid.");
             modules[i] = new moduleClass(this.player);
-            modules[i].init(info.modules[i]);
+            modules[i].init(moduleConfig);
+            if (mapModules[name_1]) {
+                log.warn("There are multiple modules with the same name applied to the emitter.");
+            }
+            mapModules[name_1] = modules[i];
             if (module.renderModules.indexOf(moduleClass) >= 0) {
                 if (this.renderModule) {
-                    log.warn("There multiple render modules applied to the emitter.");
+                    log.warn("There are multiple render modules applied to the emitter.");
                 }
                 this.renderModule = modules[i];
             }
@@ -63,6 +71,9 @@ var Emitter = /** @class */ (function () {
         this.modules.forEach(function (mod) {
             mod.reset();
         });
+    };
+    Emitter.prototype.getModule = function (type) {
+        return this.mapModules[type.NAME];
     };
     return Emitter;
 }());

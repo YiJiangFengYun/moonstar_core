@@ -1,12 +1,12 @@
 /// <reference types="gl-matrix" />
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as psDataMod from "../ps_data";
 import { EmitterPlayerInfo } from "./info";
 export declare class EmitterPlayer extends common.Player {
     root: boolean;
     psData: psDataMod.PSData;
-    particles: particle.Particle[];
+    particles: particleMod.Particle[];
     particleCount: number;
     players: EmitterPlayer[];
     playerCount: number;
@@ -33,8 +33,8 @@ export declare class EmitterPlayer extends common.Player {
     readonly position: import("gl-matrix").vec2;
     readonly rotation: number;
     setPosition(value: common.Vector | number[]): void;
-    createParticle(pos?: common.Vector): particle.Particle;
-    deleteParticle(particle: particle.Particle): boolean;
+    createParticle(pos?: common.Vector): particleMod.Particle;
+    deleteParticle(particle: particleMod.Particle): boolean;
     protected _reset(): void;
     private _prepareParticles;
     private _updateGlobalBounds;

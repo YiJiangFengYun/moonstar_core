@@ -39,7 +39,9 @@ var Player = /** @class */ (function (_super) {
         this.elapsedTime = 0;
     };
     Player.prototype.update = function (dt) {
-        this.elapsedTime += dt;
+        if (this.isPlay) {
+            this.elapsedTime += dt;
+        }
     };
     Object.defineProperty(Player.prototype, "time", {
         get: function () {

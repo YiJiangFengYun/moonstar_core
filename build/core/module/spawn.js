@@ -28,6 +28,7 @@ var ModSpawn = /** @class */ (function (_super) {
         this._remainTime = 0;
         this.interval = info.rate > 0 ? 1 / info.rate : Number.MAX_VALUE;
         this.duration = info.duration > 0 ? info.duration : Number.MAX_VALUE;
+        this.delay = info.delay || 0;
         this._time = 0;
     };
     ModSpawn.prototype.reset = function () {
@@ -36,23 +37,32 @@ var ModSpawn = /** @class */ (function (_super) {
         this._remainTime = 0;
     };
     ModSpawn.prototype.update = function (dt) {
-        var player = this.player;
-        if (!player.emitted) {
-            player.startEmit();
-        }
-        var dt2 = Math.min(dt, this.duration - this._time);
-        if (this.interval && dt2 > 0) {
-            var interval = this.interval;
-            dt2 = this._remainTime + dt2;
-            var pCount = Math.ceil(dt2 / interval);
-            this._remainTime = (dt2 - interval) % interval;
-            while (pCount > 0) {
-                player.createParticle();
-                --pCount;
+        var delay = this.delay;
+        var time = this._time;
+        if (time >= delay) {
+            var player = this.player;
+            if (!player.emitted) {
+                player.startEmit();
             }
-        }
-        if (this.player.emitted && dt2 <= 0) {
-            this.player.endEmit();
+            if (player.emitComplete) {
+                return;
+            }
+            var dt2 = Math.min(dt, this.duration + delay - time);
+            if (dt2 > 0) {
+                var interval = this.interval;
+                var dt3 = this._remainTime + dt2;
+                var pCount = Math.ceil(dt3 / interval);
+                this._remainTime = dt3 % interval;
+                if (this._remainTime > 0)
+                    this._remainTime -= interval;
+                while (pCount > 0) {
+                    player.createParticle();
+                    --pCount;
+                }
+            }
+            if (player.emitted && !player.emitComplete && dt2 <= 0) {
+                player.endEmit();
+            }
         }
         this._time += dt;
     };

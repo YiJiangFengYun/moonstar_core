@@ -33,6 +33,7 @@ var ModRibbon = /** @class */ (function (_super) {
         _this.name = ModRibbon.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreatedParticle, _this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, _this._onDestroyedParticle, _this);
+        player.on(emitterPlayer.EVENT_RESET, _this._onReset, _this);
         return _this;
     }
     ModRibbon.prototype.init = function (info) {
@@ -48,13 +49,13 @@ var ModRibbon = /** @class */ (function (_super) {
         return this.queueParticles.length * 2;
     };
     ModRibbon.prototype.getTotalIdxCount = function () {
-        return (this.queueParticles.length - 1) * 6;
+        return Math.max(0, (this.queueParticles.length - 1) * 6);
     };
     ModRibbon.prototype.getMaxVtxCount = function () {
         return this.player.maxParticleCount * 2;
     };
     ModRibbon.prototype.getMaxIdxCount = function () {
-        return (this.player.maxParticleCount - 1) * 6;
+        return Math.max(0, (this.player.maxParticleCount - 1) * 6);
     };
     ModRibbon.prototype.fillBuffers = function (drawData, offsets) {
         var queueParticles = this.queueParticles;
@@ -116,9 +117,9 @@ var ModRibbon = /** @class */ (function (_super) {
                 var sizeWidth = size[0];
                 var color = particle_1.color || common.COLOR_WHITE;
                 var life = particle_1.life;
-                var width = scaleWidth * sizeWidth;
-                var vec_width_x = vecPerpendicular[0] * width;
-                var vec_width_y = vecPerpendicular[1] * width;
+                var widthHalf = scaleWidth * sizeWidth * 0.5;
+                var vec_width_x = vecPerpendicular[0] * widthHalf;
+                var vec_width_y = vecPerpendicular[1] * widthHalf;
                 //The vertex of the left.
                 posHelper[0] = particlePos[0] - vec_width_x;
                 posHelper[1] = particlePos[1] - vec_width_y;
@@ -170,6 +171,9 @@ var ModRibbon = /** @class */ (function (_super) {
     };
     ModRibbon.prototype._onDestroyedParticle = function () {
         this.queueParticles.pop();
+    };
+    ModRibbon.prototype._onReset = function () {
+        this.queueParticles.empty();
     };
     ModRibbon.NAME = "ribbon";
     return ModRibbon;

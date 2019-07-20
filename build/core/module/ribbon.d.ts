@@ -32,4 +32,5 @@ export declare class ModRibbon extends Module implements ModRender {
     }): void;
     private _onCreatedParticle;
     private _onDestroyedParticle;
+    private _onReset;
 }

@@ -12,6 +12,9 @@ export declare class Emitter {
     name: string;
     player: emitter_player.EmitterPlayer;
     modules: module.Module[];
+    mapModules: {
+        [name: string]: module.Module;
+    };
     renderModule: module.ModRender;
     private _id;
     constructor(psData: psData.PSData);
@@ -22,4 +25,7 @@ export declare class Emitter {
     play(): void;
     stop(): void;
     reset(): void;
+    getModule<T>(type: {
+        prototype: T;
+    }): T;
 }

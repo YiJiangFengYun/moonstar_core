@@ -63,9 +63,9 @@ var ModSprite = /** @class */ (function (_super) {
         //Traverse all particles.
         for (var particleIndex = 0; particleIndex < particleCount; ++particleIndex) {
             var particle = particles[particleIndex];
-            var pos = particle.pos || common.COLOR_ZERO;
+            var pos = particle.pos || common.VECTOR_ZERO;
             var scale = particle.scale || common.VECTOR_ONE;
-            var size = particle.size || common.COLOR_ZERO;
+            var size = particle.size || common.VECTOR_ZERO;
             var color = particle.color || common.COLOR_WHITE;
             var rotation = particle.rotation || 0;
             var angle = rotation;

@@ -6,4 +6,5 @@ exports.EVENT_END_EMITT = "end_emitt";
 exports.EVENT_CREATED_PARTICLE = "created_particle";
 exports.EVENT_DESTROYED_PARTICLE = "destroyed_particle";
 exports.EVENT_COMPLETE = "complete";
+exports.EVENT_RESET = "reset";
 //# sourceMappingURL=events.js.map

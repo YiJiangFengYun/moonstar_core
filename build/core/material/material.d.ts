@@ -17,7 +17,8 @@ export declare enum BlendOp {
 export declare enum MaterialType {
     UNDEFINED = 0,
     SPRITE = 1,
-    RIBBON = 2
+    RIBBON = 2,
+    SPRITE_CONNECTED = 3
 }
 export declare class Material {
     type: MaterialType | number;

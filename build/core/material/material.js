@@ -25,6 +25,7 @@ var MaterialType;
     MaterialType[MaterialType["UNDEFINED"] = 0] = "UNDEFINED";
     MaterialType[MaterialType["SPRITE"] = 1] = "SPRITE";
     MaterialType[MaterialType["RIBBON"] = 2] = "RIBBON";
+    MaterialType[MaterialType["SPRITE_CONNECTED"] = 3] = "SPRITE_CONNECTED";
 })(MaterialType = exports.MaterialType || (exports.MaterialType = {}));
 //class Material with members: color, texture path, and blend.
 var Material = /** @class */ (function () {

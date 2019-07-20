@@ -13,6 +13,7 @@ exports.init = init;
 __export(require("./common"));
 __export(require("./material"));
 __export(require("./render"));
+__export(require("./particle"));
 __export(require("./module"));
 __export(require("./emitter_player"));
 __export(require("./emitter"));

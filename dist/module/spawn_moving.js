@@ -42,6 +42,8 @@ var ModSpawnMoving = /** @class */ (function (_super) {
         if (!player.emitted) {
             player.startEmit();
         }
+        if (player.emitComplete)
+            return;
         var interval = this.interval;
         if (interval) {
             var lastPos = this._lastEmitterPos;

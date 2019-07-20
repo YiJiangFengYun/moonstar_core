@@ -34,22 +34,8 @@ export declare class MaterialSprite extends Material {
     init(materialCore: core.Material, particleSystemData: ParticleSystemData): void;
     render(cmd: core.DrawCmd): void;
 }
-/**
- * A material class is for a material state of a emiter of the core
- */
-export declare class MaterialRibbon extends Material {
-    texture: Texture;
-    locations: {
-        aVertexPos?: number;
-        avertexUV?: number;
-        aVertexColor?: number;
-        uProjectionMatrix?: WebGLUniformLocation;
-        uModelViewMatrix?: WebGLUniformLocation;
-        uColor?: WebGLUniformLocation;
-        uSampler?: WebGLUniformLocation;
-    };
-    constructor();
-    init(materialCore: core.Material, particleSystemData: ParticleSystemData): void;
-    render(cmd: core.DrawCmd): void;
-}
+export declare type MaterialRibbon = MaterialSprite;
+export declare const MaterialRibbon: typeof MaterialSprite;
+export declare type MaterialSpriteConnected = MaterialSprite;
+export declare const MaterialSpriteConnected: typeof MaterialSprite;
 export declare function createMaterial(materialCore: core.Material, particleSystemData: ParticleSystemData): Material;
