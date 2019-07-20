@@ -27,7 +27,7 @@ export class SubPlayerManager implements ModulePart {
         this._prepareAllPlayer();
     }
 
-    public getIdlePlayer() {
+    public usePlayer() {
         let idleCount = this.idlePlayerIndexCount;
         if (idleCount) {
             idleCount -= 1;

@@ -30,7 +30,7 @@ export class ModSubPlayerAfterDestroy extends Module {
     }
 
     private _onDestroyedParticle(particle: particleMod.Particle) {
-        let index = this.subPlayer.getIdlePlayer();
+        let index = this.subPlayer.usePlayer();
         if (index) {
             let subPlayer = this.player.players[index];
             subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
