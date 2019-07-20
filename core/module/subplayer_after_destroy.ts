@@ -31,7 +31,7 @@ export class ModSubPlayerAfterDestroy extends Module {
 
     private _onDestroyedParticle(particle: particleMod.Particle) {
         let index = this.subPlayer.usePlayer();
-        if (index) {
+        if (index >= 0) {
             let subPlayer = this.player.players[index];
             subPlayer.on(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
             subPlayer.setPosition(particle.pos);
@@ -43,7 +43,7 @@ export class ModSubPlayerAfterDestroy extends Module {
     private _onSubPlayerComplete(player: emitterPlayer.EmitterPlayer) {
         let players = this.player.players;
         let index = players.indexOf(player);
-        if (index > 0) {
+        if (index >= 0) {
             this.subPlayer.freePlayer(index);
             let subPlayer = players[index];
             subPlayer.off(emitterPlayer.EVENT_COMPLETE, this._onSubPlayerComplete, this);
