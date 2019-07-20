@@ -40,6 +40,8 @@ export class ModSpawn extends Module {
                 player.startEmit();
             }
 
+            if (player.emitComplete) return;
+
             let dt2 = Math.min(dt, this.duration + delay - time);
             if (dt2 > 0) {
                 let interval = this.interval;
