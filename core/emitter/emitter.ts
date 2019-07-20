@@ -16,6 +16,7 @@ export class Emitter {
     public name: string;
     public player: emitter_player.EmitterPlayer;
     public modules: module.Module[] = [];
+    public mapModules: {[name: string]: module.Module} = {};
     public renderModule: module.ModRender;
     private _id: number;
     public constructor(psData: psData.PSData) {
@@ -31,16 +32,23 @@ export class Emitter {
         this.name = info.name;
         this.player.init(info, ! info.parent);
         let modules = this.modules;
+        let mapModules = this.mapModules;
         let newModCount = info.modules ? info.modules.length : 0;
         modules.length = newModCount;
         for (let i = 0; i < newModCount; ++i) {
-            let moduleClass = module.mapModules[info.modules[i].name];
-            if (! moduleClass) throw new Error(`The module ${info.modules[i].name} is invalid.`);
+            let moduleConfig = info.modules[i];
+            let name = moduleConfig.name;
+            let moduleClass = module.mapModules[name];
+            if (! moduleClass) throw new Error(`The module ${name} is invalid.`);
             modules[i] = new moduleClass(this.player);
-            modules[i].init(info.modules[i]);
+            modules[i].init(moduleConfig);
+            if (mapModules[name]) {
+                log.warn(`There are multiple modules with the same name applied to the emitter.`);
+            }
+            mapModules[name] = modules[i];
             if (module.renderModules.indexOf(moduleClass) >= 0) {
                 if (this.renderModule) {
-                    log.warn(`There multiple render modules applied to the emitter.`);
+                    log.warn(`There are multiple render modules applied to the emitter.`);
                 }
                 this.renderModule = modules[i] as any as module.ModRender;
             }
@@ -77,5 +85,11 @@ export class Emitter {
         this.modules.forEach(mod => {
             mod.reset();
         });
+    }
+
+    public getModule<T>(type: {
+        prototype: T;
+    }): T {
+        return this.mapModules[(type as any).NAME] as any as T;
     }
 }

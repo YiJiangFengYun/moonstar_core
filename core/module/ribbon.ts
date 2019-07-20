@@ -30,6 +30,7 @@ export class ModRibbon extends Module implements ModRender {
 
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreatedParticle, this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);
+        player.on(emitterPlayer.EVENT_RESET, this._onReset, this);
     }
 
     public init(info: any) {
@@ -48,7 +49,7 @@ export class ModRibbon extends Module implements ModRender {
     }
 
     public getTotalIdxCount(): number {
-        return (this.queueParticles.length - 1) * 6;
+        return Math.max(0, (this.queueParticles.length - 1) * 6);
     }
 
     public getMaxVtxCount(): number {
@@ -56,7 +57,7 @@ export class ModRibbon extends Module implements ModRender {
     }
 
     public getMaxIdxCount(): number {
-        return (this.player.maxParticleCount - 1) * 6;
+        return Math.max(0, (this.player.maxParticleCount - 1) * 6);
     }
 
     public fillBuffers(drawData: render.DrawData, offsets: {
@@ -126,9 +127,9 @@ export class ModRibbon extends Module implements ModRender {
                 let sizeWidth = size[0];
                 let color = particle.color || common.COLOR_WHITE;
                 let life = (particle as any).life;
-                let width = scaleWidth * sizeWidth;
-                let vec_width_x = vecPerpendicular[0] * width;
-                let vec_width_y = vecPerpendicular[1] * width;
+                let widthHalf = scaleWidth * sizeWidth * 0.5;
+                let vec_width_x = vecPerpendicular[0] * widthHalf;
+                let vec_width_y = vecPerpendicular[1] * widthHalf;
 
                 //The vertex of the left.
                 posHelper[0] = particlePos[0] - vec_width_x;
@@ -187,8 +188,12 @@ export class ModRibbon extends Module implements ModRender {
         this.queueParticles.push(particle);
     }
 
-    private  _onDestroyedParticle() {
+    private _onDestroyedParticle() {
         this.queueParticles.pop();
+    }
+
+    private _onReset() {
+        this.queueParticles.empty();
     }
 
 }

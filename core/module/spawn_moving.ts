@@ -37,6 +37,7 @@ export class ModSpawnMoving extends Module {
         if (! player.emitted) {
             player.startEmit();
         }
+        if (player.emitComplete) return;
         let interval = this.interval;
         if (interval) {
             let lastPos = this._lastEmitterPos;

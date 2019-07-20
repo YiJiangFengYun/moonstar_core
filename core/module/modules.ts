@@ -7,7 +7,7 @@ import { ModColorOverLife } from "./color_over_life";
 import { ModLocationInitialCircle } from "./location_initial_circle";
 import { ModOrientationInitialRadiation } from "./orientation_initial_radiation";
 import { ModSubUVSpriteSheetSimple } from "./subuv_spritesheet_simple";
-import { ModSubPlayerSimple } from "./subplayer_simple";
+import { ModSubPlayerAfterDestroy } from "./subplayer_after_destroy";
 import { ModSizeInitialRandom } from "./size_initial_random";
 import { ModLocationInitialCircleBorder } from "./location_initial_circle_border";
 import { ModLocationInitialRectangle } from "./location_initial_rectangle";
@@ -29,12 +29,16 @@ import { ModVelocityOverLife } from "./velocity_over_life";
 import { ModVelocityInitialVary } from "./velocity_initial_vary";
 import { ModSpawnIntermittency } from "./spawn_intermittency";
 import { ModLocationInitialLineSegment } from "./location_initial_line_segment";
+import { ModSortLineSegment } from "./sort_line_segment";
+import { ModSpriteConnected } from "./sprite_connected";
+import { ModSubPlayerFollow } from "./subplayer_follow";
 
 export const mapModules: { [name: string]: typeof Module } = {};
 
 // Render modules
 mapModules[ModSprite.NAME] = ModSprite;
 mapModules[ModRibbon.NAME] = ModRibbon;
+mapModules[ModSpriteConnected.NAME] = ModSpriteConnected;
 
 // Spawn modules
 mapModules[ModSpawn.NAME] = ModSpawn;
@@ -78,7 +82,11 @@ mapModules[ModVelocityOverLife.NAME] = ModVelocityOverLife;
 mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
 
 //Sub player modules
-mapModules[ModSubPlayerSimple.NAME] = ModSubPlayerSimple;
+mapModules[ModSubPlayerAfterDestroy.NAME] = ModSubPlayerAfterDestroy;
+mapModules[ModSubPlayerFollow.NAME] = ModSubPlayerFollow;
+
+//Sort modules
+mapModules[ModSortLineSegment.NAME] = ModSortLineSegment;
 
 export const moduleGroup = {
     sprite: [
@@ -103,6 +111,7 @@ export const moduleGroup = {
 
 export const renderModules: typeof Module[] = [];
 
-renderModules.length = 2;
+renderModules.length = 3;
 renderModules[0] = ModSprite;
 renderModules[1] = ModRibbon;
+renderModules[2] = ModSpriteConnected;

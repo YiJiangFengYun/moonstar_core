@@ -1,6 +1,7 @@
 import * as common from "../common";
 
 export interface Particle {
+    id: number;
     /**
      * The position of the Particle relative to its emitter space.
      */
@@ -39,4 +40,8 @@ export interface Particle {
      * First two value is left-top of the texture and last two is right-bottom of the texture.
      */
     subUV?: common.Vector4;
+}
+
+export function create(): Particle {
+    return { id: common.gainID() };
 }

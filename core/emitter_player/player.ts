@@ -1,16 +1,16 @@
 import * as log from "loglevel";
 import * as common from "../common";
-import * as particle from "../particle";
+import * as particleMod from "../particle";
 import * as psDataMod from "../ps_data";
 import { EmitterPlayerInfo } from "./info";
-import { EVENT_START_EMITT, EVENT_END_EMITT, EVENT_COMPLETE, EVENT_CHANGE_POSITION, EVENT_CREATED_PARTICLE, EVENT_DESTROYED_PARTICLE } from "./events";
+import * as events from "./events";
 
 const DEFAULT_MAX_PARTICLE_COUNT = 100;
 
 export class EmitterPlayer extends common.Player {
     public root: boolean;
     public psData: psDataMod.PSData;
-    public particles: particle.Particle[] = [];
+    public particles: particleMod.Particle[] = [];
     public particleCount: number = 0;
     public players: EmitterPlayer[] = [];
     public playerCount: number = 0;
@@ -69,14 +69,14 @@ export class EmitterPlayer extends common.Player {
             this.emitted = true;
             this.emitComplete = false;
             this.completed = false;
-            this.emit(EVENT_START_EMITT, this);
+            this.emit(events.EVENT_START_EMITT, this);
         }
     }
 
     public endEmit() {
         if (! this.emitComplete) {
             this.emitComplete = true;
-            this.emit(EVENT_END_EMITT, this);
+            this.emit(events.EVENT_END_EMITT, this);
         }
     }
 
@@ -88,7 +88,7 @@ export class EmitterPlayer extends common.Player {
     public complete() {
         if (! this.completed) {
             this.completed = true;
-            this.emit(EVENT_COMPLETE, this);
+            this.emit(events.EVENT_COMPLETE, this);
         }
     }
 
@@ -129,15 +129,15 @@ export class EmitterPlayer extends common.Player {
     public setPosition(value: common.Vector | number[]) {
         common.Vector.copy(this._position, value);
         this._updateGlobalBounds();
-        this.emit(EVENT_CHANGE_POSITION, this);
+        this.emit(events.EVENT_CHANGE_POSITION, this);
     }
 
     public createParticle(pos?: common.Vector){
-        let particle: particle.Particle;
+        let particle: particleMod.Particle;
         if (this.particleCount < this.maxParticleCount) {
             particle = this.particles[this.particleCount];
             if (! particle) this.particles[this.particleCount] = 
-                particle = { pos: common.Vector.create()};
+                particle = particleMod.create();
             ++this.particleCount;
             if (particle.pos) {
                 common.Vector.copy(particle.pos, pos || this.position);
@@ -146,12 +146,12 @@ export class EmitterPlayer extends common.Player {
                 particle.pos = common.Vector.clone(pos || this.position);
                 // particle.pos = common.Vector.fromValues(0, 0);
             }
-            this.emit(EVENT_CREATED_PARTICLE, particle);
+            this.emit(events.EVENT_CREATED_PARTICLE, particle);
         }
         return particle;
     }
 
-    public deleteParticle(particle: particle.Particle) {
+    public deleteParticle(particle: particleMod.Particle) {
         let particles = this.particles;
         let index = particles.indexOf(particle);
         if (index >= 0) {
@@ -159,7 +159,7 @@ export class EmitterPlayer extends common.Player {
             let endParticle = particles[end];
             particles[end] = particles[index];
             particles[index] = endParticle;
-            this.emit(EVENT_DESTROYED_PARTICLE, particle);
+            this.emit(events.EVENT_DESTROYED_PARTICLE, particle);
             return true;
         } else {
             log.error("Can't find the particle from the particles for delete the particle.");
@@ -179,6 +179,8 @@ export class EmitterPlayer extends common.Player {
         for (let i = 0; i < playerCount; ++i) {
             players[i].reset();
         }
+
+        this.emit(events.EVENT_RESET, this);
     }
 
     private _prepareParticles() {
@@ -186,9 +188,7 @@ export class EmitterPlayer extends common.Player {
         let particles = this.particles;
         this.particles.length = this.particleCount;
         for (let i = 0; i < particleCount; ++i) {
-            if (! particles[i]) particles[i] = {
-                pos: common.Vector.create(),
-            };
+            if (! particles[i]) particles[i] = particleMod.create();
         }
     }
 
