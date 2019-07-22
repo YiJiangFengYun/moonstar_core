@@ -23,7 +23,6 @@ export class ModLifeTime extends Module {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModLifeTime.NAME;
     }
 
     public init(info: any) {

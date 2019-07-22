@@ -14,7 +14,6 @@ export class ModSubPlayerFollow extends Module {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSubPlayerFollow.NAME;
         this.subPlayer = modulePart.createModulePart(modulePart.SubPlayerManager, player);
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreatedParticle, this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);

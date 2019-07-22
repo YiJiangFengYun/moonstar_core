@@ -11,7 +11,6 @@ export class ModSpawn extends Module {
     private _remainTime: number = 0;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSpawn.NAME;
     }
 
     public init(info: any) {

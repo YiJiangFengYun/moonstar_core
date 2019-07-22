@@ -9,7 +9,6 @@ export class ModSubPlayerAfterDestroy extends Module {
     public subPlayer: modulePart.SubPlayerManager;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSubPlayerAfterDestroy.NAME;
         this.subPlayer = modulePart.createModulePart(modulePart.SubPlayerManager, player);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);
     }

@@ -10,7 +10,6 @@ export class ModLocationInitialRectangle extends Module {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModLocationInitialRectangle.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 

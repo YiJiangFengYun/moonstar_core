@@ -23,7 +23,6 @@ export class ModSpriteConnected extends Module implements ModRender {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSpriteConnected.NAME;
     }
 
     public init(info: any) {

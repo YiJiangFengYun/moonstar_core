@@ -46,8 +46,10 @@ export function registerModule(modType: typeof Module) {
 export function createModule(name: string, player: emitterPlayer.EmitterPlayer) {
     let mod = mapModules[name];
     if (! mod) throw new Error(`The module ${name} is invalid.`);
-    // let index = arrModules.indexOf(mod);
+    let index = arrModules.indexOf(mod);
     let instance = new mod(player);
+    instance.name = name;
+    instance.typeID = index + 1;
     return instance;
 }
 

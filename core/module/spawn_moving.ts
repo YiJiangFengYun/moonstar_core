@@ -15,7 +15,6 @@ export class ModSpawnMoving extends Module {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSpawnMoving.NAME;
     }
 
     public init(info: any) {

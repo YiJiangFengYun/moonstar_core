@@ -16,7 +16,6 @@ export class ModSprite extends Module implements ModRender {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSprite.NAME;
     }
 
     public init(info: any) {

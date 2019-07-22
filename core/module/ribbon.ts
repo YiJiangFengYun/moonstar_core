@@ -26,8 +26,6 @@ export class ModRibbon extends Module implements ModRender {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModRibbon.NAME;
-
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreatedParticle, this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, this._onDestroyedParticle, this);
         player.on(emitterPlayer.EVENT_RESET, this._onReset, this);

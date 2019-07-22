@@ -15,7 +15,6 @@ export class ModLocationInitialLineSegment extends Module {
     private _vecHelper: common.Vector = common.Vector.create();
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModLocationInitialLineSegment.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 

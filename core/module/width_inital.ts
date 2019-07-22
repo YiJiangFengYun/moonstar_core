@@ -8,7 +8,6 @@ export class ModWidthInitial extends Module {
     public width: number = 0;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModWidthInitial.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 

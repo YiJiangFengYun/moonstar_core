@@ -5,6 +5,7 @@ import * as render from "../render";
 
 export class Module {
     public name: string;
+    public typeID: number;
     public player: emitterPlayer.EmitterPlayer;
 
     private _id: number;
