@@ -3,7 +3,14 @@ import * as material from "../material";
 import * as emitterPlayer from "../emitter_player";
 import * as render from "../render";
 
-export class Module {
+export interface IModule {
+    name: string;
+    typeID: number;
+    player: emitterPlayer.EmitterPlayer;
+    id: number;
+}
+
+export class Module implements IModule {
     public name: string;
     public typeID: number;
     public player: emitterPlayer.EmitterPlayer;
@@ -39,7 +46,7 @@ export interface ModuleStatic {
     NAME: string;
 }
 
-export interface ModRender {
+export interface ModRender extends IModule {
     material: material.Material;
 
     getTotalVtxCount(): number;
