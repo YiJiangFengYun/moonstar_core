@@ -137,7 +137,7 @@ export class EmitterPlayer extends common.Player {
         if (this.particleCount < this.maxParticleCount) {
             particle = this.particles[this.particleCount];
             if (! particle) this.particles[this.particleCount] = 
-                particle = particleMod.create();
+                particle = particleMod.createParticle();
             ++this.particleCount;
             if (particle.pos) {
                 common.Vector.copy(particle.pos, pos || this.position);
@@ -188,7 +188,7 @@ export class EmitterPlayer extends common.Player {
         let particles = this.particles;
         this.particles.length = this.particleCount;
         for (let i = 0; i < particleCount; ++i) {
-            if (! particles[i]) particles[i] = particleMod.create();
+            if (! particles[i]) particles[i] = particleMod.createParticle();
         }
     }
 

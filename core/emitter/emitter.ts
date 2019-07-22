@@ -38,15 +38,13 @@ export class Emitter {
         for (let i = 0; i < newModCount; ++i) {
             let moduleConfig = info.modules[i];
             let name = moduleConfig.name;
-            let moduleClass = module.mapModules[name];
-            if (! moduleClass) throw new Error(`The module ${name} is invalid.`);
-            modules[i] = new moduleClass(this.player);
+            modules[i] = module.createModule(name, this.player);
             modules[i].init(moduleConfig);
             if (mapModules[name]) {
                 log.warn(`There are multiple modules with the same name applied to the emitter.`);
             }
             mapModules[name] = modules[i];
-            if (module.renderModules.indexOf(moduleClass) >= 0) {
+            if (module.renderModules.indexOf(name) >= 0) {
                 if (this.renderModule) {
                     log.warn(`There are multiple render modules applied to the emitter.`);
                 }

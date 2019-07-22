@@ -32,8 +32,10 @@ export class Module {
     public reset(): void {
 
     }
+}
 
-    
+export interface ModuleStatic {
+    NAME: string;
 }
 
 export interface ModRender {

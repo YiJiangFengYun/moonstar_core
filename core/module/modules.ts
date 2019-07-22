@@ -1,4 +1,5 @@
-import { Module } from "./module";
+import * as emitterPlayer from "../emitter_player";
+import { Module, ModuleStatic } from "./module";
 import { ModSprite } from "./sprite";
 import { ModSpawn } from "./spawn";
 import { ModSizeInitial } from "./size_initial";
@@ -34,84 +35,99 @@ import { ModSpriteConnected } from "./sprite_connected";
 import { ModSubPlayerFollow } from "./subplayer_follow";
 
 export const mapModules: { [name: string]: typeof Module } = {};
+export const arrModules: (typeof Module)[] = [];
 
-// Render modules
-mapModules[ModSprite.NAME] = ModSprite;
-mapModules[ModRibbon.NAME] = ModRibbon;
-mapModules[ModSpriteConnected.NAME] = ModSpriteConnected;
-
-// Spawn modules
-mapModules[ModSpawn.NAME] = ModSpawn;
-mapModules[ModSpawnMoving.NAME] = ModSpawnMoving;
-mapModules[ModSpawnIntermittency.NAME] = ModSpawnIntermittency;
-
-// Velocity module
-mapModules[ModVelocity.NAME] = ModVelocity;
-
-// Rotation module
-mapModules[ModRotation.NAME] = ModRotation;
-
-// Initial modules.
-mapModules[ModSizeInitial.NAME] = ModSizeInitial;
-mapModules[ModLocationInitialCircle.NAME] = ModLocationInitialCircle;
-mapModules[ModLocationInitialCircleBorder.NAME] = ModLocationInitialCircleBorder;
-mapModules[ModLocationInitialRectangle.NAME] = ModLocationInitialRectangle;
-mapModules[ModLocationInitialLineSegment.NAME] = ModLocationInitialLineSegment;
-mapModules[ModOrientationInitialRadiation.NAME] = ModOrientationInitialRadiation;
-mapModules[ModSizeInitialRandom.NAME] = ModSizeInitialRandom;
-mapModules[ModColorInitial.NAME] = ModColorInitial;
-mapModules[ModColorInitialRandom.NAME] = ModColorInitialRandom;
-mapModules[ModVelocityInitial.NAME] = ModVelocityInitial;
-mapModules[ModVelocityInitialRandom.NAME] = ModVelocityInitialRandom;
-mapModules[ModVelocityInitialVary.NAME] = ModVelocityInitialVary;
-mapModules[ModRotationInitial.NAME] = ModRotationInitial;
-mapModules[ModRotationInitialRandom.NAME] = ModRotationInitialRandom;
-mapModules[ModWidthInitial.NAME] = ModWidthInitial;
-mapModules[ModLifeTimeInitial.NAME] = ModLifeTimeInitial;
-mapModules[ModLifeTimeInitialRandom.NAME] = ModLifeTimeInitialRandom;
-
-// Life time modules
-mapModules[ModLifeTime.NAME] = ModLifeTime;
-
-// Over Life modules
-mapModules[ModColorOverLife.NAME] = ModColorOverLife;
-mapModules[ModSizeOverLife.NAME] = ModSizeOverLife;
-mapModules[ModVelocityOverLife.NAME] = ModVelocityOverLife;
-
-//Sub UV modules
-mapModules[ModSubUVSpriteSheetSimple.NAME] = ModSubUVSpriteSheetSimple;
-
-//Sub player modules
-mapModules[ModSubPlayerAfterDestroy.NAME] = ModSubPlayerAfterDestroy;
-mapModules[ModSubPlayerFollow.NAME] = ModSubPlayerFollow;
-
-//Sort modules
-mapModules[ModSortLineSegment.NAME] = ModSortLineSegment;
-
-export const moduleGroup = {
-    sprite: [
-        { module: ModSprite, required: true, default: true },
-        { module: ModSpawn, required: true, default: true },
-        { module: ModVelocity, required: false, default: true },
-        { module: ModSizeInitial, required: false, default: true },
-        { module: ModLocationInitialCircle, required: false, default: false},
-        { module: ModLifeTime, required: false, default: true },
-        { module: ModColorOverLife, required: false, default: true },
-    ],
-    ribbon: [
-        { module: ModRibbon, required: true, default: true },
-        { module: ModSpawnMoving, required: true, default: true },
-        { module: ModSpawn, required: false, default: false },
-        { module: ModWidthInitial, required: true, default: true },
-        { module: ModLifeTime, required: true, default: true },
-        { module: ModVelocity, required: false, default: false },
-        { module: ModColorOverLife, required: false, default: true },
-    ]
+export function registerModule(modType: typeof Module) {
+    let modType2: ModuleStatic = modType as any;
+    mapModules[modType2.NAME] = modType;
+    arrModules.push(modType);
 }
 
-export const renderModules: typeof Module[] = [];
+export function createModule(name: string, player: emitterPlayer.EmitterPlayer) {
+    let mod = mapModules[name];
+    if (! mod) throw new Error(`The module ${name} is invalid.`);
+    // let index = arrModules.indexOf(mod);
+    let instance = new mod(player);
+    return instance;
+}
+
+// Render modules
+registerModule(ModSprite);
+registerModule(ModRibbon);
+registerModule(ModSpriteConnected);
+
+// Spawn modules
+registerModule(ModSpawn);
+registerModule(ModSpawnMoving);
+registerModule(ModSpawnIntermittency);
+
+// Velocity module
+registerModule(ModVelocity);
+
+// Rotation module
+registerModule(ModRotation);
+
+// Initial modules.
+registerModule(ModSizeInitial);
+registerModule(ModLocationInitialCircle);
+registerModule(ModLocationInitialCircleBorder);
+registerModule(ModLocationInitialRectangle);
+registerModule(ModLocationInitialLineSegment);
+registerModule(ModOrientationInitialRadiation);
+registerModule(ModSizeInitialRandom);
+registerModule(ModColorInitial);
+registerModule(ModColorInitialRandom);
+registerModule(ModVelocityInitial);
+registerModule(ModVelocityInitialRandom);
+registerModule(ModVelocityInitialVary);
+registerModule(ModRotationInitial);
+registerModule(ModRotationInitialRandom);
+registerModule(ModWidthInitial);
+registerModule(ModLifeTimeInitial);
+registerModule(ModLifeTimeInitialRandom);
+
+// Life time modules
+registerModule(ModLifeTime);
+
+// Over Life modules
+registerModule(ModColorOverLife);
+registerModule(ModSizeOverLife);
+registerModule(ModVelocityOverLife);
+
+//Sub UV modules
+registerModule(ModSubUVSpriteSheetSimple);
+
+//Sub player modules
+registerModule(ModSubPlayerAfterDestroy);
+registerModule(ModSubPlayerFollow);
+
+//Sort modules
+registerModule(ModSortLineSegment);
+
+// export const moduleGroup = {
+//     sprite: [
+//         { module: ModSprite, required: true, default: true },
+//         { module: ModSpawn, required: true, default: true },
+//         { module: ModVelocity, required: false, default: true },
+//         { module: ModSizeInitial, required: false, default: true },
+//         { module: ModLocationInitialCircle, required: false, default: false},
+//         { module: ModLifeTime, required: false, default: true },
+//         { module: ModColorOverLife, required: false, default: true },
+//     ],
+//     ribbon: [
+//         { module: ModRibbon, required: true, default: true },
+//         { module: ModSpawnMoving, required: true, default: true },
+//         { module: ModSpawn, required: false, default: false },
+//         { module: ModWidthInitial, required: true, default: true },
+//         { module: ModLifeTime, required: true, default: true },
+//         { module: ModVelocity, required: false, default: false },
+//         { module: ModColorOverLife, required: false, default: true },
+//     ]
+// }
+
+export const renderModules: string[] = [];
 
 renderModules.length = 3;
-renderModules[0] = ModSprite;
-renderModules[1] = ModRibbon;
-renderModules[2] = ModSpriteConnected;
+renderModules[0] = ModSprite.NAME;
+renderModules[1] = ModRibbon.NAME;
+renderModules[2] = ModSpriteConnected.NAME;
