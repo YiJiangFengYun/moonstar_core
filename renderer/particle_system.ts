@@ -89,8 +89,8 @@ export class ParticleSystem implements core.IPlayer {
         for (let i = 0; i < cmdCount; ++i) {
             let cmd = cmdList[i];
             if (cmd.indexCount > 0) {
-                let player = mapPlayers[cmd.emitterPlayer];
-                let bounds = player.globalBounds;
+                let player = cmd.emitterPlayer ? mapPlayers[cmd.emitterPlayer] : null;
+                let bounds = player ? player.globalBounds : core.BOUNDS_EMPTY;
                 if (core.Bounds.isEmpty(bounds) || core.Bounds.intersecting(bounds, rData.viewBounds)) {
                     let material = mapMaterials[cmd.material];
                     if (material) {

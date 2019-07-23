@@ -63,7 +63,7 @@ export class ModRibbon extends Module implements ModRender {
         idxBufferByteOffset: number;
         lastVertexCount: number; //used as idxValueOffset
         lastIndexCount: number; // used as index offset of cmd.
-    }): void {
+    }, resCmds: render.DrawCmd[]): number {
         let queueParticles = this.queueParticles;
         let particleCount = queueParticles.length;
 
@@ -168,7 +168,7 @@ export class ModRibbon extends Module implements ModRender {
 
         cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
         cmdHelper.indexOffset = offsets.lastIndexCount;
-        cmdHelper.indexCount = (particleCount - 1) * 6;
+        cmdHelper.indexCount = Math.max(0, (particleCount - 1) * 6);
         cmdHelper.material = this.material.id;
         cmdHelper.emitterPlayer = this.player.id;
 
@@ -179,7 +179,9 @@ export class ModRibbon extends Module implements ModRender {
             common.Matrix4x4.identity(cmdHelper.matrixModel);
         }
 
-        drawData.fillDrawCmd(cmdHelper);
+        resCmds.length = 1;
+        resCmds[0] = cmdHelper;
+        return 1;
     }
 
     private _onCreatedParticle(particle: particle.Particle) {

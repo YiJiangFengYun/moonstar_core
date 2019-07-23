@@ -161,6 +161,15 @@ export class DrawData {
         return byteOffset + common.indexSize;
     }
 
+    public upIndices(indexStart: number, indexCount: number, upVertexBase: number) {
+        let idxBufferView = this.idxBufferView;
+        let index = indexStart;
+        for (let i = 0; i < indexCount; ++i) {
+            idxBufferView[index] += upVertexBase;
+            ++index;
+        }
+    }
+
     public fillDrawCmd(drawCmd: DrawCmd) {
         let cmdList = this.cmdList;
         let cmdCount = this.cmdCount;

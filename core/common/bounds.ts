@@ -41,3 +41,5 @@ export namespace Bounds {
         return target[0] === target[2] || target[1] === target[3];
     }
 }
+
+export const BOUNDS_EMPTY = glMatrix.vec4.fromValues(0, 0, 0, 0);

@@ -106,7 +106,7 @@ export class ModSpriteConnected extends Module implements ModRender {
         idxBufferByteOffset: number;
         lastVertexCount: number; //used as idxValueOffset
         lastIndexCount: number; // used as index offset of cmd.
-    }): void {
+    }, resCmds: render.DrawCmd[]): number {
         let context = this;
         let player = this.player;
         let head = this.head;
@@ -336,8 +336,9 @@ export class ModSpriteConnected extends Module implements ModRender {
         } else {
             common.Matrix4x4.identity(cmdHelper.matrixModel);
         }
-        
-        drawData.fillDrawCmd(cmdHelper);
-        
+    
+        resCmds.length = 1;
+        resCmds[0] = cmdHelper;
+        return 1;
     }
 }

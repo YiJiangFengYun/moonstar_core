@@ -57,10 +57,17 @@ export interface ModRender extends IModule {
 
     getMaxIdxCount(): number;
 
+    /**
+     * 
+     * @param drawData The draw data.
+     * @param offsets The buffer offsets.
+     * @param resCmds The Result of draw cmds.
+     * @returns The count of the result of draw cmds.
+     */
     fillBuffers(drawData: render.DrawData, offsets: {
         vtxBufferByteOffset: number;
         idxBufferByteOffset: number;
         lastVertexCount: number; //used as idxValueOffset
         lastIndexCount: number; // used as index offset of cmd.
-    }): void;
+    }, resCmds: render.DrawCmd[]): number;
 }
