@@ -238,13 +238,6 @@ export class ParticleSystem extends common.Player {
 
                 lastRenderModuleName = eRenderCpt.name;
                 lastRenderModule = eRenderCpt;
-            } else {
-                if (lastDrawCmd.indexCount) {
-                    fillDrawCmd(lastDrawCmd);
-                }
-                lastRenderModuleName = null;
-                lastRenderModule = null;
-                lastBatchVertexCount = 0;
             }
         }
 
