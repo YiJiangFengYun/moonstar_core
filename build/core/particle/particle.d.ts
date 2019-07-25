@@ -34,4 +34,4 @@ export interface Particle {
      */
     subUV?: common.Vector4;
 }
-export declare function create(): Particle;
+export declare function createParticle(): Particle;

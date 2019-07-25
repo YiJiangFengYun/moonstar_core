@@ -149,7 +149,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
             particle = this.particles[this.particleCount];
             if (!particle)
                 this.particles[this.particleCount] =
-                    particle = particleMod.create();
+                    particle = particleMod.createParticle();
             ++this.particleCount;
             if (particle.pos) {
                 common.Vector.copy(particle.pos, pos || this.position);
@@ -198,7 +198,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
         this.particles.length = this.particleCount;
         for (var i = 0; i < particleCount; ++i) {
             if (!particles[i])
-                particles[i] = particleMod.create();
+                particles[i] = particleMod.createParticle();
         }
     };
     EmitterPlayer.prototype._updateGlobalBounds = function () {

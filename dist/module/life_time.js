@@ -17,9 +17,7 @@ var module_1 = require("./module");
 var ModLifeTime = /** @class */ (function (_super) {
     __extends(ModLifeTime, _super);
     function ModLifeTime(player) {
-        var _this = _super.call(this, player) || this;
-        _this.name = ModLifeTime.NAME;
-        return _this;
+        return _super.call(this, player) || this;
     }
     ModLifeTime.prototype.init = function (info) {
         _super.prototype.init.call(this, info);
@@ -39,6 +37,10 @@ var ModLifeTime = /** @class */ (function (_super) {
                 particle.life = particle.time / particle.lifeTime;
             }
         }
+    };
+    ModLifeTime.prototype.postUpdate = function () {
+        _super.prototype.postUpdate.call(this);
+        var player = this.player;
         if (!player.completed && player.checkComplete()) {
             player.complete();
         }

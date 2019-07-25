@@ -21,7 +21,6 @@ var ModRotationInitialRandom = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.valueMin = 0; //(radian)
         _this.valueMax = 0;
-        _this.name = ModRotationInitialRandom.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

@@ -46,7 +46,7 @@ exports.DrawCmd = {
             indexOffset: 0,
             indexCount: 0,
             material: 0,
-            emitterPlayer: 0,
+            bounds: common.Bounds.create(),
             matrixModel: common.Matrix4x4.create(),
         };
     },
@@ -57,7 +57,7 @@ exports.DrawCmd = {
         out.indexOffset = cmd.indexOffset;
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;
-        out.emitterPlayer = cmd.emitterPlayer;
+        common.Bounds.copy(out.bounds, cmd.bounds);
         common.Matrix4x4.copy(out.matrixModel, cmd.matrixModel);
         return out;
     }

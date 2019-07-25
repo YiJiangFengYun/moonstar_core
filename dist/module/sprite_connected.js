@@ -30,7 +30,6 @@ var ModSpriteConnected = /** @class */ (function (_super) {
         _this._colorHelper = common.Color.create();
         _this._vectorHelper = common.Vector.create();
         _this._vectorHelper2 = common.Vector.create();
-        _this.name = ModSpriteConnected.NAME;
         return _this;
     }
     ModSpriteConnected.prototype.init = function (info) {
@@ -108,7 +107,7 @@ var ModSpriteConnected = /** @class */ (function (_super) {
         }
         return Math.max(0, 6 * (particleCount - 1));
     };
-    ModSpriteConnected.prototype.fillBuffers = function (drawData, offsets) {
+    ModSpriteConnected.prototype.fillBuffers = function (drawData, offsets, batchInfo) {
         var _this = this;
         var context = this;
         var player = this.player;
@@ -124,7 +123,7 @@ var ModSpriteConnected = /** @class */ (function (_super) {
             ++finalParticleCount;
         var vtxBufferByteOffset = offsets.vtxBufferByteOffset;
         var idxBufferByteOffset = offsets.idxBufferByteOffset;
-        var idxValueOffset = 0;
+        var idxValueOffset = batchInfo ? batchInfo.lastBatchVertexCount : 0;
         var fillVertexData = function (sliceIndex, pos1, pos2, size1, size2, scale1, scale2, color1, color2, lastPos) {
             var posHelper = context._posHelper;
             var uvHelper = context._uvHelper;
@@ -259,21 +258,22 @@ var ModSpriteConnected = /** @class */ (function (_super) {
                 fillVertexData(sliceIndex, head, tail, sizeHelper, common.VECTOR_ZERO, scaleHelper, common.VECTOR_ONE, colorHelper, common.COLOR_WHITE, null);
             }
         }
-        var cmdHelper = context._cmdHelper;
-        cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
-        cmdHelper.indexOffset = offsets.lastIndexCount;
-        cmdHelper.indexCount = Math.max(0, 6 * (finalParticleCount - 1));
-        ;
-        cmdHelper.material = this.material.id;
-        cmdHelper.emitterPlayer = this.player.id;
-        var psData = this.player.psData;
-        if (psData.useLocalSpace) {
-            common.Matrix4x4.copy(cmdHelper.matrixModel, psData.matrix4x4);
+        var indexCount = Math.max(0, 6 * (finalParticleCount - 1));
+        var cmd;
+        if (batchInfo) {
+            cmd = batchInfo.lastDrawCmd;
+            cmd.indexCount += indexCount;
+            common.Bounds.union(cmd.bounds, cmd.bounds, player.globalBounds);
         }
         else {
-            common.Matrix4x4.identity(cmdHelper.matrixModel);
+            cmd = context._cmdHelper;
+            cmd.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
+            cmd.indexCount = indexCount;
+            cmd.indexOffset = offsets.lastIndexCount;
+            cmd.material = this.material.id;
+            common.Bounds.copy(cmd.bounds, player.globalBounds);
         }
-        drawData.fillDrawCmd(cmdHelper);
+        return cmd;
     };
     ModSpriteConnected.NAME = "sprite_connected";
     return ModSpriteConnected;

@@ -21,7 +21,6 @@ var ModSubPlayerFollow = /** @class */ (function (_super) {
     __extends(ModSubPlayerFollow, _super);
     function ModSubPlayerFollow(player) {
         var _this = _super.call(this, player) || this;
-        _this.name = ModSubPlayerFollow.NAME;
         _this.subPlayer = modulePart.createModulePart(modulePart.SubPlayerManager, player);
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreatedParticle, _this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, _this._onDestroyedParticle, _this);

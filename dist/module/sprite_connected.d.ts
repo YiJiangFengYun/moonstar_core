@@ -28,5 +28,8 @@ export declare class ModSpriteConnected extends Module implements ModRender {
         idxBufferByteOffset: number;
         lastVertexCount: number;
         lastIndexCount: number;
-    }): void;
+    }, batchInfo?: {
+        lastBatchVertexCount: number;
+        lastDrawCmd: render.DrawCmd;
+    }): render.DrawCmd;
 }

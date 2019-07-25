@@ -24,7 +24,6 @@ var ModVelocityInitialVary = /** @class */ (function (_super) {
         _this.velocityEnd = common.Vector.create();
         _this.period = Number.MAX_VALUE;
         _this._velocityHelper = common.Vector.create();
-        _this.name = ModVelocityInitialVary.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

@@ -20,7 +20,6 @@ var ModSubPlayerAfterDestroy = /** @class */ (function (_super) {
     __extends(ModSubPlayerAfterDestroy, _super);
     function ModSubPlayerAfterDestroy(player) {
         var _this = _super.call(this, player) || this;
-        _this.name = ModSubPlayerAfterDestroy.NAME;
         _this.subPlayer = modulePart.createModulePart(modulePart.SubPlayerManager, player);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, _this._onDestroyedParticle, _this);
         return _this;

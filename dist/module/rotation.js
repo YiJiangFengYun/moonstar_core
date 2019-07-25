@@ -17,9 +17,7 @@ var module_1 = require("./module");
 var ModRotation = /** @class */ (function (_super) {
     __extends(ModRotation, _super);
     function ModRotation(player) {
-        var _this = _super.call(this, player) || this;
-        _this.name = ModRotation.NAME;
-        return _this;
+        return _super.call(this, player) || this;
     }
     ModRotation.prototype.init = function (info) {
         _super.prototype.init.call(this, info);

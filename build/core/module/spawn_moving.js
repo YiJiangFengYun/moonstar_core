@@ -23,7 +23,6 @@ var ModSpawnMoving = /** @class */ (function (_super) {
         _this._lastEmitterPos = common.Vector.create();
         _this._vecHelper = common.Vector.create();
         _this._vecHelper2 = common.Vector.create();
-        _this.name = ModSpawnMoving.NAME;
         return _this;
     }
     ModSpawnMoving.prototype.init = function (info) {

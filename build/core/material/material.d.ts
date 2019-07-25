@@ -21,6 +21,8 @@ export declare enum MaterialType {
     SPRITE_CONNECTED = 3
 }
 export declare class Material {
+    static equal(a1: Material, a2: Material): boolean;
+    static sort(a1: Material, a2: Material): number;
     type: MaterialType | number;
     color: common.Color;
     texturePath: string;

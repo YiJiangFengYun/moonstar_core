@@ -20,7 +20,6 @@ var ModSpawn = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this._time = 0;
         _this._remainTime = 0;
-        _this.name = ModSpawn.NAME;
         return _this;
     }
     ModSpawn.prototype.init = function (info) {

@@ -19,7 +19,6 @@ var ModLifeTimeInitialRandom = /** @class */ (function (_super) {
     __extends(ModLifeTimeInitialRandom, _super);
     function ModLifeTimeInitialRandom(player) {
         var _this = _super.call(this, player) || this;
-        _this.name = ModLifeTimeInitialRandom.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

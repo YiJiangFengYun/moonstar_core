@@ -22,7 +22,6 @@ var ModVelocityOverLife = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.velocityBegin = common.Vector.create();
         _this.velocityEnd = common.Vector.create();
-        _this.name = ModVelocityOverLife.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

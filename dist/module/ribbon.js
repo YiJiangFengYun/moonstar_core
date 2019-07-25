@@ -30,7 +30,6 @@ var ModRibbon = /** @class */ (function (_super) {
         _this._posHelper = common.Vector.create();
         _this._uvHelper = common.Vector.create();
         _this._cmdHelper = render.DrawCmd.create();
-        _this.name = ModRibbon.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreatedParticle, _this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, _this._onDestroyedParticle, _this);
         player.on(emitterPlayer.EVENT_RESET, _this._onReset, _this);
@@ -57,12 +56,13 @@ var ModRibbon = /** @class */ (function (_super) {
     ModRibbon.prototype.getMaxIdxCount = function () {
         return Math.max(0, (this.player.maxParticleCount - 1) * 6);
     };
-    ModRibbon.prototype.fillBuffers = function (drawData, offsets) {
+    ModRibbon.prototype.fillBuffers = function (drawData, offsets, batchInfo) {
+        var player = this.player;
         var queueParticles = this.queueParticles;
         var particleCount = queueParticles.length;
         var vtxBufferByteOffset = offsets.vtxBufferByteOffset;
         var idxBufferByteOffset = offsets.idxBufferByteOffset;
-        var idxValueOffset = 0;
+        var idxValueOffset = batchInfo ? batchInfo.lastBatchVertexCount : 0;
         var vecDirectHelper = this._vecDirectHelper;
         var vecDirectHelper2 = this._vecDirectHelper2;
         var vecPerpendicularHelper = this._vecPerpendicularHelper;
@@ -152,19 +152,22 @@ var ModRibbon = /** @class */ (function (_super) {
                 }
             }
         }
-        cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
-        cmdHelper.indexOffset = offsets.lastIndexCount;
-        cmdHelper.indexCount = (particleCount - 1) * 6;
-        cmdHelper.material = this.material.id;
-        cmdHelper.emitterPlayer = this.player.id;
-        var psData = this.player.psData;
-        if (psData.useLocalSpace) {
-            common.Matrix4x4.copy(cmdHelper.matrixModel, psData.matrix4x4);
+        var indexCount = Math.max(0, (particleCount - 1) * 6);
+        var cmd;
+        if (batchInfo) {
+            cmd = batchInfo.lastDrawCmd;
+            cmd.indexCount += indexCount;
+            common.Bounds.union(cmd.bounds, cmd.bounds, player.globalBounds);
         }
         else {
-            common.Matrix4x4.identity(cmdHelper.matrixModel);
+            cmd = cmdHelper;
+            cmd.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
+            cmd.indexCount = indexCount;
+            cmd.indexOffset = offsets.lastIndexCount;
+            cmd.material = this.material.id;
+            common.Bounds.copy(cmd.bounds, player.globalBounds);
         }
-        drawData.fillDrawCmd(cmdHelper);
+        return cmd;
     };
     ModRibbon.prototype._onCreatedParticle = function (particle) {
         this.queueParticles.push(particle);

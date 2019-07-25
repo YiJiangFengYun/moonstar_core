@@ -20,7 +20,6 @@ var ModRotationInitial = /** @class */ (function (_super) {
     function ModRotationInitial(player) {
         var _this = _super.call(this, player) || this;
         _this.value = 0; //(radian)
-        _this.name = ModRotationInitial.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

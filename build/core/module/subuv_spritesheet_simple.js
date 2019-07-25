@@ -24,7 +24,6 @@ var ModSubUVSpriteSheetSimple = /** @class */ (function (_super) {
          * UV Size of one frame.
          */
         _this.frameUVSize = common.Vector.create();
-        _this.name = ModSubUVSpriteSheetSimple.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

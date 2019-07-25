@@ -25,7 +25,6 @@ var ModSortLineSegment = /** @class */ (function (_super) {
         _this._vector = common.Vector.create();
         _this._vecHelper1 = common.Vector.create();
         _this._vecHelper2 = common.Vector.create();
-        _this.name = ModSortLineSegment.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onChangeParticle, _this);
         player.on(emitterPlayer.EVENT_DESTROYED_PARTICLE, _this._onChangeParticle, _this);
         return _this;

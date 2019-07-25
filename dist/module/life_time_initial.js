@@ -19,7 +19,6 @@ var ModLifeTimeInitial = /** @class */ (function (_super) {
     __extends(ModLifeTimeInitial, _super);
     function ModLifeTimeInitial(player) {
         var _this = _super.call(this, player) || this;
-        _this.name = ModLifeTimeInitial.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

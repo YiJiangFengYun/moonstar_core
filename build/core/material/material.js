@@ -38,6 +38,51 @@ var Material = /** @class */ (function () {
         this._id = common.gainID();
         this.color.set(common.COLOR_WHITE);
     }
+    Material.equal = function (a1, a2) {
+        if (a1.type !== a2.type)
+            return false;
+        if (common.Color.equals(a1.color, a2.color) === false)
+            return false;
+        if (a1.texturePath !== a2.texturePath)
+            return false;
+        if (a1.srcBlendFactor !== a2.srcBlendFactor)
+            return false;
+        if (a1.dstBlendFactor !== a2.dstBlendFactor)
+            return false;
+        if (a1.blendOp !== a2.blendOp)
+            return false;
+        return true;
+    };
+    Material.sort = function (a1, a2) {
+        if (a1.type !== a2.type)
+            return a1.type - a2.type;
+        var sqrLen1 = common.Color.sqrLen(a1.color);
+        var sqrLen2 = common.Color.sqrLen(a2.color);
+        if (sqrLen1 !== sqrLen2) {
+            return sqrLen1 - sqrLen2;
+        }
+        var texBoolNum1 = Number(Boolean(a1.texturePath));
+        var texBoolNum2 = Number(Boolean(a2.texturePath));
+        if (texBoolNum1 !== texBoolNum2) {
+            return texBoolNum1 - texBoolNum2;
+        }
+        if (a1.texturePath > a2.texturePath) {
+            return 1;
+        }
+        else if (a1.texturePath < a2.texturePath) {
+            return -1;
+        }
+        if (a1.srcBlendFactor !== a2.srcBlendFactor) {
+            return a1.srcBlendFactor - a2.srcBlendFactor;
+        }
+        if (a1.dstBlendFactor !== a2.dstBlendFactor) {
+            return a1.dstBlendFactor - a2.dstBlendFactor;
+        }
+        if (a1.blendOp !== a2.blendOp) {
+            return a1.blendOp - a2.blendOp;
+        }
+        return 0;
+    };
     Object.defineProperty(Material.prototype, "id", {
         get: function () {
             return this._id;

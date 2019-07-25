@@ -20,7 +20,6 @@ var ModColorOverLife = /** @class */ (function (_super) {
     __extends(ModColorOverLife, _super);
     function ModColorOverLife(player) {
         var _this = _super.call(this, player) || this;
-        _this.name = ModColorOverLife.NAME;
         _this.colorBegin = common.Color.create();
         _this.colorEnd = common.Color.create();
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);

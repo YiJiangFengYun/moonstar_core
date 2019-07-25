@@ -20,7 +20,6 @@ var ModVelocity = /** @class */ (function (_super) {
     function ModVelocity(player) {
         var _this = _super.call(this, player) || this;
         _this._vecHelper = common.Vector.create();
-        _this.name = ModVelocity.NAME;
         return _this;
     }
     ModVelocity.prototype.init = function (info) {

@@ -26,7 +26,6 @@ var ModLocationInitialLineSegment = /** @class */ (function (_super) {
         _this._vector = common.Vector.create();
         _this._vecPerpendicular = common.Vector.create();
         _this._vecHelper = common.Vector.create();
-        _this.name = ModLocationInitialLineSegment.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

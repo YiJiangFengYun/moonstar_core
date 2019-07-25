@@ -12,7 +12,7 @@ export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
     material: number;
-    emitterPlayer: number;
+    bounds: common.Bounds;
     matrixModel: common.Matrix4x4;
 }
 export declare const DrawCmd: {

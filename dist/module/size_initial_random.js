@@ -22,7 +22,6 @@ var ModSizeInitialRandom = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.sizeMin = common.Vector.create();
         _this.sizeMax = common.Vector.create();
-        _this.name = ModSizeInitialRandom.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

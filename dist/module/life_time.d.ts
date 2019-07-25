@@ -20,4 +20,5 @@ export declare class ModLifeTime extends Module {
     constructor(player: emitterPlayer.EmitterPlayer);
     init(info: any): void;
     update(dt: number): void;
+    postUpdate(): void;
 }

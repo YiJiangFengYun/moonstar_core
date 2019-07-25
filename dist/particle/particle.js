@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
-function create() {
+function createParticle() {
     return { id: common.gainID() };
 }
-exports.create = create;
+exports.createParticle = createParticle;

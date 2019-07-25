@@ -23,6 +23,7 @@ export declare class ParticleSystem extends common.Player {
     emitters: emitter.Emitter[];
     emitterCount: number;
     private _id;
+    private _cmdHelper;
     constructor();
     readonly id: number;
     init(info: ParticleSystemInfo): void;

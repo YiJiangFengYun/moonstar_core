@@ -20,7 +20,6 @@ var ModSpawnIntermittency = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this._time = 0;
         _this._remainTime = 0;
-        _this.name = ModSpawnIntermittency.NAME;
         return _this;
     }
     ModSpawnIntermittency.prototype.init = function (info) {

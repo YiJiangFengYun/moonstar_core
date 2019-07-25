@@ -29,7 +29,10 @@ export declare class ModRibbon extends Module implements ModRender {
         idxBufferByteOffset: number;
         lastVertexCount: number;
         lastIndexCount: number;
-    }): void;
+    }, batchInfo?: {
+        lastBatchVertexCount: number;
+        lastDrawCmd: render.DrawCmd;
+    }): render.DrawCmd;
     private _onCreatedParticle;
     private _onDestroyedParticle;
     private _onReset;

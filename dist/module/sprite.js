@@ -25,7 +25,6 @@ var ModSprite = /** @class */ (function (_super) {
         _this._posHelper = common.Vector.create();
         _this._uvHelper = common.Vector.create();
         _this._cmdHelper = render.DrawCmd.create();
-        _this.name = ModSprite.NAME;
         return _this;
     }
     ModSprite.prototype.init = function (info) {
@@ -49,14 +48,14 @@ var ModSprite = /** @class */ (function (_super) {
     ModSprite.prototype.getMaxIdxCount = function () {
         return this.player.maxParticleCount * 6;
     };
-    ModSprite.prototype.fillBuffers = function (drawData, offsets) {
+    ModSprite.prototype.fillBuffers = function (drawData, offsets, batchInfo) {
         var player = this.player;
         var particles = player.particles;
         var particleCount = player.particleCount;
         var useSubUV = this.useSubUV;
         var vtxBufferByteOffset = offsets.vtxBufferByteOffset;
         var idxBufferByteOffset = offsets.idxBufferByteOffset;
-        var idxValueOffset = 0;
+        var idxValueOffset = batchInfo ? batchInfo.lastBatchVertexCount : 0;
         var posHelper = this._posHelper;
         var uvHelper = this._uvHelper;
         var cmdHelper = this._cmdHelper;
@@ -152,19 +151,22 @@ var ModSprite = /** @class */ (function (_super) {
             idxBufferByteOffset = drawData.fillIndex(idxValueOffset + 2, idxBufferByteOffset);
             idxValueOffset += 4;
         }
-        cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
-        cmdHelper.indexOffset = offsets.lastIndexCount;
-        cmdHelper.indexCount = particleCount * 6;
-        cmdHelper.material = this.material.id;
-        cmdHelper.emitterPlayer = this.player.id;
-        var psData = this.player.psData;
-        if (psData.useLocalSpace) {
-            common.Matrix4x4.copy(cmdHelper.matrixModel, psData.matrix4x4);
+        var indexCount = particleCount * 6;
+        var cmd;
+        if (batchInfo) {
+            cmd = batchInfo.lastDrawCmd;
+            cmd.indexCount += indexCount;
+            common.Bounds.union(cmd.bounds, cmd.bounds, player.globalBounds);
         }
         else {
-            common.Matrix4x4.identity(cmdHelper.matrixModel);
+            cmd = cmdHelper;
+            cmd.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
+            cmd.indexCount = indexCount;
+            cmd.indexOffset = offsets.lastIndexCount;
+            cmd.material = this.material.id;
+            common.Bounds.copy(cmd.bounds, player.globalBounds);
         }
-        drawData.fillDrawCmd(cmdHelper);
+        return cmd;
     };
     ModSprite.NAME = "sprite";
     return ModSprite;

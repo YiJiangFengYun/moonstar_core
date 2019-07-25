@@ -21,7 +21,6 @@ var ModSizeInitial = /** @class */ (function (_super) {
     function ModSizeInitial(player) {
         var _this = _super.call(this, player) || this;
         _this.size = common.Vector.create();
-        _this.name = ModSizeInitial.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

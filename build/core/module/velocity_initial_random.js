@@ -22,7 +22,6 @@ var ModVelocityInitialRandom = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.velocityMin = common.Vector.create();
         _this.velocityMax = common.Vector.create();
-        _this.name = ModVelocityInitialRandom.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

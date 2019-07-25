@@ -22,7 +22,6 @@ var ModLocationInitialRectangle = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.width = 0;
         _this.height = 0;
-        _this.name = ModLocationInitialRectangle.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

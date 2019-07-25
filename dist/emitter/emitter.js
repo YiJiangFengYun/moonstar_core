@@ -28,16 +28,13 @@ var Emitter = /** @class */ (function () {
         for (var i = 0; i < newModCount; ++i) {
             var moduleConfig = info.modules[i];
             var name_1 = moduleConfig.name;
-            var moduleClass = module.mapModules[name_1];
-            if (!moduleClass)
-                throw new Error("The module " + name_1 + " is invalid.");
-            modules[i] = new moduleClass(this.player);
+            modules[i] = module.createModule(name_1, this.player);
             modules[i].init(moduleConfig);
             if (mapModules[name_1]) {
                 log.warn("There are multiple modules with the same name applied to the emitter.");
             }
             mapModules[name_1] = modules[i];
-            if (module.renderModules.indexOf(moduleClass) >= 0) {
+            if (module.renderModules.indexOf(name_1) >= 0) {
                 if (this.renderModule) {
                     log.warn("There are multiple render modules applied to the emitter.");
                 }
@@ -57,6 +54,9 @@ var Emitter = /** @class */ (function () {
         if (this.player.isPlay) {
             this.modules.forEach(function (mod) {
                 mod.update(dt);
+            });
+            this.modules.forEach(function (mod) {
+                mod.postUpdate();
             });
         }
     };

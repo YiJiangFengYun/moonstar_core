@@ -21,7 +21,6 @@ var ModOrientationInitialRadiation = /** @class */ (function (_super) {
     function ModOrientationInitialRadiation(player) {
         var _this = _super.call(this, player) || this;
         _this.vecHelper = common.Vector.create();
-        _this.name = ModOrientationInitialRadiation.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

@@ -21,7 +21,6 @@ var ModLocationInitialCircleBorder = /** @class */ (function (_super) {
     function ModLocationInitialCircleBorder(player) {
         var _this = _super.call(this, player) || this;
         _this.radius = 0;
-        _this.name = ModLocationInitialCircleBorder.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

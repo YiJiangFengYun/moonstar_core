@@ -10,4 +10,6 @@ export declare namespace Bounds {
     function intersecting(a: Bounds, b: Bounds): boolean;
     function translate(out: Bounds, target: Bounds, value: Vector): void;
     function isEmpty(target: Bounds): boolean;
+    function union(out: Bounds, bound1: Bounds, bound2: Bounds): void;
 }
+export declare const BOUNDS_EMPTY: glMatrix.vec4;

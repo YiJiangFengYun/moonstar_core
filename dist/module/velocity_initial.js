@@ -21,7 +21,6 @@ var ModVelocityInitial = /** @class */ (function (_super) {
     function ModVelocityInitial(player) {
         var _this = _super.call(this, player) || this;
         _this.velocity = common.Vector.create();
-        _this.name = ModVelocityInitial.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

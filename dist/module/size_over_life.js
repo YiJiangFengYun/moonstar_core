@@ -22,7 +22,6 @@ var ModSizeOverLife = /** @class */ (function (_super) {
         var _this = _super.call(this, player) || this;
         _this.sizeBegin = common.Vector.create();
         _this.sizeEnd = common.Vector.create();
-        _this.name = ModSizeOverLife.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, _this._onCreateParticle, _this);
         return _this;
     }

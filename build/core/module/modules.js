@@ -34,72 +34,90 @@ var sort_line_segment_1 = require("./sort_line_segment");
 var sprite_connected_1 = require("./sprite_connected");
 var subplayer_follow_1 = require("./subplayer_follow");
 exports.mapModules = {};
+exports.arrModules = [];
+function registerModule(modType) {
+    var modType2 = modType;
+    exports.mapModules[modType2.NAME] = modType;
+    exports.arrModules.push(modType);
+}
+exports.registerModule = registerModule;
+function createModule(name, player) {
+    var mod = exports.mapModules[name];
+    if (!mod)
+        throw new Error("The module " + name + " is invalid.");
+    var index = exports.arrModules.indexOf(mod);
+    var instance = new mod(player);
+    instance.name = name;
+    instance.typeID = index + 1;
+    return instance;
+}
+exports.createModule = createModule;
 // Render modules
-exports.mapModules[sprite_1.ModSprite.NAME] = sprite_1.ModSprite;
-exports.mapModules[ribbon_1.ModRibbon.NAME] = ribbon_1.ModRibbon;
-exports.mapModules[sprite_connected_1.ModSpriteConnected.NAME] = sprite_connected_1.ModSpriteConnected;
+registerModule(sprite_1.ModSprite);
+registerModule(ribbon_1.ModRibbon);
+registerModule(sprite_connected_1.ModSpriteConnected);
 // Spawn modules
-exports.mapModules[spawn_1.ModSpawn.NAME] = spawn_1.ModSpawn;
-exports.mapModules[spawn_moving_1.ModSpawnMoving.NAME] = spawn_moving_1.ModSpawnMoving;
-exports.mapModules[spawn_intermittency_1.ModSpawnIntermittency.NAME] = spawn_intermittency_1.ModSpawnIntermittency;
+registerModule(spawn_1.ModSpawn);
+registerModule(spawn_moving_1.ModSpawnMoving);
+registerModule(spawn_intermittency_1.ModSpawnIntermittency);
 // Velocity module
-exports.mapModules[velocity_1.ModVelocity.NAME] = velocity_1.ModVelocity;
+registerModule(velocity_1.ModVelocity);
 // Rotation module
-exports.mapModules[rotation_1.ModRotation.NAME] = rotation_1.ModRotation;
+registerModule(rotation_1.ModRotation);
 // Initial modules.
-exports.mapModules[size_initial_1.ModSizeInitial.NAME] = size_initial_1.ModSizeInitial;
-exports.mapModules[location_initial_circle_1.ModLocationInitialCircle.NAME] = location_initial_circle_1.ModLocationInitialCircle;
-exports.mapModules[location_initial_circle_border_1.ModLocationInitialCircleBorder.NAME] = location_initial_circle_border_1.ModLocationInitialCircleBorder;
-exports.mapModules[location_initial_rectangle_1.ModLocationInitialRectangle.NAME] = location_initial_rectangle_1.ModLocationInitialRectangle;
-exports.mapModules[location_initial_line_segment_1.ModLocationInitialLineSegment.NAME] = location_initial_line_segment_1.ModLocationInitialLineSegment;
-exports.mapModules[orientation_initial_radiation_1.ModOrientationInitialRadiation.NAME] = orientation_initial_radiation_1.ModOrientationInitialRadiation;
-exports.mapModules[size_initial_random_1.ModSizeInitialRandom.NAME] = size_initial_random_1.ModSizeInitialRandom;
-exports.mapModules[color_initial_1.ModColorInitial.NAME] = color_initial_1.ModColorInitial;
-exports.mapModules[color_initial_random_1.ModColorInitialRandom.NAME] = color_initial_random_1.ModColorInitialRandom;
-exports.mapModules[velocity_initial_1.ModVelocityInitial.NAME] = velocity_initial_1.ModVelocityInitial;
-exports.mapModules[velocity_initial_random_1.ModVelocityInitialRandom.NAME] = velocity_initial_random_1.ModVelocityInitialRandom;
-exports.mapModules[velocity_initial_vary_1.ModVelocityInitialVary.NAME] = velocity_initial_vary_1.ModVelocityInitialVary;
-exports.mapModules[rotation_initial_1.ModRotationInitial.NAME] = rotation_initial_1.ModRotationInitial;
-exports.mapModules[rotation_initial_random_1.ModRotationInitialRandom.NAME] = rotation_initial_random_1.ModRotationInitialRandom;
-exports.mapModules[width_inital_1.ModWidthInitial.NAME] = width_inital_1.ModWidthInitial;
-exports.mapModules[life_time_initial_1.ModLifeTimeInitial.NAME] = life_time_initial_1.ModLifeTimeInitial;
-exports.mapModules[life_time_initial_random_1.ModLifeTimeInitialRandom.NAME] = life_time_initial_random_1.ModLifeTimeInitialRandom;
+registerModule(size_initial_1.ModSizeInitial);
+registerModule(location_initial_circle_1.ModLocationInitialCircle);
+registerModule(location_initial_circle_border_1.ModLocationInitialCircleBorder);
+registerModule(location_initial_rectangle_1.ModLocationInitialRectangle);
+registerModule(location_initial_line_segment_1.ModLocationInitialLineSegment);
+registerModule(orientation_initial_radiation_1.ModOrientationInitialRadiation);
+registerModule(size_initial_random_1.ModSizeInitialRandom);
+registerModule(color_initial_1.ModColorInitial);
+registerModule(color_initial_random_1.ModColorInitialRandom);
+registerModule(velocity_initial_1.ModVelocityInitial);
+registerModule(velocity_initial_random_1.ModVelocityInitialRandom);
+registerModule(velocity_initial_vary_1.ModVelocityInitialVary);
+registerModule(rotation_initial_1.ModRotationInitial);
+registerModule(rotation_initial_random_1.ModRotationInitialRandom);
+registerModule(width_inital_1.ModWidthInitial);
+registerModule(life_time_initial_1.ModLifeTimeInitial);
+registerModule(life_time_initial_random_1.ModLifeTimeInitialRandom);
 // Life time modules
-exports.mapModules[life_time_1.ModLifeTime.NAME] = life_time_1.ModLifeTime;
+registerModule(life_time_1.ModLifeTime);
 // Over Life modules
-exports.mapModules[color_over_life_1.ModColorOverLife.NAME] = color_over_life_1.ModColorOverLife;
-exports.mapModules[size_over_life_1.ModSizeOverLife.NAME] = size_over_life_1.ModSizeOverLife;
-exports.mapModules[velocity_over_life_1.ModVelocityOverLife.NAME] = velocity_over_life_1.ModVelocityOverLife;
+registerModule(color_over_life_1.ModColorOverLife);
+registerModule(size_over_life_1.ModSizeOverLife);
+registerModule(velocity_over_life_1.ModVelocityOverLife);
 //Sub UV modules
-exports.mapModules[subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple.NAME] = subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple;
+registerModule(subuv_spritesheet_simple_1.ModSubUVSpriteSheetSimple);
 //Sub player modules
-exports.mapModules[subplayer_after_destroy_1.ModSubPlayerAfterDestroy.NAME] = subplayer_after_destroy_1.ModSubPlayerAfterDestroy;
-exports.mapModules[subplayer_follow_1.ModSubPlayerFollow.NAME] = subplayer_follow_1.ModSubPlayerFollow;
+registerModule(subplayer_after_destroy_1.ModSubPlayerAfterDestroy);
+registerModule(subplayer_follow_1.ModSubPlayerFollow);
 //Sort modules
-exports.mapModules[sort_line_segment_1.ModSortLineSegment.NAME] = sort_line_segment_1.ModSortLineSegment;
-exports.moduleGroup = {
-    sprite: [
-        { module: sprite_1.ModSprite, required: true, default: true },
-        { module: spawn_1.ModSpawn, required: true, default: true },
-        { module: velocity_1.ModVelocity, required: false, default: true },
-        { module: size_initial_1.ModSizeInitial, required: false, default: true },
-        { module: location_initial_circle_1.ModLocationInitialCircle, required: false, default: false },
-        { module: life_time_1.ModLifeTime, required: false, default: true },
-        { module: color_over_life_1.ModColorOverLife, required: false, default: true },
-    ],
-    ribbon: [
-        { module: ribbon_1.ModRibbon, required: true, default: true },
-        { module: spawn_moving_1.ModSpawnMoving, required: true, default: true },
-        { module: spawn_1.ModSpawn, required: false, default: false },
-        { module: width_inital_1.ModWidthInitial, required: true, default: true },
-        { module: life_time_1.ModLifeTime, required: true, default: true },
-        { module: velocity_1.ModVelocity, required: false, default: false },
-        { module: color_over_life_1.ModColorOverLife, required: false, default: true },
-    ]
-};
+registerModule(sort_line_segment_1.ModSortLineSegment);
+// export const moduleGroup = {
+//     sprite: [
+//         { module: ModSprite, required: true, default: true },
+//         { module: ModSpawn, required: true, default: true },
+//         { module: ModVelocity, required: false, default: true },
+//         { module: ModSizeInitial, required: false, default: true },
+//         { module: ModLocationInitialCircle, required: false, default: false},
+//         { module: ModLifeTime, required: false, default: true },
+//         { module: ModColorOverLife, required: false, default: true },
+//     ],
+//     ribbon: [
+//         { module: ModRibbon, required: true, default: true },
+//         { module: ModSpawnMoving, required: true, default: true },
+//         { module: ModSpawn, required: false, default: false },
+//         { module: ModWidthInitial, required: true, default: true },
+//         { module: ModLifeTime, required: true, default: true },
+//         { module: ModVelocity, required: false, default: false },
+//         { module: ModColorOverLife, required: false, default: true },
+//     ]
+// }
 exports.renderModules = [];
 exports.renderModules.length = 3;
-exports.renderModules[0] = sprite_1.ModSprite;
-exports.renderModules[1] = ribbon_1.ModRibbon;
-exports.renderModules[2] = sprite_connected_1.ModSpriteConnected;
+exports.renderModules[0] = sprite_1.ModSprite.NAME;
+exports.renderModules[1] = ribbon_1.ModRibbon.NAME;
+exports.renderModules[2] = sprite_connected_1.ModSpriteConnected.NAME;
 //# sourceMappingURL=modules.js.map

@@ -18,6 +18,7 @@ var common = require("../common");
 var emitter = require("../emitter");
 var psData = require("../ps_data");
 var render = require("../render");
+var material = require("../material");
 /**
  * Note: All emitters should be created when the ParticleSystem init.
  * If a emitter play latter, you should stop the emitter, and then play it.
@@ -30,6 +31,7 @@ var ParticleSystem = /** @class */ (function (_super) {
         _this.drawData = new render.DrawData();
         _this.emitters = [];
         _this.emitterCount = 0;
+        _this._cmdHelper = render.DrawCmd.create();
         _this._id = common.gainID();
         return _this;
     }
@@ -85,6 +87,26 @@ var ParticleSystem = /** @class */ (function (_super) {
                 parentPlayer.addPlayer(et.player);
             }
         }
+        // Sort the emitters by their render module and material.
+        emitters.sort(function (a, b) {
+            var rMA = a.renderModule;
+            var rMB = b.renderModule;
+            var typeIDRMA = rMA ? rMA.typeID : 0;
+            var typeIDRMB = rMB ? rMB.typeID : 0;
+            if (typeIDRMA !== typeIDRMB)
+                return typeIDRMA - typeIDRMB;
+            var matA = rMA ? rMA.material : null;
+            var matB = rMB ? rMB.material : null;
+            var matABoolNum = Number(Boolean(matA));
+            var matBBoolNum = Number(Boolean(matB));
+            if (matABoolNum !== matBBoolNum) {
+                return matABoolNum - matBBoolNum;
+            }
+            if (matA) {
+                return material.Material.sort(matA, matB);
+            }
+            return 0;
+        });
         // Ready and player the emitters
         for (var i = 0; i < newCount; ++i) {
             emitters[i].ready();
@@ -130,6 +152,7 @@ var ParticleSystem = /** @class */ (function (_super) {
         var emitterCount = this.emitterCount;
         var emitters = this.emitters;
         var drawData = this.drawData;
+        var data = this.data;
         emitterCount = emitterCount || 0;
         var totalVtxCount = 0;
         var totalIdxCount = 0;
@@ -150,26 +173,67 @@ var ParticleSystem = /** @class */ (function (_super) {
             totalIdxCount: totalIdxCount,
         });
         drawData.clearCmds();
+        var lastRenderModuleName = null;
+        var lastRenderModule = null;
+        var lastBatchVertexCount = 0;
+        var lastDrawCmd = this._cmdHelper;
         var vtxBufferByteOffset = 0;
         var idxBufferByteOffset = 0;
         var lastVertexCount = 0;
         var lastIndexCount = 0;
+        var fillDrawCmd = function (cmd) {
+            drawData.fillDrawCmd(cmd);
+            //clear
+            cmd.indexCount = 0;
+        };
         for (var i = 0; i < emitterCount; ++i) {
             var eRenderCpt = emitters[i].renderModule;
-            if (eRenderCpt) {
-                eRenderCpt.fillBuffers(drawData, {
-                    vtxBufferByteOffset: vtxBufferByteOffset,
-                    idxBufferByteOffset: idxBufferByteOffset,
-                    lastVertexCount: lastVertexCount,
-                    lastIndexCount: lastIndexCount,
-                });
+            var idxCount = eRenderCpt ? eRenderCpt.getTotalIdxCount() : 0;
+            if (idxCount > 0) {
                 var vtxCount = eRenderCpt.getTotalVtxCount();
-                var idxCount = eRenderCpt.getTotalIdxCount();
+                if (lastRenderModuleName === eRenderCpt.name && material.Material.equal(lastRenderModule.material, eRenderCpt.material)) {
+                    var batchInfo = {
+                        lastBatchVertexCount: lastBatchVertexCount,
+                        lastDrawCmd: lastDrawCmd,
+                    };
+                    eRenderCpt.fillBuffers(drawData, {
+                        vtxBufferByteOffset: vtxBufferByteOffset,
+                        idxBufferByteOffset: idxBufferByteOffset,
+                        lastVertexCount: lastVertexCount,
+                        lastIndexCount: lastIndexCount,
+                    }, batchInfo);
+                    lastBatchVertexCount += vtxCount;
+                }
+                else {
+                    if (lastDrawCmd.indexCount) {
+                        fillDrawCmd(lastDrawCmd);
+                    }
+                    var resCmd = eRenderCpt.fillBuffers(drawData, {
+                        vtxBufferByteOffset: vtxBufferByteOffset,
+                        idxBufferByteOffset: idxBufferByteOffset,
+                        lastVertexCount: lastVertexCount,
+                        lastIndexCount: lastIndexCount,
+                    });
+                    render.DrawCmd.copy(lastDrawCmd, resCmd);
+                    lastBatchVertexCount = vtxCount;
+                    //ps matrix
+                    if (data.useLocalSpace) {
+                        common.Matrix4x4.copy(lastDrawCmd.matrixModel, data.matrix4x4);
+                    }
+                    else {
+                        common.Matrix4x4.identity(lastDrawCmd.matrixModel);
+                    }
+                }
                 lastVertexCount += vtxCount;
                 lastIndexCount += idxCount;
                 vtxBufferByteOffset += drawData.vtxSize * vtxCount;
                 idxBufferByteOffset += drawData.idxSize * idxCount;
+                lastRenderModuleName = eRenderCpt.name;
+                lastRenderModule = eRenderCpt;
             }
+        }
+        if (lastDrawCmd.indexCount) {
+            fillDrawCmd(lastDrawCmd);
         }
     };
     ParticleSystem.prototype._reset = function () {

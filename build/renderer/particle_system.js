@@ -13,7 +13,6 @@ var ParticleSystem = /** @class */ (function () {
     function ParticleSystem() {
         this.data = new particle_system_data_1.ParticleSystemData();
         this.mapMaterials = {};
-        this.mapPlayers = {};
         this._boundsPosHelper = core.Vector.create();
         this._boundsSizeHelper = core.Vector.create();
     }
@@ -24,13 +23,11 @@ var ParticleSystem = /** @class */ (function () {
         var emitters = psCore.emitters;
         var emitterCount = psCore.emitterCount;
         var mapMaterials = this.mapMaterials;
-        var mapPlayers = this.mapPlayers;
         for (var i = 0; i < emitterCount; ++i) {
             var renderModule = emitters[i].renderModule;
             var matCore = renderModule.material;
             var material = material_1.createMaterial(matCore, this.data);
             mapMaterials[matCore.id] = material;
-            mapPlayers[emitters[i].player.id] = emitters[i].player;
         }
     };
     ParticleSystem.prototype.update = function (dt) {
@@ -81,14 +78,12 @@ var ParticleSystem = /** @class */ (function () {
         var cmdList = drawData.cmdList;
         var cmdCount = drawData.cmdCount;
         var mapMaterials = this.mapMaterials;
-        var mapPlayers = this.mapPlayers;
         var boundsPosHelper = this._boundsPosHelper;
         var boundsSizeHelper = this._boundsSizeHelper;
         for (var i = 0; i < cmdCount; ++i) {
             var cmd = cmdList[i];
             if (cmd.indexCount > 0) {
-                var player = mapPlayers[cmd.emitterPlayer];
-                var bounds = player.globalBounds;
+                var bounds = cmd.bounds || core.BOUNDS_EMPTY;
                 if (core.Bounds.isEmpty(bounds) || core.Bounds.intersecting(bounds, rData.viewBounds)) {
                     var material = mapMaterials[cmd.material];
                     if (material) {
