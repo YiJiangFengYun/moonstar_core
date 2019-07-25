@@ -191,11 +191,9 @@ export class ParticleSystem extends common.Player {
         }
         for (let i = 0; i < emitterCount; ++i) {
             let eRenderCpt = emitters[i].renderModule;
-
-            if (eRenderCpt) {
+            let idxCount = eRenderCpt ? eRenderCpt.getTotalIdxCount() : 0;
+            if (idxCount > 0) {
                 let vtxCount = eRenderCpt.getTotalVtxCount();
-                let idxCount = eRenderCpt.getTotalIdxCount();
-                
                 if (lastRenderModuleName === eRenderCpt.name && material.Material.equal(lastRenderModule.material, eRenderCpt.material)) {
                     let batchInfo = {
                         lastBatchVertexCount: lastBatchVertexCount,
