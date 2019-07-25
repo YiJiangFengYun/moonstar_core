@@ -53,7 +53,7 @@ export interface DrawCmd {
     indexOffset: number;
     indexCount: number;
     material: number;
-    emitterPlayer: number;
+    bounds: common.Bounds;
     matrixModel: common.Matrix4x4;
 }
 
@@ -64,7 +64,7 @@ export const DrawCmd = {
             indexOffset: 0,
             indexCount: 0,
             material: 0,
-            emitterPlayer: 0,
+            bounds: common.Bounds.create(),
             matrixModel: common.Matrix4x4.create(),
         };
     },
@@ -75,7 +75,7 @@ export const DrawCmd = {
         out.indexOffset = cmd.indexOffset;
         out.indexCount = cmd.indexCount;
         out.material = cmd.material;
-        out.emitterPlayer = cmd.emitterPlayer;
+        common.Bounds.copy(out.bounds, cmd.bounds);
         common.Matrix4x4.copy(out.matrixModel, cmd.matrixModel);
         return out;
     }

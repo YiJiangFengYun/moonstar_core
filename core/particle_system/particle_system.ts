@@ -1,8 +1,10 @@
 import * as log from "loglevel";
 import * as common from "../common";
+import * as module from "../module";
 import * as emitter from "../emitter";
 import * as psData from "../ps_data";
 import * as render from "../render";
+import * as material from "../material";
 
 
 export type ParticleSystemInfo = {
@@ -26,6 +28,7 @@ export class ParticleSystem extends common.Player {
     public emitterCount: number = 0;
 
     private _id: number;
+    private _cmdHelper: render.DrawCmd = render.DrawCmd.create();
     public constructor() {
         super();
         this._id = common.gainID();
@@ -83,6 +86,26 @@ export class ParticleSystem extends common.Player {
             }
         }
 
+        // Sort the emitters by their render module and material.
+        emitters.sort((a, b) => {
+            let rMA = a.renderModule;
+            let rMB = b.renderModule;
+            let typeIDRMA = rMA ? rMA.typeID : 0;
+            let typeIDRMB = rMB ? rMB.typeID : 0;
+            if (typeIDRMA !== typeIDRMB) return typeIDRMA - typeIDRMB;
+            let matA = rMA ? rMA.material : null;
+            let matB = rMB ? rMB.material : null;
+            let matABoolNum = Number(Boolean(matA));
+            let matBBoolNum = Number(Boolean(matB));
+            if (matABoolNum !== matBBoolNum) {
+                return matABoolNum - matBBoolNum;
+            }
+            if (matA) {
+                return material.Material.sort(matA, matB);
+            }
+            return 0;
+        });
+
         // Ready and player the emitters
         for (let i = 0; i < newCount; ++i) {
             emitters[i].ready();
@@ -131,6 +154,7 @@ export class ParticleSystem extends common.Player {
         let emitterCount = this.emitterCount;
         let emitters = this.emitters;
         let drawData = this.drawData;
+        let data = this.data;
         emitterCount = emitterCount || 0;
         let totalVtxCount = 0;
         let totalIdxCount = 0;
@@ -152,27 +176,73 @@ export class ParticleSystem extends common.Player {
 
         drawData.clearCmds();
 
+        let lastRenderModuleName: string = null;
+        let lastRenderModule: module.ModRender = null;
+        let lastBatchVertexCount: number = 0;
+        let lastDrawCmd: render.DrawCmd = this._cmdHelper;
         let vtxBufferByteOffset: number = 0;
         let idxBufferByteOffset: number = 0;
         let lastVertexCount: number = 0;
         let lastIndexCount: number = 0;
+        let fillDrawCmd = (cmd: render.DrawCmd) => {
+            drawData.fillDrawCmd(cmd);
+            //clear
+            cmd.indexCount = 0;
+        }
         for (let i = 0; i < emitterCount; ++i) {
             let eRenderCpt = emitters[i].renderModule;
-            if (eRenderCpt) {
-                eRenderCpt.fillBuffers(drawData, {
-                    vtxBufferByteOffset: vtxBufferByteOffset,
-                    idxBufferByteOffset: idxBufferByteOffset,
-                    lastVertexCount: lastVertexCount,
-                    lastIndexCount: lastIndexCount,
-                });
-
+            let idxCount = eRenderCpt ? eRenderCpt.getTotalIdxCount() : 0;
+            if (idxCount > 0) {
                 let vtxCount = eRenderCpt.getTotalVtxCount();
-                let idxCount = eRenderCpt.getTotalIdxCount();
+                if (lastRenderModuleName === eRenderCpt.name && material.Material.equal(lastRenderModule.material, eRenderCpt.material)) {
+                    let batchInfo = {
+                        lastBatchVertexCount: lastBatchVertexCount,
+                        lastDrawCmd: lastDrawCmd,
+                    }
+                    eRenderCpt.fillBuffers(drawData, {
+                        vtxBufferByteOffset: vtxBufferByteOffset,
+                        idxBufferByteOffset: idxBufferByteOffset,
+                        lastVertexCount: lastVertexCount,
+                        lastIndexCount: lastIndexCount,
+                    }, batchInfo);
+
+                    lastBatchVertexCount += vtxCount;
+
+                } else {
+                    if (lastDrawCmd.indexCount) {
+                        fillDrawCmd(lastDrawCmd);
+                    }
+
+                    let resCmd = eRenderCpt.fillBuffers(drawData, {
+                        vtxBufferByteOffset: vtxBufferByteOffset,
+                        idxBufferByteOffset: idxBufferByteOffset,
+                        lastVertexCount: lastVertexCount,
+                        lastIndexCount: lastIndexCount,
+                    });
+
+                    render.DrawCmd.copy(lastDrawCmd, resCmd);
+                    lastBatchVertexCount = vtxCount;
+
+                    //ps matrix
+                    if (data.useLocalSpace) {
+                        common.Matrix4x4.copy(lastDrawCmd.matrixModel, data.matrix4x4);
+                    } else {
+                        common.Matrix4x4.identity(lastDrawCmd.matrixModel);
+                    }
+                }
+            
                 lastVertexCount += vtxCount;
                 lastIndexCount += idxCount;
                 vtxBufferByteOffset += drawData.vtxSize * vtxCount;
                 idxBufferByteOffset += drawData.idxSize * idxCount;
+
+                lastRenderModuleName = eRenderCpt.name;
+                lastRenderModule = eRenderCpt;
             }
+        }
+
+        if (lastDrawCmd.indexCount) {
+            fillDrawCmd(lastDrawCmd);
         }
     }
 

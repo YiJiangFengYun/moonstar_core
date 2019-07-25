@@ -14,7 +14,6 @@ export class ModColorOverLife extends Module {
     public colorEnd: common.Color;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModColorOverLife.NAME;
         this.colorBegin = common.Color.create();
         this.colorEnd = common.Color.create();
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);

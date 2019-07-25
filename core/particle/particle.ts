@@ -42,6 +42,6 @@ export interface Particle {
     subUV?: common.Vector4;
 }
 
-export function create(): Particle {
+export function createParticle(): Particle {
     return { id: common.gainID() };
 }

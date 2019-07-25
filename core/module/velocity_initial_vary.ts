@@ -17,7 +17,6 @@ export class ModVelocityInitialVary extends Module {
     private _velocityHelper = common.Vector.create();
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModVelocityInitialVary.NAME;
         player.on(emitterPlayer.EVENT_CREATED_PARTICLE, this._onCreateParticle, this);
     }
 

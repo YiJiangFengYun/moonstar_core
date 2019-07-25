@@ -23,7 +23,6 @@ export class ModLifeTime extends Module {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModLifeTime.NAME;
     }
 
     public init(info: any) {
@@ -46,10 +45,13 @@ export class ModLifeTime extends Module {
                 particle.life = particle.time / particle.lifeTime;
             }
         }
+    }
 
+    public postUpdate() {
+        super.postUpdate();
+        let player = this.player;
         if ( ! player.completed && player.checkComplete()) {
             player.complete();
         }
-
     }
 }

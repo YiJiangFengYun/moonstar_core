@@ -11,7 +11,6 @@ import { emitterBoundsOutline } from "./emitter_bounds_outline";
 export class ParticleSystem implements core.IPlayer {
     public data: ParticleSystemData = new ParticleSystemData();
     public mapMaterials: {[id: number]: Material} = {};
-    public mapPlayers: {[id: number]: core.EmitterPlayer} = {};
     private _boundsPosHelper: core.Vector = core.Vector.create();
     private _boundsSizeHelper: core.Vector = core.Vector.create();
     public constructor() {
@@ -24,13 +23,11 @@ export class ParticleSystem implements core.IPlayer {
         let emitters = psCore.emitters;
         let emitterCount = psCore.emitterCount;
         let mapMaterials = this.mapMaterials;
-        let mapPlayers = this.mapPlayers;
         for (let i = 0; i < emitterCount; ++i) {
             let renderModule = emitters[i].renderModule;
             let matCore = renderModule.material;
             let material = createMaterial(matCore, this.data);
             mapMaterials[matCore.id] = material;
-            mapPlayers[emitters[i].player.id] = emitters[i].player;
         }
 
     }
@@ -83,14 +80,12 @@ export class ParticleSystem implements core.IPlayer {
         let cmdList = drawData.cmdList;
         let cmdCount = drawData.cmdCount;
         let mapMaterials = this.mapMaterials;
-        let mapPlayers = this.mapPlayers;
         let boundsPosHelper = this._boundsPosHelper;
         let boundsSizeHelper = this._boundsSizeHelper;
         for (let i = 0; i < cmdCount; ++i) {
             let cmd = cmdList[i];
             if (cmd.indexCount > 0) {
-                let player = mapPlayers[cmd.emitterPlayer];
-                let bounds = player.globalBounds;
+                let bounds = cmd.bounds || core.BOUNDS_EMPTY;
                 if (core.Bounds.isEmpty(bounds) || core.Bounds.intersecting(bounds, rData.viewBounds)) {
                     let material = mapMaterials[cmd.material];
                     if (material) {

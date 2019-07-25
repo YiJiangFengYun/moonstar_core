@@ -13,7 +13,6 @@ export class ModVelocity extends Module {
     private _vecHelper: common.Vector = common.Vector.create();
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModVelocity.NAME;
     }
 
     public init(info: any) {

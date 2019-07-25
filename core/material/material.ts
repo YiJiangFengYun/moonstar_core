@@ -28,6 +28,46 @@ export enum MaterialType {
 
 //class Material with members: color, texture path, and blend.
 export class Material {
+
+    public static equal(a1: Material, a2: Material) {
+        if (a1.type !== a2.type) return false;
+        if (common.Color.equals(a1.color, a2.color) === false) return false;
+        if (a1.texturePath !== a2.texturePath) return false;
+        if (a1.srcBlendFactor !== a2.srcBlendFactor) return false;
+        if (a1.dstBlendFactor !== a2.dstBlendFactor) return false;
+        if (a1.blendOp !== a2.blendOp) return false;
+        return true;
+    }
+
+    public static sort(a1: Material, a2: Material) {
+        if (a1.type !== a2.type) return a1.type - a2.type;
+        let sqrLen1 = common.Color.sqrLen(a1.color);
+        let sqrLen2 = common.Color.sqrLen(a2.color);
+        if (sqrLen1 !== sqrLen2) {
+            return sqrLen1 - sqrLen2;
+        }
+        let texBoolNum1 = Number(Boolean(a1.texturePath));
+        let texBoolNum2 = Number(Boolean(a2.texturePath));
+        if (texBoolNum1 !== texBoolNum2) {
+            return texBoolNum1 - texBoolNum2;
+        }
+        if (a1.texturePath > a2.texturePath) {
+            return 1;
+        } else if (a1.texturePath < a2.texturePath) {
+            return -1;
+        }
+        if (a1.srcBlendFactor !== a2.srcBlendFactor) {
+            return a1.srcBlendFactor - a2.srcBlendFactor;
+        }
+        if (a1.dstBlendFactor !== a2.dstBlendFactor) {
+            return a1.dstBlendFactor - a2.dstBlendFactor;
+        }
+        if (a1.blendOp !== a2.blendOp) {
+            return a1.blendOp - a2.blendOp;
+        }
+        return 0;
+    }
+
     public type: MaterialType | number;
     public color: common.Color = common.Color.create();
     public texturePath: string;

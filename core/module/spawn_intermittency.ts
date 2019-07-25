@@ -13,7 +13,6 @@ export class ModSpawnIntermittency extends Module {
     private _remainTime: number = 0;
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSpawnIntermittency.NAME;
     }
 
     public init(info: any) {

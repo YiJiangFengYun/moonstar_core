@@ -16,7 +16,6 @@ export class ModSprite extends Module implements ModRender {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModSprite.NAME;
     }
 
     public init(info: any) {
@@ -45,12 +44,17 @@ export class ModSprite extends Module implements ModRender {
         return this.player.maxParticleCount * 6;
     }
 
-    public fillBuffers(drawData: render.DrawData, offsets: {
-        vtxBufferByteOffset: number;
-        idxBufferByteOffset: number;
-        lastVertexCount: number; //used as idxValueOffset
-        lastIndexCount: number; // used as index offset of cmd.
-    }): void {
+    public fillBuffers(drawData: render.DrawData,
+        offsets: {
+            vtxBufferByteOffset: number;
+            idxBufferByteOffset: number;
+            lastVertexCount: number; //used as idxValueOffset
+            lastIndexCount: number; // used as index offset of cmd.
+        }, batchInfo?: {
+            lastBatchVertexCount: number;
+            lastDrawCmd: render.DrawCmd;
+        }
+    ): render.DrawCmd {
         let player = this.player;
         let particles = player.particles;
         let particleCount = player.particleCount;
@@ -59,7 +63,7 @@ export class ModSprite extends Module implements ModRender {
         let vtxBufferByteOffset = offsets.vtxBufferByteOffset;
 
         let idxBufferByteOffset = offsets.idxBufferByteOffset;
-        let idxValueOffset = 0;
+        let idxValueOffset = batchInfo ? batchInfo.lastBatchVertexCount : 0;
 
         let posHelper: common.Vector = this._posHelper;
         let uvHelper: common.Vector = this._uvHelper;
@@ -157,21 +161,22 @@ export class ModSprite extends Module implements ModRender {
 
             idxValueOffset += 4;
         }
-
-        cmdHelper.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
-        cmdHelper.indexOffset = offsets.lastIndexCount;
-        cmdHelper.indexCount = particleCount * 6;
-        cmdHelper.material = this.material.id;
-        cmdHelper.emitterPlayer = this.player.id;
-
-        let psData = this.player.psData;
-        if (psData.useLocalSpace) {
-            common.Matrix4x4.copy(cmdHelper.matrixModel, psData.matrix4x4);
+        
+        let indexCount = particleCount * 6;
+        let cmd: render.DrawCmd;
+        if (batchInfo) {
+            cmd = batchInfo.lastDrawCmd;
+            cmd.indexCount += indexCount;
+            common.Bounds.union(cmd.bounds, cmd.bounds, player.globalBounds);
         } else {
-            common.Matrix4x4.identity(cmdHelper.matrixModel);
+            cmd = cmdHelper;
+            cmd.vertexBufferByteOffset = offsets.vtxBufferByteOffset;
+            cmd.indexCount = indexCount;
+            cmd.indexOffset = offsets.lastIndexCount;
+            cmd.material = this.material.id;
+            common.Bounds.copy(cmd.bounds, player.globalBounds);
         }
-        
-        drawData.fillDrawCmd(cmdHelper);
-        
+
+        return cmd;
     }
 }

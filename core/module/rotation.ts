@@ -11,7 +11,6 @@ export class ModRotation extends Module {
 
     public constructor(player: emitterPlayer.EmitterPlayer) {
         super(player);
-        this.name = ModRotation.NAME;
     }
 
     public init(info: any) {
