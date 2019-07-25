@@ -40,6 +40,14 @@ export namespace Bounds {
     export function isEmpty(target: Bounds) {
         return target[0] === target[2] || target[1] === target[3];
     }
+
+    export function union(out: Bounds, bound1: Bounds, bound2: Bounds) {
+        let minX = Math.min(bound1[0], bound2[0]);
+        let minY = Math.min(bound1[1], bound2[1]);
+        let maxX = Math.max(bound1[2], bound2[2]);
+        let maxY = Math.max(bound1[3], bound2[3]);
+        set(out, minX, minY, maxX, maxY);
+    }
 }
 
 export const BOUNDS_EMPTY = glMatrix.vec4.fromValues(0, 0, 0, 0);

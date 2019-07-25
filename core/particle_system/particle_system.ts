@@ -28,6 +28,7 @@ export class ParticleSystem extends common.Player {
     public emitterCount: number = 0;
 
     private _id: number;
+    private _cmdHelper: render.DrawCmd = render.DrawCmd.create();
     public constructor() {
         super();
         this._id = common.gainID();
@@ -153,6 +154,7 @@ export class ParticleSystem extends common.Player {
         let emitterCount = this.emitterCount;
         let emitters = this.emitters;
         let drawData = this.drawData;
+        let data = this.data;
         emitterCount = emitterCount || 0;
         let totalVtxCount = 0;
         let totalIdxCount = 0;
@@ -177,70 +179,60 @@ export class ParticleSystem extends common.Player {
         let lastRenderModuleName: string = null;
         let lastRenderModule: module.ModRender = null;
         let lastBatchVertexCount: number = 0;
-        let lastDrawCmds: render.DrawCmd[] = [];
-        let lastDrawCmdCount: number = 0;
-        let currDrawCmds: render.DrawCmd[] = [];
+        let lastDrawCmd: render.DrawCmd = this._cmdHelper;
         let vtxBufferByteOffset: number = 0;
         let idxBufferByteOffset: number = 0;
         let lastVertexCount: number = 0;
         let lastIndexCount: number = 0;
-        let fillDrawCmds = (cmds: render.DrawCmd[], cmdCount: number) => {
-            for (let i = 0; i < cmdCount; ++i) {
-                drawData.fillDrawCmd(cmds[i]);
-            }
+        let fillDrawCmd = (cmd: render.DrawCmd) => {
+            drawData.fillDrawCmd(cmd);
+            //clear
+            cmd.indexCount = 0;
         }
         for (let i = 0; i < emitterCount; ++i) {
             let eRenderCpt = emitters[i].renderModule;
+
             if (eRenderCpt) {
                 let vtxCount = eRenderCpt.getTotalVtxCount();
                 let idxCount = eRenderCpt.getTotalIdxCount();
-                let cmdCount = eRenderCpt.fillBuffers(drawData, {
-                    vtxBufferByteOffset: vtxBufferByteOffset,
-                    idxBufferByteOffset: idxBufferByteOffset,
-                    lastVertexCount: lastVertexCount,
-                    lastIndexCount: lastIndexCount,
-                }, currDrawCmds);
-
-                if (lastRenderModuleName === eRenderCpt.name && material.Material.equal(lastRenderModule.material, eRenderCpt.material)) {
-                    //Batch ...
-                    if (lastDrawCmdCount !== cmdCount) {
-                        log.error(`Render error, because the same render create different count of draw cmds.`);
-                        return ;
-                    } else {
-                        let totalIndexCount = 0;
-                        for (let i = 0; i < cmdCount; ++i) {
-                            let currCmd = currDrawCmds[i];
-                            totalIndexCount += currCmd.indexCount;
-                        }
-                        // Up the value of index buffer.
-                        drawData.upIndices(lastIndexCount, totalIndexCount, lastBatchVertexCount);
-
-                        for (let i = 0; i < cmdCount; ++i) {
-                            let lastCmd = lastDrawCmds[i];
-                            let currCmd = currDrawCmds[i];
-                            // Up index count.
-                            lastCmd.indexCount += currCmd.indexCount;
-                            lastCmd.emitterPlayer = null; //!!!!!!!!!!!!!!!!
-                        }
-
-                        lastBatchVertexCount += vtxCount;
-                    }
-                } else {
-
-                    fillDrawCmds(lastDrawCmds, lastDrawCmdCount);
-
-                    
-
-                    if (lastDrawCmds.length < cmdCount) {
-                        lastDrawCmds.length = cmdCount;
-                    }
-                    for (let i = 0; i < cmdCount; ++i) {
-                        lastDrawCmds[i] = currDrawCmds[i];
-                    }
-                    lastDrawCmdCount = cmdCount;
-                    lastBatchVertexCount = vtxCount;
-                }
                 
+                if (lastRenderModuleName === eRenderCpt.name && material.Material.equal(lastRenderModule.material, eRenderCpt.material)) {
+                    let batchInfo = {
+                        lastBatchVertexCount: lastBatchVertexCount,
+                        lastDrawCmd: lastDrawCmd,
+                    }
+                    eRenderCpt.fillBuffers(drawData, {
+                        vtxBufferByteOffset: vtxBufferByteOffset,
+                        idxBufferByteOffset: idxBufferByteOffset,
+                        lastVertexCount: lastVertexCount,
+                        lastIndexCount: lastIndexCount,
+                    }, batchInfo);
+
+                    lastBatchVertexCount += vtxCount;
+
+                } else {
+                    if (lastDrawCmd.indexCount) {
+                        fillDrawCmd(lastDrawCmd);
+                    }
+
+                    let resCmd = eRenderCpt.fillBuffers(drawData, {
+                        vtxBufferByteOffset: vtxBufferByteOffset,
+                        idxBufferByteOffset: idxBufferByteOffset,
+                        lastVertexCount: lastVertexCount,
+                        lastIndexCount: lastIndexCount,
+                    });
+
+                    render.DrawCmd.copy(lastDrawCmd, resCmd);
+                    lastBatchVertexCount = vtxCount;
+
+                    //ps matrix
+                    if (data.useLocalSpace) {
+                        common.Matrix4x4.copy(lastDrawCmd.matrixModel, data.matrix4x4);
+                    } else {
+                        common.Matrix4x4.identity(lastDrawCmd.matrixModel);
+                    }
+                }
+            
                 lastVertexCount += vtxCount;
                 lastIndexCount += idxCount;
                 vtxBufferByteOffset += drawData.vtxSize * vtxCount;
@@ -249,16 +241,17 @@ export class ParticleSystem extends common.Player {
                 lastRenderModuleName = eRenderCpt.name;
                 lastRenderModule = eRenderCpt;
             } else {
-                fillDrawCmds(lastDrawCmds, lastDrawCmdCount);
-                lastDrawCmdCount = 0;
+                if (lastDrawCmd.indexCount) {
+                    fillDrawCmd(lastDrawCmd);
+                }
                 lastRenderModuleName = null;
                 lastRenderModule = null;
                 lastBatchVertexCount = 0;
             }
         }
 
-        if (lastDrawCmdCount) {
-            fillDrawCmds(lastDrawCmds, lastDrawCmdCount);
+        if (lastDrawCmd.indexCount) {
+            fillDrawCmd(lastDrawCmd);
         }
     }
 

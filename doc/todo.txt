@@ -1,0 +1,3 @@
+1. Add method postUpdate for emitter modules. Move the logic of checking emitter complete of module lifetime
+    to postUpdate.
+2. Batch vertices with same material and render module.

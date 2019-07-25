@@ -30,10 +30,10 @@ export class Module implements IModule {
     }
 
     public ready(): void {
-        
+
     }
 
-    public update(dt: number):void {
+    public update(dt: number): void {
 
     }
 
@@ -64,10 +64,15 @@ export interface ModRender extends IModule {
      * @param resCmds The Result of draw cmds.
      * @returns The count of the result of draw cmds.
      */
-    fillBuffers(drawData: render.DrawData, offsets: {
-        vtxBufferByteOffset: number;
-        idxBufferByteOffset: number;
-        lastVertexCount: number; //used as idxValueOffset
-        lastIndexCount: number; // used as index offset of cmd.
-    }, resCmds: render.DrawCmd[]): number;
+    fillBuffers(drawData: render.DrawData,
+        offsets: {
+            vtxBufferByteOffset: number;
+            idxBufferByteOffset: number;
+            lastVertexCount: number; //used as idxValueOffset
+            lastIndexCount: number; // used as index offset of cmd.
+        }, batchInfo?: {
+            lastBatchVertexCount: number;
+            lastDrawCmd: render.DrawCmd;
+        }
+    ): render.DrawCmd;
 }
