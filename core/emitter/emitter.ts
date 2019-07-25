@@ -67,6 +67,9 @@ export class Emitter {
             this.modules.forEach(mod => {
                 mod.update(dt);
             });
+            this.modules.forEach(mod => {
+                mod.postUpdate();
+            });
         }
     }
 

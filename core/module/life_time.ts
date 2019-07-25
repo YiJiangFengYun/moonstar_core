@@ -45,10 +45,13 @@ export class ModLifeTime extends Module {
                 particle.life = particle.time / particle.lifeTime;
             }
         }
+    }
 
+    public postUpdate() {
+        super.postUpdate();
+        let player = this.player;
         if ( ! player.completed && player.checkComplete()) {
             player.complete();
         }
-
     }
 }

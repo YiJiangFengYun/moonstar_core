@@ -37,6 +37,10 @@ export class Module implements IModule {
 
     }
 
+    public postUpdate() {
+        
+    }
+
     public reset(): void {
 
     }
