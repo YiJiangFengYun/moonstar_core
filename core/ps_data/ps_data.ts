@@ -25,7 +25,7 @@ export class PSData extends eventemitter.EventEmitter {
         if (boundsInfo) common.Bounds.set(this.bounds, boundsInfo[0], boundsInfo[1], boundsInfo[2], boundsInfo[3]);
     }
 
-    public setPosition(value: common.Vector | number[]) {
+    public setPosition(value: common.Vector) {
         common.Vector.copy(this.position, value);
         common.Bounds.translate(this.globalBounds, this.bounds, this.position);
         common.Matrix.fromTranslation(this.matrix, this.position);
