@@ -126,7 +126,7 @@ export class EmitterPlayer extends common.Player {
         }
     }
 
-    public setPosition(value: common.Vector | number[]) {
+    public setPosition(value: common.Vector) {
         common.Vector.copy(this._position, value);
         this._updateGlobalBounds();
         this.emit(events.EVENT_CHANGE_POSITION, this);

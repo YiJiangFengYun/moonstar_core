@@ -1,5 +1,4 @@
 import * as common from "../common";
-import { Vector, Color } from "../common";
 export const vertexInfo: common.VertexInfo = [
     {
         name: common.AttrName.POSITION, 
@@ -22,9 +21,9 @@ export const vertexInfo: common.VertexInfo = [
 ];
 
 export interface FillVertexInfo {
-    pos: Vector;
-    uv: Vector;
-    color: Color;
+    pos: common.Vector;
+    uv: common.Vector;
+    color: common.Color;
 }
 
 export function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset: number) {
@@ -32,10 +31,15 @@ export function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset
     // Position
     let float32Array = new Float32Array(buffer, byteOffset);
     float32Array.set(data.pos);
-    byteOffset += data.pos.byteLength;
+    byteOffset += common.ByteLengthVector;
     // UV0
+    try {
     float32Array.set(data.uv, data.pos.length);
-    byteOffset += data.uv.byteLength;
+    }
+    catch (err) {
+        console.error(err);
+    }
+    byteOffset += common.ByteLengthVector;
 
     // Color
     let uint8Array = new Uint8Array(buffer, byteOffset);

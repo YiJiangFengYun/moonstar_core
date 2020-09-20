@@ -79,7 +79,7 @@ export class Material {
     public constructor(type?: MaterialType | number) {
         this.type = type;
         this._id = common.gainID();
-        this.color.set(common.COLOR_WHITE);
+        common.Vector4.copy(this.color, common.COLOR_WHITE);
     }
 
     public get id() {
