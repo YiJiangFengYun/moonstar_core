@@ -2,7 +2,7 @@ import * as eventEmitter from "eventemitter3";
 
 export interface IPlayer {
     elapsedTime: number;
-    isPlay: boolean;
+    isPlaying: boolean;
     play(): void;
     pause(): void;
     stop(): void;
@@ -10,22 +10,24 @@ export interface IPlayer {
 
 export class Player extends eventEmitter.EventEmitter implements IPlayer {
     public elapsedTime: number = 0;
-    public isPlay: boolean = false;
+    private _isPlaying: boolean = false;
 
     public constructor() {
         super();
     }
 
+    public get isPlaying() { return this._isPlaying; }
+
     public play(): void {
-        this.isPlay = true;
+        this._isPlaying = true;
     }
 
     public pause(): void {
-        this.isPlay = false;
+        this._isPlaying = false;
     }
 
     public stop(): void {
-        this.isPlay = false;
+        this._isPlaying = false;
         this._reset();
     }
 
@@ -38,7 +40,7 @@ export class Player extends eventEmitter.EventEmitter implements IPlayer {
     }
 
     public update(dt: number) {
-        if (this.isPlay) {
+        if (this._isPlaying) {
             this.elapsedTime += dt;
         }
     }

@@ -60,8 +60,8 @@ export class ParticleSystem implements core.IPlayer {
         return this.data.psCore.elapsedTime;
     }
 
-    public get isPlay() {
-        return this.data.psCore.isPlay;
+    public get isPlaying() {
+        return this.data.psCore.isPlaying;
     }
 
     public changePos(pos: core.Vector) {
