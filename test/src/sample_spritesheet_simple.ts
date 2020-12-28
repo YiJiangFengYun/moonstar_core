@@ -16,7 +16,6 @@ export const psInfo: core.ParticleSystemInfo = {
             {
                 name: "sprite",
                 texturePath: "./res/spritesheet.png",
-                useSubUV: true,
             },
             {
                 name: "spawn",
