@@ -7,7 +7,7 @@ import { ModRender, Module } from "./module";
 export class ModSprite extends Module implements ModRender {
     public static NAME = "sprite";
 
-    public material: material.Material = new material.Material(material.MaterialType.SPRITE);
+    public material: material.Material = new material.Material();
 
     private _posHelper: common.Vector = common.Vector.create();
     private _uvHelper: common.Vector = common.Vector.create();

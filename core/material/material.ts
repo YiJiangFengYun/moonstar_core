@@ -19,18 +19,10 @@ export enum BlendOp
     ADD,
 };
 
-export enum MaterialType {
-    UNDEFINED,
-    SPRITE,
-    RIBBON,
-    SPRITE_CONNECTED,
-}
-
 //class Material with members: color, texture path, and blend.
 export class Material {
 
     public static equal(a1: Material, a2: Material) {
-        if (a1.type !== a2.type) return false;
         if (common.Color.equals(a1.color, a2.color) === false) return false;
         if (a1.texturePath !== a2.texturePath) return false;
         if (a1.srcBlendFactor !== a2.srcBlendFactor) return false;
@@ -40,7 +32,6 @@ export class Material {
     }
 
     public static sort(a1: Material, a2: Material) {
-        if (a1.type !== a2.type) return a1.type - a2.type;
         let sqrLen1 = common.Color.sqrLen(a1.color);
         let sqrLen2 = common.Color.sqrLen(a2.color);
         if (sqrLen1 !== sqrLen2) {
@@ -68,7 +59,6 @@ export class Material {
         return 0;
     }
 
-    public type: MaterialType | number;
     public color: common.Color = common.Color.create();
     public texturePath: string;
     public srcBlendFactor = BlendFactor.SRC_ALPHA;
@@ -76,8 +66,7 @@ export class Material {
     public blendOp = BlendOp.ADD;
 
     private _id: number;
-    public constructor(type?: MaterialType | number) {
-        this.type = type;
+    public constructor() {
         this._id = common.gainID();
         common.Vector4.copy(this.color, common.COLOR_WHITE);
     }

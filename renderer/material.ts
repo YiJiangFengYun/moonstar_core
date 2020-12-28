@@ -42,11 +42,6 @@ const normalShader = {
     `,
 }
 
-shaderLibs[core.MaterialType.UNDEFINED] = null;
-shaderLibs[core.MaterialType.SPRITE] = normalShader;
-shaderLibs[core.MaterialType.RIBBON] = normalShader;
-shaderLibs[core.MaterialType.SPRITE_CONNECTED] = normalShader;
-
 export function getGLTypeFromValueFormat(valueFormat: core.ValueFormat, gl: WebGLRenderingContext): number {
     let map = [];
     map[core.ValueFormat.UNDEFINED] = 0;
@@ -85,7 +80,7 @@ export class Material {
     public init(materialCore: core.Material, particleSystemData: ParticleSystemData) {
         this.particleSystemData = particleSystemData;
         this.matCore = materialCore;
-        this.shaderProgram = initShaderProgram(shaderLibs[materialCore.type]);
+        this.shaderProgram = initShaderProgram(normalShader);
         if (this.shaderProgram) {
             this.inited = true;
         } else {
@@ -99,7 +94,7 @@ export class Material {
    
 }
 
-export class MaterialSprite extends Material {
+export class MaterialNormal extends Material {
     public texture: Texture = new Texture();
     public locations: {
         aVertexPos?: number;
@@ -226,28 +221,5 @@ export class MaterialSprite extends Material {
 
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
         this._stats.addDrawCall();
-    }
-}
-
-export type MaterialRibbon = MaterialSprite;
-export const MaterialRibbon = MaterialSprite;
-export type MaterialSpriteConnected = MaterialSprite;
-export const MaterialSpriteConnected = MaterialSprite;
-
-const materials: (typeof Material)[] = []
-materials[core.MaterialType.UNDEFINED] = null;
-materials[core.MaterialType.SPRITE] = MaterialSprite;
-materials[core.MaterialType.RIBBON] = MaterialRibbon;
-materials[core.MaterialType.SPRITE_CONNECTED] = MaterialSpriteConnected;
-
-export function createMaterial(materialCore: core.Material, particleSystemData: ParticleSystemData) {
-    let materialClass = materials[materialCore.type];
-    if (materialClass) {
-        let mat: Material = new materialClass();
-        mat.init(materialCore, particleSystemData);
-        return mat;
-    } else {
-        log.error(`The material type (${materialCore.type}) of the creating material is invalid.`);
-        return null;
     }
 }

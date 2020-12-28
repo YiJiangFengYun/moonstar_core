@@ -7,7 +7,7 @@ import { ModRender, Module } from "./module";
 export class ModSpriteConnected extends Module implements ModRender {
     public static NAME = "sprite_connected";
 
-    public material: material.Material = new material.Material(material.MaterialType.SPRITE_CONNECTED);
+    public material: material.Material = new material.Material();
     public head: common.Vector;
     public tail: common.Vector;
     public ribbon: boolean;

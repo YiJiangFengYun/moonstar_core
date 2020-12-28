@@ -1,6 +1,6 @@
 import * as log from "loglevel";
 import * as core from "../core";
-import { Material, createMaterial } from "./material";
+import { Material, MaterialNormal } from "./material";
 import { renderData } from "./render_data";
 import { ParticleSystemData } from "./particle_system_data";
 import { emitterBoundsOutline } from "./emitter_bounds_outline";
@@ -11,6 +11,7 @@ import { emitterBoundsOutline } from "./emitter_bounds_outline";
 export class ParticleSystem implements core.IPlayer {
     public data: ParticleSystemData = new ParticleSystemData();
     public mapMaterials: {[id: number]: Material} = {};
+    public mapMaterialRenders: {[name: string]: Material} = {};
     private _boundsPosHelper: core.Vector = core.Vector.create();
     private _boundsSizeHelper: core.Vector = core.Vector.create();
     public constructor() {
@@ -19,15 +20,26 @@ export class ParticleSystem implements core.IPlayer {
     public init(info: core.ParticleSystemInfo) {
         this.data.init(info);
         //Initialize the map of the all materials.
-        let psCore = this.data.psCore;
-        let emitters = psCore.emitters;
-        let emitterCount = psCore.emitterCount;
-        let mapMaterials = this.mapMaterials;
+        const psCore = this.data.psCore;
+        const emitters = psCore.emitters;
+        const emitterCount = psCore.emitterCount;
+        const mapMaterials = this.mapMaterials;
+        const mapMaterialRenders = this.mapMaterialRenders;
         for (let i = 0; i < emitterCount; ++i) {
-            let renderModule = emitters[i].renderModule;
-            let matCore = renderModule.material;
-            let material = createMaterial(matCore, this.data);
-            mapMaterials[matCore.id] = material;
+            const renderModule = emitters[i].renderModule;
+            let material: Material = mapMaterialRenders[renderModule.name];
+            if (! material) {
+                switch (renderModule.name) {
+                    // case "..." //others type material
+                    default: {
+                        material = new MaterialNormal();
+                        material.init(renderModule.material, this.data);
+                    }
+            
+                }
+                mapMaterialRenders[renderModule.name] = material;
+            }
+            mapMaterials[renderModule.material.id] = material;
         }
 
     }
