@@ -212,12 +212,24 @@ export class MaterialNormal extends Material {
         // Tell the shader we bound the texture to texture unit 0
         gl.uniform1i(locations.uSampler, 0);
 
-        gl.enable(gl.BLEND);
-        gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
-        gl.blendFunc(
-            getGLBlendFactor(materialCore.srcBlendFactor, gl),
-            getGLBlendFactor(materialCore.dstBlendFactor, gl),
-        );
+        if (materialCore.blend) {
+            gl.enable(gl.BLEND);
+            gl.blendEquationSeparate(
+                getGLBlendEquation(materialCore.blendOpRGB, gl),
+                getGLBlendEquation(materialCore.blendOpAlpha, gl),
+            );
+            gl.blendFuncSeparate(
+                getGLBlendFactor(materialCore.blendSrcRGB, gl),
+                getGLBlendFactor(materialCore.blendDstRGB, gl),
+                getGLBlendFactor(materialCore.blendSrcAlpha, gl),
+                getGLBlendFactor(materialCore.blendDstAlpha, gl),
+            );
+        } else {
+            gl.disable(gl.BLEND);
+        }
+        
+
+        
 
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
         this._stats.addDrawCall();
