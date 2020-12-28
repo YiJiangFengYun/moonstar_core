@@ -20,24 +20,24 @@ graph LR
    emitter(Emitter)
    particle_system(Particle System)
 
-   emitter_player -.- ps_data
+   emitter_player -.-> ps_data
    emitter_player --> particle
 
-   module_part -.- emitter_player
+   module_part -.-> emitter_player
 
    module --> module_part
    module --> material
-   module -.- emitter_player
-   module -.- render
+   module -.-> emitter_player
+   module -.-> render
 
-   emitter -.- ps_data
+   emitter -.-> ps_data
    emitter --> emitter_player
    emitter --> module
 
    particle_system --> ps_data
-   particle_system -.- module
+   particle_system -.-> module
    particle_system --> emitter
-   particle_system -.- material
+   particle_system -.-> material
    particle_system --> render
 
    
@@ -57,23 +57,23 @@ graph LR
     particle_system(Particle System)
     renderer(Renderer)
 
-    particle_system_data -.- context
+    particle_system_data -.-> context
 
-    texture -.- context
+    texture -.-> context
 
-    emitter_bounds_outline -.- context
-    emitter_bounds_outline -.- render_data
+    emitter_bounds_outline -.-> context
+    emitter_bounds_outline -.-> render_data
 
-    material -.- context
-    material -.- stats
-    material -.- particle_system_data
+    material -.-> context
+    material -.-> stats
+    material -.-> particle_system_data
     material --> texture
-    material -.- render_data
+    material -.-> render_data
 
     particle_system --> material
-    particle_system -.- render_data
+    particle_system -.-> render_data
     particle_system --> particle_system_data
-    particle_system -.- emitter_bounds_outline
+    particle_system -.-> emitter_bounds_outline
 
     renderer --> context
     renderer --> stats
