@@ -37,9 +37,8 @@ import { ModSubPlayerFollow } from "./subplayer_follow";
 export const mapModules: { [name: string]: typeof Module } = {};
 export const arrModules: (typeof Module)[] = [];
 
-export function registerModule(modType: typeof Module) {
-    let modType2: ModuleStatic = modType as any;
-    mapModules[modType2.NAME] = modType;
+export function registerModule(modType: typeof Module & ModuleStatic) {
+    mapModules[modType.NAME] = modType;
     arrModules.push(modType);
 }
 

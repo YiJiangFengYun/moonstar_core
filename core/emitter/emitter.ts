@@ -63,7 +63,7 @@ export class Emitter {
 
     public update(dt: number) {
         this.player.update(dt);
-        if (this.player.isPlay) {
+        if (this.player.isPlaying) {
             this.modules.forEach(mod => {
                 mod.update(dt);
             });

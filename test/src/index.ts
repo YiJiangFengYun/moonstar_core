@@ -191,7 +191,7 @@ class App {
             let playBtnElement = document.getElementById("playbtn");
             let pauseBtnElement = document.getElementById("pausebtn");
             stopBtnElement.hidden = false;
-            if (ps.isPlay) {
+            if (ps.isPlaying) {
                 playBtnElement.hidden = true;
                 pauseBtnElement.hidden = false;
             } else {
@@ -284,7 +284,7 @@ class App {
 
     private _onClickPlay() {
         let ps = this._particleSystem;
-        if (ps && ! ps.isPlay) {
+        if (ps && ! ps.isPlaying) {
             ps.play();
             this._updatePlayerBtns();
         }
@@ -292,7 +292,7 @@ class App {
 
     private _onClickPause() {
         let ps = this._particleSystem;
-        if (ps && ps.isPlay) {
+        if (ps && ps.isPlaying) {
             ps.pause();
             this._updatePlayerBtns();
         }

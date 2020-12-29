@@ -141,7 +141,7 @@ export class ParticleSystem extends common.Player {
      */
     public update(dt: number): void {
         super.update(dt);
-        if (this.isPlay) {
+        if (this.isPlaying) {
             let emitterCount = this.emitterCount;
             let emitters = this.emitters;
             for (let i = 0; i < emitterCount; ++i) {

@@ -96,7 +96,7 @@ export class EmitterPlayer extends common.Player {
         let psData = this.psData;
         if (psData.useLocalSpace) {
             // If use local space, the position of the emitter is relative to the particle system.
-            return this._position;
+            return this._globalPositionHelper;
         } else {
             // If not use local space, the position of the emitter is global, but the _position
             // of the root emiiter is relative to the particle system.
@@ -112,6 +112,7 @@ export class EmitterPlayer extends common.Player {
         let psData = this.psData;
         if (psData.useLocalSpace) {
             // If use local space, the rotation of the emitter is relative to the particle system.
+            // return 0 + this._rotation;
             return this._rotation;
         } else {
             // If not use local space, the position of the emitter is global, but the _rotation of the
@@ -195,9 +196,8 @@ export class EmitterPlayer extends common.Player {
     private _updateGlobalBounds() {
         let psData = this.psData;
         let pos: common.Vector;
-        if (psData.useLocalSpace) {
-            pos = common.Vector.create();
-            common.Vector.transformMat2d(pos, this._position, psData.matrix);
+        if (psData.useLocalSpace || this.root) {
+            pos = this._globalPositionHelper;
         } else {
             pos = this.position;
         }
@@ -206,7 +206,7 @@ export class EmitterPlayer extends common.Player {
 
     private _updateGlobalPosition() {
         let psData = this.psData;
-        if ( ! psData.useLocalSpace && this.root) {
+        if (psData.useLocalSpace || this.root) {
             common.Vector.transformMat2d(this._globalPositionHelper, this._position, psData.matrix);
             this._updateGlobalBounds();
         } 

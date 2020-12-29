@@ -15,7 +15,7 @@ export class ModRibbon extends Module implements ModRender {
      */
     public queueParticles: util.QueueArrayFixed<particle.Particle>;
 
-    public material: material.Material = new material.Material(material.MaterialType.RIBBON);
+    public material: material.Material = new material.Material();
 
     private _vecDirectHelper: common.Vector = common.Vector.create();
     private _vecDirectHelper2: common.Vector = common.Vector.create();
