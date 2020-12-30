@@ -1,10 +1,10 @@
 const path = require('path')
 
 const config = {
-    entry: "./test/src/index.ts",
+    entry: "./samples/src/index.ts",
     output: {
         filename: "index.pack.js",
-        path: path.join(__dirname, "test/build")
+        path: path.join(__dirname, "samples/build")
     },
     target: "web",
     // Enable sourcemaps for debugging webpack's output.
@@ -22,7 +22,7 @@ const config = {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
                 options: {
-                    configFile: "tsconfig.test.json",
+                    configFile: "tsconfig.samples.json",
                 }
                 // exclude: /node_modules/,
             },
