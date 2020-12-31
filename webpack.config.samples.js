@@ -14,6 +14,9 @@ module.exports = env => {
         return fsExtra.copyFile(path.join(pathRoot, "index.html"), path.join(pathBuild, "index.html"));
     })
     .then(() => {
+        return fsExtra.copy(path.join(pathRoot, "res"), path.join(pathBuild, "res"));
+    })
+    .then(() => {
         return {
             entry: path.join(pathRoot, "src/index.ts"),
             output: {
