@@ -3,7 +3,7 @@
         "lib": ["es2018", "dom"],
         "outDir": "./test/build/",
         "sourceMap": true,
-        "declaration": true,
+        "declaration": false,
         "declarationMap": false,
         "noImplicitAny": true,
         "noImplicitReturns": true,
@@ -13,6 +13,6 @@
         "target": "es5"
     },
     "include": [
-        "./test/src/**/*"
+        "./samples/src/**/*"
     ]
 }
