@@ -1,1 +1,1 @@
-{"version":3,"file":"particle.js","sourceRoot":"","sources":["../../../core/particle/particle.ts"],"names":[],"mappings":";;AAAA,kCAAoC;AA4CpC,SAAgB,cAAc;IAC1B,OAAO,EAAE,EAAE,EAAE,MAAM,CAAC,MAAM,EAAE,EAAE,CAAC;AACnC,CAAC;AAFD,wCAEC"}
+{"version":3,"file":"particle.js","sourceRoot":"","sources":["../../../core/particle/particle.ts"],"names":[],"mappings":";;;AAAA,kCAAoC;AA4CpC,SAAgB,cAAc;IAC1B,OAAO,EAAE,EAAE,EAAE,MAAM,CAAC,MAAM,EAAE,EAAE,CAAC;AACnC,CAAC;AAFD,wCAEC"}

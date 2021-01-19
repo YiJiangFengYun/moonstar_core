@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Material = exports.BlendOp = exports.BlendFactor = void 0;
 var common = require("../common");
 var BlendFactor;
 (function (BlendFactor) {
@@ -13,6 +14,11 @@ var BlendFactor;
     BlendFactor[BlendFactor["ONE_MINUS_SRC_ALPHA"] = 7] = "ONE_MINUS_SRC_ALPHA";
     BlendFactor[BlendFactor["DST_ALPHA"] = 8] = "DST_ALPHA";
     BlendFactor[BlendFactor["ONE_MINUS_DST_ALPHA"] = 9] = "ONE_MINUS_DST_ALPHA";
+    BlendFactor[BlendFactor["CONSTANT_COLOR"] = 10] = "CONSTANT_COLOR";
+    BlendFactor[BlendFactor["ONE_MINUS_CONSTANT_COLOR"] = 11] = "ONE_MINUS_CONSTANT_COLOR";
+    BlendFactor[BlendFactor["CONSTANT_ALPHA"] = 12] = "CONSTANT_ALPHA";
+    BlendFactor[BlendFactor["ONE_MINUS_CONSTANT_ALPHA"] = 13] = "ONE_MINUS_CONSTANT_ALPHA";
+    BlendFactor[BlendFactor["SRC_ALPHA_SATURATE"] = 14] = "SRC_ALPHA_SATURATE";
 })(BlendFactor = exports.BlendFactor || (exports.BlendFactor = {}));
 ;
 var BlendOp;
@@ -20,42 +26,42 @@ var BlendOp;
     BlendOp[BlendOp["ADD"] = 0] = "ADD";
 })(BlendOp = exports.BlendOp || (exports.BlendOp = {}));
 ;
-var MaterialType;
-(function (MaterialType) {
-    MaterialType[MaterialType["UNDEFINED"] = 0] = "UNDEFINED";
-    MaterialType[MaterialType["SPRITE"] = 1] = "SPRITE";
-    MaterialType[MaterialType["RIBBON"] = 2] = "RIBBON";
-    MaterialType[MaterialType["SPRITE_CONNECTED"] = 3] = "SPRITE_CONNECTED";
-})(MaterialType = exports.MaterialType || (exports.MaterialType = {}));
 //class Material with members: color, texture path, and blend.
 var Material = /** @class */ (function () {
-    function Material(type) {
+    function Material() {
         this.color = common.Color.create();
-        this.srcBlendFactor = BlendFactor.SRC_ALPHA;
-        this.dstBlendFactor = BlendFactor.ONE_MINUS_SRC_ALPHA;
-        this.blendOp = BlendOp.ADD;
-        this.type = type;
+        this.blend = true;
+        this.blendSrcRGB = BlendFactor.SRC_ALPHA;
+        this.blendDstRGB = BlendFactor.ONE_MINUS_SRC_ALPHA;
+        this.blendSrcAlpha = BlendFactor.SRC_ALPHA;
+        this.blendDstAlpha = BlendFactor.ONE_MINUS_SRC_ALPHA;
+        this.blendOpRGB = BlendOp.ADD;
+        this.blendOpAlpha = BlendOp.ADD;
         this._id = common.gainID();
-        this.color.set(common.COLOR_WHITE);
+        common.Vector4.copy(this.color, common.COLOR_WHITE);
     }
     Material.equal = function (a1, a2) {
-        if (a1.type !== a2.type)
-            return false;
         if (common.Color.equals(a1.color, a2.color) === false)
             return false;
         if (a1.texturePath !== a2.texturePath)
             return false;
-        if (a1.srcBlendFactor !== a2.srcBlendFactor)
+        if (a1.blend !== a2.blend)
             return false;
-        if (a1.dstBlendFactor !== a2.dstBlendFactor)
+        if (a1.blendOpRGB !== a2.blendOpRGB)
             return false;
-        if (a1.blendOp !== a2.blendOp)
+        if (a1.blendOpAlpha !== a2.blendOpAlpha)
+            return false;
+        if (a1.blendSrcRGB !== a2.blendSrcRGB)
+            return false;
+        if (a1.blendDstRGB !== a2.blendDstRGB)
+            return false;
+        if (a1.blendSrcAlpha !== a2.blendSrcAlpha)
+            return false;
+        if (a1.blendDstAlpha !== a2.blendDstAlpha)
             return false;
         return true;
     };
     Material.sort = function (a1, a2) {
-        if (a1.type !== a2.type)
-            return a1.type - a2.type;
         var sqrLen1 = common.Color.sqrLen(a1.color);
         var sqrLen2 = common.Color.sqrLen(a2.color);
         if (sqrLen1 !== sqrLen2) {
@@ -72,14 +78,26 @@ var Material = /** @class */ (function () {
         else if (a1.texturePath < a2.texturePath) {
             return -1;
         }
-        if (a1.srcBlendFactor !== a2.srcBlendFactor) {
-            return a1.srcBlendFactor - a2.srcBlendFactor;
+        if (a1.blend !== a2.blend) {
+            return Number(a1.blend) - Number(a2.blend);
         }
-        if (a1.dstBlendFactor !== a2.dstBlendFactor) {
-            return a1.dstBlendFactor - a2.dstBlendFactor;
+        if (a1.blendOpRGB !== a2.blendOpRGB) {
+            return a1.blendOpRGB - a2.blendOpRGB;
         }
-        if (a1.blendOp !== a2.blendOp) {
-            return a1.blendOp - a2.blendOp;
+        if (a1.blendOpAlpha !== a2.blendOpAlpha) {
+            return a1.blendOpAlpha - a2.blendOpAlpha;
+        }
+        if (a1.blendSrcRGB !== a2.blendSrcRGB) {
+            return a1.blendSrcRGB - a2.blendSrcRGB;
+        }
+        if (a1.blendDstRGB !== a2.blendDstRGB) {
+            return a1.blendDstRGB - a2.blendDstRGB;
+        }
+        if (a1.blendSrcAlpha !== a2.blendSrcAlpha) {
+            return a1.blendSrcAlpha - a2.blendSrcAlpha;
+        }
+        if (a1.blendDstAlpha !== a2.blendDstAlpha) {
+            return a1.blendDstAlpha - a2.blendDstAlpha;
         }
         return 0;
     };
@@ -87,7 +105,7 @@ var Material = /** @class */ (function () {
         get: function () {
             return this._id;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Material.prototype.init = function (info) {
@@ -96,9 +114,13 @@ var Material = /** @class */ (function () {
         this.color[2] = info.b || 1;
         this.color[3] = info.a || 1;
         this.texturePath = info.texturePath;
-        this.srcBlendFactor = info.srcBlendFactor || BlendFactor.SRC_ALPHA;
-        this.dstBlendFactor = info.dstBlendFactor || BlendFactor.ONE;
-        this.blendOp = info.blendOp || BlendOp.ADD;
+        this.blend = info.blend || true;
+        this.blendSrcRGB = info.blendSrcRGB || BlendFactor.SRC_ALPHA;
+        this.blendDstRGB = info.blendDstRGB || BlendFactor.ONE;
+        this.blendSrcAlpha = info.blendSrcAlpha || BlendFactor.SRC_ALPHA;
+        this.blendDstAlpha = info.blendDstAlpha || BlendFactor.ONE;
+        this.blendOpRGB = info.blendOpRGB || BlendOp.ADD;
+        this.blendOpAlpha = info.blendOpAlpha || BlendOp.ADD;
     };
     return Material;
 }());

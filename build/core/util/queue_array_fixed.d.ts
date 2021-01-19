@@ -11,6 +11,6 @@ export declare class QueueArrayFixed<T> {
     pop(): T;
     empty(): void;
     getItem(index: number): T;
-    readonly length: number;
-    readonly capacity: number;
+    get length(): number;
+    get capacity(): number;
 }

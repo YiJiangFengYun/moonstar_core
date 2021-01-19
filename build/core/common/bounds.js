@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BOUNDS_EMPTY = exports.Bounds = void 0;
 var glMatrix = require("gl-matrix");
 var Bounds;
 (function (Bounds) {

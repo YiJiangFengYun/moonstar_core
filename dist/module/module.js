@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Module = void 0;
 var common = require("../common");
 var Module = /** @class */ (function () {
     function Module(player) {
@@ -10,7 +11,7 @@ var Module = /** @class */ (function () {
         get: function () {
             return this._id;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Module.prototype.init = function (info) {

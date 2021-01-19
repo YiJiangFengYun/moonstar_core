@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.indexSize = exports.valueFormatSizes = exports.ValueFormat = exports.AttrName = void 0;
 var AttrName;
 (function (AttrName) {
     AttrName["POSITION"] = "pos";

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DrawData = exports.DrawCmd = exports.fillVertex = exports.vertexInfo = void 0;
 var common = require("../common");
 exports.vertexInfo = [
     {
@@ -25,10 +26,15 @@ function fillVertex(data, buffer, byteOffset) {
     // Position
     var float32Array = new Float32Array(buffer, byteOffset);
     float32Array.set(data.pos);
-    byteOffset += data.pos.byteLength;
+    byteOffset += common.ByteLengthVector;
     // UV0
-    float32Array.set(data.uv, data.pos.length);
-    byteOffset += data.uv.byteLength;
+    try {
+        float32Array.set(data.uv, data.pos.length);
+    }
+    catch (err) {
+        console.error(err);
+    }
+    byteOffset += common.ByteLengthVector;
     // Color
     var uint8Array = new Uint8Array(buffer, byteOffset);
     uint8Array[0] = data.color[0] * 255;

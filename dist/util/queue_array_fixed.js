@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.QueueArrayFixed = void 0;
 var QueueArrayFixed = /** @class */ (function () {
     function QueueArrayFixed(capacity) {
         if (capacity === void 0) { capacity = 0; }
@@ -71,14 +72,14 @@ var QueueArrayFixed = /** @class */ (function () {
         get: function () {
             return this._length;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(QueueArrayFixed.prototype, "capacity", {
         get: function () {
             return this._capacity;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return QueueArrayFixed;

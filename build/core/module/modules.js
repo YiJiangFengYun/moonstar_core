@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.renderModules = exports.createModule = exports.registerModule = exports.arrModules = exports.mapModules = void 0;
 var sprite_1 = require("./sprite");
 var spawn_1 = require("./spawn");
 var size_initial_1 = require("./size_initial");
@@ -36,8 +37,7 @@ var subplayer_follow_1 = require("./subplayer_follow");
 exports.mapModules = {};
 exports.arrModules = [];
 function registerModule(modType) {
-    var modType2 = modType;
-    exports.mapModules[modType2.NAME] = modType;
+    exports.mapModules[modType.NAME] = modType;
     exports.arrModules.push(modType);
 }
 exports.registerModule = registerModule;

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EmitterPlayer = void 0;
 var log = require("loglevel");
 var common = require("../common");
 var particleMod = require("../particle");
@@ -43,7 +44,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
         get: function () {
             return this._id;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     EmitterPlayer.prototype.init = function (info, root) {
@@ -60,7 +61,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
         get: function () {
             return this._maxParticleCount;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     EmitterPlayer.prototype.stop = function () {
@@ -99,7 +100,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
             var psData = this.psData;
             if (psData.useLocalSpace) {
                 // If use local space, the position of the emitter is relative to the particle system.
-                return this._position;
+                return this._globalPositionHelper;
             }
             else {
                 // If not use local space, the position of the emitter is global, but the _position
@@ -112,7 +113,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
                 }
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(EmitterPlayer.prototype, "rotation", {
@@ -120,6 +121,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
             var psData = this.psData;
             if (psData.useLocalSpace) {
                 // If use local space, the rotation of the emitter is relative to the particle system.
+                // return 0 + this._rotation;
                 return this._rotation;
             }
             else {
@@ -135,7 +137,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
                 }
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     EmitterPlayer.prototype.setPosition = function (value) {
@@ -204,9 +206,8 @@ var EmitterPlayer = /** @class */ (function (_super) {
     EmitterPlayer.prototype._updateGlobalBounds = function () {
         var psData = this.psData;
         var pos;
-        if (psData.useLocalSpace) {
-            pos = common.Vector.create();
-            common.Vector.transformMat2d(pos, this._position, psData.matrix);
+        if (psData.useLocalSpace || this.root) {
+            pos = this._globalPositionHelper;
         }
         else {
             pos = this.position;
@@ -215,7 +216,7 @@ var EmitterPlayer = /** @class */ (function (_super) {
     };
     EmitterPlayer.prototype._updateGlobalPosition = function () {
         var psData = this.psData;
-        if (!psData.useLocalSpace && this.root) {
+        if (psData.useLocalSpace || this.root) {
             common.Vector.transformMat2d(this._globalPositionHelper, this._position, psData.matrix);
             this._updateGlobalBounds();
         }

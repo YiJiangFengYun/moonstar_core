@@ -15,5 +15,5 @@ export declare class PSData extends eventemitter.EventEmitter {
     matrix4x4: common.Matrix4x4;
     constructor();
     init(info: any): void;
-    setPosition(value: common.Vector | number[]): void;
+    setPosition(value: common.Vector): void;
 }

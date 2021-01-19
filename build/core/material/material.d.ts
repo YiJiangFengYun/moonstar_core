@@ -9,28 +9,30 @@ export declare enum BlendFactor {
     SRC_ALPHA = 6,
     ONE_MINUS_SRC_ALPHA = 7,
     DST_ALPHA = 8,
-    ONE_MINUS_DST_ALPHA = 9
+    ONE_MINUS_DST_ALPHA = 9,
+    CONSTANT_COLOR = 10,
+    ONE_MINUS_CONSTANT_COLOR = 11,
+    CONSTANT_ALPHA = 12,
+    ONE_MINUS_CONSTANT_ALPHA = 13,
+    SRC_ALPHA_SATURATE = 14
 }
 export declare enum BlendOp {
     ADD = 0
 }
-export declare enum MaterialType {
-    UNDEFINED = 0,
-    SPRITE = 1,
-    RIBBON = 2,
-    SPRITE_CONNECTED = 3
-}
 export declare class Material {
     static equal(a1: Material, a2: Material): boolean;
     static sort(a1: Material, a2: Material): number;
-    type: MaterialType | number;
     color: common.Color;
     texturePath: string;
-    srcBlendFactor: BlendFactor;
-    dstBlendFactor: BlendFactor;
-    blendOp: BlendOp;
+    blend: boolean;
+    blendSrcRGB: BlendFactor;
+    blendDstRGB: BlendFactor;
+    blendSrcAlpha: BlendFactor;
+    blendDstAlpha: BlendFactor;
+    blendOpRGB: BlendOp;
+    blendOpAlpha: BlendOp;
     private _id;
-    constructor(type?: MaterialType | number);
-    readonly id: number;
+    constructor();
+    get id(): number;
     init(info: any): void;
 }

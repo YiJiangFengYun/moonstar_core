@@ -1,10 +1,9 @@
 import * as common from "../common";
-import { Vector, Color } from "../common";
 export declare const vertexInfo: common.VertexInfo;
 export interface FillVertexInfo {
-    pos: Vector;
-    uv: Vector;
-    color: Color;
+    pos: common.Vector;
+    uv: common.Vector;
+    color: common.Color;
 }
 export declare function fillVertex(data: FillVertexInfo, buffer: ArrayBuffer, byteOffset: number): number;
 export interface DrawCmd {

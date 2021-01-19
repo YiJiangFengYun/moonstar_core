@@ -13,7 +13,7 @@ export declare class Module implements IModule {
     player: emitterPlayer.EmitterPlayer;
     private _id;
     constructor(player: emitterPlayer.EmitterPlayer);
-    readonly id: number;
+    get id(): number;
     init(info: any): void;
     ready(): void;
     update(dt: number): void;

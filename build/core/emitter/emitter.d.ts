@@ -18,7 +18,7 @@ export declare class Emitter {
     renderModule: module.ModRender;
     private _id;
     constructor(psData: psData.PSData);
-    readonly id: number;
+    get id(): number;
     init(info: EmitterInfo): void;
     ready(): void;
     update(dt: number): void;

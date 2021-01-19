@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Emitter = void 0;
 var log = require("loglevel");
 var common = require("../common");
 var module = require("../module");
@@ -15,7 +16,7 @@ var Emitter = /** @class */ (function () {
         get: function () {
             return this._id;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Emitter.prototype.init = function (info) {
@@ -51,7 +52,7 @@ var Emitter = /** @class */ (function () {
     };
     Emitter.prototype.update = function (dt) {
         this.player.update(dt);
-        if (this.player.isPlay) {
+        if (this.player.isPlaying) {
             this.modules.forEach(function (mod) {
                 mod.update(dt);
             });

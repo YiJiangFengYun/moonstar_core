@@ -25,7 +25,7 @@ export declare class ParticleSystem extends common.Player {
     private _id;
     private _cmdHelper;
     constructor();
-    readonly id: number;
+    get id(): number;
     init(info: ParticleSystemInfo): void;
     setPosition(pos: common.Vector): void;
     /**
