@@ -185,11 +185,11 @@ export class EmitterPlayer extends common.Player {
     }
 
     private _prepareParticles() {
-        let particleCount = this._maxParticleCount;
-        let particles = this.particles;
-        this.particles.length = this.particleCount;
+        const particleCount = this._maxParticleCount;
+        const particles = this.particles;
+        particles.length = particleCount;
         for (let i = 0; i < particleCount; ++i) {
-            if (! particles[i]) particles[i] = particleMod.createParticle();
+            if (! particles[i]) particles[i] = particleMod.createParticle(0);
         }
     }
 
