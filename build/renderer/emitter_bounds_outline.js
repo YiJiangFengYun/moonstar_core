@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.emitterBoundsOutline = void 0;
 var core = require("../core");
 var context_1 = require("./context");
 var util_shader_1 = require("./util_shader");

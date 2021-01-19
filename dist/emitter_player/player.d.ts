@@ -8,6 +8,7 @@ export declare class EmitterPlayer extends common.Player {
     psData: psDataMod.PSData;
     particles: particleMod.Particle[];
     particleCount: number;
+    private _particleSeq;
     players: EmitterPlayer[];
     playerCount: number;
     bounds: common.Bounds;

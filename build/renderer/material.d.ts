@@ -19,7 +19,7 @@ export declare class Material {
     init(materialCore: core.Material, particleSystemData: ParticleSystemData): void;
     render(cmd: core.DrawCmd): void;
 }
-export declare class MaterialSprite extends Material {
+export declare class MaterialNormal extends Material {
     texture: Texture;
     locations: {
         aVertexPos?: number;
@@ -34,8 +34,3 @@ export declare class MaterialSprite extends Material {
     init(materialCore: core.Material, particleSystemData: ParticleSystemData): void;
     render(cmd: core.DrawCmd): void;
 }
-export declare type MaterialRibbon = MaterialSprite;
-export declare const MaterialRibbon: typeof MaterialSprite;
-export declare type MaterialSpriteConnected = MaterialSprite;
-export declare const MaterialSpriteConnected: typeof MaterialSprite;
-export declare function createMaterial(materialCore: core.Material, particleSystemData: ParticleSystemData): Material;

@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModSubPlayerFollow = void 0;
-var log = require("loglevel");
 var emitterPlayer = require("../emitter_player");
 var modulePart = require("../module_part");
 var module_1 = require("./module");
@@ -65,7 +64,7 @@ var ModSubPlayerFollow = /** @class */ (function (_super) {
             subPlayer.setPosition(particle.pos);
             subPlayer.play();
             if (this.mapUsedSubPlayers[particle.id]) {
-                log.error("Repeatly allocate a subplayer to the same particle.");
+                console.error("Repeatly allocate a subplayer to the same particle.");
             }
             this.mapUsedSubPlayers[particle.id] = subPlayer;
             this.mapUsedParticles[subPlayer.id] = particle;

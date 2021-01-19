@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var log = require("loglevel");
+exports.loadShader = exports.initShaderProgram = void 0;
 var context_1 = require("./context");
 function initShaderProgram(src) {
     var gl = context_1.context.gl;
@@ -17,7 +17,7 @@ function initShaderProgram(src) {
     gl.linkProgram(shaderProgram);
     // If creating the shader program failed, return null
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-        log.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+        console.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
         return null;
     }
     return shaderProgram;
@@ -36,7 +36,7 @@ function loadShader(type, source) {
     gl.compileShader(shader);
     // See if it compiled successfully
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        log.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+        console.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
         gl.deleteShader(shader);
         return null;
     }

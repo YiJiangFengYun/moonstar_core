@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var log = require("loglevel");
+exports.ParticleSystem = void 0;
 var core = require("../core");
 var material_1 = require("./material");
 var render_data_1 = require("./render_data");
@@ -13,6 +13,7 @@ var ParticleSystem = /** @class */ (function () {
     function ParticleSystem() {
         this.data = new particle_system_data_1.ParticleSystemData();
         this.mapMaterials = {};
+        this.mapMaterialRenders = {};
         this._boundsPosHelper = core.Vector.create();
         this._boundsSizeHelper = core.Vector.create();
     }
@@ -23,11 +24,21 @@ var ParticleSystem = /** @class */ (function () {
         var emitters = psCore.emitters;
         var emitterCount = psCore.emitterCount;
         var mapMaterials = this.mapMaterials;
+        var mapMaterialRenders = this.mapMaterialRenders;
         for (var i = 0; i < emitterCount; ++i) {
             var renderModule = emitters[i].renderModule;
-            var matCore = renderModule.material;
-            var material = material_1.createMaterial(matCore, this.data);
-            mapMaterials[matCore.id] = material;
+            var material = mapMaterialRenders[renderModule.name];
+            if (!material) {
+                switch (renderModule.name) {
+                    // case "..." //others type material
+                    default: {
+                        material = new material_1.MaterialNormal();
+                        material.init(renderModule.material, this.data);
+                    }
+                }
+                mapMaterialRenders[renderModule.name] = material;
+            }
+            mapMaterials[renderModule.material.id] = material;
         }
     };
     ParticleSystem.prototype.update = function (dt) {
@@ -53,14 +64,14 @@ var ParticleSystem = /** @class */ (function () {
         get: function () {
             return this.data.psCore.elapsedTime;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
-    Object.defineProperty(ParticleSystem.prototype, "isPlay", {
+    Object.defineProperty(ParticleSystem.prototype, "isPlaying", {
         get: function () {
-            return this.data.psCore.isPlay;
+            return this.data.psCore.isPlaying;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     ParticleSystem.prototype.changePos = function (pos) {
@@ -69,7 +80,7 @@ var ParticleSystem = /** @class */ (function () {
     ParticleSystem.prototype._draw = function () {
         var rData = render_data_1.renderData;
         if (!rData) {
-            log.error("The render data of the particle system is invalid.");
+            console.error("The render data of the particle system is invalid.");
             return;
         }
         var data = this.data;

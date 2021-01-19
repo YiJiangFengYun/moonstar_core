@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParticleSystem = void 0;
-var log = require("loglevel");
 var common = require("../common");
 var emitter = require("../emitter");
 var psData = require("../ps_data");
@@ -124,7 +123,7 @@ var ParticleSystem = /** @class */ (function (_super) {
                 maxIdxCount += eRenderCpt.getMaxIdxCount();
             }
             else {
-                log.warn("The emitter don't own a render component.");
+                console.warn("The emitter don't own a render component.");
             }
         }
         this.drawData.init({
@@ -187,7 +186,7 @@ var ParticleSystem = /** @class */ (function (_super) {
                 totalIdxCount += eRenderCpt.getTotalIdxCount();
             }
             else {
-                log.warn("The emitter don't own a render component.");
+                console.warn("The emitter don't own a render component.");
             }
         }
         //Update data.

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Renderer = exports.ParticleSystem = exports.init = void 0;
 var core = require("../core");
 var renderer_1 = require("./renderer");
 var r = renderer_1.renderer;
@@ -17,7 +18,7 @@ function init(info) {
 }
 exports.init = init;
 var particle_system_1 = require("./particle_system");
-exports.ParticleSystem = particle_system_1.ParticleSystem;
+Object.defineProperty(exports, "ParticleSystem", { enumerable: true, get: function () { return particle_system_1.ParticleSystem; } });
 var renderer_2 = require("./renderer");
-exports.Renderer = renderer_2.Renderer;
+Object.defineProperty(exports, "Renderer", { enumerable: true, get: function () { return renderer_2.Renderer; } });
 //# sourceMappingURL=index.js.map

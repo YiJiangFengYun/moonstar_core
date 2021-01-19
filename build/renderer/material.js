@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MaterialNormal = exports.Material = exports.getGLBlendFactor = exports.getGLBlendEquation = exports.getGLTypeFromValueFormat = exports.shaderLibs = void 0;
 var core = require("../core");
-var log = require("loglevel");
 var context_1 = require("./context");
 var texture_1 = require("./texture");
 var render_data_1 = require("./render_data");
@@ -25,10 +25,6 @@ var normalShader = {
     vert: "\n    precision lowp float;\n    attribute vec2 aVertexPosition;\n    attribute vec2 aVertexUV;\n    attribute vec4 aVertexColor;\n\n    uniform mat4 uProjectionMatrix;\n    uniform mat4 uModelViewMatrix;\n\n    varying vec2 vUV;\n    varying vec4 vColor;\n    void main() {\n      gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0, 1.0);\n      vUV = aVertexUV;\n      vColor = aVertexColor;\n    }\n    ",
     frag: "\n    precision lowp float;\n    varying vec2 vUV;\n    varying vec4 vColor;\n\n    uniform vec4 uColor;\n\n    uniform sampler2D uSampler;\n\n    void main() {\n        gl_FragColor = uColor * vColor * texture2D(uSampler, vUV);\n    }\n    ",
 };
-exports.shaderLibs[core.MaterialType.UNDEFINED] = null;
-exports.shaderLibs[core.MaterialType.SPRITE] = normalShader;
-exports.shaderLibs[core.MaterialType.RIBBON] = normalShader;
-exports.shaderLibs[core.MaterialType.SPRITE_CONNECTED] = normalShader;
 function getGLTypeFromValueFormat(valueFormat, gl) {
     var map = [];
     map[core.ValueFormat.UNDEFINED] = 0;
@@ -61,7 +57,7 @@ var Material = /** @class */ (function () {
     Material.prototype.init = function (materialCore, particleSystemData) {
         this.particleSystemData = particleSystemData;
         this.matCore = materialCore;
-        this.shaderProgram = util_shader_1.initShaderProgram(exports.shaderLibs[materialCore.type]);
+        this.shaderProgram = util_shader_1.initShaderProgram(normalShader);
         if (this.shaderProgram) {
             this.inited = true;
         }
@@ -74,15 +70,15 @@ var Material = /** @class */ (function () {
     return Material;
 }());
 exports.Material = Material;
-var MaterialSprite = /** @class */ (function (_super) {
-    __extends(MaterialSprite, _super);
-    function MaterialSprite() {
+var MaterialNormal = /** @class */ (function (_super) {
+    __extends(MaterialNormal, _super);
+    function MaterialNormal() {
         var _this = _super.call(this) || this;
         _this.texture = new texture_1.Texture();
         _this.locations = {};
         return _this;
     }
-    MaterialSprite.prototype.init = function (materialCore, particleSystemData) {
+    MaterialNormal.prototype.init = function (materialCore, particleSystemData) {
         _super.prototype.init.call(this, materialCore, particleSystemData);
         var gl = context_1.context.gl;
         var locations = this.locations;
@@ -100,10 +96,10 @@ var MaterialSprite = /** @class */ (function (_super) {
             url: materialCore.texturePath
         });
     };
-    MaterialSprite.prototype.render = function (cmd) {
+    MaterialNormal.prototype.render = function (cmd) {
         _super.prototype.render.call(this, cmd);
         if (!this.inited) {
-            log.warn("The material was not initialized successfully, so it can't be used for render.");
+            console.warn("The material was not initialized successfully, so it can't be used for render.");
             return;
         }
         var gl = context_1.context.gl;
@@ -143,33 +139,18 @@ var MaterialSprite = /** @class */ (function (_super) {
         gl.bindTexture(gl.TEXTURE_2D, this.texture.glTexture);
         // Tell the shader we bound the texture to texture unit 0
         gl.uniform1i(locations.uSampler, 0);
-        gl.enable(gl.BLEND);
-        gl.blendEquation(getGLBlendEquation(materialCore.blendOp, gl));
-        gl.blendFunc(getGLBlendFactor(materialCore.srcBlendFactor, gl), getGLBlendFactor(materialCore.dstBlendFactor, gl));
+        if (materialCore.blend) {
+            gl.enable(gl.BLEND);
+            gl.blendEquationSeparate(getGLBlendEquation(materialCore.blendOpRGB, gl), getGLBlendEquation(materialCore.blendOpAlpha, gl));
+            gl.blendFuncSeparate(getGLBlendFactor(materialCore.blendSrcRGB, gl), getGLBlendFactor(materialCore.blendDstRGB, gl), getGLBlendFactor(materialCore.blendSrcAlpha, gl), getGLBlendFactor(materialCore.blendDstAlpha, gl));
+        }
+        else {
+            gl.disable(gl.BLEND);
+        }
         gl.drawElements(gl.TRIANGLES, cmd.indexCount, gl.UNSIGNED_SHORT, cmd.indexOffset * core.indexSize);
         this._stats.addDrawCall();
     };
-    return MaterialSprite;
+    return MaterialNormal;
 }(Material));
-exports.MaterialSprite = MaterialSprite;
-exports.MaterialRibbon = MaterialSprite;
-exports.MaterialSpriteConnected = MaterialSprite;
-var materials = [];
-materials[core.MaterialType.UNDEFINED] = null;
-materials[core.MaterialType.SPRITE] = MaterialSprite;
-materials[core.MaterialType.RIBBON] = exports.MaterialRibbon;
-materials[core.MaterialType.SPRITE_CONNECTED] = exports.MaterialSpriteConnected;
-function createMaterial(materialCore, particleSystemData) {
-    var materialClass = materials[materialCore.type];
-    if (materialClass) {
-        var mat = new materialClass();
-        mat.init(materialCore, particleSystemData);
-        return mat;
-    }
-    else {
-        log.error("The material type (" + materialCore.type + ") of the creating material is invalid.");
-        return null;
-    }
-}
-exports.createMaterial = createMaterial;
+exports.MaterialNormal = MaterialNormal;
 //# sourceMappingURL=material.js.map

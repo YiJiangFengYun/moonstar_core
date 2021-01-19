@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Texture = void 0;
 var context_1 = require("./context");
 var Texture = /** @class */ (function () {
     function Texture() {

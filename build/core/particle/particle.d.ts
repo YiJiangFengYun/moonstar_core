@@ -2,6 +2,11 @@ import * as common from "../common";
 export interface Particle {
     id: number;
     /**
+     * A sequence number in a emiiter to indicate how old it is since emitter start playing.
+     * Starting from 1.
+     */
+    seq: number;
+    /**
      * The position of the Particle relative to its emitter space.
      */
     pos?: common.Vector;
@@ -34,4 +39,4 @@ export interface Particle {
      */
     subUV?: common.Vector4;
 }
-export declare function createParticle(): Particle;
+export declare function createParticle(seq: number): Particle;

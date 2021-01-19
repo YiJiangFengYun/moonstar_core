@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ParticleSystemData = void 0;
 var core = require("../core");
 var context_1 = require("./context");
 var ParticleSystemData = /** @class */ (function () {

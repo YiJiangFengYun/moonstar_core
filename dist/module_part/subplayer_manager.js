@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubPlayerManager = void 0;
-var log = require("loglevel");
 var SubPlayerManager = /** @class */ (function () {
     function SubPlayerManager(player) {
         this.idlePlayerIndexs = [];
@@ -33,7 +32,7 @@ var SubPlayerManager = /** @class */ (function () {
             this.idlePlayerIndexCount = idleCount;
             var player = this.player.players[index];
             if (player.isPlaying) {
-                log.warn("Subplayer manager: the player allocated is not idle, it is playing.");
+                console.warn("Subplayer manager: the player allocated is not idle, it is playing.");
             }
             this.usedPlayerIndexs[this.usedPlayerIndexCount++] = index;
             return index;
@@ -45,7 +44,7 @@ var SubPlayerManager = /** @class */ (function () {
     SubPlayerManager.prototype.freePlayer = function (index) {
         var player = this.player.players[index];
         if (player.isPlaying) {
-            log.warn("Subplayer manager: the player deallocated is still playing.");
+            console.warn("Subplayer manager: the player deallocated is still playing.");
         }
         this.idlePlayerIndexs[this.idlePlayerIndexCount++] = index;
         var usedPlayerIndexs = this.usedPlayerIndexs;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.renderer = exports.Renderer = void 0;
 var glMatrix = require("gl-matrix");
 var core = require("../core");
 var context_1 = require("./context");

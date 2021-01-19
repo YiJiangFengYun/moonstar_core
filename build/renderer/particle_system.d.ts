@@ -9,6 +9,9 @@ export declare class ParticleSystem implements core.IPlayer {
     mapMaterials: {
         [id: number]: Material;
     };
+    mapMaterialRenders: {
+        [name: string]: Material;
+    };
     private _boundsPosHelper;
     private _boundsSizeHelper;
     constructor();
@@ -18,8 +21,8 @@ export declare class ParticleSystem implements core.IPlayer {
     play(): void;
     pause(): void;
     stop(): void;
-    readonly elapsedTime: number;
-    readonly isPlay: boolean;
+    get elapsedTime(): number;
+    get isPlaying(): boolean;
     changePos(pos: core.Vector): void;
     private _draw;
 }

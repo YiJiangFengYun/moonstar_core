@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Emitter = void 0;
-var log = require("loglevel");
 var common = require("../common");
 var module = require("../module");
 var emitter_player = require("../emitter_player");
@@ -32,12 +31,12 @@ var Emitter = /** @class */ (function () {
             modules[i] = module.createModule(name_1, this.player);
             modules[i].init(moduleConfig);
             if (mapModules[name_1]) {
-                log.warn("There are multiple modules with the same name applied to the emitter.");
+                console.warn("There are multiple modules with the same name applied to the emitter.");
             }
             mapModules[name_1] = modules[i];
             if (module.renderModules.indexOf(name_1) >= 0) {
                 if (this.renderModule) {
-                    log.warn("There are multiple render modules applied to the emitter.");
+                    console.warn("There are multiple render modules applied to the emitter.");
                 }
                 this.renderModule = modules[i];
             }
