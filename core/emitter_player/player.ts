@@ -10,8 +10,11 @@ const DEFAULT_MAX_PARTICLE_COUNT = 100;
 export class EmitterPlayer extends common.Player {
     public root: boolean;
     public psData: psDataMod.PSData;
+
     public particles: particleMod.Particle[] = [];
     public particleCount: number = 0;
+    private _particleSeq: number = 0;
+
     public players: EmitterPlayer[] = [];
     public playerCount: number = 0;
     
@@ -137,8 +140,12 @@ export class EmitterPlayer extends common.Player {
         let particle: particleMod.Particle;
         if (this.particleCount < this.maxParticleCount) {
             particle = this.particles[this.particleCount];
-            if (! particle) this.particles[this.particleCount] = 
-                particle = particleMod.createParticle();
+            if (! particle) {
+                particle = particleMod.createParticle(++this._particleSeq);
+                this.particles[this.particleCount] = particle;
+            } else {
+                particle.seq = ++this._particleSeq;
+            }
             ++this.particleCount;
             if (particle.pos) {
                 common.Vector.copy(particle.pos, pos || this.position);
@@ -174,6 +181,7 @@ export class EmitterPlayer extends common.Player {
         this.emitComplete = false;
         this.completed = false;
         this.particleCount = 0;
+        this._particleSeq = 0;
 
         let playerCount = this.playerCount;
         let players = this.players;
