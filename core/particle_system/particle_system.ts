@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import * as common from "../common";
 import * as module from "../module";
 import * as emitter from "../emitter";
@@ -121,7 +120,7 @@ export class ParticleSystem extends common.Player {
                 maxVtxCount += eRenderCpt.getMaxVtxCount();
                 maxIdxCount += eRenderCpt.getMaxIdxCount();
             } else {
-                log.warn("The emitter don't own a render component.");
+                console.warn("The emitter don't own a render component.");
             }
         }
 
@@ -189,7 +188,7 @@ export class ParticleSystem extends common.Player {
                 totalVtxCount += eRenderCpt.getTotalVtxCount();
                 totalIdxCount += eRenderCpt.getTotalIdxCount();
             } else {
-                log.warn("The emitter don't own a render component.");
+                console.warn("The emitter don't own a render component.");
             }
         }
         //Update data.

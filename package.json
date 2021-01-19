@@ -32,8 +32,7 @@
   "dependencies": {
     "@types/gl-matrix": "^3.2.0",
     "eventemitter3": "^4.0.7",
-    "gl-matrix": "^3.3.0",
-    "loglevel": "^1.7.1"
+    "gl-matrix": "^3.3.0"
   },
   "files": [
     "dist"

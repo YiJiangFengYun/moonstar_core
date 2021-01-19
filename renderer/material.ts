@@ -1,5 +1,4 @@
 import * as core from "../core";
-import * as log from "loglevel";
 import { context } from "./context";
 import { ParticleSystemData } from "./particle_system_data";
 import { Texture } from "./texture";
@@ -132,7 +131,7 @@ export class MaterialNormal extends Material {
     public render(cmd: core.DrawCmd) {
         super.render(cmd);
         if (!this.inited) {
-            log.warn(`The material was not initialized successfully, so it can't be used for render.`);
+            console.warn(`The material was not initialized successfully, so it can't be used for render.`);
             return;
         }
         let gl = context.gl;

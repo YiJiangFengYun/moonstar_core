@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import * as core from "../core";
 import { Material, MaterialNormal } from "./material";
 import { renderData } from "./render_data";
@@ -83,7 +82,7 @@ export class ParticleSystem implements core.IPlayer {
     private _draw() {
         let rData = renderData;
         if (! rData) {
-            log.error(`The render data of the particle system is invalid.`);
+            console.error(`The render data of the particle system is invalid.`);
             return;
         }
         let data = this.data;

@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import * as particleMod from "../particle";
 import * as emitterPlayer from "../emitter_player";
 import * as modulePart from "../module_part";
@@ -62,7 +61,7 @@ export class ModSubPlayerFollow extends Module {
             subPlayer.setPosition(particle.pos);
             subPlayer.play();
             if (this.mapUsedSubPlayers[particle.id]) {
-                log.error(`Repeatly allocate a subplayer to the same particle.`);
+                console.error(`Repeatly allocate a subplayer to the same particle.`);
             }
             this.mapUsedSubPlayers[particle.id] = subPlayer;
             this.mapUsedParticles[subPlayer.id] = particle;

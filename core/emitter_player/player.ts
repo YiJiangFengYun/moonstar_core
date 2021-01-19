@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import * as common from "../common";
 import * as particleMod from "../particle";
 import * as psDataMod from "../ps_data";
@@ -10,8 +9,11 @@ const DEFAULT_MAX_PARTICLE_COUNT = 100;
 export class EmitterPlayer extends common.Player {
     public root: boolean;
     public psData: psDataMod.PSData;
+
     public particles: particleMod.Particle[] = [];
     public particleCount: number = 0;
+    private _particleSeq: number = 0;
+
     public players: EmitterPlayer[] = [];
     public playerCount: number = 0;
     
@@ -137,8 +139,12 @@ export class EmitterPlayer extends common.Player {
         let particle: particleMod.Particle;
         if (this.particleCount < this.maxParticleCount) {
             particle = this.particles[this.particleCount];
-            if (! particle) this.particles[this.particleCount] = 
-                particle = particleMod.createParticle();
+            if (! particle) {
+                particle = particleMod.createParticle(++this._particleSeq);
+                this.particles[this.particleCount] = particle;
+            } else {
+                particle.seq = ++this._particleSeq;
+            }
             ++this.particleCount;
             if (particle.pos) {
                 common.Vector.copy(particle.pos, pos || this.position);
@@ -163,7 +169,7 @@ export class EmitterPlayer extends common.Player {
             this.emit(events.EVENT_DESTROYED_PARTICLE, particle);
             return true;
         } else {
-            log.error("Can't find the particle from the particles for delete the particle.");
+            console.error("Can't find the particle from the particles for delete the particle.");
             return false;
         }
     }
@@ -174,6 +180,7 @@ export class EmitterPlayer extends common.Player {
         this.emitComplete = false;
         this.completed = false;
         this.particleCount = 0;
+        this._particleSeq = 0;
 
         let playerCount = this.playerCount;
         let players = this.players;
@@ -185,11 +192,11 @@ export class EmitterPlayer extends common.Player {
     }
 
     private _prepareParticles() {
-        let particleCount = this._maxParticleCount;
-        let particles = this.particles;
-        this.particles.length = this.particleCount;
+        const particleCount = this._maxParticleCount;
+        const particles = this.particles;
+        particles.length = particleCount;
         for (let i = 0; i < particleCount; ++i) {
-            if (! particles[i]) particles[i] = particleMod.createParticle();
+            if (! particles[i]) particles[i] = particleMod.createParticle(0);
         }
     }
 
