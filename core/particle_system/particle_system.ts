@@ -109,7 +109,7 @@ export class ParticleSystem extends common.Player {
         // Ready and player the emitters
         for (let i = 0; i < newCount; ++i) {
             emitters[i].ready();
-            if ( ! emitterInfos[i].parent) emitters[i].play();
+            if ( ! emitterInfos[i].parent) emitters[i].player.play();
         }
 
         let maxVtxCount = 0;
@@ -133,6 +133,30 @@ export class ParticleSystem extends common.Player {
 
     public setPosition(pos: common.Vector) {
         this.data.setPosition(pos);
+    }
+
+    public play(): void {
+        super.play();
+        //If root player is pausing after stop entire particle system, should play root player.
+        let emitterCount = this.emitterCount;
+        let emitters = this.emitters;
+        for (let i = 0; i < emitterCount; ++i) {
+            if (emitters[i].player.root) emitters[i].player.play();
+        }
+    }
+
+    public pause(): void {
+        super.pause();
+    }
+
+    public stop(): void {
+        //Should set all player isPlaying to false
+        let emitterCount = this.emitterCount;
+        let emitters = this.emitters;
+        for (let i = 0; i < emitterCount; ++i) {
+            emitters[i].player.pause();
+        }
+        super.stop();
     }
 
     /**
