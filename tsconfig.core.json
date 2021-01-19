@@ -13,7 +13,6 @@
         "target": "es5"
     },
     "include": [
-        "./core/**/*",
-        "./renderer/**/*"
+        "./core/**/*"
     ]
 }
