@@ -28,6 +28,9 @@ export declare class ParticleSystem extends common.Player {
     get id(): number;
     init(info: ParticleSystemInfo): void;
     setPosition(pos: common.Vector): void;
+    play(): void;
+    pause(): void;
+    stop(): void;
     /**
      *
      * @param dt Passed time (s)

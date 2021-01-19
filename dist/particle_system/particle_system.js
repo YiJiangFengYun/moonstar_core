@@ -112,7 +112,7 @@ var ParticleSystem = /** @class */ (function (_super) {
         for (var i = 0; i < newCount; ++i) {
             emitters[i].ready();
             if (!emitterInfos[i].parent)
-                emitters[i].play();
+                emitters[i].player.play();
         }
         var maxVtxCount = 0;
         var maxIdxCount = 0;
@@ -134,6 +134,28 @@ var ParticleSystem = /** @class */ (function (_super) {
     };
     ParticleSystem.prototype.setPosition = function (pos) {
         this.data.setPosition(pos);
+    };
+    ParticleSystem.prototype.play = function () {
+        _super.prototype.play.call(this);
+        //If root player is pausing after stop entire particle system, should play root player.
+        var emitterCount = this.emitterCount;
+        var emitters = this.emitters;
+        for (var i = 0; i < emitterCount; ++i) {
+            if (emitters[i].player.root)
+                emitters[i].player.play();
+        }
+    };
+    ParticleSystem.prototype.pause = function () {
+        _super.prototype.pause.call(this);
+    };
+    ParticleSystem.prototype.stop = function () {
+        //Should set all player isPlaying to false
+        var emitterCount = this.emitterCount;
+        var emitters = this.emitters;
+        for (var i = 0; i < emitterCount; ++i) {
+            emitters[i].player.pause();
+        }
+        _super.prototype.stop.call(this);
     };
     /**
      *

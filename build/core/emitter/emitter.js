@@ -61,12 +61,9 @@ var Emitter = /** @class */ (function () {
             });
         }
     };
-    Emitter.prototype.play = function () {
-        this.player.play();
-    };
-    Emitter.prototype.stop = function () {
-        this.player.stop();
-    };
+    /**
+     * Use to reset players and all modules from particle system.
+     */
     Emitter.prototype.reset = function () {
         this.player.reset();
         this.modules.forEach(function (mod) {

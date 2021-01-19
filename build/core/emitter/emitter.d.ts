@@ -22,8 +22,9 @@ export declare class Emitter {
     init(info: EmitterInfo): void;
     ready(): void;
     update(dt: number): void;
-    play(): void;
-    stop(): void;
+    /**
+     * Use to reset players and all modules from particle system.
+     */
     reset(): void;
     getModule<T>(type: {
         prototype: T;
