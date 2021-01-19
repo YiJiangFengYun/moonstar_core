@@ -4,8 +4,8 @@
   "description": "A core component of the particle system moonstar to construct model of the particle system.",
   "main": "dist/index.js",
   "scripts": {
-    "build_development": "tsc --build tsconfig.json",
-    "build_production": "tsc --build tsconfig.dist.json",
+    "build_development": "tsc --build tsconfig.core.json",
+    "build_production": "tsc --build tsconfig.core.dist.json",
     "build_renderer": "tsc --build tsconfig.renderer.json",
     "build_samples": "webpack-cli --config webpack.config.samples.js --env development",
     "build_samples_production": "webpack-cli --config webpack.config.samples.js",
