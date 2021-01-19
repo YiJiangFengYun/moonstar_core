@@ -73,14 +73,9 @@ export class Emitter {
         }
     }
 
-    public play() {
-        this.player.play();
-    }
-
-    public stop() {
-        this.player.stop();
-    }
-
+    /**
+     * Use to reset players and all modules from particle system.
+     */
     public reset() {
         this.player.reset();
         this.modules.forEach(mod => {
