@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import * as common from "../common";
 import * as module from "../module";
 import * as emitter_player from "../emitter_player";
@@ -41,12 +40,12 @@ export class Emitter {
             modules[i] = module.createModule(name, this.player);
             modules[i].init(moduleConfig);
             if (mapModules[name]) {
-                log.warn(`There are multiple modules with the same name applied to the emitter.`);
+                console.warn(`There are multiple modules with the same name applied to the emitter.`);
             }
             mapModules[name] = modules[i];
             if (module.renderModules.indexOf(name) >= 0) {
                 if (this.renderModule) {
-                    log.warn(`There are multiple render modules applied to the emitter.`);
+                    console.warn(`There are multiple render modules applied to the emitter.`);
                 }
                 this.renderModule = modules[i] as any as module.ModRender;
             }

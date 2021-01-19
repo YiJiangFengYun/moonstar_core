@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import * as common from "../common";
 import * as particleMod from "../particle";
 import * as psDataMod from "../ps_data";
@@ -170,7 +169,7 @@ export class EmitterPlayer extends common.Player {
             this.emit(events.EVENT_DESTROYED_PARTICLE, particle);
             return true;
         } else {
-            log.error("Can't find the particle from the particles for delete the particle.");
+            console.error("Can't find the particle from the particles for delete the particle.");
             return false;
         }
     }

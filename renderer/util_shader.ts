@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import { context } from "./context";
 
 export  function initShaderProgram(src: {
@@ -21,7 +20,7 @@ export  function initShaderProgram(src: {
     // If creating the shader program failed, return null
 
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-        log.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+        console.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
         return null;
     }
 
@@ -47,7 +46,7 @@ export function loadShader(type: number, source: string) {
     // See if it compiled successfully
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        log.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+        console.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
         gl.deleteShader(shader);
         return null;
     }
