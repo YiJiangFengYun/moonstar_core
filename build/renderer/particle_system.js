@@ -13,7 +13,7 @@ var ParticleSystem = /** @class */ (function () {
     function ParticleSystem() {
         this.data = new particle_system_data_1.ParticleSystemData();
         this.mapMaterials = {};
-        this.mapMaterialRenders = {};
+        this.mapTypeMaterials = {};
         this._boundsPosHelper = core.Vector.create();
         this._boundsSizeHelper = core.Vector.create();
     }
@@ -24,19 +24,19 @@ var ParticleSystem = /** @class */ (function () {
         var emitters = psCore.emitters;
         var emitterCount = psCore.emitterCount;
         var mapMaterials = this.mapMaterials;
-        var mapMaterialRenders = this.mapMaterialRenders;
+        var mapTypeMaterials = this.mapTypeMaterials;
         for (var i = 0; i < emitterCount; ++i) {
             var renderModule = emitters[i].renderModule;
-            var material = mapMaterialRenders[renderModule.name];
+            var material = mapTypeMaterials[renderModule.material.type];
             if (!material) {
-                switch (renderModule.name) {
+                switch (renderModule.material.type) {
                     // case "..." //others type material
                     default: {
                         material = new material_1.MaterialNormal();
                         material.init(renderModule.material, this.data);
                     }
                 }
-                mapMaterialRenders[renderModule.name] = material;
+                mapTypeMaterials[renderModule.material.type] = material;
             }
             mapMaterials[renderModule.material.id] = material;
         }

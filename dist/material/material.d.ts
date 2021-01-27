@@ -22,8 +22,9 @@ export declare enum BlendOp {
 export declare class Material {
     static equal(a1: Material, a2: Material): boolean;
     static sort(a1: Material, a2: Material): number;
+    type: number;
     color: common.Color;
-    texturePath: string;
+    textureNumberOrPath: number | string;
     blend: boolean;
     blendSrcRGB: BlendFactor;
     blendDstRGB: BlendFactor;

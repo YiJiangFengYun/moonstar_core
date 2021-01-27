@@ -92,9 +92,10 @@ var MaterialNormal = /** @class */ (function (_super) {
             locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
             locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
         }
-        this.texture.init({
-            url: materialCore.texturePath
-        });
+        if (typeof materialCore.textureNumberOrPath === "string")
+            this.texture.init({
+                url: String(materialCore.textureNumberOrPath)
+            });
     };
     MaterialNormal.prototype.render = function (cmd) {
         _super.prototype.render.call(this, cmd);

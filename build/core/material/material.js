@@ -29,6 +29,7 @@ var BlendOp;
 //class Material with members: color, texture path, and blend.
 var Material = /** @class */ (function () {
     function Material() {
+        this.type = 0;
         this.color = common.Color.create();
         this.blend = true;
         this.blendSrcRGB = BlendFactor.SRC_ALPHA;
@@ -41,9 +42,11 @@ var Material = /** @class */ (function () {
         common.Vector4.copy(this.color, common.COLOR_WHITE);
     }
     Material.equal = function (a1, a2) {
+        if (a1.type !== a2.type)
+            return false;
         if (common.Color.equals(a1.color, a2.color) === false)
             return false;
-        if (a1.texturePath !== a2.texturePath)
+        if (a1.textureNumberOrPath !== a2.textureNumberOrPath)
             return false;
         if (a1.blend !== a2.blend)
             return false;
@@ -62,20 +65,23 @@ var Material = /** @class */ (function () {
         return true;
     };
     Material.sort = function (a1, a2) {
+        if (a1.type !== a2.type) {
+            return a1.type - a2.type;
+        }
         var sqrLen1 = common.Color.sqrLen(a1.color);
         var sqrLen2 = common.Color.sqrLen(a2.color);
         if (sqrLen1 !== sqrLen2) {
             return sqrLen1 - sqrLen2;
         }
-        var texBoolNum1 = Number(Boolean(a1.texturePath));
-        var texBoolNum2 = Number(Boolean(a2.texturePath));
+        var texBoolNum1 = Number(Boolean(a1.textureNumberOrPath));
+        var texBoolNum2 = Number(Boolean(a2.textureNumberOrPath));
         if (texBoolNum1 !== texBoolNum2) {
             return texBoolNum1 - texBoolNum2;
         }
-        if (a1.texturePath > a2.texturePath) {
+        if (a1.textureNumberOrPath > a2.textureNumberOrPath) {
             return 1;
         }
-        else if (a1.texturePath < a2.texturePath) {
+        else if (a1.textureNumberOrPath < a2.textureNumberOrPath) {
             return -1;
         }
         if (a1.blend !== a2.blend) {
@@ -109,11 +115,12 @@ var Material = /** @class */ (function () {
         configurable: true
     });
     Material.prototype.init = function (info) {
+        this.type = info.type || 0;
         this.color[0] = info.r || 1;
         this.color[1] = info.g || 1;
         this.color[2] = info.b || 1;
         this.color[3] = info.a || 1;
-        this.texturePath = info.texturePath;
+        this.textureNumberOrPath = info.texturePath || info.textureNumber || info.textureNumberOrPath;
         this.blend = info.blend || true;
         this.blendSrcRGB = info.blendSrcRGB || BlendFactor.SRC_ALPHA;
         this.blendDstRGB = info.blendDstRGB || BlendFactor.ONE;

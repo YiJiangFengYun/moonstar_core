@@ -9,8 +9,8 @@ export declare class ParticleSystem implements core.IPlayer {
     mapMaterials: {
         [id: number]: Material;
     };
-    mapMaterialRenders: {
-        [name: string]: Material;
+    mapTypeMaterials: {
+        [type: number]: Material;
     };
     private _boundsPosHelper;
     private _boundsSizeHelper;
