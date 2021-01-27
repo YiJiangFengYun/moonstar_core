@@ -28,6 +28,7 @@ export enum BlendOp
 export class Material {
 
     public static equal(a1: Material, a2: Material) {
+        if (a1.type !== a2.type) return false;
         if (common.Color.equals(a1.color, a2.color) === false) return false;
         if (a1.textureNumberOrPath !== a2.textureNumberOrPath) return false;
         if (a1.blend !== a2.blend) return false;
@@ -41,6 +42,9 @@ export class Material {
     }
 
     public static sort(a1: Material, a2: Material) {
+        if (a1.type !== a2.type) {
+            return a1.type - a2.type;
+        }
         let sqrLen1 = common.Color.sqrLen(a1.color);
         let sqrLen2 = common.Color.sqrLen(a2.color);
         if (sqrLen1 !== sqrLen2) {
@@ -81,6 +85,7 @@ export class Material {
         return 0;
     }
 
+    public type: number = 0;
     public color: common.Color = common.Color.create();
     public textureNumberOrPath: number | string;
     public blend = true;
@@ -102,6 +107,7 @@ export class Material {
     }
 
     public init(info: any) {
+        this.type = info.type || 0;
         this.color[0] = info.r || 1;
         this.color[1] = info.g || 1;
         this.color[2] = info.b || 1;

@@ -10,7 +10,7 @@ import { emitterBoundsOutline } from "./emitter_bounds_outline";
 export class ParticleSystem implements core.IPlayer {
     public data: ParticleSystemData = new ParticleSystemData();
     public mapMaterials: {[id: number]: Material} = {};
-    public mapMaterialRenders: {[name: string]: Material} = {};
+    public mapTypeMaterials: {[type: number]: Material} = {};
     private _boundsPosHelper: core.Vector = core.Vector.create();
     private _boundsSizeHelper: core.Vector = core.Vector.create();
     public constructor() {
@@ -23,12 +23,12 @@ export class ParticleSystem implements core.IPlayer {
         const emitters = psCore.emitters;
         const emitterCount = psCore.emitterCount;
         const mapMaterials = this.mapMaterials;
-        const mapMaterialRenders = this.mapMaterialRenders;
+        const mapTypeMaterials = this.mapTypeMaterials;
         for (let i = 0; i < emitterCount; ++i) {
             const renderModule = emitters[i].renderModule;
-            let material: Material = mapMaterialRenders[renderModule.name];
+            let material: Material = mapTypeMaterials[renderModule.material.type];
             if (! material) {
-                switch (renderModule.name) {
+                switch (renderModule.material.type) {
                     // case "..." //others type material
                     default: {
                         material = new MaterialNormal();
@@ -36,7 +36,7 @@ export class ParticleSystem implements core.IPlayer {
                     }
             
                 }
-                mapMaterialRenders[renderModule.name] = material;
+                mapTypeMaterials[renderModule.material.type] = material;
             }
             mapMaterials[renderModule.material.id] = material;
         }
