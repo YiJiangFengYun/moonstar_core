@@ -123,8 +123,8 @@ export class MaterialNormal extends Material {
             locations.uColor = gl.getUniformLocation(shaderProgram, "uColor");
             locations.uSampler = gl.getUniformLocation(shaderProgram, "uSampler");
         }
-        this.texture.init({
-            url: materialCore.texturePath
+        if (typeof materialCore.textureNumberOrPath === "string") this.texture.init({
+            url: String(materialCore.textureNumberOrPath)
         });
     }
 

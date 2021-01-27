@@ -29,7 +29,7 @@ export class Material {
 
     public static equal(a1: Material, a2: Material) {
         if (common.Color.equals(a1.color, a2.color) === false) return false;
-        if (a1.texturePath !== a2.texturePath) return false;
+        if (a1.textureNumberOrPath !== a2.textureNumberOrPath) return false;
         if (a1.blend !== a2.blend) return false;
         if (a1.blendOpRGB !== a2.blendOpRGB) return false;
         if (a1.blendOpAlpha !== a2.blendOpAlpha) return false;
@@ -46,14 +46,14 @@ export class Material {
         if (sqrLen1 !== sqrLen2) {
             return sqrLen1 - sqrLen2;
         }
-        let texBoolNum1 = Number(Boolean(a1.texturePath));
-        let texBoolNum2 = Number(Boolean(a2.texturePath));
+        let texBoolNum1 = Number(Boolean(a1.textureNumberOrPath));
+        let texBoolNum2 = Number(Boolean(a2.textureNumberOrPath));
         if (texBoolNum1 !== texBoolNum2) {
             return texBoolNum1 - texBoolNum2;
         }
-        if (a1.texturePath > a2.texturePath) {
+        if (a1.textureNumberOrPath > a2.textureNumberOrPath) {
             return 1;
-        } else if (a1.texturePath < a2.texturePath) {
+        } else if (a1.textureNumberOrPath < a2.textureNumberOrPath) {
             return -1;
         }
 
@@ -82,7 +82,7 @@ export class Material {
     }
 
     public color: common.Color = common.Color.create();
-    public texturePath: string;
+    public textureNumberOrPath: number | string;
     public blend = true;
     public blendSrcRGB = BlendFactor.SRC_ALPHA;
     public blendDstRGB = BlendFactor.ONE_MINUS_SRC_ALPHA;
@@ -106,7 +106,7 @@ export class Material {
         this.color[1] = info.g || 1;
         this.color[2] = info.b || 1;
         this.color[3] = info.a || 1;
-        this.texturePath = info.texturePath;
+        this.textureNumberOrPath = info.texturePath || info.textureNumber || info.textureNumberOrPath;
         this.blend = info.blend || true;
         this.blendSrcRGB = info.blendSrcRGB || BlendFactor.SRC_ALPHA;
         this.blendDstRGB = info.blendDstRGB || BlendFactor.ONE;
