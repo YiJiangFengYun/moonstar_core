@@ -28,8 +28,9 @@ export enum BlendOp
 export class Material {
 
     public static equal(a1: Material, a2: Material) {
+        if (a1.type !== a2.type) return false;
         if (common.Color.equals(a1.color, a2.color) === false) return false;
-        if (a1.texturePath !== a2.texturePath) return false;
+        if (a1.textureNumberOrPath !== a2.textureNumberOrPath) return false;
         if (a1.blend !== a2.blend) return false;
         if (a1.blendOpRGB !== a2.blendOpRGB) return false;
         if (a1.blendOpAlpha !== a2.blendOpAlpha) return false;
@@ -41,19 +42,22 @@ export class Material {
     }
 
     public static sort(a1: Material, a2: Material) {
+        if (a1.type !== a2.type) {
+            return a1.type - a2.type;
+        }
         let sqrLen1 = common.Color.sqrLen(a1.color);
         let sqrLen2 = common.Color.sqrLen(a2.color);
         if (sqrLen1 !== sqrLen2) {
             return sqrLen1 - sqrLen2;
         }
-        let texBoolNum1 = Number(Boolean(a1.texturePath));
-        let texBoolNum2 = Number(Boolean(a2.texturePath));
+        let texBoolNum1 = Number(Boolean(a1.textureNumberOrPath));
+        let texBoolNum2 = Number(Boolean(a2.textureNumberOrPath));
         if (texBoolNum1 !== texBoolNum2) {
             return texBoolNum1 - texBoolNum2;
         }
-        if (a1.texturePath > a2.texturePath) {
+        if (a1.textureNumberOrPath > a2.textureNumberOrPath) {
             return 1;
-        } else if (a1.texturePath < a2.texturePath) {
+        } else if (a1.textureNumberOrPath < a2.textureNumberOrPath) {
             return -1;
         }
 
@@ -81,8 +85,9 @@ export class Material {
         return 0;
     }
 
+    public type: number = 0;
     public color: common.Color = common.Color.create();
-    public texturePath: string;
+    public textureNumberOrPath: number | string;
     public blend = true;
     public blendSrcRGB = BlendFactor.SRC_ALPHA;
     public blendDstRGB = BlendFactor.ONE_MINUS_SRC_ALPHA;
@@ -102,11 +107,12 @@ export class Material {
     }
 
     public init(info: any) {
+        this.type = info.type || 0;
         this.color[0] = info.r || 1;
         this.color[1] = info.g || 1;
         this.color[2] = info.b || 1;
         this.color[3] = info.a || 1;
-        this.texturePath = info.texturePath;
+        this.textureNumberOrPath = info.texturePath || info.textureNumber || info.textureNumberOrPath;
         this.blend = info.blend || true;
         this.blendSrcRGB = info.blendSrcRGB || BlendFactor.SRC_ALPHA;
         this.blendDstRGB = info.blendDstRGB || BlendFactor.ONE;
